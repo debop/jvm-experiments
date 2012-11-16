@@ -1,10 +1,14 @@
 package springbook.user.dao;
 
 import lombok.Cleanup;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import springbook.user.domain.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * 설명을 추가하세요.
@@ -14,11 +18,20 @@ import java.sql.*;
 @Slf4j
 public class UserDao {
 
-	public void add(User user) throws SQLException {
+	@Setter private ConnectionMaker connectionMaker;
+
+	public UserDao() {
+		this(new SimpleConnectionMaker());
+	}
+	public UserDao(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
+	}
+
+	public void add(User user) throws ClassNotFoundException, SQLException {
 		@Cleanup
-		Connection conn = getConnection();
+		Connection conn = connectionMaker.makeConnection();
 		@Cleanup
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO Users(id, name, password), values(?, ?, ?)");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO Users(id, name, password) values(?, ?, ?)");
 
 		ps.setString(1, user.getId());
 		ps.setString(2, user.getName());
@@ -27,19 +40,17 @@ public class UserDao {
 		ps.executeUpdate();
 	}
 
-	public User get(String id) throws SQLException {
+	public User get(String id) throws ClassNotFoundException, SQLException {
 
 		User user = null;
 
-		@Cleanup
-		Connection conn = getConnection();
-		@Cleanup
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM Users WHERE id=?");
+		@Cleanup Connection conn = connectionMaker.makeConnection();
+		@Cleanup PreparedStatement ps = conn.prepareStatement("SELECT * FROM Users WHERE id=?");
 		ps.setString(1, id);
 
 		@Cleanup
 		ResultSet rs = ps.executeQuery();
-		if(rs.next()) {
+		if (rs.next()) {
 			user = new User();
 			user.setId(rs.getString("id"));
 			user.setName(rs.getString("name"));
@@ -49,22 +60,35 @@ public class UserDao {
 		return user;
 	}
 
+	public void delete(String id) throws ClassNotFoundException, SQLException {
+		@Cleanup Connection conn = connectionMaker.makeConnection();
+		@Cleanup PreparedStatement ps =
+			conn.prepareStatement("DELETE FROM Users WHERE id=?");
+		ps.setString(1, id);
+
+		ps.executeUpdate();
+	}
 
 
-	private static Connection getConnection() {
+
+	public static void main(String[] args) throws Exception {
+		UserDao dao = new UserDao();
+
+		User user = new User();
+		user.setId("debop");
+		user.setName("배성혁");
+		user.setPassword("real21");
+
+		dao.delete(user.getId());
+
+		dao.add(user);
 
 		if (log.isDebugEnabled())
-			log.debug("Driver=[{}], ConnectionUrl=[{}], UserName=[{}], Password=[{}]",
-			          Connections.DriverName_PostgreSQL, Connections.ConnetionUrl, Connections.UserName, Connections.Password);
+			log.debug("User=[{}] 등록 성공", user);
 
-		try {
-			Class.forName(Connections.DriverName_PostgreSQL);
-			return DriverManager.getConnection(Connections.ConnetionUrl,
-			                                   Connections.UserName,
-			                                   Connections.Password);
-		} catch (Exception e) {
-			log.error("Connection 을 얻는데 실패했습니다.", e);
-			throw new RuntimeException(e.getCause());
-		}
+		User user2 = dao.get(user.getId());
+
+		if (log.isDebugEnabled())
+			log.debug("User=[{}] retrive success", user2);
 	}
 }
