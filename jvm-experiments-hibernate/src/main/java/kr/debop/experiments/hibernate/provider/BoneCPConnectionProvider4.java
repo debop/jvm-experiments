@@ -1,13 +1,13 @@
 package kr.debop.experiments.hibernate.provider;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.hooks.ConnectionHook;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.guiceyfruit.support.Strings;
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Environment;
@@ -125,7 +125,7 @@ public class BoneCPConnectionProvider4 implements ConnectionProvider {
 			isolation = Integer.parseInt(props.getProperty(Environment.ISOLATION));
 			autocommit = Boolean.parseBoolean(props.getProperty(Environment.AUTOCOMMIT));
 
-			if (Strings.isNotEmpty(driver))
+			if (!Strings.isNullOrEmpty(driver))
 				loadClass(driver);
 
 			if (config.getConnectionHookClassName() != null) {

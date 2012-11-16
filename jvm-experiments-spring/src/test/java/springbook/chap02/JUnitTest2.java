@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
  */
 public class JUnitTest2 {
 
-	static Set<JUnitTest2> testObjects = new HashSet<>();
+	static Set<JUnitTest2> testObjects = new HashSet<JUnitTest2>();
 
 	@Test
 	public void test1() {
