@@ -9,15 +9,28 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>jvm-experiments-spring</artifactId>
+	<artifactId>jvm-experiments-commons</artifactId>
 
 	<properties>
+		<jedis.version>[2.1.0, )</jedis.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
 
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis.version}</version>
+		</dependency>
 
+		<!-- 암호화 -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.0</version>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 </project>

@@ -8,37 +8,6 @@
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
-	<appender name="file" class="ch.qos.logback.core.FileAppender">
-		<file>logFile.log</file>
-		<encoder>
-			<pattern>%date %-5level [%thread] %logger{16}.%method : %msg%n</pattern>
-			<immediateFlush>false</immediateFlush>
-			<charset>UTF-8</charset>
-		</encoder>
-	</appender>
-	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<!-- support multiple-JVM writing to the same log file -->
-		<prudent>true</prudent>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
-			<!-- keep 7 days -->
-			<maxHistory>7</maxHistory>
-			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>10MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-		</rollingPolicy>
-		<!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
-			<!--<maxFileSize>10MB</maxFileSize>-->
-		<!--</triggeringPolicy>-->
-		<encoder>
-			<pattern>%date %-5level [%thread] %logger{16}.%method : %msg%n</pattern>
-			<immediateFlush>false</immediateFlush>
-			<charset>UTF-8</charset>
-		</encoder>
-	</appender>
-
-	<logger name="org.parallelism" level="DEBUG" />
 
 	<root level="DEBUG">
 		<appender-ref ref="console"/>

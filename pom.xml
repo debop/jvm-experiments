@@ -11,6 +11,7 @@
 	<modules>
 		<module>jvm-experiments-spring</module>
 		<module>jvm-experiments-hibernate</module>
+		<module>jvm-experiments-commons</module>
 	</modules>
 
 	<properties>
@@ -88,37 +89,46 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>${guice.version}</version>
-			<scope>provided</scope>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>[2.2.2, )</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-asm</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${springframework.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-multibindings</artifactId>
-			<version>${guice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>aopalliance</groupId>
-			<artifactId>aopalliance</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.guiceyfruit</groupId>
-			<artifactId>guiceyfruit-core</artifactId>
-			<version>2.0</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${springframework.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -229,6 +239,12 @@
 			<artifactId>jmock-junit4</artifactId>
 			<version>[2.5.1, )</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>hamcrest-core</artifactId>
+					<groupId>org.hamcrest</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

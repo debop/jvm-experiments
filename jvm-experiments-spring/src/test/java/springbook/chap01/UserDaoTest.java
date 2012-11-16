@@ -3,8 +3,11 @@ package springbook.chap01;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import springbook.chap01.dao.UserDao;
 import springbook.user.domain.User;
 
@@ -18,17 +21,20 @@ import static org.junit.Assert.assertThat;
  * Date: 12. 11. 16
  */
 @Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="/springbook/chap01/applicationContext.xml")
 public class UserDaoTest {
+
+	@Autowired
+	private ApplicationContext appContext;
 
 	@Test
 	public void springXmlApplicationContextTest() {
 
-		ApplicationContext context = new GenericXmlApplicationContext("springbook/chap01/applicationContext.xml");
-
-		UserDao dao = context.getBean("userDao", UserDao.class);
+		UserDao dao = appContext.getBean("userDao", UserDao.class);
 		Assert.assertNotNull(dao);
 
-		UserDao dao2 = context.getBean("userDao", UserDao.class);
+		UserDao dao2 = appContext.getBean("userDao", UserDao.class);
 		Assert.assertNotNull(dao2);
 
 		assertEquals(dao, dao2);
@@ -39,8 +45,7 @@ public class UserDaoTest {
 	@Test
 	public void userDaoTest() throws Exception {
 
-		ApplicationContext context = new GenericXmlApplicationContext("springbook/chap01/applicationContext.xml");
-		UserDao dao = context.getBean("userDao", UserDao.class);
+		UserDao dao = appContext.getBean("userDao", UserDao.class);
 
 		dao.deleteAll();
 
@@ -67,8 +72,7 @@ public class UserDaoTest {
 	@Test
 	public void getCountTest() throws Exception {
 
-		ApplicationContext context = new GenericXmlApplicationContext("springbook/chap01/applicationContext.xml");
-		UserDao dao = context.getBean("userDao", UserDao.class);
+		UserDao dao = appContext.getBean("userDao", UserDao.class);
 
 		dao.deleteAll();
 		assertEquals(0, dao.getCount());
