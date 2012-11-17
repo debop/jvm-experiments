@@ -1,11 +1,9 @@
 package kr.ecloud.framework.data.jdbc;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.SqlParameter;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 /**

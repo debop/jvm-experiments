@@ -16,21 +16,32 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * springbook.chap03.UserDao
+ * springbook.chap03.UserDaoJdbc
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 17.
  */
 @Slf4j
 public class UserDao {
 
-	@Autowired @Getter
-	private DataSource dataSource;
+	@Getter
 	private JdbcTemplate jdbcTemplate;
 
+	@Autowired
 	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
 		this.jdbcTemplate = new JdbcTemplate(dataSource, true);
 	}
+
+	private RowMapper<User> userMapper =
+		new RowMapper<User>() {
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setName(rs.getString("name"));
+				user.setPassword(rs.getString("password"));
+				return user;
+			}
+		};
 
 	public void add(final User user) {
 
@@ -40,7 +51,7 @@ public class UserDao {
 		this.jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				PreparedStatement ps = con.prepareStatement("INSERT Users (id, name, password) values(?, ?, ?)");
+				PreparedStatement ps = con.prepareStatement("INSERT INTO Users (id, name, password) values(?, ?, ?)");
 				ps.setString(1, user.getId());
 				ps.setString(2, user.getName());
 				ps.setString(3, user.getPassword());
@@ -54,7 +65,7 @@ public class UserDao {
 		if (log.isDebugEnabled())
 			log.debug("delete all users...");
 
-		this.jdbcTemplate.update("DELETE FROM Users");
+		this.jdbcTemplate.execute("DELETE FROM Users");
 	}
 
 	public int getCount() {
@@ -82,31 +93,13 @@ public class UserDao {
 			this.jdbcTemplate.queryForObject(
 				"SELECT * FROM Users WHERE id=?",
 				new Object[] { id },
-				new RowMapper<User>() {
-					@Override
-					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-						User user = new User();
-						user.setId(rs.getString("id"));
-						user.setName(rs.getString("name"));
-						user.setPassword(rs.getString("password"));
-						return user;
-					}
-				});
+				this.userMapper);
 	}
 
 	public List<User> getAll() {
 		return
 			this.jdbcTemplate.query(
 				"SELECT * FROM Users ORDER BY id",
-				new RowMapper<User>() {
-					@Override
-					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-						User user = new User();
-						user.setId(rs.getString("id"));
-						user.setName(rs.getString("name"));
-						user.setPassword(rs.getString("password"));
-						return user;
-					}
-				});
+				this.userMapper);
 	}
 }

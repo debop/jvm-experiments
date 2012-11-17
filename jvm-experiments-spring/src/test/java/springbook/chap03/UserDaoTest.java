@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import springbook.chap03.UserDao;
 import springbook.user.domain.User;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
@@ -38,7 +39,7 @@ public class UserDaoTest {
 
 		assertEquals(dao, dao2);
 
-		Assert.assertNotNull(dao.getDataSource());
+		Assert.assertNotNull(dao.getJdbcTemplate().getDataSource());
 	}
 
 	@Test
@@ -86,5 +87,27 @@ public class UserDaoTest {
 		assertThat(dao.getCount(), is(1));
 
 		dao.deleteAll();
+	}
+
+	@Test
+	public void getAllTest() {
+
+		UserDao dao = appContext.getBean("userDao", UserDao.class);
+
+		dao.deleteAll();
+		assertEquals(0, dao.getCount());
+
+		User user = new User();
+		user.setId("debop");
+		user.setName("배성혁");
+		user.setPassword("real21");
+
+		dao.add(user);
+
+		assertThat(dao.getCount(), is(1));
+
+		List<User> users = dao.getAll();
+		assertThat(users.size(), is(1));
+
 	}
 }

@@ -9,7 +9,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import springbook.user.domain.User;
 
 /**
- * Test Case for UserDao
+ * Test Case for UserDaoJdbc
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 16
  */
