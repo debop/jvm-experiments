@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.hibernate.example.domain.model" default-access="field">
+
+	<class name="Category" table="Category" dynamic-insert="true" dynamic-update="true">
+
+		<id name="id" column="CategoryId" type="java.lang.Long" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+
+		<natural-id>
+			<property name="name" column="CategoryName" length="255" not-null="true"/>
+		</natural-id>
+
+		<bag name="events" cascade="all" inverse="true" lazy="false" fetch="join" >
+			<key column="CategoryId"/>
+			<one-to-many class="Event" />
+		</bag>
+	</class>
+
+</hibernate-mapping>

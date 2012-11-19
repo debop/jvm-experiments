@@ -1,4 +1,4 @@
-package kr.debop.experiments.hibernate.provider;
+package kr.ecsp.data.hibernate.provider;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -73,7 +73,7 @@ public class BoneCPConnectionProvider4 implements ConnectionProvider {
 				if (!connection.isClosed())
 					connection.close();
 			} catch (Exception e2) {
-				log.warn("Setting connection properties failed and closing this connection failed again", e);
+				BoneCPConnectionProvider4.log.warn("Setting connection properties failed and closing this connection failed again", e);
 			}
 			throw e;
 		}

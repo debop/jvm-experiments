@@ -30,9 +30,12 @@
 		<!--<property name="connection.username">sa</property>-->
 		<!--<property name="connection.password"></property>-->
 
+		<!--
 		<property name="connection.provider_class">
-			kr.debop.experiments.hibernate.provider.BoneCPConnectionProvider4
+			kr.ecsp.data.hibernate.provider.BoneCPConnectionProvider4
 		</property>
+		-->
+
 		<property name="connection.pool_size">5</property>
 		<property name="current_session_context_class">thread</property>
 
@@ -51,6 +54,8 @@
 		<property name="format_sql">true</property>
 
 		<property name="hbm2ddl.auto">create</property>
+
+		<mapping class="org.hibernate.example.domain.model.StateEntityImpl" />
 
 	</session-factory>
 </hibernate-configuration>
