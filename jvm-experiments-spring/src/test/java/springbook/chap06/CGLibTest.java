@@ -3,9 +3,7 @@ package springbook.chap06;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import net.sf.cglib.proxy.NoOp;
 import org.junit.Test;
-import org.mockito.Matchers;
 
 import java.lang.reflect.Method;
 

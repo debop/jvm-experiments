@@ -15,7 +15,7 @@
 			<property name="name" column="CategoryName" length="255" not-null="true"/>
 		</natural-id>
 
-		<bag name="events" cascade="all" inverse="true" lazy="false" fetch="join" >
+		<bag name="events" cascade="all" inverse="true" lazy="true" fetch="subselect" >
 			<key column="CategoryId"/>
 			<one-to-many class="Event" />
 		</bag>

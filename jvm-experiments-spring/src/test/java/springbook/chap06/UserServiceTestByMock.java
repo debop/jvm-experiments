@@ -3,16 +3,13 @@ package springbook.chap06;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.mockito.Mockito;
-import springbook.chap06.impl.JdbcUserDao;
 import springbook.chap06.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 
 /**
  * springbook.chap06.UserServiceTestByMock

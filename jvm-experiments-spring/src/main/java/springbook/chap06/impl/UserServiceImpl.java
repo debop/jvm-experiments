@@ -2,7 +2,6 @@ package springbook.chap06.impl;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import springbook.chap06.User;
 import springbook.chap06.UserDao;
 import springbook.chap06.UserService;

@@ -55,6 +55,19 @@
 
 		<property name="hbm2ddl.auto">create</property>
 
+		<!-- one-to-many bidirectional association -->
+		<mapping resource="org/hibernate/example/domain/model/Category.hbm.xml" />
+		<mapping resource="org/hibernate/example/domain/model/Event.hbm.xml" />
+
+		<!-- have 2 component -->
+		<mapping resource="org/hibernate/example/domain/model/User.hbm.xml" />
+
+		<!-- join component -->
+		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml" />
+
+		<mapping package="org.hibernate.example.domain.model" />
+
+		<!-- JPA annotation -->
 		<mapping class="org.hibernate.example.domain.model.StateEntityImpl" />
 
 	</session-factory>

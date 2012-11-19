@@ -10,7 +10,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import springbook.chap03.UserDao;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
