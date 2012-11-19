@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class UserServiceTx implements UserService {
 
-	@Autowired @Setter private UserService userService;
-	@Autowired @Setter private PlatformTransactionManager transactionManager;
+	@Setter private UserService userService;
+	@Setter private PlatformTransactionManager transactionManager;
 
 	@Override
 	public void add(User user) {

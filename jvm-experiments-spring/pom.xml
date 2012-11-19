@@ -28,6 +28,11 @@
 			<artifactId>com.springsource.javax.mail</artifactId>
 			<version>1.4.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.aopalliance</groupId>
+			<artifactId>com.springsource.org.aopalliance</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 	</dependencies>
 </project>

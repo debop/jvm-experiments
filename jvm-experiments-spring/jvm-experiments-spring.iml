@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="Xml Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/test/resources/springbook/chap06/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/springbook/chap02/junit.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/springbook/chap05/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/springbook/chap01/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/springbook/chap03/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/applicationContext.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -14,6 +28,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: javax.activation:com.springsource.javax.activation:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:com.springsource.javax.mail:1.4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.aopalliance:com.springsource.org.aopalliance:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.tukaani:xz:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.2.1" level="project" />
@@ -56,8 +71,8 @@
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.7" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.7.1.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hsqldb:hsqldb:2.2.9" level="project" />
-    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.21" level="project" />
-    <orderEntry type="library" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: mysql:mysql-connector-java:5.1.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.9.0" level="project" />

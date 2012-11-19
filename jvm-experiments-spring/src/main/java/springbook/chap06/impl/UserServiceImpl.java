@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-	@Autowired @Setter private UserDao userDao;
+	@Setter private UserDao userDao;
 
 	@Override
 	public void add(User user) {
