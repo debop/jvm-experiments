@@ -31,12 +31,11 @@ public class EmbeddedDbTest {
 
 	@Before
 	public void setup() {
-		db =
-			new EmbeddedDatabaseBuilder()
-				.setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:/springbook/chap07/embeddeddb/schema.sql")
-				.addScript("classpath:/springbook/chap07/embeddeddb/data.sql")
-				.build();
+		db = new EmbeddedDatabaseBuilder()
+			.setType(EmbeddedDatabaseType.HSQL)
+			.addScript("classpath:/springbook/chap07/embeddeddb/schema.sql")
+			.addScript("classpath:/springbook/chap07/embeddeddb/data.sql")
+			.build();
 
 		template = new JdbcTemplate(db);
 	}
@@ -62,7 +61,6 @@ public class EmbeddedDbTest {
 	@Test
 	public void insert() {
 		template.update("INSERT INTO sqlmap(key_, sql_) values(?, ?)", "KEY3", "SQL3");
-
 		assertThat(template.queryForInt("SELECT count(*) FROM sqlmap"), is(3));
 	}
 }
