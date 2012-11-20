@@ -2,7 +2,7 @@ package kr.ecsp.data.domain.model;
 
 /**
  * JPA 기본 도메인 엔티티의 추상화 클래스입니다.
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
 public abstract class StateEntityBase extends ValueObjectBase implements StateEntity {

@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 
 /**
  * 설명을 추가하세요.
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
 @Slf4j

@@ -50,7 +50,9 @@ public class EmbeddedDbTest {
 	public void initData() {
 		assertThat(template.queryForInt("SELECT count(*) FROM sqlmap"), is(2));
 
-		List<Map<String, Object>> list = template.queryForList("SELECT * FROM sqlmap order by key_");
+		List<Map<String, Object>> list =
+			template.queryForList("SELECT * FROM sqlmap order by key_");
+
 		assertThat((String) list.get(0).get("key_"), is("KEY1"));
 		assertThat((String) list.get(0).get("sql_"), is("SQL1"));
 		assertThat((String) list.get(1).get("key_"), is("KEY2"));

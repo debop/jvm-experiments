@@ -19,7 +19,7 @@ import java.util.Properties;
 
 /**
  * BoneCP 를 이용한 Hibernate 용 connection provider 입니다.
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 9. 26.
  */
 @Slf4j

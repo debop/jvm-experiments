@@ -70,5 +70,8 @@
 		<!-- JPA annotation -->
 		<mapping class="org.hibernate.example.domain.model.StateEntityImpl" />
 
+
+		<mapping class="org.jpa.example.domain.model.JpaUser" />
+
 	</session-factory>
 </hibernate-configuration>

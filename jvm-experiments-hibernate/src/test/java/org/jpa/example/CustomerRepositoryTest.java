@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * org.jpa.example.CustomerRepositoryTest
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19.
  */
 @RunWith(SpringJUnit4ClassRunner.class)

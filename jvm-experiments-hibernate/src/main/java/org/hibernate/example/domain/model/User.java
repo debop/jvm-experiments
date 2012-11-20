@@ -7,8 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * org.hibernate.example.domain.model.User
- * User: sunghyouk.bae@gmail.com
+ * org.hibernate.example.domain.model.JpaUser
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19.
  */
 @Getter

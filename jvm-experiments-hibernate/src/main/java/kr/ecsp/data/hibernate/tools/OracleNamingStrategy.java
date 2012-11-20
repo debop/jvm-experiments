@@ -7,7 +7,7 @@ import static org.hibernate.internal.util.StringHelper.unqualify;
 
 /**
  * 속성명을 ORACLE 명명규칙을 사용하여 DB 엔티티의 요소를 변경한다.
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
 public class OracleNamingStrategy extends ImprovedNamingStrategy {

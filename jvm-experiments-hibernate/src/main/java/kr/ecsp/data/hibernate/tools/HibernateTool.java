@@ -11,7 +11,7 @@ import javax.naming.InitialContext;
 
 /**
  * Hibernate 관련 Tool
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
 @Slf4j

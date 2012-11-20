@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * org.hibernate.example.domain.model.join.Customer
- * User: sunghyouk.bae@gmail.com
+ * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19.
  */
 @Getter

@@ -25,7 +25,6 @@ import java.util.List;
 @Slf4j
 public abstract class JdbcRepositoryImpl implements JdbcRepository {
 
-	@Autowired
 	@Getter
 	@Setter
 	DataSource dataSource;
