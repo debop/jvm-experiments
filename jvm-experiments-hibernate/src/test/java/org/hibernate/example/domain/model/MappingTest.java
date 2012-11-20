@@ -1,15 +1,12 @@
 package org.hibernate.example.domain.model;
 
-import kr.ecsp.data.hibernate.tools.HibernateTool;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.example.domain.AbstractHibernateTest;
+import org.hibernate.example.domain.model.join.Customer;
 import org.hibernate.metadata.ClassMetadata;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
@@ -25,33 +22,7 @@ import static org.junit.Assert.assertNotNull;
  * Date: 12. 11. 19
  */
 @Slf4j
-public class MappingTest {
-
-	public static Session getSession() throws HibernateException {
-		return HibernateTool.getSessionFactory().openSession();
-	}
-
-	private static SessionFactory sessionFactory;
-	private Session session;
-
-	@BeforeClass
-	public static void beforeClass() {
-		sessionFactory = HibernateTool.getSessionFactory();
-	}
-
-	@Before
-	public void beforeTest() {
-		if (session == null)
-			session = sessionFactory.openSession();
-	}
-
-	@After
-	public void afterTest() {
-		if (session != null) {
-			session.close();
-			session = null;
-		}
-	}
+public class MappingTest extends AbstractHibernateTest {
 
 	@Test
 	public void entityMappingTest() {
@@ -78,7 +49,7 @@ public class MappingTest {
 
 
 	@Test
-	public void saveCategory() {
+	public void categoryAndEvent() {
 		Category category = new Category();
 		category.setName("category1");
 
@@ -102,7 +73,7 @@ public class MappingTest {
 	}
 
 	@Test
-	public void entitySaveTest() {
+	public void stateEntityImplSave() {
 
 		StateEntityImpl stateEntity = new StateEntityImpl("abc");
 		session.save(stateEntity);
@@ -124,5 +95,28 @@ public class MappingTest {
 		assertEquals("abc", entity.getName());
 
 		log.debug("엔티티를 로드했습니다. entity=" + entity);
+	}
+
+	@Test
+	public void joinEntityTest() {
+		org.hibernate.example.domain.model.join.Customer customer =
+			new org.hibernate.example.domain.model.join.Customer("debop", "debop@kthcorp.com");
+
+		customer.getAddress().setCity("Seoul");
+		customer.getAddress().setZipcode("131-101");
+
+		session.saveOrUpdate(customer);
+		session.flush();
+		session.clear();
+
+		Customer loaded =
+			(Customer) session.createCriteria(org.hibernate.example.domain.model.join.Customer.class)
+			                  .add(Restrictions.eq("name", customer.getName()))
+			                  .setMaxResults(1)
+			                  .uniqueResult();
+
+		Assert.assertNotNull(loaded);
+		Assert.assertEquals(customer.getName(), loaded.getName());
+		Assert.assertEquals(customer.getEmail(), loaded.getEmail());
 	}
 }

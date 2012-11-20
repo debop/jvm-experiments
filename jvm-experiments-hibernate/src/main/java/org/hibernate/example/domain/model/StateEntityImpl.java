@@ -1,5 +1,6 @@
 package org.hibernate.example.domain.model;
 
+import com.google.common.base.Objects;
 import kr.ecsp.data.domain.model.EntityBase;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
+
 
 /**
  * JPA 기본 엔티티 예

@@ -53,6 +53,7 @@
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 
+		<!-- create | create-drop | update | validate -->
 		<property name="hbm2ddl.auto">create</property>
 
 		<!-- one-to-many bidirectional association -->

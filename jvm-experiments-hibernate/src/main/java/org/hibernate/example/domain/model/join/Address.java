@@ -17,6 +17,7 @@ import lombok.ToString;
 public class Address extends ValueObjectBase {
 
 	private static final long serialVersionUID = 4556469620637965297L;
+
 	private String street;
 
 	private String zipcode;
