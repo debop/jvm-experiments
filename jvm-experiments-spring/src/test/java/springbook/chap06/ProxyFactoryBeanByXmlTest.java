@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/springbook/chap06/applicationContext.xml")
+@ContextConfiguration(locations = "/springbook/chap06/applicationContext.xml")
 public class ProxyFactoryBeanByXmlTest {
 
 	@Autowired ApplicationContext context;
@@ -30,6 +30,6 @@ public class ProxyFactoryBeanByXmlTest {
 
 		assertNotNull(pfb);
 		assertEquals(UserServiceImpl.class, pfb.getTargetClass());
-		assertTrue( pfb.getObject() instanceof UserService);
+		assertTrue(pfb.getObject() instanceof UserService);
 	}
 }

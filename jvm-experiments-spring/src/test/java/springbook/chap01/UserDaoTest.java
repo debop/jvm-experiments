@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/springbook/chap01/applicationContext.xml")
+@ContextConfiguration(locations = "/springbook/chap01/applicationContext.xml")
 public class UserDaoTest {
 
 	@Autowired

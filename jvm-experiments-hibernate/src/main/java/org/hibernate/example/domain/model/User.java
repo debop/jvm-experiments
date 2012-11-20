@@ -31,7 +31,7 @@ public class User extends EntityBase<Long> {
 
 	@Override
 	public int hashCode() {
-		if(isPersisted())
+		if (isPersisted())
 			return super.hashCode();
 
 		return Objects.hashCode(username, userpwd);

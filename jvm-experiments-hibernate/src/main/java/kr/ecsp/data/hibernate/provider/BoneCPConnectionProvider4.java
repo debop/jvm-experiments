@@ -73,7 +73,8 @@ public class BoneCPConnectionProvider4 implements ConnectionProvider {
 				if (!connection.isClosed())
 					connection.close();
 			} catch (Exception e2) {
-				BoneCPConnectionProvider4.log.warn("Setting connection properties failed and closing this connection failed again", e);
+				BoneCPConnectionProvider4.log
+				                         .warn("Setting connection properties failed and closing this connection failed again", e);
 			}
 			throw e;
 		}

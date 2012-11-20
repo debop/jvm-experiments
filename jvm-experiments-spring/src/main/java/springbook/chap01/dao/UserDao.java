@@ -26,7 +26,7 @@ public class UserDao {
 	public UserDao() {}
 
 	public UserDao(DataSource dataSource) {
-		this.dataSource =dataSource;
+		this.dataSource = dataSource;
 	}
 
 	public void add(User user) throws SQLException {
@@ -81,7 +81,7 @@ public class UserDao {
 		@Cleanup Connection conn = getDataSource().getConnection();
 		@Cleanup ResultSet rs = executeQuery(conn, "SELECT COUNT(*) FROM Users");
 
-		if(rs.next()) {
+		if (rs.next()) {
 			count = rs.getInt(1);
 		}
 		return count;
@@ -91,8 +91,8 @@ public class UserDao {
 		@Cleanup Connection conn = getDataSource().getConnection();
 		@Cleanup PreparedStatement ps = conn.prepareStatement(query);
 
-		if(args!=null && args.length > 0)
-			for(int i=0; i < args.length; i++)
+		if (args != null && args.length > 0)
+			for (int i = 0; i < args.length; i++)
 				ps.setObject(i, args[i]);
 
 		ps.execute();
@@ -102,8 +102,8 @@ public class UserDao {
 
 		PreparedStatement ps = conn.prepareStatement(query);
 
-		if(args!=null && args.length > 0)
-			for(int i=0; i < args.length; i++)
+		if (args != null && args.length > 0)
+			for (int i = 0; i < args.length; i++)
 				ps.setObject(i, args[i]);
 
 		return ps.executeQuery();

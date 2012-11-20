@@ -21,12 +21,13 @@ import java.util.Objects;
 @Table(name = "STATE_ENTITY")
 @DynamicInsert
 @DynamicUpdate
-@Access(value= AccessType.FIELD)
+@Access(value = AccessType.FIELD)
 public class StateEntityImpl extends EntityBase<Long> {
 
 	private static final long serialVersionUID = 6927281191366376283L;
 
 	protected StateEntityImpl() { }
+
 	public StateEntityImpl(final String name) {
 		this.name = name;
 	}
@@ -35,7 +36,7 @@ public class StateEntityImpl extends EntityBase<Long> {
 	@GeneratedValue
 	@Override
 	@Column(name = "ENTITY_ID")
-	@Access(value=AccessType.PROPERTY)
+	@Access(value = AccessType.PROPERTY)
 	public Long getId() {
 		return super.getId();
 	}
@@ -57,7 +58,7 @@ public class StateEntityImpl extends EntityBase<Long> {
 
 	@Override
 	public int hashCode() {
-		if(isPersisted())
+		if (isPersisted())
 			return super.hashCode();
 
 		return Objects.hashCode(name);

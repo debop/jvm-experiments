@@ -27,13 +27,14 @@ import java.util.List;
  * Date: 12. 11. 19.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations= {"/repository-config.xml"})
+@ContextConfiguration(locations = { "/repository-config.xml" })
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 public class CustomerRepositoryTest {
 
 	@Configuration
 	static class ContextConfiguration {
+
 		@Bean
 		public CustomerRepository customerRepository() {
 			return new CustomerRepositoryImpl();
@@ -57,8 +58,10 @@ public class CustomerRepositoryTest {
 }
 
 interface CustomerRepository {
+
 	List<Customer> findAll();
 }
+
 class CustomerRepositoryImpl implements CustomerRepository {
 
 	@Autowired SessionFactory sessionFactory;
@@ -80,7 +83,7 @@ class Customer extends EntityBase<Long> {
 
 	@Override
 	public int hashCode() {
-		if(isPersisted())
+		if (isPersisted())
 			return super.hashCode();
 
 		return Objects.hashCode(name, customerSince);

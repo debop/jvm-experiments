@@ -43,7 +43,7 @@ public class JdbcUserDao implements UserDao {
 
 	@Override
 	public void add(User user) {
-	 	jdbcTemplate.update("INSERT INTO Users(id, name, password) values(?,?,?)",
+		jdbcTemplate.update("INSERT INTO Users(id, name, password) values(?,?,?)",
 		                    user.getId(),
 		                    user.getName(),
 		                    user.getPassword());
@@ -58,7 +58,7 @@ public class JdbcUserDao implements UserDao {
 	public void upgradeLevels() {
 		List<User> users = getAll();
 
-		for(User user : users) {
+		for (User user : users) {
 			log.debug("upgrade user level... user=[{}]", user);
 		}
 	}

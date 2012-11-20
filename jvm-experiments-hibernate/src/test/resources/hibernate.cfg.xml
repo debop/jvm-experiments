@@ -6,29 +6,29 @@
 <hibernate-configuration>
 	<session-factory>
 
-		<property name="connection.driver_class">org.postgresql.Driver</property>
-		<property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
-		<property name="connection.url">jdbc:postgresql://localhost/hibernate</property>
-		<property name="connection.username">root</property>
-		<property name="connection.password">root</property>
+		<!--<property name="connection.driver_class">org.postgresql.Driver</property>-->
+		<!--<property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>-->
+		<!--<property name="connection.url">jdbc:postgresql://localhost/hibernate</property>-->
+		<!--<property name="connection.username">root</property>-->
+		<!--<property name="connection.password">root</property>-->
 
 		<!--<property name="connection.driver_class">com.mysql.sql.Driver</property>-->
 		<!--<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>-->
-		<!--<property name="connection.url">sql:mysql://localhost:3306/hibernate</property>-->
+		<!--<property name="connection.url">jdbc:mysql://localhost:3306/hibernate</property>-->
 		<!--<property name="connection.username">root</property>-->
 		<!--<property name="connection.password">root</property>-->
 
 		<!--<property name="connection.driver_class">org.h2.Driver</property>-->
 		<!--<property name="dialect">org.hibernate.dialect.H2Dialect</property>-->
-		<!--<property name="connection.url">sql:h2:mem:tempdb</property>-->
+		<!--<property name="connection.url">jdbc:h2:mem:tempdb</property>-->
 		<!--<property name="connection.username">sa</property>-->
 		<!--<property name="connection.password"></property>-->
 
-		<!--<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>-->
-		<!--<property name="dialect">org.hibernate.dialect.HSQLDialect</property>-->
-		<!--<property name="connection.url">sql:hsqldb:mem:tempdb</property>-->
-		<!--<property name="connection.username">sa</property>-->
-		<!--<property name="connection.password"></property>-->
+		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+		<property name="connection.url">jdbc:hsqldb:mem:tempdb</property>
+		<property name="connection.username">sa</property>
+		<property name="connection.password"></property>
 
 		<!--
 		<property name="connection.provider_class">
@@ -56,22 +56,22 @@
 		<property name="hbm2ddl.auto">create</property>
 
 		<!-- one-to-many bidirectional association -->
-		<mapping resource="org/hibernate/example/domain/model/Category.hbm.xml" />
-		<mapping resource="org/hibernate/example/domain/model/Event.hbm.xml" />
+		<mapping resource="org/hibernate/example/domain/model/Category.hbm.xml"/>
+		<mapping resource="org/hibernate/example/domain/model/Event.hbm.xml"/>
 
 		<!-- have 2 component -->
-		<mapping resource="org/hibernate/example/domain/model/User.hbm.xml" />
+		<mapping resource="org/hibernate/example/domain/model/User.hbm.xml"/>
 
 		<!-- join component -->
-		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml" />
+		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml"/>
 
-		<mapping package="org.hibernate.example.domain.model" />
+		<mapping package="org.hibernate.example.domain.model"/>
 
 		<!-- JPA annotation -->
-		<mapping class="org.hibernate.example.domain.model.StateEntityImpl" />
+		<mapping class="org.hibernate.example.domain.model.StateEntityImpl"/>
 
 
-		<mapping class="org.jpa.example.domain.model.JpaUser" />
+		<mapping class="org.jpa.example.domain.model.JpaUser"/>
 
 	</session-factory>
 </hibernate-configuration>

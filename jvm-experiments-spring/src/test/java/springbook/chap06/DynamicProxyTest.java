@@ -24,7 +24,7 @@ public class DynamicProxyTest {
 		pfb.setTarget(new HelloTarget());
 		pfb.addAdvice(new UppercaseAdvice());
 
-		Hello helloProxy = (Hello)pfb.getObject();
+		Hello helloProxy = (Hello) pfb.getObject();
 		assertThat(helloProxy.sayHello("Toby"), is("HELLO TOBY"));
 		assertThat(helloProxy.sayHi("Toby"), is("HI TOBY"));
 		assertThat(helloProxy.sayThankYou("Toby"), is("THANK YOU TOBY"));
@@ -39,7 +39,7 @@ public class DynamicProxyTest {
 
 		pfb.addAdvisor(new DefaultPointcutAdvisor(pointcut, new UppercaseAdvice()));
 
-		Hello helloProxy = (Hello)pfb.getObject();
+		Hello helloProxy = (Hello) pfb.getObject();
 		assertThat(helloProxy.sayHello("Toby"), is("HELLO TOBY"));
 		assertThat(helloProxy.sayHi("Toby"), is("HI TOBY"));
 		assertThat(helloProxy.sayThankYou("Toby"), is("Thank you Toby"));
@@ -49,14 +49,17 @@ public class DynamicProxyTest {
 
 		@Override
 		public Object invoke(MethodInvocation invocation) throws Throwable {
-			String ret = (String)invocation.proceed();
+			String ret = (String) invocation.proceed();
 			return ret.toUpperCase();
 		}
 	}
 
 	static interface Hello {
+
 		String sayHello(String name);
+
 		String sayHi(String name);
+
 		String sayThankYou(String name);
 	}
 

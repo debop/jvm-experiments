@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StringTool {
 
-	public static final byte[] MultiBytesPrefixBytes = new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
-	public static final char[] WhiteSpaceChars = new char[]{' ', '\t', '\n', '\r', '\f', '\b'};
+	public static final byte[] MultiBytesPrefixBytes = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+	public static final char[] WhiteSpaceChars = new char[] { ' ', '\t', '\n', '\r', '\f', '\b' };
 	public static final String TrimmingString = "...";
 	public static final String NullStr = "NULL";
 
@@ -67,8 +67,8 @@ public class StringTool {
 	 */
 	public static boolean isWhiteSpace(String str) {
 		return isNull(str) ||
-			       str.trim().length() == 0 ||
-			       hasWhiteSpaceChars(str);
+			str.trim().length() == 0 ||
+			hasWhiteSpaceChars(str);
 	}
 
 	/**

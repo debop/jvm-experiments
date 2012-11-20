@@ -23,6 +23,7 @@ public class UserDao {
 	public UserDao() {
 		this(new SimpleConnectionMaker());
 	}
+
 	public UserDao(ConnectionMaker connectionMaker) {
 		this.connectionMaker = connectionMaker;
 	}
@@ -68,7 +69,6 @@ public class UserDao {
 
 		ps.executeUpdate();
 	}
-
 
 
 	public static void main(String[] args) throws Exception {

@@ -5,7 +5,6 @@ import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
@@ -30,7 +29,7 @@ public abstract class JdbcRepositoryImpl implements JdbcRepository {
 	DataSource dataSource;
 
 	private Connection getConnection() {
-		if(log.isDebugEnabled())
+		if (log.isDebugEnabled())
 			log.debug("get database... dataSource=[{}]", getDataSource());
 
 		return DataSourceUtils.getConnection(getDataSource());

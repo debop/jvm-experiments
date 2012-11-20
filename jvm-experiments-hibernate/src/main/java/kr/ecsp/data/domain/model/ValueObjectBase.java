@@ -12,9 +12,9 @@ public abstract class ValueObjectBase implements ValueObject {
 	@Override
 	public boolean equals(Object obj) {
 		return obj == this ||
-			       (obj != null &&
-				        getClass() == obj.getClass() &&
-				        hashCode() == obj.hashCode());
+			(obj != null &&
+				getClass() == obj.getClass() &&
+				hashCode() == obj.hashCode());
 	}
 
 	@Override

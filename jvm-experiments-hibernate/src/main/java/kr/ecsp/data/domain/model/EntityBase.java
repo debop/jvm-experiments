@@ -21,7 +21,7 @@ public abstract class EntityBase<TId extends Serializable> extends StateEntityBa
 	@Override
 	@SuppressWarnings("unchecked")
 	public <TId> TId getId() {
-		return (TId)this.id;
+		return (TId) this.id;
 	}
 
 	protected void setId(TId id) {
@@ -37,12 +37,12 @@ public abstract class EntityBase<TId extends Serializable> extends StateEntityBa
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
-		boolean sameType = (obj!=null) && (getClass()==obj.getClass());
+		boolean sameType = (obj != null) && (getClass() == obj.getClass());
 
 		if (sameType) {
 			EntityBase<TId> entity = (EntityBase<TId>) obj;
 			return hasSameNonDefaultIdAs(entity) ||
-				       ((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
+				((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
 		}
 		return false;
 	}

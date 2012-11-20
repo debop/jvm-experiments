@@ -10,8 +10,10 @@ import java.io.Serializable;
 public interface NamedParameter extends Serializable {
 
 	String getName();
+
 	void setName(String name);
 
 	Object getValue();
+
 	void setValue(Object value);
 }

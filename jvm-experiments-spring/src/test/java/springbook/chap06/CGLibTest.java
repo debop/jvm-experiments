@@ -27,7 +27,7 @@ public class CGLibTest {
 		// create proxy
 		Object proxy = enhancer.create();
 
-		Hello hello = (Hello)proxy;
+		Hello hello = (Hello) proxy;
 
 		assertThat(hello.sayHello("debop"), is("HELLO DEBOP"));
 
@@ -37,14 +37,17 @@ public class CGLibTest {
 
 		@Override
 		public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-			String result = (String)methodProxy.invokeSuper(o, objects);
+			String result = (String) methodProxy.invokeSuper(o, objects);
 			return result.toUpperCase();
 		}
 	}
 
 	static interface Hello {
+
 		String sayHello(String name);
+
 		String sayHi(String name);
+
 		String sayThankYou(String name);
 	}
 

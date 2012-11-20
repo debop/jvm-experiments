@@ -14,7 +14,7 @@ public class Category extends EntityBase<Long> {
 
 	@Getter @Setter private String name;
 
-	@Getter(lazy = true)
+	@Getter
 	private final List<Event> events = new ArrayList<>();
 
 	@Override

@@ -13,7 +13,7 @@
 	</bean>
 
 	<bean id="userDao.Jdbc" class="springbook.chap06.impl.JdbcUserDao">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource"/>
 	</bean>
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
@@ -41,7 +41,7 @@
 	</bean>
 
 	<bean id="proxyFactoryBean.userService" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="target" ref="userService.default" />
+		<property name="target" ref="userService.default"/>
 		<!-- Advice 와 Advisor 를 동시에 지정할 수 있습니다. -->
 		<property name="interceptorNames">
 			<list>

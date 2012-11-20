@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +76,31 @@ public class MappingTest {
 		log.info("성공했습니다.");
 	}
 
+
+	@Test
+	public void saveCategory() {
+		Category category = new Category();
+		category.setName("category1");
+
+		Event event1 = new Event("event1", new Date());
+		Event event2 = new Event("event2", new Date());
+		category.getEvents().add(event1);
+		event1.setCategory(category);
+
+		category.getEvents().add(event2);
+		event2.setCategory(category);
+
+		session.saveOrUpdate(category);
+		session.flush();
+
+		session.clear();
+
+		@SuppressWarnings("unchecked")
+		final List<Category> categories = (List<Category>) session.createCriteria(Category.class).list();
+		assertEquals(1, categories.size());
+		assertEquals(2, categories.get(0).getEvents().size());
+	}
+
 	@Test
 	public void entitySaveTest() {
 
@@ -87,11 +113,13 @@ public class MappingTest {
 
 		session.clear();
 
-		final List loaded = session.createQuery("from " + StateEntityImpl.class.getName()).list();
+		@SuppressWarnings("unchecked")
+		final List<StateEntityImpl> loaded =
+			(List<StateEntityImpl>) session.createQuery("from " + StateEntityImpl.class.getName()).list();
 
 		assertEquals(1, loaded.size());
 
-		StateEntityImpl entity = (StateEntityImpl) loaded.get(0);
+		StateEntityImpl entity = loaded.get(0);
 		assertNotNull(entity);
 		assertEquals("abc", entity.getName());
 
