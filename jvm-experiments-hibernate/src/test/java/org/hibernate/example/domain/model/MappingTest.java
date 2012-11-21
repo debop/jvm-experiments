@@ -75,7 +75,11 @@ public class MappingTest extends AbstractHibernateTest {
 	public void stateEntityImplSave() {
 
 		StateEntityImpl stateEntity = new StateEntityImpl("abc");
-		session.save(stateEntity);
+		session.persist(stateEntity);
+		session.flush();
+
+		StateEntityImpl stateEntity2 = new StateEntityImpl("가나다");
+		session.persist(stateEntity2);
 		session.flush();
 
 		if (log.isDebugEnabled())
@@ -87,11 +91,15 @@ public class MappingTest extends AbstractHibernateTest {
 		final List<StateEntityImpl> loaded =
 			(List<StateEntityImpl>) session.createQuery("from " + StateEntityImpl.class.getName()).list();
 
-		assertEquals(1, loaded.size());
+		assertEquals(2, loaded.size());
 
 		StateEntityImpl entity = loaded.get(0);
 		assertNotNull(entity);
 		assertEquals("abc", entity.getName());
+
+		entity.setName("modified");
+		session.saveOrUpdate(entity);
+		session.flush();
 
 		log.debug("엔티티를 로드했습니다. entity=" + entity);
 	}

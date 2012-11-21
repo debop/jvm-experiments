@@ -4,8 +4,9 @@ import com.google.common.base.Objects;
 import kr.ecsp.data.domain.model.EntityBase;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,21 +17,21 @@ import java.util.Date;
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
+@Slf4j
 @Getter
 @Setter
 @Entity
 @Table(name = "STATE_ENTITY")
-@DynamicInsert
-@DynamicUpdate
-@Access(value = AccessType.FIELD)
 public class StateEntityImpl extends EntityBase<Long> {
 
 	private static final long serialVersionUID = 6927281191366376283L;
 
-	protected StateEntityImpl() { }
+	protected StateEntityImpl() {
+	}
 
 	public StateEntityImpl(final String name) {
 		this.name = name;
+		this.lastUpdated = new Date();
 	}
 
 	@Id
@@ -53,9 +54,19 @@ public class StateEntityImpl extends EntityBase<Long> {
 	private String name;
 
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", updatable = false, insertable = false)
-	//@Access(value=AccessType.FIELD)
+	@Column(name = "LAST_UPDATED", insertable = false, updatable = false)
+	@Generated(value = GenerationTime.ALWAYS)
+	@Getter
 	private Date lastUpdated;
+
+	@PrePersist
+	@PreUpdate
+	protected void updateLastUpdated() {
+
+		if (log.isDebugEnabled())
+			log.debug("PrePersist, PreUpdate event 발생...");
+		lastUpdated = new Date();
+	}
 
 	@Override
 	public int hashCode() {

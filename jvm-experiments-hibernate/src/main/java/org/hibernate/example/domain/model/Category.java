@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Category extends EntityBase<Long> {
@@ -19,6 +20,8 @@ public class Category extends EntityBase<Long> {
 	}
 
 	@Getter @Setter private String name;
+
+	@Getter private Date lastUpdated = new Date();
 
 	@Getter
 	private final List<Event> events = new ArrayList<>();
