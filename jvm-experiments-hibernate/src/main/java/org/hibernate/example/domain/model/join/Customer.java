@@ -20,6 +20,7 @@ public class Customer extends EntityBase<Long> {
 	private static final long serialVersionUID = 9221823986414874215L;
 
 	protected Customer() {}
+
 	public Customer(String name, String email) {
 		this.name = name;
 		this.email = email;
@@ -36,7 +37,7 @@ public class Customer extends EntityBase<Long> {
 
 	@Override
 	public int hashCode() {
-		if(isPersisted())
+		if (isPersisted())
 			return super.hashCode();
 
 		return Objects.hashCode(name, email);

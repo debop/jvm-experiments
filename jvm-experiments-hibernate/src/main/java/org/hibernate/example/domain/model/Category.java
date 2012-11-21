@@ -13,6 +13,7 @@ public class Category extends EntityBase<Long> {
 	private static final long serialVersionUID = 7583780980623927361L;
 
 	protected Category() {}
+
 	public Category(String name) {
 		this.name = name;
 	}

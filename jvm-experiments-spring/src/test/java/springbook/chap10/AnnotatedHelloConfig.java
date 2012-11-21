@@ -15,9 +15,17 @@ public class AnnotatedHelloConfig {
 
 	@Bean
 	//@Scope(value = "prototype")
-	public AnnotatedHello annotatedHello() {
+	public AnnotatedHello annotatedHello(Printer printer) {
 		if (log.isDebugEnabled())
 			log.debug("annotatedHello instance creating...");
-		return new AnnotatedHello();
+
+		AnnotatedHello hello = new AnnotatedHello();
+		hello.setPrinter(printer);
+		return hello;
+	}
+
+	@Bean
+	public Printer printer() {
+		return new StringPrinter();
 	}
 }

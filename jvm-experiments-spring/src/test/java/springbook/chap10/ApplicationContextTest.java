@@ -2,6 +2,7 @@ package springbook.chap10;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -125,7 +126,8 @@ public class ApplicationContextTest {
 		AnnotatedHelloConfig config = ctx.getBean("annotatedHelloConfig", AnnotatedHelloConfig.class);
 		assertNotNull(config);
 
-		assertSame(hello, config.annotatedHello());
+		assertNotNull(config.printer());
+		assertSame(hello, config.annotatedHello(config.printer()));
 	}
 
 	@Test
@@ -149,4 +151,32 @@ public class ApplicationContextTest {
 		DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
 		assertNotNull(dataSource);
 	}
+
+	@Test
+	public void annotatedAutowiredComponent() {
+		ApplicationContext ctx = new AnnotationConfigApplicationContext("springbook.chap10");
+
+		AnnotatedHello hello = ctx.getBean("annotatedHello", AnnotatedHello.class);
+		assertNotNull(hello);
+
+		HelloAutowired autowired = ctx.getBean("autowiredHello", HelloAutowired.class);
+		assertNotNull(autowired);
+		assertNotNull(autowired.getPrinter());
+	}
+
+	@Test
+	public void annotationSampleTest() {
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(BeanA.class, BeanB.class);
+
+		BeanA beanA = ctx.getBean(BeanA.class);
+		assertNotNull(beanA);
+		assertNotNull(beanA.beanB);
+	}
+
+	private static class BeanA {
+
+		@Autowired BeanB beanB;
+	}
+
+	private static class BeanB { }
 }

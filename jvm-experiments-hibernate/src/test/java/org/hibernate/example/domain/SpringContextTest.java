@@ -1,0 +1,106 @@
+package org.hibernate.example.domain;
+
+import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.example.domain.model.Category;
+import org.hibernate.example.domain.model.Event;
+import org.hibernate.metadata.ClassMetadata;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+/**
+ * org.hibernate.example.domain.SpringContextTest
+ * User: sunghyouk.bae@gmail.com
+ * Date: 12. 11. 21.
+ */
+@Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "/applicationContext.xml")
+public class SpringContextTest {
+
+	@Autowired SessionFactory sessionFactory;
+
+	private Session session;
+
+	@Before
+	public void before() {
+		session = sessionFactory.openSession();
+	}
+
+	@After
+	public void after() {
+		if (session != null)
+			session.close();
+	}
+
+	@Test
+	public void configurationVerfication() {
+
+		assertNotNull(sessionFactory);
+
+		@Cleanup
+		Session session = sessionFactory.openSession();
+		assertNotNull(session);
+	}
+
+	@Test
+	public void entityMappingTest() {
+		try {
+			log.info("querying all the managed entities...");
+			final Map<String, ClassMetadata> metadataMap = session.getSessionFactory().getAllClassMetadata();
+			for (Object key : metadataMap.keySet()) {
+				final ClassMetadata classMetadata = metadataMap.get(key);
+				final String entityName = classMetadata.getEntityName();
+				final Query query = session.createQuery("from " + entityName);
+				query.setCacheable(true);
+
+				log.info("executing hql= " + query.getQueryString());
+
+				for (Object o : query.list()) {
+					log.info("Entity=  " + o);
+				}
+			}
+		} finally {
+			session.flush();
+		}
+		log.info("성공했습니다.");
+	}
+
+	@Test
+	public void categoryAndEvent() {
+		Category category = new Category("category1");
+
+		Event event1 = new Event("event1", new Date());
+		Event event2 = new Event("event2", new Date());
+		category.getEvents().add(event1);
+		event1.setCategory(category);
+
+		category.getEvents().add(event2);
+		event2.setCategory(category);
+
+		session.saveOrUpdate(category);
+		session.flush();
+
+		session.clear();
+
+		@SuppressWarnings("unchecked")
+		final List<Category> categories = (List<Category>) session.createCriteria(Category.class).list();
+		assertEquals(1, categories.size());
+		assertEquals(2, categories.get(0).getEvents().size());
+	}
+}

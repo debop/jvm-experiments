@@ -20,10 +20,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-test-sources/test-annotations" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/surefire" />
-      <excludeFolder url="file://$MODULE_DIR$/target/surefire-reports" />
-      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -34,6 +30,8 @@
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.15.0-GA" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.common:hibernate-commons-annotations:4.0.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:4.1.7.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.1.2.GA" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-ehcache:4.1.7.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-infinispan:4.1.7.Final" level="project" />
     <orderEntry type="library" name="Maven: org.infinispan:infinispan-core:5.1.6.FINAL" level="project" />
@@ -46,7 +44,6 @@
     <orderEntry type="library" name="Maven: javassist:javassist:3.12.1.GA" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache-core:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.1.2.GA" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.tukaani:xz:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.2.1" level="project" />
@@ -64,6 +61,7 @@
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.5.6" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:0.11.6" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib:2.2.2" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.3.1" level="project" />
@@ -92,6 +90,8 @@
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.7" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.7" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.7.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.jolbox:bonecp-provider:0.7.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.jolbox:bonecp-spring:0.7.1.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hsqldb:hsqldb:2.2.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: mysql:mysql-connector-java:5.1.21" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />

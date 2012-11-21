@@ -1,6 +1,7 @@
 package springbook.chap10;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -16,21 +17,26 @@ import javax.sql.DataSource;
 @Configuration
 public class ServiceConfig {
 
-	private static final String URL = "jdbc://postgresql://localhost/testdb";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "root";
+	@Value("org.postgresql.Driver") Class driverClass;
+	@Value("jdbc://postgresql://localhost/testdb") private String url;
+	@Value("root") private String username;
+	@Value("root") private String password;
 
 	@Bean
 	public DataSource dataSource() {
+
 		if (log.isInfoEnabled())
-			log.info("create DataSource. url=[{}], username=[{}], password=[{}]", URL, USERNAME, PASSWORD);
+			log.info("create DataSource. url=[{}], username=[{}], password=[{}]",
+			         url, username, password);
 
 		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-		dataSource.setDriverClass(org.postgresql.Driver.class);
-		dataSource.setUrl(URL);
-		dataSource.setUsername(USERNAME);
-		dataSource.setPassword(PASSWORD);
+		dataSource.setDriverClass(driverClass); //(org.postgresql.Driver.class);
+		dataSource.setUrl(url);
+		dataSource.setUsername(username);
+		dataSource.setPassword(password);
 
 		return dataSource;
 	}
+
+
 }

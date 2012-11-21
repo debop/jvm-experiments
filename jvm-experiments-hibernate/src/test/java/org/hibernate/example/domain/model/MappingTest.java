@@ -50,8 +50,7 @@ public class MappingTest extends AbstractHibernateTest {
 
 	@Test
 	public void categoryAndEvent() {
-		Category category = new Category();
-		category.setName("category1");
+		Category category = new Category("category1");
 
 		Event event1 = new Event("event1", new Date());
 		Event event2 = new Event("event2", new Date());
