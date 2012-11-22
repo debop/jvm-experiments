@@ -7,7 +7,8 @@
 	<groupId>jvm-experiments</groupId>
 	<artifactId>jvm-experiments-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0</version>
+	<version>${kr.escp.version}</version>
+
 	<modules>
 		<module>jvm-experiments-spring</module>
 		<module>jvm-experiments-hibernate</module>
@@ -15,6 +16,7 @@
 	</modules>
 
 	<properties>
+		<kr.escp.version>1.0.0</kr.escp.version>
 		<scala.version>[2.9.2, )</scala.version>
 		<groovy.version>2.0.5</groovy.version>
 

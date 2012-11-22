@@ -1,5 +1,7 @@
 package kr.ecsp.data.domain.model;
 
+import kr.escp.commons.core.ValueObjectBase;
+
 /**
  * JPA 기본 도메인 엔티티의 추상화 클래스입니다.
  * JpaUser: sunghyouk.bae@gmail.com

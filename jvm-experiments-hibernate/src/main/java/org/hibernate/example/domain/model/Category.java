@@ -32,6 +32,20 @@ public class Category extends EntityBase<Long> implements UpdateTimestampedEntit
 	@Getter
 	private final List<Event> events = new ArrayList<>();
 
+	public void addEvents(Event... ets) {
+		for (Event e : ets) {
+			events.add(e);
+			e.setCategory(this);
+		}
+	}
+
+	public void removeEvents(Event... ets) {
+		for (Event e : ets) {
+			events.remove(e);
+			e.setCategory(null);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		if (isPersisted())

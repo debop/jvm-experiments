@@ -1,5 +1,7 @@
 package kr.ecsp.data.domain.model;
 
+import kr.escp.commons.core.ValueObject;
+
 /**
  * 설명을 추가하세요.
  * JpaUser: sunghyouk.bae@gmail.com

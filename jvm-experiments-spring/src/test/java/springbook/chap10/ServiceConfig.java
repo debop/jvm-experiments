@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Driver;
 
 /**
  * springbook.chap10.ServiceConfig
@@ -17,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 public class ServiceConfig {
 
-	@Value("org.postgresql.Driver") Class driverClass;
+	@Value("org.postgresql.Driver") Class<? extends Driver> driverClass;
 	@Value("jdbc://postgresql://localhost/testdb") private String url;
 	@Value("root") private String username;
 	@Value("root") private String password;
@@ -30,6 +31,7 @@ public class ServiceConfig {
 			         url, username, password);
 
 		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+
 		dataSource.setDriverClass(driverClass); //(org.postgresql.Driver.class);
 		dataSource.setUrl(url);
 		dataSource.setUsername(username);

@@ -96,7 +96,6 @@ public class SpringContextTest {
 
 		session.saveOrUpdate(category);
 		session.flush();
-
 		session.clear();
 
 		@SuppressWarnings("unchecked")
@@ -140,5 +139,4 @@ public class SpringContextTest {
 
 		log.debug("엔티티를 로드했습니다. entity=" + entity);
 	}
-
 }

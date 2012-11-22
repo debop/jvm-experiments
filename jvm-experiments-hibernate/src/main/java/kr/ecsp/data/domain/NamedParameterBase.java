@@ -2,7 +2,7 @@ package kr.ecsp.data.domain;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import kr.ecsp.data.domain.model.ValueObjectBase;
+import kr.escp.commons.core.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 
