@@ -16,7 +16,8 @@
 			<property name="name" column="CategoryName" length="255" not-null="true"/>
 		</natural-id>
 
-		<timestamp name="lastUpdated" column="LastUpdated"/>
+		<!--<timestamp name="lastUpdated" column="LastUpdated"/>-->
+		<property name="updateTimestamp" column="UpdateTimestamp" type="timestamp"/>
 
 		<bag name="events" cascade="all" inverse="true" lazy="true" fetch="subselect">
 			<key column="CategoryId"/>

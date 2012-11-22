@@ -69,6 +69,9 @@ public class MappingTest extends AbstractHibernateTest {
 		final List<Category> categories = (List<Category>) session.createCriteria(Category.class).list();
 		assertEquals(1, categories.size());
 		assertEquals(2, categories.get(0).getEvents().size());
+
+		if (log.isDebugEnabled())
+			log.debug("Category=[{}]", categories.get(0));
 	}
 
 	@Test

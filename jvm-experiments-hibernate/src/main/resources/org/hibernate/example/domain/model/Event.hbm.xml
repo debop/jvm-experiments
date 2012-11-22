@@ -16,6 +16,8 @@
 			<property name="date" type="timestamp" column="EventDate"/>
 		</natural-id>
 
+		<property name="updateTimestamp" column="UpdateTimestamp" type="timestamp"/>
+
 		<many-to-one name="category" class="Category" column="CategoryId" lazy="proxy"/>
 	</class>
 

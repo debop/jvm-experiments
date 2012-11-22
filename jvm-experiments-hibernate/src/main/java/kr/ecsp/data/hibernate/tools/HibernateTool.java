@@ -1,8 +1,13 @@
 package kr.ecsp.data.hibernate.tools;
 
+import kr.ecsp.data.hibernate.interceptor.UpdateTimestampedInterceptor;
+import kr.ecsp.data.hibernate.listener.UpdateTimestampedEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.event.service.spi.EventListenerRegistry;
+import org.hibernate.event.spi.EventType;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
@@ -31,7 +36,9 @@ public class HibernateTool {
 
 		try {
 			Configuration configuration = new Configuration();
+
 			configuration.addResource("hibernate.cfg.xml");
+			configuration.setInterceptor(new UpdateTimestampedInterceptor());
 			//configuration.setNamingStrategy(new OracleNamingStrategy());
 			configuration.configure();
 			ServiceRegistry serviceRegistry =
@@ -40,6 +47,8 @@ public class HibernateTool {
 					.buildServiceRegistry();
 
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+			registerListeners(sessionFactory);
 
 			jndiContext = new InitialContext();
 
@@ -54,5 +63,16 @@ public class HibernateTool {
 
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+
+	public static void registerListeners(SessionFactory sessionFactory) {
+		EventListenerRegistry registry =
+			((SessionFactoryImpl) sessionFactory)
+				.getServiceRegistry()
+				.getService(EventListenerRegistry.class);
+
+		UpdateTimestampedEventListener listener = new UpdateTimestampedEventListener();
+		registry.getEventListenerGroup(EventType.PRE_INSERT).appendListener(listener);
+		registry.getEventListenerGroup(EventType.PRE_UPDATE).appendListener(listener);
 	}
 }

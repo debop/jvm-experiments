@@ -35,6 +35,7 @@ public abstract class AbstractHibernateTest {
 	protected void onBefore() {
 		if (session == null)
 			session = getSessionFactory().openSession();
+
 	}
 
 	protected void onAfter() {

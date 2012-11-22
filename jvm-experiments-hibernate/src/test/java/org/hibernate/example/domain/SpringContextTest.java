@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.example.domain.model.Category;
 import org.hibernate.example.domain.model.Event;
+import org.hibernate.example.domain.model.StateEntityImpl;
 import org.hibernate.metadata.ClassMetadata;
 import org.junit.After;
 import org.junit.Before;
@@ -102,5 +103,42 @@ public class SpringContextTest {
 		final List<Category> categories = (List<Category>) session.createCriteria(Category.class).list();
 		assertEquals(1, categories.size());
 		assertEquals(2, categories.get(0).getEvents().size());
+
+		for (Category c : categories)
+			log.debug("Category=[{}]", c);
 	}
+
+	@Test
+	public void stateEntityImplSave() {
+
+		StateEntityImpl stateEntity = new StateEntityImpl("abc");
+		session.persist(stateEntity);
+		session.flush();
+
+		StateEntityImpl stateEntity2 = new StateEntityImpl("가나다");
+		session.persist(stateEntity2);
+		session.flush();
+
+		if (log.isDebugEnabled())
+			log.debug("엔티티를 저장했습니다. entity=" + stateEntity);
+
+		session.clear();
+
+		@SuppressWarnings("unchecked")
+		final List<StateEntityImpl> loaded =
+			(List<StateEntityImpl>) session.createQuery("from " + StateEntityImpl.class.getName()).list();
+
+		assertEquals(2, loaded.size());
+
+		StateEntityImpl entity = loaded.get(0);
+		assertNotNull(entity);
+		assertEquals("abc", entity.getName());
+
+		entity.setName("modified");
+		session.saveOrUpdate(entity);
+		session.flush();
+
+		log.debug("엔티티를 로드했습니다. entity=" + entity);
+	}
+
 }

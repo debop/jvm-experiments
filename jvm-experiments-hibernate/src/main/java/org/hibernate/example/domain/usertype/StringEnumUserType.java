@@ -40,6 +40,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void setParameterValues(Properties parameters) {
 		String enumClassName = parameters.getProperty("enumClassName");
 		try {

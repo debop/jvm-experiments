@@ -5,8 +5,13 @@
 
 	<jdbc:embedded-database id="dataSource" type="HSQL"/>
 
+	<bean id="updateTimestampedInterceptor" class="kr.ecsp.data.hibernate.interceptor.UpdateTimestampedInterceptor"/>
+
+	<bean id="updateTimestampedListener" class="kr.ecsp.data.hibernate.listener.UpdateTimestampedEventListener"/>
+
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
+		<property name="entityInterceptor" ref="updateTimestampedInterceptor"/>
 		<property name="hibernateProperties">
 			<props>
 				<!--<prop key="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</prop>-->

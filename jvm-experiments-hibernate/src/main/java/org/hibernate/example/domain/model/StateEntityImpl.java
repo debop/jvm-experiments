@@ -31,7 +31,6 @@ public class StateEntityImpl extends EntityBase<Long> {
 
 	public StateEntityImpl(final String name) {
 		this.name = name;
-		this.lastUpdated = new Date();
 	}
 
 	@Id
@@ -65,6 +64,7 @@ public class StateEntityImpl extends EntityBase<Long> {
 
 		if (log.isDebugEnabled())
 			log.debug("PrePersist, PreUpdate event 발생...");
+
 		lastUpdated = new Date();
 	}
 
@@ -78,6 +78,10 @@ public class StateEntityImpl extends EntityBase<Long> {
 
 	@Override
 	public String toString() {
-		return super.toString() + ", name=[" + name + "]";
+		return Objects.toStringHelper(this)
+		              .add("id", id)
+		              .add("name", name)
+		              .add("lastUpdated", lastUpdated)
+		              .toString();
 	}
 }
