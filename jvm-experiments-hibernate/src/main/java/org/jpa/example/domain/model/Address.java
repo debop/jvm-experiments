@@ -1,7 +1,7 @@
 package org.jpa.example.domain.model;
 
 import com.google.common.base.Objects;
-import kr.escp.commons.core.ValueObjectBase;
+import kr.escp.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -34,5 +34,13 @@ public class Address extends ValueObjectBase {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(street, zipcode, city);
+	}
+
+	@Override
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("street", street)
+		            .add("zipcode", zipcode)
+		            .add("city", city);
 	}
 }

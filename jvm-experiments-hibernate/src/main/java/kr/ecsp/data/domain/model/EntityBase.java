@@ -1,7 +1,7 @@
 package kr.ecsp.data.domain.model;
 
 import com.google.common.base.Objects;
-import kr.ecsp.commons.tools.ReflectionTool;
+import kr.escp.commons.tools.ReflectTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Date: 12. 11. 19
  */
 @Slf4j
-public abstract class EntityBase<TId extends Serializable> extends StateEntityBase implements Entity<TId> {
+public abstract class EntityBase<TId extends Serializable> extends StatefulEntityBase implements Entity<TId> {
 
 	private static final long serialVersionUID = 4766509654284022534L;
 	protected TId id;
@@ -28,10 +28,10 @@ public abstract class EntityBase<TId extends Serializable> extends StateEntityBa
 		this.id = id;
 	}
 
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("id", id)
-		              .toString();
+	@Override
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("id", id);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public abstract class EntityBase<TId extends Serializable> extends StateEntityBa
 	private boolean hasSameNonDefaultIdAs(Entity<TId> entity) {
 
 		try {
-			Class<TId> idClass = ReflectionTool.getGenericParameterType(this);
+			Class<TId> idClass = ReflectTool.getGenericParameterType(this);
 			TId defaultValue = (TId) idClass.newInstance();
 
 			boolean idHasValue = !java.util.Objects.equals(id, defaultValue);

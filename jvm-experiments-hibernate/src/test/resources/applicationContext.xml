@@ -36,7 +36,7 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>org.hibernate.example.domain.model.StateEntityImpl</value>
+				<value>org.hibernate.example.domain.model.StatefulEntityImpl</value>
 			</list>
 		</property>
 	</bean>

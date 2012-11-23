@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.example.domain.model.Category;
 import org.hibernate.example.domain.model.Event;
-import org.hibernate.example.domain.model.StateEntityImpl;
+import org.hibernate.example.domain.model.StatefulEntityImpl;
 import org.hibernate.metadata.ClassMetadata;
 import org.junit.After;
 import org.junit.Before;
@@ -110,11 +110,11 @@ public class SpringContextTest {
 	@Test
 	public void stateEntityImplSave() {
 
-		StateEntityImpl stateEntity = new StateEntityImpl("abc");
+		StatefulEntityImpl stateEntity = new StatefulEntityImpl("abc");
 		session.persist(stateEntity);
 		session.flush();
 
-		StateEntityImpl stateEntity2 = new StateEntityImpl("가나다");
+		StatefulEntityImpl stateEntity2 = new StatefulEntityImpl("가나다");
 		session.persist(stateEntity2);
 		session.flush();
 
@@ -124,12 +124,12 @@ public class SpringContextTest {
 		session.clear();
 
 		@SuppressWarnings("unchecked")
-		final List<StateEntityImpl> loaded =
-			(List<StateEntityImpl>) session.createQuery("from " + StateEntityImpl.class.getName()).list();
+		final List<StatefulEntityImpl> loaded =
+			(List<StatefulEntityImpl>) session.createQuery("from " + StatefulEntityImpl.class.getName()).list();
 
 		assertEquals(2, loaded.size());
 
-		StateEntityImpl entity = loaded.get(0);
+		StatefulEntityImpl entity = loaded.get(0);
 		assertNotNull(entity);
 		assertEquals("abc", entity.getName());
 

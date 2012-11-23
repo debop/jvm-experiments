@@ -36,4 +36,16 @@ public class User extends EntityBase<Long> {
 
 		return Objects.hashCode(username, userpwd);
 	}
+
+	@Override
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("firstname", firstname)
+		            .add("lastname", lastname)
+		            .add("username", username)
+		            .add("userpwd", userpwd)
+		            .add("userEmail", userEmail)
+		            .add("homeAddress", homeAddress)
+		            .add("officeAddress", officeAddress);
+	}
 }

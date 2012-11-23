@@ -2,7 +2,7 @@ package kr.ecsp.data.domain;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import kr.escp.commons.core.ValueObjectBase;
+import kr.escp.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,11 +31,9 @@ public abstract class NamedParameterBase extends ValueObjectBase implements Name
 	}
 
 	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("name", name)
-		              .add("value", value)
-		              .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("name", name)
+		            .add("value", value);
 	}
-
 }

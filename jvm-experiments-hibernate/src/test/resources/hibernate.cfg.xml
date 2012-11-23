@@ -72,7 +72,7 @@
 		<mapping package="org.hibernate.example.domain.model"/>
 
 		<!-- JPA annotation -->
-		<mapping class="org.hibernate.example.domain.model.StateEntityImpl"/>
+		<mapping class="org.hibernate.example.domain.model.StatefulEntityImpl"/>
 
 		<mapping class="org.jpa.example.domain.model.JpaUser"/>
 

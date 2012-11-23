@@ -33,7 +33,7 @@ public class Event extends EntityBase<Long> implements UpdateTimestampedEntity {
 	@Setter(value = AccessLevel.PROTECTED)
 	private Date updateTimestamp;
 
-	public void updateLastUpdateTime() {
+	public void updateUpdateTimestamp() {
 		updateTimestamp = new Date();
 	}
 
@@ -46,14 +46,12 @@ public class Event extends EntityBase<Long> implements UpdateTimestampedEntity {
 	}
 
 	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("id", id)
-		              .add("title", title)
-		              .add("date", date)
-		              .add("updateTimestamp", updateTimestamp)
-		              .add("category", category)
-		              .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("title", title)
+		            .add("date", date)
+		            .add("updateTimestamp", updateTimestamp)
+		            .add("categoryId", category.getId());
 	}
 }
 

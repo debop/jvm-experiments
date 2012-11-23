@@ -28,11 +28,8 @@ public class HibernateParameter extends NamedParameterBase {
 	}
 
 	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("name", getName())
-		              .add("value", getValue())
-		              .add("type", getType())
-		              .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("type", type);
 	}
 }

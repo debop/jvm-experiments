@@ -1,6 +1,7 @@
 package org.jpa.example.domain.model;
 
-import kr.ecsp.data.domain.model.StateEntityBase;
+import com.google.common.base.Objects;
+import kr.ecsp.data.domain.model.StatefulEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
@@ -21,7 +22,7 @@ import javax.persistence.*;
 @DynamicUpdate
 @Getter
 @Setter
-public class JpaUser extends StateEntityBase {
+public class JpaUser extends StatefulEntityBase {
 
 	private static final long serialVersionUID = -4278711858304883834L;
 
@@ -66,4 +67,24 @@ public class JpaUser extends StateEntityBase {
 		}
 	)
 	private Address officeAddress = new Address();
+
+	@Override
+	public int hashCode() {
+		if (isPersisted())
+			return super.hashCode();
+
+		return Objects.hashCode(username, password);
+	}
+
+	@Override
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("firstname", firstname)
+		            .add("lastname", lastname)
+		            .add("username", username)
+		            .add("userpwd", password)
+		            .add("userEmail", email)
+		            .add("homeAddress", homeAddress)
+		            .add("officeAddress", officeAddress);
+	}
 }

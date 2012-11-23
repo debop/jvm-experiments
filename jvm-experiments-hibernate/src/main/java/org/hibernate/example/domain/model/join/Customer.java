@@ -2,6 +2,7 @@ package org.hibernate.example.domain.model.join;
 
 import com.google.common.base.Objects;
 import kr.ecsp.data.domain.model.EntityBase;
+import kr.ecsp.data.domain.model.UpdateTimestampedEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,13 +10,13 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * org.hibernate.example.domain.model.join.Customer
+ * 고객 정보
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19.
  */
 @Getter
 @Setter
-public class Customer extends EntityBase<Long> {
+public class Customer extends EntityBase<Long> implements UpdateTimestampedEntity {
 
 	private static final long serialVersionUID = 9221823986414874215L;
 
@@ -32,8 +33,8 @@ public class Customer extends EntityBase<Long> {
 
 	private Address address = new Address();
 
-	@Setter(value = AccessLevel.PROTECTED)
-	private Date lastUpdated;
+	@Setter(value = AccessLevel.PRIVATE)
+	private Date updateTimestamp;
 
 	@Override
 	public int hashCode() {
@@ -41,5 +42,18 @@ public class Customer extends EntityBase<Long> {
 			return super.hashCode();
 
 		return Objects.hashCode(name, email);
+	}
+
+	@Override
+	public Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("name", name)
+		            .add("email", email)
+		            .add("created", created);
+	}
+
+	@Override
+	public void updateUpdateTimestamp() {
+		this.updateTimestamp = new Date();
 	}
 }

@@ -8,7 +8,7 @@ import org.hibernate.event.spi.PreUpdateEvent;
 import org.hibernate.event.spi.PreUpdateEventListener;
 
 /**
- * kr.ecsp.data.hibernate.listener.UpdateTimestampedEventListener
+ * {@link UpdateTimestampedEntity} 를 구현한 엔티티의 updateTimestamp 값을 엔티티 저장 시에 갱신해 주는 Event Listener 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 22.
  */
@@ -26,7 +26,7 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 	public boolean onPreInsert(PreInsertEvent event) {
 		Object entity = event.getEntity();
 		if (entity instanceof UpdateTimestampedEntity) {
-			((UpdateTimestampedEntity) entity).updateLastUpdateTime();
+			((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
 			if (UpdateTimestampedEventListener.log.isDebugEnabled())
 				UpdateTimestampedEventListener.log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
 		}
@@ -41,7 +41,7 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 
 		Object entity = event.getEntity();
 		if (entity instanceof UpdateTimestampedEntity) {
-			((UpdateTimestampedEntity) entity).updateLastUpdateTime();
+			((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
 			if (UpdateTimestampedEventListener.log.isDebugEnabled())
 				UpdateTimestampedEventListener.log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
 		}

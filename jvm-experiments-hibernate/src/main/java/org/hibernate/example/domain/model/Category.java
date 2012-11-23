@@ -25,7 +25,7 @@ public class Category extends EntityBase<Long> implements UpdateTimestampedEntit
 	// @Getter private Date lastUpdated = new Date();
 	@Getter private Date updateTimestamp;
 
-	public void updateLastUpdateTime() {
+	public void updateUpdateTimestamp() {
 		updateTimestamp = new Date();
 	}
 
@@ -55,11 +55,9 @@ public class Category extends EntityBase<Long> implements UpdateTimestampedEntit
 	}
 
 	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("id", id)
-		              .add("name", name)
-		              .add("updateTimestamp", updateTimestamp)
-		              .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("name", name)
+		            .add("updateTimestamp", updateTimestamp);
 	}
 }

@@ -1,13 +1,13 @@
 package org.hibernate.example.domain.model.join;
 
 import com.google.common.base.Objects;
-import kr.escp.commons.core.ValueObjectBase;
+import kr.escp.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * org.hibernate.example.domain.model.join.Address
+ * 주소 정보
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19.
  */
@@ -27,5 +27,13 @@ public class Address extends ValueObjectBase {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(street, zipcode, city);
+	}
+
+	@Override
+	public Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("street", street)
+		            .add("zipcode", zipcode)
+		            .add("city", city);
 	}
 }

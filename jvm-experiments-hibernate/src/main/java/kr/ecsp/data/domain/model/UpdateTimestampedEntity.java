@@ -11,5 +11,5 @@ public interface UpdateTimestampedEntity {
 
 	Date getUpdateTimestamp();
 
-	void updateLastUpdateTime();
+	void updateUpdateTimestamp();
 }

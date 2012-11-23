@@ -7,7 +7,7 @@ import org.hibernate.EmptyInterceptor;
 import java.util.Iterator;
 
 /**
- * kr.ecsp.data.hibernate.interceptor.UpdateTimestampedInterceptor
+ * {@link UpdateTimestampedEntity} 를 구현한 엔티티의 updateTimestamp 값을 엔티티 저장 시에 갱신해 주는 Interceptor 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 21.
  */
@@ -26,7 +26,7 @@ public class UpdateTimestampedInterceptor extends EmptyInterceptor {
 		while (entities.hasNext()) {
 			Object entity = entities.next();
 			if (entity instanceof UpdateTimestampedEntity) {
-				((UpdateTimestampedEntity) entity).updateLastUpdateTime();
+				((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
 
 				if (log.isDebugEnabled())
 					log.debug("updateTimestamp 값을 현재 시각으로 갱신했습니다. entity=[{}]", entity);
