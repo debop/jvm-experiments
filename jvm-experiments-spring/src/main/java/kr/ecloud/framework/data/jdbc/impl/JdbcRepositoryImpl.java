@@ -1,19 +1,13 @@
 package kr.ecloud.framework.data.jdbc.impl;
 
 import kr.ecloud.framework.data.jdbc.JdbcRepository;
-import lombok.Cleanup;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,67 +18,35 @@ import java.util.List;
 @Slf4j
 public abstract class JdbcRepositoryImpl implements JdbcRepository {
 
-	@Getter
-	@Setter
-	DataSource dataSource;
+	NamedParameterJdbcTemplate jdbcTemplate;
 
-	private Connection getConnection() {
-		if (log.isDebugEnabled())
-			log.debug("get database... dataSource=[{}]", getDataSource());
-
-		return DataSourceUtils.getConnection(getDataSource());
+	public void setDataSource(DataSource dataSource) {
+		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
 
 	@Override
-	public void execute(String query, SqlParameter... parameters) throws SQLException {
-		@Cleanup
-		Connection conn = getDataSource().getConnection();
-		@Cleanup
-		PreparedStatement ps = buildPreparedStatemet(conn, query, parameters);
-
-		ps.execute();
+	public void execute(String query, MapSqlParameterSource parameterSource) {
+		jdbcTemplate.update(query, parameterSource);
 	}
 
 
 	@Override
-	public <T> List<T> executeEntities(String query, SqlParameter... parameters) throws SQLException {
-		@Cleanup
-		Connection conn = getDataSource().getConnection();
-		@Cleanup
-		PreparedStatement ps = buildPreparedStatemet(conn, query, parameters);
-
-		@Cleanup ResultSet rs = ps.executeQuery();
-
-		List<T> results = new ArrayList<T>();
-		while (rs.next()) {
-			//TODO: ResultSet 을 Entity List 로 만들기
-		}
-
-		return results;
+	@SuppressWarnings("unchecked")
+	public <T> T executeScala(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType) {
+		return jdbcTemplate.queryForObject(query, parameterSource.getValues(), returnType);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> T executeScala(String query, SqlParameter... parameters) throws SQLException {
-		@Cleanup
-		Connection conn = getDataSource().getConnection();
-		@Cleanup
-		PreparedStatement ps = buildPreparedStatemet(conn, query, parameters);
-
-		@Cleanup ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			return (T) rs.getObject(1);
-		}
-		return (T) null;
+	public <T> List<T> executeEntities(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType) {
+		return (List<T>) jdbcTemplate.queryForList(query, parameterSource.getValues(), returnType);
 	}
 
-	protected PreparedStatement buildPreparedStatemet(Connection connection, String query, SqlParameter... parameters)
-		throws SQLException {
-		PreparedStatement ps = connection.prepareStatement(query);
-
-		//TODO: Set parameters
-
-		return ps;
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> List<T> query(String sql, SqlParameterSource parameterSource, RowMapper<T> rowMapper) {
+		return (List<T>) jdbcTemplate.query(sql, parameterSource, rowMapper);
 	}
+
 }

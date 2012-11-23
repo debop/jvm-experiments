@@ -15,7 +15,7 @@
 		<property name="email" column="CompanyEmail" length="255"/>
 		<property name="created" column="EventDate" type="date"/>
 
-		<property name="lastUpdated" column="LastUpdated" type="timestamp" generated="always" insert="false" update="false"/>
+		<property name="updateTimestamp" column="UpdateTimestamp" type="timestamp" insert="false" update="false"/>
 
 		<join table="Join_Customer_Address">
 			<key column="CustomerId"/>

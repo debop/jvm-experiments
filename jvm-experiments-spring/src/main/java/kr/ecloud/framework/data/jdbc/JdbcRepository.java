@@ -1,9 +1,9 @@
 package kr.ecloud.framework.data.jdbc;
 
-import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,11 +13,11 @@ import java.util.List;
  */
 public interface JdbcRepository {
 
-	DataSource getDataSource();
+	void execute(String query, MapSqlParameterSource parameterSource);
 
-	void execute(String query, SqlParameter... parameters) throws SQLException;
+	<T> List<T> executeEntities(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType);
 
-	<T> List<T> executeEntities(String query, SqlParameter... parameters) throws SQLException;
+	<T> T executeScala(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType);
 
-	<T> T executeScala(String query, SqlParameter... parameters) throws SQLException;
+	<T> List<T> query(String sql, SqlParameterSource parameterSource, RowMapper<T> rowMapper);
 }
