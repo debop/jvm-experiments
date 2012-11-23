@@ -13,6 +13,7 @@
 		<module>jvm-experiments-spring</module>
 		<module>jvm-experiments-hibernate</module>
 		<module>jvm-experiments-commons</module>
+		<module>jvm-experiments-springmvc</module>
 	</modules>
 
 	<properties>

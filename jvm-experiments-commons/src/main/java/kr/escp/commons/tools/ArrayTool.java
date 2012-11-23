@@ -1,6 +1,9 @@
 package kr.escp.commons.tools;
 
+import kr.escp.commons.Guard;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collection;
 
 /**
  * Array 관련 Utility class 입니다.
@@ -39,5 +42,15 @@ public final class ArrayTool {
 
 	public static boolean isEmpty(long[] array) {
 		return ((array == null) || (array.length == 0));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] asArray(Collection<T> collection) {
+		Guard.shouldNotBeNull(collection, "collection");
+
+		T[] result = (T[]) java.lang.reflect.Array
+		                                    .newInstance(ReflectTool.getGenericParameterType(collection),
+		                                                 collection.size());
+		return (T[]) collection.toArray(result);
 	}
 }
