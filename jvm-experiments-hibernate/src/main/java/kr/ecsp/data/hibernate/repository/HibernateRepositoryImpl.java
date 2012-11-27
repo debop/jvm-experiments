@@ -303,7 +303,6 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 
 	@Override
 	public long count(final Query query, final HibernateParameter... params) {
-
 		List list = HibernateTool.setParameters(query, params)
 		                         .setResultTransformer(Criteria.ROOT_ENTITY)
 		                         .list();
@@ -460,5 +459,4 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 		}
 		return result;
 	}
-
 }

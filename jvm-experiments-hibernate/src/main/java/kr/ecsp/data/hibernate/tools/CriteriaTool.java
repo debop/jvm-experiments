@@ -433,7 +433,7 @@ public final class CriteriaTool {
 	}
 
 	public static DetachedCriteria addIsNotEmpty(DetachedCriteria dc, String propertyName) {
-		return dc.add(isNotEmpty(propertyName));
+		return dc.add(Restrictions.isNotEmpty(propertyName));
 	}
 
 	public static DetachedCriteria addIsNull(DetachedCriteria dc, String propertyName) {
@@ -441,7 +441,7 @@ public final class CriteriaTool {
 	}
 
 	public static DetachedCriteria addIsNotNull(DetachedCriteria dc, String propertyName) {
-		return dc.add(isNotEmpty(propertyName));
+		return dc.add(Restrictions.isNotEmpty(propertyName));
 	}
 
 	public static DetachedCriteria addLike(DetachedCriteria dc, String propertyName, String value) {
@@ -449,7 +449,7 @@ public final class CriteriaTool {
 	}
 
 	public static DetachedCriteria addLike(DetachedCriteria dc, String propertyName, String value, MatchMode matchMode) {
-		return dc.add(like(propertyName, value, matchMode));
+		return dc.add(Restrictions.like(propertyName, value, matchMode));
 	}
 
 	/**
@@ -463,19 +463,19 @@ public final class CriteriaTool {
 	 * Insensitive Like search
 	 */
 	public static DetachedCriteria addILike(DetachedCriteria dc, String propertyName, String value, MatchMode matchMode) {
-		return dc.add(ilike(propertyName, value, matchMode));
+		return dc.add(Restrictions.ilike(propertyName, value, matchMode));
 	}
 
 	public static DetachedCriteria addIdEq(DetachedCriteria dc, Serializable idValue) {
-		return dc.add(idEq(idValue));
+		return dc.add(Restrictions.idEq(idValue));
 	}
 
 	public static DetachedCriteria addIn(DetachedCriteria dc, String propertyName, Collection values) {
-		return dc.add(in(propertyName, values));
+		return dc.add(Restrictions.in(propertyName, values));
 	}
 
 	public static <T> DetachedCriteria addIn(DetachedCriteria dc, String propertyName, T[] values) {
-		return dc.add(in(propertyName, values));
+		return dc.add(Restrictions.in(propertyName, values));
 	}
 
 	public static DetachedCriteria addBetween(DetachedCriteria dc, String propertyName, Object lo, Object hi) {

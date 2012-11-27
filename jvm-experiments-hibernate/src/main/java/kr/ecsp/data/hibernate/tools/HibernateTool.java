@@ -175,6 +175,20 @@ public class HibernateTool {
 	}
 
 	/**
+	 * {@link Criteria} 에 {@link Criterion} 들을 AND 로 추가합니다.
+	 *
+	 * @param criteria
+	 * @param criterions
+	 * @return
+	 */
+	public static Criteria addCriterions(Criteria criteria, Criterion... criterions) {
+		for (Criterion criterion : criterions)
+			criteria.add(criterion);
+
+		return criteria;
+	}
+
+	/**
 	 * {@link org.hibernate.Query} 의 인자에 값을 설정합니다.
 	 */
 	public static Query setParameters(Query query, HibernateParameter... params) {
