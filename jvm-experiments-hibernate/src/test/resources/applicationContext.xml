@@ -25,11 +25,13 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<bean id="hibernate.dao.factory" class="kr.ecsp.data.hibernate.repository.HibernateDaoFactory">
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	<bean id="hibernate.dao.factory" class="kr.ecsp.data.hibernate.repository.HibernateDaoFactory"/>
+
+	<bean id="unitOfWork" class="kr.ecsp.data.hibernate.UnitOfWork">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 </beans>

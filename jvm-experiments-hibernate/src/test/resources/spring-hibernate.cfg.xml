@@ -12,9 +12,9 @@
 		<property name="connection.pool_size">100</property>
 		<property name="current_session_context_class">thread</property>
 
-		<property name="transaction.factory_class">
-			org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory
-		</property>
+		<!--<property name="transaction.factory_class">-->
+		<!--org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory-->
+		<!--</property>-->
 
 		<!-- 개발 시에는 안하는 게 좋다. 실 운영 시에는 성능을 고려해서 적용여부를 결정해야 한다 -->
 		<property name="hibernate.cache.region.factory_class">

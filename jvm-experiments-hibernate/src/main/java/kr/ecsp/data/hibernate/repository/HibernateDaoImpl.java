@@ -1,6 +1,7 @@
 package kr.ecsp.data.hibernate.repository;
 
 import kr.ecsp.data.domain.model.StatefulEntity;
+import kr.ecsp.data.hibernate.UnitOfWork;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -19,27 +20,30 @@ import java.util.List;
 @Slf4j
 public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<E> {
 
-	@Getter @Setter
+	@Getter
 	Class<E> entityClass;
 
 	@Setter
-	Session session;
+	private UnitOfWork unitOfWork;
+
+	public HibernateDaoImpl(Class<E> entityClass) {
+		this.entityClass = entityClass;
+	}
+
+	protected Session getSession() {
+		return unitOfWork.getSession();
+	}
+
 
 	@Override
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public E get(Serializable id) {
-		return (E) session.get(entityClass, id);
-		// return getHibernateTemplate().get(entityClass, id);
+		return (E) this.getSession().get(entityClass, id);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<E> getAll() {
-
-		return session.createQuery("from " + entityClass.getName()).list();
-
-		// TODO : HibernateDaoSupport 가 잘 안된다... 왜 그러지??? --> 쓰지 말란다.
-		// return getSessionFactory().getCurrentSession().createQuery("from " + entityClass.getName()).list();
-		//return getHibernateTemplate().find("from " + entityClass.getName());
+		return this.getSession().createQuery("from " + entityClass.getName()).list();
 	}
 }

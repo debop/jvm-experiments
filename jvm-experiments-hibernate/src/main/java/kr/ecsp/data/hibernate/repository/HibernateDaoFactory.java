@@ -1,10 +1,9 @@
 package kr.ecsp.data.hibernate.repository;
 
 import kr.ecsp.data.domain.model.StatefulEntity;
-import kr.escp.commons.Local;
+import kr.ecsp.data.hibernate.UnitOfWork;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,32 +15,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class HibernateDaoFactory {
 
-	private static final String LocalSessionKey = "kr.ecsp.data.hibernate.repository.Session";
-	private SessionFactory sessionFactory;
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
-	public Session getLocalSession() {
-		Session session = (Session) Local.get(LocalSessionKey);
-		if (session == null) {
-			session = sessionFactory.openSession();
-			Local.put(LocalSessionKey, session);
-		}
-		return session;
-	}
+	@Autowired UnitOfWork unitOfWork;
 
 	public <E extends StatefulEntity> HibernateDao<E> createHibernateDao(Class<E> entityClass) {
-
 
 		if (log.isDebugEnabled())
 			log.debug("HibernateDao<{}> 를 생성합니다.", entityClass.getSimpleName());
 
-		HibernateDaoImpl<E> hibernateDao = new HibernateDaoImpl<>();
-		hibernateDao.setEntityClass(entityClass);
-		hibernateDao.setSession(getLocalSession());
+		HibernateDaoImpl<E> dao = new HibernateDaoImpl<>(entityClass);
+		dao.setUnitOfWork(unitOfWork);
 
-		return hibernateDao;
+		return dao;
 	}
 }

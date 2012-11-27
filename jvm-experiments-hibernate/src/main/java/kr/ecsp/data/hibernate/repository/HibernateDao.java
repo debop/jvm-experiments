@@ -1,7 +1,6 @@
 package kr.ecsp.data.hibernate.repository;
 
 import kr.ecsp.data.domain.model.StatefulEntity;
-import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,10 +13,6 @@ import java.util.List;
 public interface HibernateDao<E extends StatefulEntity> {
 
 	Class<E> getEntityClass();
-
-	void setEntityClass(Class<E> entityClass);
-
-	void setSession(Session session);
 
 	E get(Serializable id);
 

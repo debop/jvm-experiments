@@ -1,5 +1,6 @@
 package kr.ecsp.data.hibernate.repository;
 
+import kr.ecsp.data.hibernate.UnitOfWork;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,9 +12,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
@@ -29,14 +33,27 @@ public class HibernateRepositoryTest {
 
 	@Autowired ApplicationContext springContext;
 	@Autowired HibernateDaoFactory hibernateDaofactory;
+	@Autowired HibernateTransactionManager transactionManager;
+	@Autowired UnitOfWork unitOfWork;
 
 	@Test
 	public void createHibernateDao() {
-		Assert.assertNotNull(hibernateDaofactory);
-		HibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.createHibernateDao(JpaUser.class);
-		List<JpaUser> users = jpaUserDao.getAll();
 
-		Assert.assertEquals(0, users.size());
+		Assert.assertNotNull(hibernateDaofactory);
+
+		TransactionStatus txstatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+			HibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.createHibernateDao(JpaUser.class);
+			List<JpaUser> users = jpaUserDao.getAll();
+
+			Assert.assertEquals(0, users.size());
+
+			transactionManager.commit(txstatus);
+		} catch (Exception e) {
+			transactionManager.rollback(txstatus);
+			log.error("예외가 발생했습니다.", e);
+			Assert.fail();
+		}
 	}
 
 	@Test
