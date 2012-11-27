@@ -4,8 +4,8 @@ import kr.ecsp.data.hibernate.UnitOfWork;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.example.domain.model.Category;
+import org.hibernate.example.domain.model.Event;
 import org.jpa.example.domain.model.JpaUser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.TransactionStatus;
@@ -43,7 +42,7 @@ public class HibernateRepositoryTest {
 
 		TransactionStatus txstatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
-			HibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.createHibernateDao(JpaUser.class);
+			HibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.getOrCreateHibernateDao(JpaUser.class);
 			List<JpaUser> users = jpaUserDao.getAll();
 
 			Assert.assertEquals(0, users.size());
@@ -57,18 +56,10 @@ public class HibernateRepositoryTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
-	public void createRepository() {
-
-		HibernateRepository repository = springContext.getBean("hibernate.repository", HibernateRepositoryImpl.class);
-		Assert.assertNotNull(repository);
-
-		List<JpaUser> users = repository.getList(DetachedCriteria.forClass(JpaUser.class));
-		Assert.assertNotNull(users);
-
-		Assert.assertNotNull(repository.getList(DetachedCriteria.forClass(JpaUser.class)));
-
-		Assert.assertEquals(0, repository.count(DetachedCriteria.forClass(Category.class)));
+	public void createCategoryHiberateDao() {
+		HibernateDao<Category> categoryDao = hibernateDaofactory.getOrCreateHibernateDao(Category.class);
+		List<Category> categories = categoryDao.getAll();
+		Assert.assertEquals(0, categories.size());
 	}
 
 	@Test
@@ -77,14 +68,10 @@ public class HibernateRepositoryTest {
 		SessionFactory sessionFactory = springContext.getBean("sessionFactory", SessionFactory.class);
 		Assert.assertNotNull(sessionFactory);
 
-		Session session = SessionFactoryUtils.openSession(sessionFactory);//sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		Assert.assertNotNull(session);
+		List<Event> events = session.createCriteria(Event.class).list();
 
-		List<JpaUser> users = session.createCriteria(JpaUser.class).list();
-		Assert.assertNotNull(users);
-
-		DetachedCriteria dc = DetachedCriteria.forClass(JpaUser.class);
-		List<JpaUser> users2 = dc.getExecutableCriteria(session).list();
-		Assert.assertNotNull(users2);
+		session.close();
 	}
 }
