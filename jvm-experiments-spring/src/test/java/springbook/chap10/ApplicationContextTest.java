@@ -1,5 +1,6 @@
 package springbook.chap10;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 
 import javax.sql.DataSource;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -179,4 +183,21 @@ public class ApplicationContextTest {
 	}
 
 	private static class BeanB { }
+
+	@Test
+	public void genericBeanTest() {
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(GenericBean.class);
+
+		@SuppressWarnings("unchecked")
+		GenericBean<String> bean = ctx.getBean(GenericBean.class);
+		assertNotNull(bean);
+		bean.add("a");
+		List<String> list = Lists.newArrayList(bean.iterator());
+		assertEquals("a", list.get(0));
+
+		Map<String, HashSet> beans = ctx.getBeansOfType(HashSet.class);
+		assertEquals(1, beans.size());
+	}
+
+	private static class GenericBean<T> extends HashSet<T> { }
 }

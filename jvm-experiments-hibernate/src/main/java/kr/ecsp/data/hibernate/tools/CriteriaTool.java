@@ -141,7 +141,7 @@ public final class CriteriaTool {
 				                 : gt(loPropertyName, lo))
 				.add((includeLo) ? ge(hiPropertyName, lo)
 				                 : gt(hiPropertyName, lo));
-		} else if (hi != null) {
+		} else {
 			return Restrictions
 				.disjunction()
 				.add(getIsInRangeCriterion(loPropertyName, hiPropertyName, hi, includeLo, includeHi))
@@ -150,8 +150,6 @@ public final class CriteriaTool {
 				.add((includeLo) ? le(hiPropertyName, hi)
 				                 : lt(hiPropertyName, hi));
 		}
-
-		throw new IllegalArgumentException("lo, hi 값이 Overlap 되는지 판단할 수 없습니다.");
 	}
 
 	/**

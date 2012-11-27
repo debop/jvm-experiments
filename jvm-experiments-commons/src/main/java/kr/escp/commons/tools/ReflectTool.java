@@ -59,8 +59,8 @@ public final class ReflectTool {
 	public static <T> Class<T> getGenericParameterType(Object x, int index) throws UnsupportedOperationException {
 		shouldNotBeNull(x, "x");
 
-		if (ReflectTool.log.isDebugEnabled())
-			ReflectTool.log.debug(String.format("인스턴스 %s의 %d번째 제너릭 인자 수형을 찾습니다.", x, index));
+		if (log.isDebugEnabled())
+			log.debug("인스턴스 [{}]의 [{}] 번째 제너릭 인자 수형을 찾습니다.", x, index);
 
 		Type[] types = getParameterTypes(x);
 
@@ -85,7 +85,8 @@ public final class ReflectTool {
 			for (Field field : fields)
 				helper.add(field.getName(), field.get(obj));
 		} catch (IllegalAccessException ignored) {
-			ReflectTool.log.warn("필드 정보를 얻는데 실패했습니다.", ignored);
+			if (log.isWarnEnabled())
+				log.warn("필드 정보를 얻는데 실패했습니다.", ignored);
 		}
 		return helper.toString();
 	}

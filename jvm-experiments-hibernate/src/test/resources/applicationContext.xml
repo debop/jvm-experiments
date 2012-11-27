@@ -21,6 +21,14 @@
 		</property>
 	</bean>
 
+	<bean id="hibernate.repository" class="kr.ecsp.data.hibernate.repository.HibernateRepositoryImpl" scope="prototype">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="hibernate.dao.factory" class="kr.ecsp.data.hibernate.repository.HibernateDaoFactory">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>

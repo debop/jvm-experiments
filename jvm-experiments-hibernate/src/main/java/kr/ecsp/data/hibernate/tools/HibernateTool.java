@@ -22,8 +22,6 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.hibernate.type.ObjectType;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +36,7 @@ import static kr.escp.commons.Guard.firstNotNull;
 public class HibernateTool {
 
 	private static SessionFactory sessionFactory;
-	private static Context jndiContext;
+	//private static Context jndiContext;
 
 	static {
 		buildSessionFactory();
@@ -65,7 +63,7 @@ public class HibernateTool {
 
 			registerListeners(sessionFactory);
 
-			jndiContext = new InitialContext();
+			//jndiContext = new InitialContext();
 
 			if (log.isInfoEnabled())
 				log.info("새로운 SessionFactory를 생성했습니다.");
@@ -196,7 +194,7 @@ public class HibernateTool {
 	public static Criteria setPaging(Criteria criteria, Integer firstResult, Integer maxResults) {
 		Guard.shouldNotBeNull(criteria, "criteria");
 
-		if (firstResult != null && firstResult > 0)
+		if (firstResult != null && firstResult >= 0)
 			criteria.setFirstResult(firstResult);
 
 		if (maxResults != null && maxResults > 0)
@@ -208,7 +206,7 @@ public class HibernateTool {
 	public static Query setPaging(Query query, Integer firstResult, Integer maxResults) {
 		Guard.shouldNotBeNull(query, "query");
 
-		if (firstResult != null && firstResult > 0)
+		if (firstResult != null && firstResult >= 0)
 			query.setFirstResult(firstResult);
 		if (maxResults != null && maxResults > 0)
 			query.setMaxResults(maxResults);

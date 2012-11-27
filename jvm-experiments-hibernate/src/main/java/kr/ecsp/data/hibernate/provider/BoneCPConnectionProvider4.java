@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.hooks.ConnectionHook;
+import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -55,29 +56,20 @@ public class BoneCPConnectionProvider4 implements ConnectionProvider {
 
 	@Override
 	public Connection getConnection() throws SQLException {
+		if (pool == null)
+			throw new RuntimeException("configure을 먼저 수행하여 BonCP 인스턴스를 생성해야 합니다.");
 
-		Connection connection = null;
-		try {
-			connection = pool.getConnection();
+		@Cleanup
+		Connection connection = pool.getConnection();
 
-			if (isolation != null && connection.getTransactionIsolation() != isolation) {
-				connection.setTransactionIsolation(isolation);
-			}
-			if (connection.getAutoCommit() != autocommit) {
-				connection.setAutoCommit(autocommit);
-			}
-			return connection;
-
-		} catch (SQLException e) {
-			try {
-				if (!connection.isClosed())
-					connection.close();
-			} catch (Exception e2) {
-				BoneCPConnectionProvider4.log
-				                         .warn("Setting connection properties failed and closing this connection failed again", e);
-			}
-			throw e;
+		if (isolation != null && connection.getTransactionIsolation() != isolation) {
+			connection.setTransactionIsolation(isolation);
 		}
+		if (connection.getAutoCommit() != autocommit) {
+			connection.setAutoCommit(autocommit);
+		}
+		return connection;
+
 	}
 
 	@Override

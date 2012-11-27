@@ -38,13 +38,5 @@
 
 		<!-- join component -->
 		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml"/>
-
-		<mapping package="org.hibernate.example.domain.model"/>
-
-		<!-- Hibernate 3.x 형식이라 Hibernate 4.x 에서는 다른 방식을 사용해야 한다. -->
-		<!-- http://stackoverflow.com/questions/8616146/eventlisteners-using-hibernate-4-0-with-spring-3-1-0-release -->
-		<!--<listener type="pre-insert" class="kr.ecsp.data.hibernate.listener.UpdateTimestampedEventListener" />-->
-		<!--<listener type="pre-update" class="kr.ecsp.data.hibernate.listener.UpdateTimestampedEventListener" />-->
-
 	</session-factory>
 </hibernate-configuration>

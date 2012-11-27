@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static java.lang.String.format;
 
 /**
  * Hibernate 엔티티 정보를 관리하기 위한 Utility Class 입니다.
@@ -60,19 +59,18 @@ public class EntityTool {
 			throw new IllegalArgumentException("Child and Paremt are same.");
 
 		if (child.getDescendents().contains(parent))
-			throw new IllegalStateException("child 가 parent를 이미 자손으로 가지고 있습니다.");
+			throw new IllegalArgumentException("child 가 parent를 이미 자손으로 가지고 있습니다.");
 
 		if (Sets.intersection(parent.getAncestors(), child.getDescendents()).size() > 0)
-			throw new IllegalStateException("parent의 조상과 child의 조상이 같은 넘이 있으면 안됩니다.");
+			throw new IllegalArgumentException("parent의 조상과 child의 조상이 같은 넘이 있으면 안됩니다.");
 	}
 
 	public static <T extends HierarchyEntity<T>> void setHierarchy(T child, T oldParent, T newParent) {
 		Guard.shouldNotBeNull(child, "child");
 
 		if (log.isDebugEnabled())
-			log.debug(format("현재 노드의 부모를 변경하고, 계층구조 정보를 변경합니다..." +
-				                 "child=[%s], oldParent=[%s], newParent=[%s]",
-			                 child, oldParent, newParent));
+			log.debug("현재 노드의 부모를 변경하고, 계층구조 정보를 변경합니다... child=[{}], oldParent=[{}], newParent=[{}]",
+			          child, oldParent, newParent);
 
 		if (oldParent != null)
 			removeHierarchy(child, oldParent);
@@ -86,7 +84,7 @@ public class EntityTool {
 			return;
 
 		if (log.isDebugEnabled())
-			log.debug(format("노드의 부모 및 조상을 설정합니다. child=[%s], parent=[%s]", child, parent));
+			log.debug("노드의 부모 및 조상을 설정합니다. child=[{}], parent=[{}]", child, parent);
 
 		parent.getDescendents().add(child);
 		parent.getDescendents().addAll(child.getDescendents());
@@ -107,7 +105,7 @@ public class EntityTool {
 		Guard.shouldNotBeNull(child, "child");
 
 		if (log.isDebugEnabled())
-			log.debug(format("노드의 부모 및 조상을 제거합니다. child=[%s], parent=[%s]", child, parent));
+			log.debug("노드의 부모 및 조상을 제거합니다. child=[{}], parent=[{}]", child, parent);
 
 
 		child.getAncestors().remove(parent);
@@ -173,9 +171,9 @@ public class EntityTool {
 	public static <T extends LocaleEntity<TLocaleValue>, TLocaleValue extends LocaleValue>
 	List<T> containsLocale(Class<T> entityClass, Locale locale) {
 
-		String hql = format(GET_LIST_BY_LOCALE_KEY, entityClass.getName());
+		String hql = String.format(GET_LIST_BY_LOCALE_KEY, entityClass.getName());
 		if (log.isDebugEnabled())
-			log.debug("Locale[" + locale + "]를 가지는 엔티티 조회 hql=" + hql);
+			log.debug("Locale[{}]를 가지는 엔티티 조회 hql=[{}]", locale, hql);
 
 
 //		HibernateRepository<T> repository = HbRepositoryFactory.get(entityClass);
@@ -211,7 +209,7 @@ public class EntityTool {
 	public static <T extends MetaEntity> List<T> containsMetaKey(Class<T> entityClass, String key) {
 		Guard.shouldNotBeWhiteSpace(key, "key");
 
-		String hql = format(GET_LIST_BY_META_KEY, entityClass.getName());
+		String hql = String.format(GET_LIST_BY_META_KEY, entityClass.getName());
 
 		if (log.isDebugEnabled())
 			log.debug("메타데이타 키 [{}] 를 가지는 엔티티 조회 hql=[{}]", key, hql);
@@ -225,7 +223,7 @@ public class EntityTool {
 	public static <T extends MetaEntity> List<T> containsMetaValue(Class<T> entityClass, String value) {
 		Guard.shouldNotBeWhiteSpace(value, "value");
 
-		String hql = format(GET_LIST_BY_META_VALUE, entityClass.getName());
+		String hql = String.format(GET_LIST_BY_META_VALUE, entityClass.getName());
 		if (log.isDebugEnabled())
 			log.debug("메타데이타 value[{}]를 가지는 엔티티 조회 hql=[{}]", value, hql);
 

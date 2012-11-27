@@ -3,10 +3,7 @@ package kr.ecsp.data.hibernate.repository;
 import kr.ecsp.data.domain.HibernateParameter;
 import kr.ecsp.data.domain.model.StatefulEntity;
 import kr.escp.commons.collection.PagedList;
-import org.hibernate.Criteria;
-import org.hibernate.LockMode;
-import org.hibernate.Query;
-import org.hibernate.ReplicationMode;
+import org.hibernate.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -22,67 +19,71 @@ import java.util.List;
  * Date: 12. 9. 14.
  */
 
-public interface HibernateRepository<E extends StatefulEntity> extends Serializable {
+public interface HibernateRepository extends Serializable {
 
-	Class<E> getEntityClass();
+	Session getCurrentSession();
 
-	E get(Serializable id);
+	Object get(Class<? extends StatefulEntity> entityType, Serializable id);
 
-	E get(Serializable id, LockMode lockMode);
+	Object get(Class<? extends StatefulEntity> entityType, Serializable id, LockMode lockMode);
 
-	E load(Serializable id);
+	Object load(Class<? extends StatefulEntity> entityType, Serializable id);
 
-	E load(Serializable id, LockMode lockMode);
+	Object load(Class<? extends StatefulEntity> entityType, Serializable id, LockMode lockMode);
 
-	List<E> getIn(Collection ids);
+	List getIn(Class<? extends StatefulEntity> entityType, Collection ids);
 
-	List<E> getIn(Object[] ids);
+	List getIn(Class<? extends StatefulEntity> entityType, Object[] ids);
 
-	List<E> getList(DetachedCriteria dc);
+	List getList(DetachedCriteria dc);
 
-	List<E> getList(DetachedCriteria dc, int firstResult, int maxResults, Order... orders);
+	List getList(DetachedCriteria dc, int firstResult, int maxResults, Order... orders);
 
-	List<E> getList(Query query, HibernateParameter... params);
+	List getList(Query query, HibernateParameter... params);
 
-	List<E> getList(Query query, int firstResult, int maxResults, HibernateParameter... params);
+	List getList(Query query, int firstResult, int maxResults, HibernateParameter... params);
 
-	List<E> getList(int firstResult, int maxResults, Order[] orders, Criterion... criterions);
+	List getList(Class<? extends StatefulEntity> entityType,
+	             int firstResult,
+	             int maxResults,
+	             Order[] orders,
+	             Criterion... criterions);
 
-	List<E> getListByHql(String hql, HibernateParameter... params);
+	List getListByHql(String hql, HibernateParameter... params);
 
-	List<E> getListByHql(String hql, int firstResult, int maxResults, HibernateParameter... params);
+	List getListByHql(String hql, int firstResult, int maxResults, HibernateParameter... params);
 
-	List<E> getListByNamedQuery(final String namedQuery, HibernateParameter... params);
+	List getListByNamedQuery(final String namedQuery, HibernateParameter... params);
 
-	List<E> getListByNamedQuery(final String namedQuery, int firstResult, int maxResults, HibernateParameter... params);
+	List getListByNamedQuery(final String namedQuery, int firstResult, int maxResults, HibernateParameter... params);
 
-	PagedList<E> getPagedList(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
+	PagedList getPagedList(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
 
-	PagedList<E> getPagedList(final Query query, final int pageNo, final int pageSize, final HibernateParameter... params);
+	PagedList getPagedList(final Query query, final int pageNo, final int pageSize, final HibernateParameter... params);
 
-	PagedList<E> getPagedListByHql(final String hql, final int pageNo, final int pageSize,
-	                               final HibernateParameter... params);
+	PagedList getPagedListByHql(final String hql, final int pageNo, final int pageSize,
+	                            final HibernateParameter... params);
 
-	PagedList<E> getPagedListByNamedQuery(final String namedQuery, final int pageNo, final int pageSize,
-	                                      final HibernateParameter... params);
+	PagedList getPagedListByNamedQuery(final String namedQuery, final int pageNo, final int pageSize,
+	                                   final HibernateParameter... params);
 
-	E getFirst(DetachedCriteria dc, Order... orders);
+	Object getFirst(DetachedCriteria dc, Order... orders);
 
-	E getFirst(Criteria criteria, Order... orders);
+	Object getFirst(Criteria criteria, Order... orders);
 
-	E getFirst(Query query, HibernateParameter... params);
+	Object getFirst(Query query, HibernateParameter... params);
 
-	E getFirstByHql(String hql, HibernateParameter... params);
+	Object getFirstByQueryString(String hql, HibernateParameter... params);
 
-	E getFirstByNamedQuery(String namedQuery, HibernateParameter... params);
+	Object getFirstByNamedQuery(String namedQuery, HibernateParameter... params);
 
-	E getUnique(DetachedCriteria dc);
+	Object getUnique(DetachedCriteria dc);
 
-	E getUnique(Query query, HibernateParameter... params);
+	Object getUnique(Query query, HibernateParameter... params);
 
-	E getUniqueByHql(String hql, HibernateParameter... params);
+	Object getUniqueByHql(String hql, HibernateParameter... params);
 
-	E getUniqueByNamedQuery(String namedQuery, HibernateParameter... params);
+	Object getUniqueByNamedQuery(String namedQuery, HibernateParameter... params);
 
 	boolean exists(DetachedCriteria dc);
 
@@ -93,6 +94,8 @@ public interface HibernateRepository<E extends StatefulEntity> extends Serializa
 	boolean existsByHql(String hql, HibernateParameter... params);
 
 	boolean existsByNamedQuery(String sqlString, HibernateParameter... params);
+
+	long count(Class<? extends StatefulEntity> entityType);
 
 	long count(DetachedCriteria dc);
 
@@ -121,36 +124,29 @@ public interface HibernateRepository<E extends StatefulEntity> extends Serializa
 	                                     ProjectionList projectionList,
 	                                     Criteria criteria);
 
-	void merge(E entity);
+	void merge(StatefulEntity entity);
 
-	void persist(E entity);
+	void persist(StatefulEntity entity);
 
-	void replicate(E entity, ReplicationMode replicationMode);
+	void replicate(StatefulEntity entity, ReplicationMode replicationMode);
 
-	Serializable save(E entity);
+	Serializable save(StatefulEntity entity);
 
-	void saveOrUpdate(E entity);
+	void saveOrUpdate(StatefulEntity entity);
 
-	void update(E entity);
+	void update(StatefulEntity entity);
 
-	void delete(E entity);
+	void delete(StatefulEntity entity);
 
-	void deleteById(Serializable id);
+	void deleteById(Class<? extends StatefulEntity> entityType, Serializable id);
 
-	void deleteById(Serializable id, LockMode lockMode);
+	void deleteById(Class<? extends StatefulEntity> entityType, Serializable id, LockMode lockMode);
 
-	void deleteAll();
+	void deleteAll(Class<? extends StatefulEntity> entityType);
 
-	void deleteList(DetachedCriteria dc);
-
-	void deleteList(Query query, HibernateParameter... params);
+	void deleteList(Collection<StatefulEntity> entities);
 
 	int executeUpdate(String hql, HibernateParameter... params);
 
 	int executeUpdateWithTx(String hql, HibernateParameter... params);
-
-
-	DetachedCriteria createDetachedCriteria();
-
-	DetachedCriteria createDetachedCriteria(String alias);
 }
