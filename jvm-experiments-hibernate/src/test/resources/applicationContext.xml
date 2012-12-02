@@ -5,9 +5,9 @@
 
 	<jdbc:embedded-database id="dataSource" type="HSQL"/>
 
-	<bean id="updateTimestampedInterceptor" class="kr.ecsp.data.hibernate.interceptor.UpdateTimestampedInterceptor"/>
+	<bean id="updateTimestampedInterceptor" class="kr.kth.data.hibernate.interceptor.UpdateTimestampedInterceptor"/>
 
-	<bean id="updateTimestampedListener" class="kr.ecsp.data.hibernate.listener.UpdateTimestampedEventListener"/>
+	<bean id="updateTimestampedListener" class="kr.kth.data.hibernate.listener.UpdateTimestampedEventListener"/>
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
@@ -21,7 +21,7 @@
 		</property>
 	</bean>
 
-	<bean id="hibernate.repository" class="kr.ecsp.data.hibernate.repository.HibernateRepositoryImpl" scope="prototype">
+	<bean id="hibernate.repository" class="kr.kth.data.hibernate.repository.HibernateRepositoryImpl" scope="prototype">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
@@ -29,9 +29,9 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<bean id="hibernate.dao.factory" class="kr.ecsp.data.hibernate.repository.HibernateDaoFactory"/>
+	<bean id="hibernate.dao.factory" class="kr.kth.data.hibernate.repository.HibernateDaoFactory"/>
 
-	<bean id="unitOfWork" class="kr.ecsp.data.hibernate.UnitOfWork">
+	<bean id="unitOfWork" class="kr.kth.data.hibernate.unitofwork.UnitOfWorkManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 </beans>

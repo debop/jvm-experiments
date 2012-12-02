@@ -1,7 +1,7 @@
 package org.jpa.example.domain.model;
 
 import com.google.common.base.Objects;
-import kr.ecsp.data.domain.model.StatefulEntityBase;
+import kr.kth.data.domain.model.StatefulEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;

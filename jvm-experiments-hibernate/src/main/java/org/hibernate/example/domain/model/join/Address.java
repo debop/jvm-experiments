@@ -1,7 +1,7 @@
 package org.hibernate.example.domain.model.join;
 
 import com.google.common.base.Objects;
-import kr.escp.commons.ValueObjectBase;
+import kr.kth.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

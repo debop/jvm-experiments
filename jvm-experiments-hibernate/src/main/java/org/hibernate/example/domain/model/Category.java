@@ -1,8 +1,8 @@
 package org.hibernate.example.domain.model;
 
 import com.google.common.base.Objects;
-import kr.ecsp.data.domain.model.EntityBase;
-import kr.ecsp.data.domain.model.UpdateTimestampedEntity;
+import kr.kth.data.domain.model.EntityBase;
+import kr.kth.data.domain.model.UpdateTimestampedEntity;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,6 @@
 package org.hibernate.example.domain;
 
-import kr.ecsp.data.hibernate.tools.HibernateTool;
+import kr.kth.data.hibernate.tools.HibernateTool;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
