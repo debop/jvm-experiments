@@ -1,45 +1,40 @@
 package kr.kth.data.hibernate.unitofwork;
 
-import kr.kth.commons.Action1;
-import kr.kth.commons.tools.With;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.springframework.transaction.TransactionDefinition;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static kr.kth.commons.Guard.shouldNotBeNull;
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 /**
- * kr.kth.data.hibernate.unitofwork.UnitOfWorkAdapter
+ * {@link UnitOfWork} 의 가장 기본적인 구현 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 29.
  */
 @Slf4j
-public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase implements UnitOfWorkImplementor {
+public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
 
-	@Getter @Setter private String name;
 	@Getter private final UnitOfWorkFactory factory;
 	@Getter private final Session session;
 	@Getter private final UnitOfWorkAdapter previous;
 	private AtomicInteger usageCount = new AtomicInteger(-1);
 	protected boolean closed = false;
 
-	public UnitOfWorkAdapter(String name, UnitOfWorkFactory factory, Session session) {
-		this(name, factory, session, null);
+	public UnitOfWorkAdapter(UnitOfWorkFactory factory, Session session) {
+		this(factory, session, null);
 	}
 
-	public UnitOfWorkAdapter(String name, UnitOfWorkFactory factory, Session session, UnitOfWorkAdapter previous) {
+	public UnitOfWorkAdapter(UnitOfWorkFactory factory, Session session, UnitOfWorkAdapter previous) {
 		shouldNotBeNull(factory, "factory");
 		shouldNotBeNull(session, "session");
 
 		if (log.isDebugEnabled())
-			log.debug("UnitOfWorkAdapter를 생성합니다. name=[{}], factory=[{}], session=[{}], previous=[{}]",
-			          name, factory, session, previous);
+			log.debug("UnitOfWorkAdapter를 생성합니다. factory=[{}], session=[{}], previous=[{}]",
+			          factory, session, previous);
 
-		this.name = name;
 		this.factory = factory;
 		this.session = session;
 		this.previous = previous;
@@ -74,7 +69,8 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase implements UnitOfWo
 
 	@Override
 	public boolean isInActiveTransaction() {
-		return session.getTransaction().isActive();
+		return session.getTransaction() != null &&
+			session.getTransaction().isActive();
 	}
 
 	@Override
@@ -107,31 +103,19 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase implements UnitOfWo
 				return;
 			}
 
-			final UnitOfWorkAdapter current = this;
 			if (factory != null) {
-				With.tryAction(new Action1<UnitOfWorkAdapter>() {
-					@Override
-					public void perform(UnitOfWorkAdapter unitOfWork) {
-						factory.closeUnitOfWork(unitOfWork);
-					}
-				}, this);
+				try { factory.closeUnitOfWork(this); } catch (Exception ignored) {}
 			}
 			if (session != null) {
-				With.tryAction(new Action1<Session>() {
-					@Override
-					public void perform(Session session) {
-						session.close();
-					}
-				}, session);
+				try { session.close(); } catch (Exception ignored) {}
 			}
 
 			if (log.isDebugEnabled())
 				log.debug("UnitOfWorkAdatper 를 close 했습니다!!!");
 
 		} catch (Exception e) {
-			if (log.isErrorEnabled())
-				log.error("UnitOfWorkAdapter close 시에 예외가 발생했습니다.", e);
-			throw new RuntimeException(e);
+			if (log.isWarnEnabled())
+				log.warn("UnitOfWorkAdapter close 시에 예외가 발생했습니다. 단 예외를 무시합니다.", e);
 		} finally {
 			closed = true;
 		}

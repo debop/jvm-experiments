@@ -1,6 +1,6 @@
 package kr.kth.commons.period;
 
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.period.timerange.TimeRange;
 
 import java.sql.Timestamp;

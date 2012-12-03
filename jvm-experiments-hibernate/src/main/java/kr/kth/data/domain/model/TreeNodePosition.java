@@ -1,8 +1,8 @@
 package kr.kth.data.domain.model;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.Guard;
-import kr.kth.commons.ValueObjectBase;
+import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.ValueObjectBase;
 import kr.kth.commons.tools.HashTool;
 import lombok.Getter;
 import lombok.Setter;

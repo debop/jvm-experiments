@@ -53,7 +53,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onDelete메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTaskTool.New(new Callable<Void>() {
+			FutureTask<Void> task = AsyncTaskTool.newTask(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					interceptor.onDelete(entity1, id1, state1, propertyNames1, types1);
@@ -94,7 +94,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTaskTool.New(new Callable<Boolean>() {
+			FutureTask<Boolean> task = AsyncTaskTool.newTask(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
 					return interceptor.onFlushDirty(entity1,
@@ -136,7 +136,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onLoad 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTaskTool.New(new Callable<Boolean>() {
+			FutureTask<Boolean> task = AsyncTaskTool.newTask(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
 					return interceptor.onLoad(entity1, id1, state1, propertyNames1, types1);
@@ -172,7 +172,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onSave 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTaskTool.New(new Callable<Boolean>() {
+			FutureTask<Boolean> task = AsyncTaskTool.newTask(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
 					return interceptor.onSave(entity1, id1, state1, propertyNames1, types1);
@@ -205,7 +205,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 postFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTaskTool.New(new Callable<Void>() {
+			FutureTask<Void> task = AsyncTaskTool.newTask(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					interceptor.postFlush(entities1);
@@ -237,7 +237,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 preFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTaskTool.New(new Callable<Void>() {
+			FutureTask<Void> task = AsyncTaskTool.newTask(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					interceptor.preFlush(entities1);

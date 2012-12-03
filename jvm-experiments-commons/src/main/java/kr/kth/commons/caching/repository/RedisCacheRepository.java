@@ -1,6 +1,6 @@
 package kr.kth.commons.caching.repository;
 
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static java.lang.String.format;
-import static kr.kth.commons.Guard.shouldNotBeWhiteSpace;
+import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 
 /**
  * Redis를 캐시로 사용하는 Repository 입니다.

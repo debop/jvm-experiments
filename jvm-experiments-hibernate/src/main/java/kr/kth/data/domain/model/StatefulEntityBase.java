@@ -1,7 +1,7 @@
 package kr.kth.data.domain.model;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.ValueObjectBase;
+import kr.kth.commons.base.ValueObjectBase;
 
 /**
  * JPA 기본 도메인 엔티티의 추상화 클래스입니다.

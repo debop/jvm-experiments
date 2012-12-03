@@ -1,11 +1,17 @@
 package kr.kth.commons.tools;
 
+import com.google.common.collect.Lists;
+import kr.kth.commons.parallelism.AsyncTaskTool;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 
-import static kr.kth.commons.Guard.shouldNotBeNull;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 
 /**
@@ -46,5 +52,37 @@ public final class MapperTool {
 		shouldNotBeNull(destination, "destination");
 
 		mapper.map(source, destination);
+	}
+
+	public static <T> List<T> mapList(Iterable<T> sources, Class<T> destinationClass) {
+		List<T> destinations = Lists.newArrayList();
+
+		for (T source : sources) {
+			destinations.add(mapper.map(source, destinationClass));
+		}
+		return destinations;
+	}
+
+	public static <T> Future<T> mapAsync(final Object source, final Class<T> destinationClass) {
+		return AsyncTaskTool.startNew(new Callable<T>() {
+			@Override
+			public T call() throws Exception {
+				return mapper.map(source, destinationClass);
+			}
+		});
+	}
+
+	public static <T> Future<List<T>> mapListAsync(final Iterable<T> sources, final Class<T> destinationClass) {
+
+		return AsyncTaskTool.startNew(new Callable<List<T>>() {
+			@Override
+			public List<T> call() throws Exception {
+				List<T> destinations = Lists.newArrayList();
+				for (T source : sources) {
+					destinations.add(mapper.map(source, destinationClass));
+				}
+				return destinations;
+			}
+		});
 	}
 }

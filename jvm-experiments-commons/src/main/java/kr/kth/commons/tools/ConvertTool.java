@@ -2,6 +2,9 @@ package kr.kth.commons.tools;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Date;
+
+
 /**
  * pudding.pudding.commons.core.tool.ConvertTool
  * User: sunghyouk.bae@gmail.com
@@ -74,6 +77,22 @@ public class ConvertTool {
 		try {
 			return Integer.valueOf(toString(value));
 		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+	public static Date toDate(Object value) {
+		return toDate(value, null);
+	}
+
+	public static Date toDate(Object value, Date defaultValue) {
+		try {
+			if (value instanceof String) {
+				return java.sql.Date.valueOf((String) value);
+			} else {
+				return (Date) value;
+			}
+		} catch (Exception ignored) {
 			return defaultValue;
 		}
 	}

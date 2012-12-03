@@ -1,6 +1,6 @@
 package kr.kth.commons.collection;
 
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import lombok.Getter;
 
 import java.util.List;

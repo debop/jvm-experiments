@@ -1,17 +1,16 @@
 package kr.kth.data.hibernate.repository;
 
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.collection.PagedList;
 import kr.kth.commons.collection.SimplePagedList;
 import kr.kth.commons.tools.ArrayTool;
-import kr.kth.commons.tools.ReflectTool;
-import kr.kth.data.domain.HibernateParameter;
+import kr.kth.commons.tools.StringTool;
 import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.tools.CriteriaTool;
 import kr.kth.data.hibernate.tools.HibernateTool;
 import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
@@ -43,17 +42,13 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 
 	String entityName;
 
-	// TODO: 이 값은 RCL처럼 Singleton으로 제공되도록 해야 한다.
-	@Setter
-	private UnitOfWorkManager unitOfWork;
-
 	public HibernateDaoImpl(Class<E> entityClass) {
 		this.entityClass = entityClass;
 		this.entityName = this.entityClass.getName();
 	}
 
 	private Session getSession() {
-		return unitOfWork.getSession();
+		return UnitOfWorkManager.getCurrentSession();
 	}
 
 	@Override
@@ -159,7 +154,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 		Guard.shouldNotBeEmpty(queryString, "queryString");
 		if (log.isDebugEnabled())
 			log.debug("쿼리문을 실행합니다. queryString=[{}], pageNo=[{}], pageSize=[{}],parameters=[{}]",
-			          queryString, firstResult, maxResults, ReflectTool.listToString(parameters));
+			          queryString, firstResult, maxResults, StringTool.listToString(parameters));
 
 		Query query = getSession().createQuery(queryString);
 		return find(query, firstResult, maxResults, parameters);
@@ -175,7 +170,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 		Guard.shouldNotBeEmpty(queryName, "queryName");
 		if (log.isDebugEnabled())
 			log.debug("NamedQuery를 로드하여 실행합니다. queryName=[{}], pageNo=[{}], pageSize=[{}], parameters=[{}]",
-			          queryName, firstResult, maxResults, ReflectTool.listToString(parameters));
+			          queryName, firstResult, maxResults, StringTool.listToString(parameters));
 
 		Query query = getSession().getNamedQuery(queryName);
 		return find(query, firstResult, maxResults, parameters);
@@ -256,7 +251,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 		if (log.isDebugEnabled())
 			log.debug("쿼리문을 수행하여 유일한 값을 조회합니다. 없거나 복수개이면 예외가 발생합니다. " +
 				          "queryString=[{}], parameters=[{}]",
-			          queryString, ReflectTool.listToString(parameters));
+			          queryString, StringTool.listToString(parameters));
 
 		Query query = getSession().createQuery(queryString);
 		return findOne(query, parameters);
@@ -267,7 +262,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 		if (log.isDebugEnabled())
 			log.debug("쿼리문을 수행하여 유일한 값을 조회합니다. 없거나 복수개이면 예외가 발생합니다. " +
 				          "queryName=[{}], parameters=[{}]",
-			          queryName, ReflectTool.listToString(parameters));
+			          queryName, StringTool.listToString(parameters));
 
 		Query query = getSession().getNamedQuery(queryName);
 		return findOne(query, parameters);
@@ -304,14 +299,14 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	@Override
 	public E findFirstByQueryString(String queryString, HibernateParameter... parameters) {
 		if (log.isDebugEnabled())
-			log.debug("쿼리문 실행. queryString=[{}], parameters=[{}]", queryString, ReflectTool.listToString(parameters));
+			log.debug("쿼리문 실행. queryString=[{}], parameters=[{}]", queryString, StringTool.listToString(parameters));
 		return findFirst(getSession().createQuery(queryString), parameters);
 	}
 
 	@Override
 	public E findFirstByNamedQuery(String queryName, HibernateParameter... parameters) {
 		if (log.isDebugEnabled())
-			log.debug("쿼리문 실행. queryName=[{}], parameters=[{}]", queryName, ReflectTool.listToString(parameters));
+			log.debug("쿼리문 실행. queryName=[{}], parameters=[{}]", queryName, StringTool.listToString(parameters));
 		return findFirst(getSession().getNamedQuery(queryName), parameters);
 	}
 
@@ -443,7 +438,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	public int executeUpdateByQueryString(String queryString, HibernateParameter... parameters) {
 		if (log.isDebugEnabled())
 			log.debug("Update나 Delete용 쿼리를 수행합니다. queryString=[{}], parameters=[{}]",
-			          queryString, ReflectTool.listToString(parameters));
+			          queryString, StringTool.listToString(parameters));
 
 		Query query = getSession().createQuery(queryString);
 		HibernateTool.setParameters(query, parameters);
@@ -455,7 +450,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	public int executeUpdateByNamedQuery(String queryName, HibernateParameter... parameters) {
 		if (log.isDebugEnabled())
 			log.debug("Update나 Delete용 쿼리를 수행합니다. queryName=[{}], parameters=[{}]",
-			          queryName, ReflectTool.listToString(parameters));
+			          queryName, StringTool.listToString(parameters));
 
 		Query query = getSession().getNamedQuery(queryName);
 		HibernateTool.setParameters(query, parameters);

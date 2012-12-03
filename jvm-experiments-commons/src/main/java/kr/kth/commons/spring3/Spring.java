@@ -1,9 +1,9 @@
 package kr.kth.commons.spring3;
 
-import kr.kth.commons.Action0;
-import kr.kth.commons.AutoCloseableAction;
-import kr.kth.commons.Guard;
-import kr.kth.commons.tools.ReflectTool;
+import kr.kth.commons.base.Action0;
+import kr.kth.commons.base.AutoCloseableAction;
+import kr.kth.commons.base.Guard;
+import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,7 +17,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.Map;
 import java.util.Stack;
 
-import static kr.kth.commons.Guard.shouldNotBeNull;
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 /**
  * Spring Framework 의 Dependency Injection을 담당하는 클래스입니다.
@@ -79,7 +79,7 @@ public final class Spring {
 	public static synchronized void init(String... resourceLocations) {
 		if (log.isDebugEnabled())
 			log.debug("Spring Context 를 초기화합니다. resourceLocations=[{}]",
-			          ReflectTool.listToString(resourceLocations));
+			          StringTool.listToString(resourceLocations));
 		init(new GenericXmlApplicationContext(resourceLocations));
 	}
 
@@ -178,7 +178,7 @@ public final class Spring {
 
 	public static synchronized Object getBean(String name, Object... args) {
 		if (log.isDebugEnabled())
-			log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanName=[{}], args=[{}]", name, ReflectTool.listToString(args));
+			log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanName=[{}], args=[{}]", name, StringTool.listToString(args));
 
 		return getContext().getBean(name, args);
 	}

@@ -1,7 +1,7 @@
 package kr.kth.commons.cryptography.symmetric;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.tools.ArrayTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

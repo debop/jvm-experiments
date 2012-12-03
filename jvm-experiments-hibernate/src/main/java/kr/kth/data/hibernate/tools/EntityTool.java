@@ -1,14 +1,13 @@
 package kr.kth.data.hibernate.tools;
 
 import com.google.common.collect.Sets;
-import kr.kth.commons.DataObject;
-import kr.kth.commons.Func1;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.DataObject;
+import kr.kth.commons.base.Func1;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.json.GsonSerializer;
 import kr.kth.commons.json.JsonSerializer;
 import kr.kth.commons.parallelism.Parallels;
 import kr.kth.commons.tools.MapperTool;
-import kr.kth.commons.tools.ReflectTool;
 import kr.kth.commons.tools.StringTool;
 import kr.kth.data.domain.model.*;
 import lombok.Getter;
@@ -45,7 +44,7 @@ public class EntityTool {
 
 
 	public static String entityToString(DataObject entity) {
-		return (entity != null) ? ReflectTool.objectToString(entity) : StringTool.NULL_STR;
+		return (entity != null) ? StringTool.objectToString(entity) : StringTool.NULL_STR;
 	}
 
 	public static String asGsonText(DataObject entity) throws Exception {

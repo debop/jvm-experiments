@@ -10,7 +10,7 @@ import net.sf.ehcache.Element;
 import java.util.Arrays;
 import java.util.Map;
 
-import static kr.kth.commons.Guard.shouldNotBeWhiteSpace;
+import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 
 
 /**

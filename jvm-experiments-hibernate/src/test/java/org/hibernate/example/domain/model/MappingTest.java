@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.example.domain.AbstractHibernateTest;
-import org.hibernate.example.domain.model.join.Customer;
+import org.hibernate.example.domain.model.join.Join_Customer;
 import org.hibernate.metadata.ClassMetadata;
 import org.junit.Assert;
 import org.junit.Test;
@@ -109,8 +109,8 @@ public class MappingTest extends AbstractHibernateTest {
 
 	@Test
 	public void joinEntityTest() {
-		org.hibernate.example.domain.model.join.Customer customer =
-			new org.hibernate.example.domain.model.join.Customer("debop", "debop@kthcorp.com");
+		Join_Customer customer =
+			new Join_Customer("debop", "debop@kthcorp.com");
 
 		customer.getAddress().setCity("Seoul");
 		customer.getAddress().setZipcode("131-101");
@@ -119,11 +119,11 @@ public class MappingTest extends AbstractHibernateTest {
 		session.flush();
 		session.clear();
 
-		Customer loaded =
-			(Customer) session.createCriteria(org.hibernate.example.domain.model.join.Customer.class)
-			                  .add(Restrictions.eq("name", customer.getName()))
-			                  .setMaxResults(1)
-			                  .uniqueResult();
+		Join_Customer loaded =
+			(Join_Customer) session.createCriteria(Join_Customer.class)
+			                       .add(Restrictions.eq("name", customer.getName()))
+			                       .setMaxResults(1)
+			                       .uniqueResult();
 
 		Assert.assertNotNull(loaded);
 		Assert.assertEquals(customer.getName(), loaded.getName());

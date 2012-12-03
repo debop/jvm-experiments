@@ -1,10 +1,9 @@
 package kr.kth.data.hibernate.usertype;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.json.JsonSerializer;
 import kr.kth.commons.json.JsonTextObject;
-import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -16,6 +15,8 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static kr.kth.commons.tools.StringTool.ellipsisChar;
 
 /**
  * 속성 정보를 Json 직렬화를 수행해 저장합니다.
@@ -122,8 +123,8 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 			String jsonText = StringType.INSTANCE.nullSafeGet(rs, names[1], session);
 
 			if (log.isDebugEnabled())
-				log.debug(String.format("JsonText 정보를 로드했습니다. className=[{}], jsonText=[{}]", className,
-				                        StringTool.ellipsisChar(jsonText, 80)));
+				log.debug("JsonText 정보를 로드했습니다. className=[{}], jsonText=[{}]",
+				          className, ellipsisChar(jsonText, 80));
 
 			return deserialize(new JsonTextObject(className, jsonText));
 		} catch (Exception ex) {
@@ -146,7 +147,7 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 				JsonTextObject jto = serialize(value);
 
 				if (log.isDebugEnabled())
-					log.debug("객체를 Json 정보로 직렬화하여 저장합니다. jto=" + jto.toString());
+					log.debug("객체를 Json 정보로 직렬화하여 저장합니다. jto=[{}]", jto.toString());
 
 				StringType.INSTANCE.nullSafeSet(st, jto.getClassName(), index, session);
 				StringType.INSTANCE.nullSafeSet(st, jto.getJsonText(), index + 1, session);

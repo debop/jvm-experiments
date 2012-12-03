@@ -5,12 +5,12 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
- * {@link UnitOfWork} 를 구현한 기본 클래스
+ * {@link UnitOfWorkImplementor} 를 구현한 기본 클래스
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 29.
  */
 @Slf4j
-public abstract class UnitOfWorkAdapterBase {
+public abstract class UnitOfWorkAdapterBase implements UnitOfWorkImplementor {
 
 	/**
 	 * 지정된 TransactionDefinition 에 따른 Transaction 하에서 현 Session 정보를 flush 합니다.

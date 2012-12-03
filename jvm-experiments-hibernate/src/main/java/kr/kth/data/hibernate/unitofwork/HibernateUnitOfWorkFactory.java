@@ -1,11 +1,10 @@
 package kr.kth.data.hibernate.unitofwork;
 
-import kr.kth.commons.Guard;
-import kr.kth.commons.Local;
+import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.Local;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -15,13 +14,14 @@ import java.util.Map;
  * Date: 12. 11. 30.
  */
 @Slf4j
-@Component
 public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 
 	public static final String CURRENT_HIBERNATE_SESSION = "hibernateUnitOfWorkFactory.current.hibernate.session";
 
-	private SessionFactory sessionFactory;
-	private Map<String, SessionFactory> sessionFactories;
+	protected final Object syncLock = new Object();
+	protected SessionFactory sessionFactory;
+	protected Map<String, SessionFactory> sessionFactories;
+
 
 	@Override
 	public SessionFactory getSessionFactory() {
@@ -31,7 +31,7 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 	@Override
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		if (log.isInfoEnabled())
-			log.info("SessionFactory를 설정합니다. sessionFactory=[{}]", sessionFactory);
+			log.info("SessionFactory를 설정합니다. factory=[{}]", sessionFactory);
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -55,7 +55,7 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 	@Override
 	public void setCurrentSession(Session session) {
 		if (log.isDebugEnabled())
-			log.debug("현 ThreadContext에서 사용할 Session을 설정합니다.");
+			log.debug("현 ThreadContext에서 사용할 Session을 설정합니다. session=[{}]", session);
 		Local.put(CURRENT_HIBERNATE_SESSION, session);
 	}
 
@@ -66,12 +66,29 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 	}
 
 	@Override
-	public UnitOfWorkImplementor create(SessionFactory sessionFactory, UnitOfWorkImplementor previous) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	public UnitOfWorkImplementor create(SessionFactory factory, UnitOfWorkImplementor previous) {
+		if (log.isDebugEnabled())
+			log.debug("새로운 UnitOfWorkImplementor 인스턴스를 생성합니다... factory=[{}], previous=[{}]",
+			          factory, previous);
+
+		Session session = factory.openSession();
+		Local.put(CURRENT_HIBERNATE_SESSION, session);
+
+		return new UnitOfWorkAdapter(this, session, (UnitOfWorkAdapter) previous);
 	}
 
 	@Override
 	public void closeUnitOfWork(UnitOfWorkImplementor adapter) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		Guard.shouldNotBeNull(adapter, "adapter");
+
+		if (log.isDebugEnabled())
+			log.debug("[{}]를 close 합니다.", adapter.getClass().getName());
+
+		Session session = null;
+		if (adapter.getPrevious() != null)
+			session = adapter.getPrevious().getSession();
+
+		setCurrentSession(session);
+		UnitOfWorkManager.closeUnitOfWork(adapter);
 	}
 }

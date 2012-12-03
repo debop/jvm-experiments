@@ -1,8 +1,8 @@
 package kr.kth.commons.parallelism;
 
 import com.google.common.collect.Lists;
-import kr.kth.commons.Action1;
-import kr.kth.commons.Func1;
+import kr.kth.commons.base.Action1;
+import kr.kth.commons.base.Func1;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.util.NamedThreadFactory;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static kr.kth.commons.Guard.shouldNotBeNull;
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 
 /**

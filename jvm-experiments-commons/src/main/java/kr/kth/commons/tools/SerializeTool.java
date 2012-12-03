@@ -1,15 +1,19 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.BinaryStringFormat;
-import kr.kth.commons.Guard;
-import kr.kth.commons.Serializer;
+import kr.kth.commons.base.BinaryStringFormat;
+import kr.kth.commons.base.Serializer;
 import kr.kth.commons.io.BinarySerializer;
+import kr.kth.commons.parallelism.AsyncTaskTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 /**
  * {@link Serializer} 를 이용한 직렬화/역직렬화를 수행하는 Utility Method 를 제공합니다.
@@ -27,7 +31,7 @@ public final class SerializeTool {
 	 * 객체를 직렬화하여 문자열로 반환합니다.
 	 */
 	public static String serializeAsString(Serializer serializer, Object graph) {
-		Guard.shouldNotBeNull(serializer, "serializer");
+		shouldNotBeNull(serializer, "serializer");
 		if (graph == null)
 			return StringTool.EMPTY_STR;
 
@@ -38,7 +42,7 @@ public final class SerializeTool {
 	 * 직렬화된 문자열을 역직렬화하여, 객체로 빌드합니다.
 	 */
 	public static Object deserializeFromString(Serializer serializer, String serializedStr) {
-		Guard.shouldNotBeNull(serializer, "serializer");
+		shouldNotBeNull(serializer, "serializer");
 		if (StringTool.isEmpty(serializedStr))
 			return null;
 
@@ -49,7 +53,7 @@ public final class SerializeTool {
 	 * 객체를 직렬화하여 {@link java.io.OutputStream} 으로 변환합니다.
 	 */
 	public static OutputStream serializeAsStream(Serializer serializer, Object graph) throws IOException {
-		Guard.shouldNotBeNull(serializer, "serializer");
+		shouldNotBeNull(serializer, "serializer");
 		if (graph == null)
 			return new ByteArrayOutputStream();
 
@@ -60,7 +64,7 @@ public final class SerializeTool {
 	 * {@link java.io.InputStream} 을 읽어 역직렬화하여, 객체를 빌드합니다.
 	 */
 	public static Object deserializeFromStream(Serializer serializer, InputStream inputStream) throws IOException {
-		Guard.shouldNotBeNull(serializer, "serializer");
+		shouldNotBeNull(serializer, "serializer");
 		if (inputStream == null)
 			return null;
 
@@ -87,9 +91,45 @@ public final class SerializeTool {
 		return binarySerializer.deserialize(bytes);
 	}
 
+	/**
+	 * 객체를 {@link BinarySerializer} 를 이용하여 deep copy 를 수행합니다.
+	 */
 	public static Object copyObject(Object graph) {
 		if (graph == null)
 			return null;
 		return deserializeObject(serializeObject(graph));
 	}
+
+	public static FutureTask<byte[]> serializeObjectAsync(final Object graph) {
+		return AsyncTaskTool.startNew(new Callable<byte[]>() {
+			@Override
+			public byte[] call() throws Exception {
+				return binarySerializer.serialize(graph);
+			}
+		});
+	}
+
+	public static FutureTask<Object> deserializeObjectAsync(final byte[] bytes) {
+		return AsyncTaskTool.startNew(new Callable<Object>() {
+			@Override
+			public Object call() throws Exception {
+				return binarySerializer.deserialize(bytes);
+			}
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> FutureTask<T> copyObjectAsync(final T graph) {
+
+		if (graph == null)
+			return AsyncTaskTool.getTaskHasResult(null);
+
+		return AsyncTaskTool.startNew(new Callable<T>() {
+			@Override
+			public T call() throws Exception {
+				return (T) binarySerializer.deserialize(binarySerializer.serialize(graph));
+			}
+		});
+	}
+
 }

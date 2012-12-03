@@ -4,8 +4,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListenableFutureTask;
-import kr.kth.commons.Func1;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Func1;
+import kr.kth.commons.base.Guard;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -24,43 +24,58 @@ public class AsyncTaskTool {
 
 	private AsyncTaskTool() {}
 
+	public static final Runnable emptyRunnable =
+		new Runnable() {
+			@Override
+			public void run() {
+				// nothing to do.
+			}
+		};
+
 	/**
 	 * 새로운 작업을 생성합니다.
 	 */
-	public static <T> ListenableFutureTask<T> New(Callable<T> callable) {
+	public static <T> ListenableFutureTask<T> newTask(Callable<T> callable) {
 		return ListenableFutureTask.create(callable);
 	}
 
 	/**
 	 * 새로운 작업을 생성합니다.
 	 */
-	public static <T> ListenableFutureTask<T> New(Runnable runnable, @Nullable T result) {
+	public static <T> ListenableFutureTask<T> newTask(Runnable runnable, @Nullable T result) {
 		return ListenableFutureTask.create(runnable, result);
 	}
 
 	/**
 	 * 새로운 작업을 생성하고, 자동으로 시작합니다.
 	 */
-	public static <T> ListenableFutureTask<T> StartNew(Callable<T> callable) {
+	public static <T> ListenableFutureTask<T> startNew(Callable<T> callable) {
 		return ListenableFutureTask.create(callable);
 	}
 
 	/**
 	 * 새로운 작업을 생성하고, 작업을 실행합니다.
 	 */
-	public static <T> ListenableFutureTask<T> StartNew(Runnable runnable, @Nullable T result) {
+	public static <T> ListenableFutureTask<T> startNew(Runnable runnable, @Nullable T result) {
 		ListenableFutureTask<T> task = ListenableFutureTask.create(runnable, result);
 		task.run();
 		return task;
 	}
 
-	public static <T> ListenableFutureTask<T> Continue(ListenableFutureTask<T> antecedent,
-	                                                   Runnable runnable,
-	                                                   @Nullable T result) {
+	public static <T> ListenableFutureTask<T> continueTask(ListenableFutureTask<T> antecedent,
+	                                                       Runnable runnable,
+	                                                       @Nullable T result) {
 		// TODO: antencedent Task가 완료되는 시점에 runnable 작업이 실행되도록 하여 마지막 작업을 반환한다.
 		// 이러한 작업은 작업들을 Chain 방식으로 연속으로 수행하기 위해 합니다. (성공/실패/취소 에 따른 분기도 가능합니다)
 
 		return antecedent;
+	}
+
+
+	public static <T> FutureTask<T> getTaskHasResult(T result) {
+		FutureTask<T> task = ListenableFutureTask.create(emptyRunnable, result);
+		task.run();
+		return task;
 	}
 
 	/**

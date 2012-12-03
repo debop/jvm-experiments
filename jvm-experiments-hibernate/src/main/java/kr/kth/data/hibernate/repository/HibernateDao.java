@@ -1,8 +1,8 @@
 package kr.kth.data.hibernate.repository;
 
 import kr.kth.commons.collection.PagedList;
-import kr.kth.data.domain.HibernateParameter;
 import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.hibernate.HibernateParameter;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;

@@ -65,7 +65,7 @@ class CustomerRepositoryImpl implements CustomerRepository {
 
 	@SuppressWarnings("unchecked")
 	public List<Customer> findAll() {
-		return (List<Customer>) sessionFactory.getCurrentSession().createQuery("from Customer").list();
+		return (List<Customer>) sessionFactory.getCurrentSession().createQuery("from Join_Customer").list();
 	}
 }
 

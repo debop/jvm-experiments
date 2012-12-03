@@ -1,6 +1,6 @@
 package kr.kth.commons.io;
 
-import kr.kth.commons.Serializer;
+import kr.kth.commons.base.Serializer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +21,7 @@ public class BinarySerializer implements Serializer {
 	 */
 	@Override
 	public byte[] serialize(Object graph) {
+
 		if (graph == null)
 			return new byte[0];
 
@@ -41,6 +42,7 @@ public class BinarySerializer implements Serializer {
 	 */
 	@Override
 	public Object deserialize(byte[] bytes) {
+
 		if (bytes == null || bytes.length == 0)
 			return null;
 

@@ -1,6 +1,6 @@
 package kr.kth.data.domain.model;
 
-import kr.kth.commons.ValueObject;
+import kr.kth.commons.base.ValueObject;
 
 /**
  * 메타 정보를 표현하는 인터페이스입니다.

@@ -1,11 +1,9 @@
 package kr.kth.data.hibernate.repository;
 
-import kr.kth.commons.Guard;
-import kr.kth.commons.Local;
+import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.Local;
 import kr.kth.data.domain.model.StatefulEntity;
-import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,9 +16,6 @@ import org.springframework.stereotype.Component;
 public class HibernateDaoFactory {
 
 	private static final String HibernateDaoKey = "kr.kth.data.hibernate.repository.HibernateDao";
-
-	// TODO: 이 코드는 향후 제거할 예정입니다.
-	@Autowired UnitOfWorkManager unitOfWork;
 
 	public <E extends StatefulEntity> HibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass) {
 		Guard.shouldNotBeNull(entityClass, "entityClass");
@@ -38,7 +33,6 @@ public class HibernateDaoFactory {
 				log.debug("HibernateDao<{}> 인스턴스를 생성합니다.", entityClass.getName());
 
 			dao = new HibernateDaoImpl<E>(entityClass);
-			dao.setUnitOfWork(unitOfWork);
 			Local.put(daoKey, dao);
 		}
 		return dao;

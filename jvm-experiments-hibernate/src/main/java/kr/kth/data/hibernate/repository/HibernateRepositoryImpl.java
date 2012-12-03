@@ -1,13 +1,13 @@
 package kr.kth.data.hibernate.repository;
 
-import kr.kth.commons.Guard;
-import kr.kth.commons.Local;
+import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.Local;
 import kr.kth.commons.collection.PagedList;
 import kr.kth.commons.collection.SimplePagedList;
 import kr.kth.commons.tools.ArrayTool;
-import kr.kth.commons.tools.ReflectTool;
-import kr.kth.data.domain.HibernateParameter;
+import kr.kth.commons.tools.StringTool;
 import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.tools.CriteriaTool;
 import kr.kth.data.hibernate.tools.HibernateTool;
 import lombok.Getter;
@@ -214,7 +214,7 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 	@Override
 	public Object getFirstByQueryString(final String queryString, final HibernateParameter... params) {
 		if (log.isDebugEnabled())
-			log.debug("execute queryString=[{}], params=[{}]", queryString, ReflectTool.listToString(params));
+			log.debug("execute queryString=[{}], params=[{}]", queryString, StringTool.listToString(params));
 
 		return getFirst(getCurrentSession().createQuery(queryString), params);
 	}
@@ -222,7 +222,7 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 	@Override
 	public Object getFirstByNamedQuery(final String queryName, final HibernateParameter... params) {
 		if (log.isDebugEnabled())
-			log.debug("execute queryName=[{}], params=[{}]", queryName, ReflectTool.listToString(params));
+			log.debug("execute queryName=[{}], params=[{}]", queryName, StringTool.listToString(params));
 		return getFirst(getCurrentSession().getNamedQuery(queryName), params);
 	}
 
@@ -239,7 +239,7 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 	@Override
 	public Object getUniqueByHql(final String hql, final HibernateParameter... params) {
 		if (log.isDebugEnabled())
-			log.debug("getUniqueByHql. queryString=[{}], params=[{}]", hql, ReflectTool.listToString(params));
+			log.debug("getUniqueByHql. queryString=[{}], params=[{}]", hql, StringTool.listToString(params));
 
 		return getUnique(getCurrentSession().createQuery(hql), params);
 	}
@@ -315,7 +315,7 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 	@Override
 	public long countByHql(final String queryString, final HibernateParameter... params) {
 		if (log.isDebugEnabled())
-			log.debug("레코드 갯수를 얻습니다. queryString=[{}], params=[{}]", queryString, ReflectTool.listToString(params));
+			log.debug("레코드 갯수를 얻습니다. queryString=[{}], params=[{}]", queryString, StringTool.listToString(params));
 
 		return count(getCurrentSession().createQuery(queryString), params);
 	}
@@ -324,7 +324,7 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 	public long countByNamedQuery(final String queryName, final HibernateParameter... params) {
 		if (log.isDebugEnabled())
 			log.debug("레코드 갯수를 얻습니다. queryName=[{}], params=[{}]",
-			          queryName, ReflectTool.listToString(params));
+			          queryName, StringTool.listToString(params));
 		return count(getCurrentSession().getNamedQuery(queryName), params);
 	}
 
@@ -437,7 +437,7 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 
 		if (HibernateRepositoryImpl.log.isDebugEnabled())
 			HibernateRepositoryImpl.log.debug("executeUpdate 를 실행합니다. queryString=[{}], params=[{}]",
-			                                  queryString, ReflectTool.listToString(params));
+			                                  queryString, StringTool.listToString(params));
 
 		Query query = getSession(true).createQuery(queryString);
 		return HibernateTool.setParameters(query, params).executeUpdate();

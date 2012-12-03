@@ -2,7 +2,7 @@ package kr.kth.commons.period;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;

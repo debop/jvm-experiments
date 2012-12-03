@@ -10,10 +10,6 @@ import org.springframework.transaction.TransactionDefinition;
  */
 public interface UnitOfWork extends AutoCloseable {
 
-	String getName();
-
-	void setName(String unitOfWorkName);
-
 	/**
 	 * Current {@link Session} 의 변경 내용을 flush 해서 저장소에 적용되도록 합니다.
 	 */

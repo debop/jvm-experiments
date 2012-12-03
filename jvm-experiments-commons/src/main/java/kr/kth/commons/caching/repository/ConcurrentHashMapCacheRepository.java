@@ -2,7 +2,7 @@ package kr.kth.commons.caching.repository;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,19 +1,18 @@
 package kr.kth.commons.tools;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Chars;
-import kr.kth.commons.BinaryStringFormat;
+import kr.kth.commons.base.BinaryStringFormat;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * 문자열 처리를 위한 Utility Class 입니다.
@@ -214,10 +213,16 @@ public final class StringTool {
 
 	}
 
-	public static byte[] getBytesFromString(final String str, final BinaryStringFormat format) throws Exception {
-		return format == BinaryStringFormat.HexDecimal
-		       ? getBytesFromHexString(str)
-		       : decodeBase64(str);
+	public static byte[] getBytesFromString(final String str, final BinaryStringFormat format) {
+		try {
+			return format == BinaryStringFormat.HexDecimal
+			       ? getBytesFromHexString(str)
+			       : decodeBase64(str);
+		} catch (Exception e) {
+			if (log.isErrorEnabled())
+				log.error("문자열로부터 Byte[] 를 얻는데 실패했습니다.", e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	// endregion
@@ -430,6 +435,77 @@ public final class StringTool {
 			return text.substring(startIndex, endIndex);
 
 		return EMPTY_STR;
+	}
+
+	// endregion
+
+	// region  << objectToString, listToString, mapToString >>
+
+	/**
+	 * 객체의 필드 정보를 이용하여, 객체를 문자열로 표현합니다.
+	 */
+	public static String objectToString(Object obj) {
+		if (obj == null) return "null";
+
+		Objects.ToStringHelper helper = Objects.toStringHelper(obj);
+
+		try {
+			Class objClazz = obj.getClass();
+			Field[] fields = objClazz.getFields();
+
+			for (Field field : fields)
+				helper.add(field.getName(), field.get(obj));
+		} catch (IllegalAccessException ignored) {
+			if (log.isWarnEnabled())
+				log.warn("필드 정보를 얻는데 실패했습니다.", ignored);
+		}
+		return helper.toString();
+	}
+
+	/**
+	 * {@link Iterable} 정보를 문자열로 표현합니다.
+	 */
+	public static <T> String listToString(final Iterable<T> items) {
+		if (items == null)
+			return "null";
+
+		return join(items, ",");
+	}
+
+	/**
+	 * {@link java.util.Collection} 정보를 문자열로 표현합니다.
+	 */
+	public static <T> String listToString(final Collection<T> items) {
+		if (items == null)
+			return "null";
+
+		return join(items, ",");
+	}
+
+	@SafeVarargs
+	public static <T> String listToString(final T... items) {
+		if (items == null)
+			return "null";
+
+		return join(items, ",");
+	}
+
+	/**
+	 * {@link java.util.Map} 정보를 문자열로 표현합니다.
+	 */
+	public static String mapToString(final Map map) {
+		if (map == null)
+			return "null";
+
+		return "{" + join(mapToEntryList(map), ",") + "}";
+	}
+
+	private static List<String> mapToEntryList(final Map map) {
+		List<String> list = new ArrayList<String>();
+		for (Object key : map.keySet()) {
+			list.add(key + "=" + map.get(key));
+		}
+		return list;
 	}
 
 	// endregion

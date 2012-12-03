@@ -1,18 +1,11 @@
 package kr.kth.commons.tools;
 
-import com.google.common.base.Objects;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
-import static kr.kth.commons.Guard.shouldNotBeNull;
-import static kr.kth.commons.tools.StringTool.join;
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 
 /**
@@ -70,70 +63,5 @@ public final class ReflectTool {
 		throw new UnsupportedOperationException("Generic 형식의 객체로부터 인자 수형들을 추출하는데 실패했습니다.");
 	}
 
-	/**
-	 * 객체의 필드 정보를 이용하여, 객체를 문자열로 표현합니다.
-	 */
-	public static String objectToString(Object obj) {
-		if (obj == null) return "null";
 
-		Objects.ToStringHelper helper = Objects.toStringHelper(obj);
-
-		try {
-			Class objClazz = obj.getClass();
-			Field[] fields = objClazz.getFields();
-
-			for (Field field : fields)
-				helper.add(field.getName(), field.get(obj));
-		} catch (IllegalAccessException ignored) {
-			if (log.isWarnEnabled())
-				log.warn("필드 정보를 얻는데 실패했습니다.", ignored);
-		}
-		return helper.toString();
-	}
-
-	/**
-	 * {@link Iterable} 정보를 문자열로 표현합니다.
-	 */
-	public static <T> String listToString(final Iterable<T> items) {
-		if (items == null)
-			return "null";
-
-		return join(items, ",");
-	}
-
-	/**
-	 * {@link java.util.Collection} 정보를 문자열로 표현합니다.
-	 */
-	public static <T> String listToString(final Collection<T> items) {
-		if (items == null)
-			return "null";
-
-		return join(items, ",");
-	}
-
-	@SafeVarargs
-	public static <T> String listToString(final T... items) {
-		if (items == null)
-			return "null";
-
-		return join(items, ",");
-	}
-
-	/**
-	 * {@link java.util.Map} 정보를 문자열로 표현합니다.
-	 */
-	public static String mapToString(final Map map) {
-		if (map == null)
-			return "null";
-
-		return "{" + join(mapToEntryList(map), ",") + "}";
-	}
-
-	private static List<String> mapToEntryList(final Map map) {
-		List<String> list = new ArrayList<String>();
-		for (Object key : map.keySet()) {
-			list.add(key + "=" + map.get(key));
-		}
-		return list;
-	}
 }

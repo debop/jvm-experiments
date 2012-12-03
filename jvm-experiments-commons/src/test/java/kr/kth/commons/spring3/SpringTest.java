@@ -1,8 +1,9 @@
 package kr.kth.commons.spring3;
 
 import kr.kth.commons.AbstractTest;
-import kr.kth.commons.AutoCloseableAction;
+import kr.kth.commons.base.AutoCloseableAction;
 import kr.kth.commons.compress.*;
+import kr.kth.commons.unitTesting.TestTool;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -11,6 +12,7 @@ import org.springframework.context.support.GenericApplicationContext;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static kr.kth.commons.spring3.Spring.getOrRegisterBean;
 import static org.junit.Assert.*;
 
 /**
@@ -79,14 +81,14 @@ public class SpringTest extends AbstractTest {
 	@Test
 	public void getOrRegisterBean_NotRegisteredBean() {
 
-		ArrayList arrayList = Spring.getOrRegisterBean(ArrayList.class);
+		ArrayList arrayList = getOrRegisterBean(ArrayList.class);
 		assertNotNull(arrayList);
 	}
 
 	@Test
 	public void getOrRegisterBean_NotRegisteredBean_WithScope() {
 
-		Object compressor = Spring.getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
+		Object compressor = getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
 		assertNotNull(compressor);
 		assertTrue(compressor instanceof GZipCompressor);
 
@@ -95,7 +97,7 @@ public class SpringTest extends AbstractTest {
 		compressor = Spring.tryGetBean(GZipCompressor.class);
 		assertNull(compressor);
 
-		Compressor deflator = Spring.getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+		Compressor deflator = getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
 		assertNotNull(deflator);
 		assertTrue(deflator instanceof DeflateCompressor);
 	}
@@ -103,8 +105,9 @@ public class SpringTest extends AbstractTest {
 	@Test
 	public void getAllTypes() {
 
-		for (Class clazz : compressorClasses)
-			Spring.getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+		for (Class clazz : compressorClasses) {
+			getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+		}
 
 		Map<String, Compressor> compressorMap = Spring.getBeansOfType(Compressor.class, true, true);
 		assertTrue(compressorMap.size() > 0);
@@ -113,5 +116,15 @@ public class SpringTest extends AbstractTest {
 		Compressor gzip = Spring.getBean(GZipCompressor.class);
 		assertNotNull(gzip);
 		assertTrue(gzip instanceof GZipCompressor);
+	}
+
+	@Test
+	public void getAllTypesInMultiThread() {
+		TestTool.runTasks(5, new Runnable() {
+			@Override
+			public void run() {
+				getAllTypes();
+			}
+		});
 	}
 }

@@ -36,7 +36,14 @@
 		<!-- have 2 component -->
 		<mapping resource="org/hibernate/example/domain/model/User.hbm.xml"/>
 
+		<!-- collection -->
+		<mapping resource="org/hibernate/example/domain/model/collection/Item.hbm.xml"/>
+
 		<!-- join component -->
 		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml"/>
+
+		<!-- joined-subclass component -->
+		<mapping resource="org/hibernate/example/domain/model/joinedSubclass/Company.hbm.xml"/>
+		<mapping resource="org/hibernate/example/domain/model/joinedSubclass/Person.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

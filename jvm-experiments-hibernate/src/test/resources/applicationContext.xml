@@ -17,6 +17,7 @@
 			<list>
 				<value>org.hibernate.example.domain.model</value>
 				<value>org.jpa.example.domain.model</value>
+				<value>org.jpa.example.domain.model.collection</value>
 			</list>
 		</property>
 	</bean>

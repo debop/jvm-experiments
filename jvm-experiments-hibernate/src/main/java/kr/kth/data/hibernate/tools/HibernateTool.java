@@ -1,10 +1,10 @@
 package kr.kth.data.hibernate.tools;
 
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.SerializeTool;
-import kr.kth.data.domain.HibernateParameter;
 import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.interceptor.UpdateTimestampedInterceptor;
 import kr.kth.data.hibernate.listener.UpdateTimestampedEventListener;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import org.hibernate.type.ObjectType;
 import java.util.HashMap;
 import java.util.Map;
 
-import static kr.kth.commons.Guard.firstNotNull;
+import static kr.kth.commons.base.Guard.firstNotNull;
 
 /**
  * Hibernate 관련 Tool

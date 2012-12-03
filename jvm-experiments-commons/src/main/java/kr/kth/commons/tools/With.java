@@ -1,9 +1,10 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.Action0;
-import kr.kth.commons.Action1;
-import kr.kth.commons.Func0;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Action0;
+import kr.kth.commons.base.Action1;
+import kr.kth.commons.base.Func0;
+import kr.kth.commons.base.Guard;
+import kr.kth.commons.parallelism.AsyncTaskTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Callable;
@@ -104,21 +105,22 @@ public class With {
 		return (valueFactory != null) ? valueFactory.execute() : (R) null;
 	}
 
+	public static void tryActionAsync(final Action0 action) {
+		tryActionAsync(action, null, null);
+	}
 
-	public static void TryActionAsync(final Action0 action, Action1<Exception> exceptionAction, Action0 finallyAction) {
+	public static void tryActionAsync(final Action0 action, Action1<Exception> exceptionAction, Action0 finallyAction) {
 
 		Guard.shouldNotBeNull(action, "action");
 		try {
 			FutureTask<Void> futureTask =
-				new FutureTask<Void>(new Callable<Void>() {
+				AsyncTaskTool.startNew(new Callable<Void>() {
 					@Override
 					public Void call() throws Exception {
 						action.perform();
 						return null;
 					}
 				});
-			futureTask.run();
-			Thread.sleep(1);
 			futureTask.get();
 		} catch (Exception e) {
 			if (exceptionAction != null) {

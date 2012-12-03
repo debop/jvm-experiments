@@ -66,6 +66,9 @@
 		<!-- have 2 component -->
 		<mapping resource="org/hibernate/example/domain/model/User.hbm.xml"/>
 
+		<!-- collection -->
+		<mapping resource="org/hibernate/example/domain/model/collection/Item.hbm.xml"/>
+
 		<!-- join component -->
 		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml"/>
 

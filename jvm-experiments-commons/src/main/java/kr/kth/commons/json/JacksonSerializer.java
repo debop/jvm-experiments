@@ -1,7 +1,7 @@
 package kr.kth.commons.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.kth.commons.Guard;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.StringTool;
 import lombok.Getter;

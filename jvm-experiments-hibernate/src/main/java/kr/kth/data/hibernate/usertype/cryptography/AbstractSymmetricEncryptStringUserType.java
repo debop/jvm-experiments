@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.usertype.cryptography;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.BinaryStringFormat;
+import kr.kth.commons.base.BinaryStringFormat;
 import kr.kth.commons.cryptography.symmetric.SymmetricEncryptor;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;

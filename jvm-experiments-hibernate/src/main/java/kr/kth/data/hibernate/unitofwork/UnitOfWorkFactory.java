@@ -14,15 +14,11 @@ public interface UnitOfWorkFactory {
 
 	/**
 	 * 현 UnitOfWorkFactory가 사용하는 {@link SessionFactory}
-	 *
-	 * @return
 	 */
 	SessionFactory getSessionFactory();
 
 	/**
 	 * 현 UnitOfWorkFactory 가 사용할 {@link SessionFactory} 를 설정합니다.
-	 *
-	 * @param sessionFactory
 	 */
 	void setSessionFactory(SessionFactory sessionFactory);
 
@@ -31,23 +27,17 @@ public interface UnitOfWorkFactory {
 
 	/**
 	 * Multi-Tenancy 를 적용할 때, 복수의 {@link SessionFactory}를 등록하여, 사용할 수 있도록 한다.
-	 *
-	 * @param sessionFactories
 	 */
 	void setSessionFactories(Map<String, SessionFactory> sessionFactories);
 
 	/**
 	 * 현 Thread-Context 에서 사용할 Session 을 반환합니다.
 	 * {@link kr.kth.data.hibernate.unitofwork.UnitOfWorkManager#start()} 시에 Session은 생성됩니다.
-	 *
-	 * @return
 	 */
 	Session getCurrentSession();
 
 	/**
 	 * 현 Thread-Context 에서 사용할 Session 을 설정합니다.
-	 *
-	 * @param session
 	 */
 	void setCurrentSession(Session session);
 
@@ -56,8 +46,10 @@ public interface UnitOfWorkFactory {
 	 */
 	void Init();
 
-
-	UnitOfWorkImplementor create(SessionFactory sessionFactory, UnitOfWorkImplementor previous);
+	/**
+	 * 새로운 {@link UnitOfWorkImplementor} 인스턴스를 생성합니다.
+	 */
+	UnitOfWorkImplementor create(SessionFactory factory, UnitOfWorkImplementor previous);
 
 
 	/**
