@@ -49,7 +49,7 @@ public class JacksonSerializer implements JsonSerializer {
 			return "";
 
 		if (log.isDebugEnabled())
-			log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=" + graph);
+			log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
 		try {
 			return getMapper().writeValueAsString(graph);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class JacksonSerializer implements JsonSerializer {
 			return (T) null;
 
 		if (log.isDebugEnabled())
-			log.debug("JSON 역직렬화를 수행합니다. valueType=" + targetType.getName());
+			log.debug("JSON 역직렬화를 수행합니다. valueType=[{}]", targetType.getName());
 
 		try {
 			return getMapper().readValue(jsonText, targetType);
@@ -82,7 +82,7 @@ public class JacksonSerializer implements JsonSerializer {
 			return (T) null;
 
 		if (log.isDebugEnabled())
-			log.debug("JSON 역직렬화를 수행합니다. valueType=" + targetType.getName());
+			log.debug("JSON 역직렬화를 수행합니다. targetType=[{}]", targetType.getName());
 
 		try {
 			return getMapper().readValue(bytes, targetType);

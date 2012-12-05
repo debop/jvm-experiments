@@ -1,6 +1,7 @@
 package kr.kth.commons.tools;
 
 import kr.kth.commons.base.Guard;
+import kr.kth.commons.cryptography.CryptoTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
@@ -53,4 +54,14 @@ public final class ArrayTool {
 		                                                 collection.size());
 		return (T[]) collection.toArray(result);
 	}
+
+	public static <T> String asString(Iterable<T> iterable) {
+		return StringTool.join(iterable);
+	}
+
+	public static byte[] getRandomBytes(int size) {
+		return CryptoTool.getRandomBytes(size);
+	}
+
+
 }

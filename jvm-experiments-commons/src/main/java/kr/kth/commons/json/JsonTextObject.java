@@ -42,10 +42,9 @@ public class JsonTextObject extends ValueObjectBase {
 	}
 
 	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("className", className)
-		              .add("jsonText", ellipsisChar(jsonText, 255))
-		              .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("className", className)
+		            .add("jsonText", ellipsisChar(jsonText, 255));
 	}
 }

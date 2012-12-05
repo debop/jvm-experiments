@@ -158,13 +158,14 @@ public class AsyncTaskTool {
 	 * 모든 {@link java.util.concurrent.Future}의 {@link java.util.concurrent.Future#isDone()} 또는 {@link java.util.concurrent.Future#isCancelled()} 가 될 때까지 기다립니다.
 	 */
 	public static <T> void waitAll(Iterable<Future<T>> futures) {
-
 		boolean allCompleted = false;
+
 		while (!allCompleted) {
 			allCompleted = Iterables.all(futures, new Predicate<Future<T>>() {
 				@Override
 				public boolean apply(@Nullable Future<T> input) {
-					assert input != null;
+					if (input == null)
+						return true;
 					return (input.isDone() || input.isCancelled());
 				}
 			});

@@ -48,7 +48,8 @@ public class GsonSerializer implements JsonSerializer {
 			return Defaults.defaultValue(targetType);
 
 		if (log.isDebugEnabled())
-			log.debug("Json 역직렬화를 수행합니다. jsonText=[{}]", StringTool.ellipsisChar(jsonText, 255));
+			log.debug("Json 역직렬화를 수행합니다. jsonText=[{}], targetType=[{}]",
+			          StringTool.ellipsisChar(jsonText, 255), targetType);
 
 		return getGson().fromJson(jsonText, targetType);
 	}

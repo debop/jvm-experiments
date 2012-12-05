@@ -26,7 +26,7 @@ public class Parallels {
 
 	private static final int PROCESS_COUNT = Runtime.getRuntime().availableProcessors();
 	private static final ExecutorService defaultExecutor =
-		Executors.newFixedThreadPool(PROCESS_COUNT, new NamedThreadFactory("Parallels"));
+		Executors.newFixedThreadPool(PROCESS_COUNT * 2, new NamedThreadFactory("Parallels"));
 
 	public static ExecutorService getDefaultExecutor() {
 		return defaultExecutor;
