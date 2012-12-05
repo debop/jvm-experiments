@@ -4,7 +4,7 @@ import kr.kth.commons.base.Guard;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * kr.kth.commons.json.JsonTool
+ * Json 직렬화/역직렬화 등을 지원하는 Utility Class 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 5.
  */

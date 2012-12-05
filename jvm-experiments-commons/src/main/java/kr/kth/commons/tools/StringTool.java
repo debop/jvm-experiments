@@ -206,6 +206,13 @@ public final class StringTool {
 		return StringUtils.newStringUtf8(bytes);
 	}
 
+	public static String getString(final byte[] bytes, String charsetName) {
+		if (isEmpty(charsetName))
+			return StringUtils.newStringUtf8(bytes);
+
+		return StringUtils.newString(bytes, charsetName);
+	}
+
 	public static String getStringFromBytes(byte[] bytes, final BinaryStringFormat format) {
 		return format == BinaryStringFormat.HexDecimal
 		       ? getHexString(bytes)

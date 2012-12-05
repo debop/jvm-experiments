@@ -2,19 +2,20 @@ package kr.kth.commons.caching.repository;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import kr.kth.commons.base.Guard;
 import kr.kth.commons.caching.CacheRepositoryBase;
+import kr.kth.commons.parallelism.AsyncTaskTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
+
 /**
- * 설명을 추가하세요.
+ * {@link java.util.concurrent.ConcurrentHashMap}을 캐시 저장소로 사용하는 비동기 캐시 저장소입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
@@ -54,14 +55,15 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 	 */
 	@Override
 	public Object get(final String key) {
-		Guard.shouldNotBeWhiteSpace(key, "key");
+		shouldNotBeWhiteSpace(key, "key");
 		return cache.getIfPresent(key);
 	}
 
 	public Future<Object> getAsync(final String key) {
 		return
-			Executors.newCachedThreadPool().submit(new Callable() {
-				public Object call() {
+			AsyncTaskTool.startNew(new Callable<Object>() {
+				@Override
+				public Object call() throws Exception {
 					return cache.getIfPresent(key);
 				}
 			});
@@ -76,7 +78,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 	 */
 	@Override
 	public void set(final String key, final Object value, final long validFor) {
-		Guard.shouldNotBeWhiteSpace(key, "key");
+		shouldNotBeWhiteSpace(key, "key");
 		cache.put(key, value);
 	}
 
@@ -87,7 +89,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 	 */
 	@Override
 	public void remove(final String key) {
-		Guard.shouldNotBeWhiteSpace(key, "key");
+		shouldNotBeWhiteSpace(key, "key");
 		cache.invalidate(key);
 	}
 
@@ -109,7 +111,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 	 */
 	@Override
 	public boolean exists(final String key) {
-		Guard.shouldNotBeWhiteSpace(key, "key");
+		shouldNotBeWhiteSpace(key, "key");
 		return cache.getIfPresent(key) != null;
 	}
 

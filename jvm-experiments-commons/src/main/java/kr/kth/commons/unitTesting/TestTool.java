@@ -43,6 +43,7 @@ public class TestTool {
 		}
 	}
 
+	@SafeVarargs
 	public static <T> void runTasks(int count, Callable<T>... callables) {
 
 		ExecutorService executor =

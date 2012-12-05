@@ -43,7 +43,7 @@ public class Parallels {
 		ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
 
 		if (log.isDebugEnabled())
-			log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=" + PROCESS_COUNT);
+			log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
 
 		try {
 			List<T> elemList = Lists.newArrayList(elements);
@@ -65,7 +65,7 @@ public class Parallels {
 			executor.invokeAll(tasks);
 
 			if (log.isDebugEnabled())
-				log.debug("모든 작업을 병렬로 수행하였습니다. partitions=" + partitions.size());
+				log.debug("모든 작업을 병렬로 수행하였습니다. partitions=[{}]", partitions.size());
 
 		} catch (Exception e) {
 			log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
@@ -82,7 +82,7 @@ public class Parallels {
 		final List<V> results = new ArrayList<V>();
 
 		if (log.isDebugEnabled())
-			log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=" + PROCESS_COUNT);
+			log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
 
 		try {
 			List<T> elemList = Lists.newArrayList(elements);
@@ -114,7 +114,7 @@ public class Parallels {
 			}
 
 			if (log.isDebugEnabled())
-				log.debug("모든 작업을 병렬로 완료했습니다. partitions=" + partitions.size());
+				log.debug("모든 작업을 병렬로 완료했습니다. partitions=[{}]", partitions.size());
 
 		} catch (Exception e) {
 			log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
