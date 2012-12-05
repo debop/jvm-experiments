@@ -11,6 +11,7 @@ import kr.kth.data.hibernate.tools.CriteriaTool;
 import kr.kth.data.hibernate.tools.HibernateTool;
 import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
@@ -40,6 +41,9 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	@Getter
 	private Class<E> entityClass;
 
+	@Setter
+	private UnitOfWorkManager unitOfWorkManager;
+
 	String entityName;
 
 	public HibernateDaoImpl(Class<E> entityClass) {
@@ -48,7 +52,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	private Session getSession() {
-		return UnitOfWorkManager.getCurrentSession();
+		return unitOfWorkManager.getCurrentSession();
 	}
 
 	@Override

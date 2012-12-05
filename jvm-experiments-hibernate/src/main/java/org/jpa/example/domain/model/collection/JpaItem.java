@@ -2,7 +2,7 @@ package org.jpa.example.domain.model.collection;
 
 import com.google.common.base.Objects;
 import kr.kth.commons.tools.HashTool;
-import kr.kth.data.domain.model.StatefulEntityBase;
+import kr.kth.data.jpa.domain.JpaEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.example.domain.model.collection.ItemState;
@@ -22,7 +22,7 @@ import java.util.Set;
 @Table(name = "JPA_ITEM")
 @Getter
 @Setter
-public class JpaItem extends StatefulEntityBase {
+public class JpaItem extends JpaEntityBase {
 
 	private static final long serialVersionUID = -4178978313674407260L;
 
@@ -59,6 +59,7 @@ public class JpaItem extends StatefulEntityBase {
 	@Override
 	protected Objects.ToStringHelper buildStringHelper() {
 		return super.buildStringHelper()
+		            .add("id", id)
 		            .add("name", name)
 		            .add("description", description)
 		            .add("initialPrice", initialPrice)

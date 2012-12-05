@@ -12,7 +12,7 @@
 		<property name="connection.username">root</property>
 		<property name="connection.password">root</property>
 
-		<!--<property name="connection.driver_class">com.mysql.sql.Driver</property>-->
+		<!--<property name="connection.driver_class">com.mysql.jdbc.Driver</property>-->
 		<!--<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>-->
 		<!--<property name="connection.url">jdbc:mysql://localhost:3306/hibernate</property>-->
 		<!--<property name="connection.username">root</property>-->
@@ -30,21 +30,15 @@
 		<!--<property name="connection.username">sa</property>-->
 		<!--<property name="connection.password"></property>-->
 
-		<!--
-		<property name="connection.provider_class">
-			kr.kthdata.hibernate.provider.BoneCPConnectionProvider4
-		</property>
-		-->
-
 		<property name="connection.autocommit">true</property>
 		<!-- 2 : ReadCommited, 4: ReadUncommitted -->
 		<property name="connection.isolation">2</property>
 		<property name="connection.pool_size">100</property>
 		<property name="current_session_context_class">thread</property>
 
-		<property name="transaction.factory_class">
-			org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory
-		</property>
+		<!--<property name="transaction.factory_class">-->
+		<!--org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory-->
+		<!--</property>-->
 
 		<!-- 개발 시에는 안하는 게 좋다. 실 운영 시에는 성능을 고려해서 적용여부를 결정해야 한다 -->
 		<property name="hibernate.cache.region.factory_class">
@@ -72,17 +66,11 @@
 		<!-- join component -->
 		<mapping resource="org/hibernate/example/domain/model/join/Customer.hbm.xml"/>
 
-		<mapping package="org.hibernate.example.domain.model"/>
+		<!-- joined-subclass component -->
+		<mapping resource="org/hibernate/example/domain/model/joinedSubclass/Company.hbm.xml"/>
+		<mapping resource="org/hibernate/example/domain/model/joinedSubclass/Person.hbm.xml"/>
 
-		<!-- JPA annotation -->
+		<!-- JPA -->
 		<mapping class="org.hibernate.example.domain.model.StatefulEntityImpl"/>
-
-		<mapping class="org.jpa.example.domain.model.JpaUser"/>
-
-		<!-- Hibernate 3.x 형식이라 Hibernate 4.x 에서는 다른 방식을 사용해야 한다. -->
-		<!-- http://stackoverflow.com/questions/8616146/eventlisteners-using-hibernate-4-0-with-spring-3-1-0-release -->
-		<!--<listener type="pre-insert" class="kr.kthdata.hibernate.listener.UpdateTimestampedEventListener" />-->
-		<!--<listener type="pre-update" class="kr.kthdata.hibernate.listener.UpdateTimestampedEventListener" />-->
-
 	</session-factory>
 </hibernate-configuration>

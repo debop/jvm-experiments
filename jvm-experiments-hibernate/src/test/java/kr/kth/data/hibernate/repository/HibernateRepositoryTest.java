@@ -1,5 +1,6 @@
 package kr.kth.data.hibernate.repository;
 
+import kr.kth.commons.spring3.Spring;
 import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -8,9 +9,10 @@ import org.hibernate.example.domain.model.Category;
 import org.hibernate.example.domain.model.Event;
 import org.jpa.example.domain.model.JpaUser;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,10 +32,27 @@ import java.util.List;
 @ContextConfiguration(locations = "/applicationContext.xml")
 public class HibernateRepositoryTest {
 
-	@Autowired ApplicationContext springContext;
-	@Autowired HibernateDaoFactory hibernateDaofactory;
-	@Autowired HibernateTransactionManager transactionManager;
-	@Autowired UnitOfWorkManager unitOfWork;
+	ApplicationContext springContext;
+	HibernateDaoFactory hibernateDaofactory;
+	HibernateTransactionManager transactionManager;
+	UnitOfWorkManager unitOfWork;
+
+	@BeforeClass
+	public static void beforeClass() {
+
+	}
+
+	@Before
+	public void before() {
+		Spring.init("/applicationContext.xml");
+
+		springContext = Spring.getContext();
+		hibernateDaofactory = Spring.getBean(HibernateDaoFactory.class);
+		transactionManager = Spring.getBean(HibernateTransactionManager.class);
+		unitOfWork = Spring.getBean(UnitOfWorkManager.class);
+
+		unitOfWork.start();
+	}
 
 	@Test
 	public void createHibernateDao() {
@@ -65,7 +84,7 @@ public class HibernateRepositoryTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void loadSessionFactory() {
-		SessionFactory sessionFactory = springContext.getBean("sessionFactory", SessionFactory.class);
+		SessionFactory sessionFactory = Spring.getBean(SessionFactory.class);
 		Assert.assertNotNull(sessionFactory);
 
 		Session session = sessionFactory.openSession();

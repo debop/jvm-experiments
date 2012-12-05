@@ -1,5 +1,6 @@
 package org.hibernate.example.domain.model.joinedSubclass;
 
+import com.google.common.base.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +16,10 @@ public class JoinedSubClass_Customer extends JoinedSubClass_Person {
 	@Getter @Setter
 	private JoinedSubClass_Employee contactOwner;
 
+
+	@Override
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("contactOwner", contactOwner);
+	}
 }

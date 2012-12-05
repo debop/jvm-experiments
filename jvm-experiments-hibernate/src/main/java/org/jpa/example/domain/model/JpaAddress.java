@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * org.jpa.example.domain.model.Address
+ * org.jpa.example.domain.model.JpaAddress
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 20.
  */
@@ -18,7 +18,7 @@ import javax.persistence.Embeddable;
 @Setter
 @ToString
 @Embeddable
-public class Address extends ValueObjectBase {
+public class JpaAddress extends ValueObjectBase {
 
 	private static final long serialVersionUID = 2162684426050522828L;
 

@@ -56,7 +56,7 @@ public class JpaUser extends StatefulEntityBase {
 			@AttributeOverride(name = "city", column = @Column(name = "HOME_CITY", length = 128)),
 		}
 	)
-	private Address homeAddress = new Address();
+	private JpaAddress homeAddress = new JpaAddress();
 
 	@Embedded
 	@AttributeOverrides(
@@ -66,7 +66,7 @@ public class JpaUser extends StatefulEntityBase {
 			@AttributeOverride(name = "city", column = @Column(name = "OFFICE_CITY", length = 128)),
 		}
 	)
-	private Address officeAddress = new Address();
+	private JpaAddress officeAddress = new JpaAddress();
 
 	@Override
 	public int hashCode() {

@@ -5,6 +5,7 @@ import kr.kth.commons.base.Local;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 	protected final Object syncLock = new Object();
 	protected SessionFactory sessionFactory;
 	protected Map<String, SessionFactory> sessionFactories;
+
+	@Autowired UnitOfWorkManager unitOfWorkManager;
 
 
 	@Override
@@ -71,6 +74,9 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 			log.debug("새로운 UnitOfWorkImplementor 인스턴스를 생성합니다... factory=[{}], previous=[{}]",
 			          factory, previous);
 
+		if (factory == null)
+			factory = this.sessionFactory;
+
 		Session session = factory.openSession();
 		Local.put(CURRENT_HIBERNATE_SESSION, session);
 
@@ -89,6 +95,6 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 			session = adapter.getPrevious().getSession();
 
 		setCurrentSession(session);
-		UnitOfWorkManager.closeUnitOfWork(adapter);
+		unitOfWorkManager.closeUnitOfWork(adapter);
 	}
 }

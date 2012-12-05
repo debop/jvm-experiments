@@ -19,14 +19,14 @@ public final class UnitOfWorkManager {
 
 	private static final String CURRENT_UNIT_OF_WORK_KEY = "kr.kth.data.hibernate.unitofwork.CurrentUnitOfWork";
 
-	private static volatile UnitOfWork globalNonThreadSafeUnitOfWork;
-	private static volatile UnitOfWorkFactory unitOfWorkFactory;
+	private volatile UnitOfWork globalNonThreadSafeUnitOfWork;
+	private volatile UnitOfWorkFactory unitOfWorkFactory;
 
-	public static synchronized boolean isStarted() {
+	public synchronized boolean isStarted() {
 		return globalNonThreadSafeUnitOfWork != null || Local.get(CURRENT_UNIT_OF_WORK_KEY) != null;
 	}
 
-	public static synchronized UnitOfWork getCurrent() {
+	public synchronized UnitOfWork getCurrent() {
 		Guard.assertTrue(isStarted(), "UnitOfWork 가 시작되지 않았습니다. 사용 전 UnitOfWork.Start() 를 호출하세요.");
 
 		if (globalNonThreadSafeUnitOfWork != null)
@@ -34,30 +34,30 @@ public final class UnitOfWorkManager {
 		return (UnitOfWork) Local.get(CURRENT_UNIT_OF_WORK_KEY);
 	}
 
-	public static synchronized SessionFactory getCurrentSessionFactory() {
+	public synchronized SessionFactory getCurrentSessionFactory() {
 		return getUnitOfWorkFactory().getSessionFactory();
 	}
 
-	public static synchronized Session getCurrentSession() {
+	public synchronized Session getCurrentSession() {
 		return getUnitOfWorkFactory().getCurrentSession();
 	}
 
-	public static synchronized UnitOfWorkFactory getUnitOfWorkFactory() {
+	public synchronized UnitOfWorkFactory getUnitOfWorkFactory() {
 		if (unitOfWorkFactory == null) {
 			unitOfWorkFactory = Spring.getOrRegisterBean(HibernateUnitOfWorkFactory.class);
 		}
 		return unitOfWorkFactory;
 	}
 
-	public static synchronized void setUnitOfWorkFactory(UnitOfWorkFactory factory) {
+	public synchronized void setUnitOfWorkFactory(UnitOfWorkFactory factory) {
 		unitOfWorkFactory = factory;
 	}
 
-	public static void setCurrent(UnitOfWork unitOfWork) {
+	public void setCurrent(UnitOfWork unitOfWork) {
 		Local.put(CURRENT_UNIT_OF_WORK_KEY, unitOfWork);
 	}
 
-	public static synchronized AutoCloseableAction registerGlobalUnitOfWork(UnitOfWork global) {
+	public synchronized AutoCloseableAction registerGlobalUnitOfWork(UnitOfWork global) {
 		if (log.isDebugEnabled())
 			log.debug("전역 UnitOfWork 를 등록합니다. global=[{}]", global);
 
@@ -71,19 +71,19 @@ public final class UnitOfWorkManager {
 		});
 	}
 
-	public static synchronized UnitOfWork start() {
+	public synchronized UnitOfWork start() {
 		return start(null, UnitOfWorkNestingOptions.ReturnExistingOrCreateUnitOfWork);
 	}
 
-	public static synchronized UnitOfWork start(UnitOfWorkNestingOptions nestingOptions) {
+	public synchronized UnitOfWork start(UnitOfWorkNestingOptions nestingOptions) {
 		return start(null, nestingOptions);
 	}
 
-	public static synchronized UnitOfWork start(SessionFactory sessionFactory) {
+	public synchronized UnitOfWork start(SessionFactory sessionFactory) {
 		return start(sessionFactory, UnitOfWorkNestingOptions.ReturnExistingOrCreateUnitOfWork);
 	}
 
-	public static synchronized UnitOfWork start(SessionFactory sessionFactory, UnitOfWorkNestingOptions nestingOptions) {
+	public synchronized UnitOfWork start(SessionFactory sessionFactory, UnitOfWorkNestingOptions nestingOptions) {
 		if (log.isDebugEnabled())
 			log.debug("새로운 UnitOfWork를 시작합니다. sessionFactory=[{}], nestingOptions=[{}]", sessionFactory, nestingOptions);
 
@@ -105,6 +105,8 @@ public final class UnitOfWorkManager {
 
 		if (existing != null && sessionFactory == null)
 			sessionFactory = existing.getSession().getSessionFactory();
+		if (existing == null)
+			sessionFactory = getCurrentSessionFactory();
 
 		setCurrent(getUnitOfWorkFactory().create(sessionFactory, existing));
 
@@ -114,14 +116,14 @@ public final class UnitOfWorkManager {
 		return getCurrent();
 	}
 
-	public static synchronized void closeUnitOfWork(UnitOfWorkImplementor unitOfWork) {
+	public synchronized void closeUnitOfWork(UnitOfWorkImplementor unitOfWork) {
 		if (log.isDebugEnabled())
 			log.debug("UnitOfWork를 종료합니다. 종료되는 UnitOfWork 의 Previous 를 Current UnitOfWork로 교체합니다.");
 
 		setCurrent((unitOfWork != null) ? unitOfWork.getPrevious() : null);
 	}
 
-	public static synchronized void closeUnitOfWorkFactory() {
+	public synchronized void closeUnitOfWorkFactory() {
 		if (log.isInfoEnabled())
 			log.info("UnitOfWorkFactory를 초기화합니다...");
 

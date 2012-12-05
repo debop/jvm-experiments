@@ -18,11 +18,17 @@
 				<value>org.hibernate.example.domain.model</value>
 				<value>org.jpa.example.domain.model</value>
 				<value>org.jpa.example.domain.model.collection</value>
+				<value>org.jpa.example.domain.model.join</value>
+				<value>org.jpa.example.domain.model.onetomany</value>
+				<value>org.jpa.example.domain.model.onetoone</value>
+				<value>org.jpa.example.domain.model.subclass</value>
+				<value>org.jpa.example.domain.model.unionSubclass</value>
+				<value>org.jpa.example.domain.model.usertypes</value>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="hibernate.repository" class="kr.kth.data.hibernate.repository.HibernateRepositoryImpl" scope="prototype">
+	<bean id="hibernateRepository" class="kr.kth.data.hibernate.repository.HibernateRepositoryImpl" scope="prototype">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
@@ -30,9 +36,14 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<bean id="hibernate.dao.factory" class="kr.kth.data.hibernate.repository.HibernateDaoFactory"/>
-
-	<bean id="unitOfWork" class="kr.kth.data.hibernate.unitofwork.UnitOfWorkManager">
+	<bean id="unitOfWorkFactory" class="kr.kth.data.hibernate.unitofwork.HibernateUnitOfWorkFactory">
 		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="unitOfWorkManager" class="kr.kth.data.hibernate.unitofwork.UnitOfWorkManager">
+		<property name="unitOfWorkFactory" ref="unitOfWorkFactory"/>
+	</bean>
+
+	<bean id="hibernateDaoFactory" class="kr.kth.data.hibernate.repository.HibernateDaoFactory">
+		<property name="unitOfWorkManager" ref="unitOfWorkManager"/>
 	</bean>
 </beans>
