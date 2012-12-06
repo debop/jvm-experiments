@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
- * kr.kth.commons.caching.repository.FutureWebCacheRepository
+ * Google Guava 의 {@link LoadingCache} 를 이용하여, 캐시 값을 구하는 방법을 미리 지정하여, 쉽게 캐시를 운영할 수 있도록 캐시입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 5.
  */
@@ -28,34 +28,7 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
 	private final LoadingCache<String, String> cache;
 
 	public FutureWebCacheRepository() {
-
-		cache =
-			CacheBuilder.newBuilder().build(new CacheLoader<String, String>() {
-				@Override
-				public String load(String key) throws Exception {
-
-					if (FutureWebCacheRepository.log.isDebugEnabled())
-						FutureWebCacheRepository.log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", key);
-
-					String responseStr = "";
-					HttpAsyncClient httpClient = new DefaultHttpAsyncClient();
-					try {
-						httpClient.start();
-						HttpGet request = new HttpGet(key);
-						Future<HttpResponse> future = httpClient.execute(request, null);
-
-						HttpResponse response = future.get();
-						responseStr = EntityUtils.toString(response.getEntity(), Charset.forName("UTF-8"));
-
-						if (log.isDebugEnabled())
-							log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
-							          key, StringTool.ellipsisChar(responseStr, 255));
-					} finally {
-						httpClient.shutdown();
-					}
-					return responseStr;
-				}
-			});
+		cache = CacheBuilder.newBuilder().build(getCacheLoader());
 	}
 
 	@Override
@@ -91,5 +64,35 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
 	@Override
 	public void clear() {
 		cache.cleanUp();
+	}
+
+	private static CacheLoader<String, String> getCacheLoader() {
+		return
+			new CacheLoader<String, String>() {
+				@Override
+				public String load(String key) throws Exception {
+
+					if (log.isDebugEnabled())
+						log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", key);
+
+					String responseStr = "";
+					HttpAsyncClient httpClient = new DefaultHttpAsyncClient();
+					try {
+						httpClient.start();
+						HttpGet request = new HttpGet(key);
+						Future<HttpResponse> future = httpClient.execute(request, null);
+
+						HttpResponse response = future.get();
+						responseStr = EntityUtils.toString(response.getEntity(), Charset.forName("UTF-8"));
+
+						if (log.isDebugEnabled())
+							log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
+							          key, StringTool.ellipsisChar(responseStr, 255));
+					} finally {
+						httpClient.shutdown();
+					}
+					return responseStr;
+				}
+			};
 	}
 }

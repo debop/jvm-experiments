@@ -27,9 +27,6 @@ public final class MapperTool {
 	private static final ModelMapper mapper;
 
 	static {
-		if (log.isDebugEnabled())
-			log.debug("ModelMapper를 초기화합니다.");
-
 		mapper = new ModelMapper();
 		mapper.getConfiguration()
 		      .enableFieldMatching(true)
@@ -54,10 +51,10 @@ public final class MapperTool {
 		mapper.map(source, destination);
 	}
 
-	public static <T> List<T> mapList(Iterable<T> sources, Class<T> destinationClass) {
+	public static <S, T> List<T> mapList(Iterable<S> sources, Class<T> destinationClass) {
 		List<T> destinations = Lists.newArrayList();
 
-		for (T source : sources) {
+		for (S source : sources) {
 			destinations.add(mapper.map(source, destinationClass));
 		}
 		return destinations;
@@ -72,13 +69,13 @@ public final class MapperTool {
 		});
 	}
 
-	public static <T> Future<List<T>> mapListAsync(final Iterable<T> sources, final Class<T> destinationClass) {
+	public static <S, T> Future<List<T>> mapListAsync(final Iterable<S> sources, final Class<T> destinationClass) {
 
 		return AsyncTaskTool.startNew(new Callable<List<T>>() {
 			@Override
 			public List<T> call() throws Exception {
 				List<T> destinations = Lists.newArrayList();
-				for (T source : sources) {
+				for (S source : sources) {
 					destinations.add(mapper.map(source, destinationClass));
 				}
 				return destinations;
