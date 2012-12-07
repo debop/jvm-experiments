@@ -11,6 +11,7 @@ import kr.kth.commons.base.ValueObjectBase;
 public abstract class StatefulEntityBase extends ValueObjectBase implements StatefulEntity {
 
 	private static final long serialVersionUID = -2050040672948447046L;
+
 	private boolean persisted = false;
 
 	@Override

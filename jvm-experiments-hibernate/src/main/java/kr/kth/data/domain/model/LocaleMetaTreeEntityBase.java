@@ -23,9 +23,10 @@ public abstract class LocaleMetaTreeEntityBase<T extends Entity<TId> & TreeEntit
 	@Setter
 	private T parent;
 
-	@Getter(lazy = true)
-	private final Set<T> children = Sets.newLinkedHashSet();
+	@Getter
+	private Set<T> children = Sets.newLinkedHashSet();
 
-	@Getter(lazy = true)
-	private final TreeNodePosition nodePosition = new TreeNodePosition();
+	@Getter
+	@Setter
+	private TreeNodePosition nodePosition = new TreeNodePosition();
 }

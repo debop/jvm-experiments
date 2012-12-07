@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.Serializable;
 
 /**
- * Hibernate/JPA 기본 도메인 엔티티의 추상화 클래스입니다.
+ * Hibernate 기본 도메인 엔티티의 추상화 클래스입니다.
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */

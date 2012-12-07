@@ -42,6 +42,7 @@ public class Event extends EntityBase<Long> implements UpdateTimestampedEntity {
 	public int hashCode() {
 		if (isPersisted())
 			return super.hashCode();
+
 		return Objects.hashCode(title, date);
 	}
 

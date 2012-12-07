@@ -435,9 +435,9 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 	@Override
 	public int executeUpdate(String queryString, HibernateParameter... params) {
 
-		if (HibernateRepositoryImpl.log.isDebugEnabled())
-			HibernateRepositoryImpl.log.debug("executeUpdate 를 실행합니다. queryString=[{}], params=[{}]",
-			                                  queryString, StringTool.listToString(params));
+		if (log.isDebugEnabled())
+			log.debug("executeUpdate 를 실행합니다. queryString=[{}], params=[{}]",
+			          queryString, StringTool.listToString(params));
 
 		Query query = getSession(true).createQuery(queryString);
 		return HibernateTool.setParameters(query, params).executeUpdate();
@@ -453,8 +453,8 @@ public class HibernateRepositoryImpl<E extends StatefulEntity>
 			result = query.executeUpdate();
 			tx.commit();
 		} catch (Exception ex) {
-			if (HibernateRepositoryImpl.log.isErrorEnabled())
-				HibernateRepositoryImpl.log.error("DB 작업에 에외가 발생했습니다. Tx 을 rollback 합니다.", ex);
+			if (log.isErrorEnabled())
+				log.error("DB 작업에 에외가 발생했습니다. Tx 을 rollback 합니다.", ex);
 			tx.rollback();
 		}
 		return result;

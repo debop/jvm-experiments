@@ -8,10 +8,15 @@ package kr.kth.data;
 public enum DatabaseEngine {
 
 	H2("h2"),
+
 	HSqlDb("hsqldb"),
+
 	HSqlDbByFile("hsqhdbbyfile"),
+
 	MySql("mysql"),
+
 	PostgreSql("postgresql"),
+
 	Oracle("oracle");
 
 	private String engineName;

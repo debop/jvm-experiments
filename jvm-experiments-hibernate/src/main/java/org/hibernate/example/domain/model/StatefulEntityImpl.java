@@ -1,7 +1,8 @@
 package org.hibernate.example.domain.model;
 
 import com.google.common.base.Objects;
-import kr.kth.data.domain.model.EntityBase;
+import kr.kth.commons.tools.HashTool;
+import kr.kth.data.jpa.domain.JpaEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "STATE_ENTITY")
-public class StatefulEntityImpl extends EntityBase<Long> {
+public class StatefulEntityImpl extends JpaEntityBase {
 
 	private static final long serialVersionUID = 6927281191366376283L;
 
@@ -35,17 +36,9 @@ public class StatefulEntityImpl extends EntityBase<Long> {
 
 	@Id
 	@GeneratedValue
-	@Override
 	@Column(name = "ENTITY_ID")
-	@Access(value = AccessType.PROPERTY)
-	public Long getId() {
-		return super.getId();
-	}
+	private Long id;
 
-	@Override
-	protected void setId(Long id) {
-		super.setId(id);
-	}
 
 	@Column(name = "STATE_NAME", nullable = false, length = 128)
 	@org.hibernate.annotations.Index(name = "IX_STATE_ENTITY_NAME")
@@ -62,8 +55,8 @@ public class StatefulEntityImpl extends EntityBase<Long> {
 	@PreUpdate
 	protected void updateLastUpdated() {
 
-		if (StatefulEntityImpl.log.isDebugEnabled())
-			StatefulEntityImpl.log.debug("PrePersist, PreUpdate event 발생...");
+		if (log.isDebugEnabled())
+			log.debug("PrePersist, PreUpdate event 발생...");
 
 		lastUpdated = new Date();
 	}
@@ -71,7 +64,7 @@ public class StatefulEntityImpl extends EntityBase<Long> {
 	@Override
 	public int hashCode() {
 		if (isPersisted())
-			return super.hashCode();
+			return HashTool.compute(id);
 
 		return Objects.hashCode(name);
 	}
@@ -79,6 +72,7 @@ public class StatefulEntityImpl extends EntityBase<Long> {
 	@Override
 	protected Objects.ToStringHelper buildStringHelper() {
 		return super.buildStringHelper()
+		            .add("id", id)
 		            .add("name", name)
 		            .add("lastUpdated", lastUpdated);
 	}

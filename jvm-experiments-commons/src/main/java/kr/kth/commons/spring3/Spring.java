@@ -312,7 +312,7 @@ public final class Spring {
 			return getBean(beanName);
 		} catch (Exception e) {
 			if (log.isWarnEnabled())
-				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다.", e);
+				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다. beanName=" + beanName, e);
 			return null;
 		}
 	}
@@ -322,7 +322,7 @@ public final class Spring {
 			return getBean(beanName, args);
 		} catch (Exception e) {
 			if (log.isWarnEnabled())
-				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다.", e);
+				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다. beanName=" + beanName, e);
 			return null;
 		}
 	}
@@ -332,7 +332,7 @@ public final class Spring {
 			return getBean(beanClass);
 		} catch (Exception e) {
 			if (log.isWarnEnabled())
-				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다.", e);
+				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다. beanClass=" + beanClass.getName(), e);
 			return (T) null;
 		}
 	}
@@ -342,7 +342,7 @@ public final class Spring {
 			return getBean(beanName, beanClass);
 		} catch (Exception e) {
 			if (log.isWarnEnabled())
-				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다.", e);
+				log.warn("bean을 찾는데 실패했습니다. null을 반환합니다. beanName=" + beanName, e);
 			return (T) null;
 		}
 	}

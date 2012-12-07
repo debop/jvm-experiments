@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+import java.util.UUID;
+
 /**
  * 주소 정보
  * JpaUser: sunghyouk.bae@gmail.com
@@ -22,6 +25,9 @@ public class Address extends ValueObjectBase {
 	private String zipcode;
 	private String city;
 
+	private Date lastUpdated;
+	private UUID systemId;
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(street, zipcode, city);
@@ -33,5 +39,16 @@ public class Address extends ValueObjectBase {
 		            .add("street", street)
 		            .add("zipcode", zipcode)
 		            .add("city", city);
+	}
+}
+
+class AddressEx extends Address {
+
+	private String country;
+
+	@Override
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("country", country);
 	}
 }

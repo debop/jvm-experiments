@@ -17,8 +17,8 @@ public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValu
 
 	private static final long serialVersionUID = -3409892017189966160L;
 
-	@Getter(lazy = true)
-	private final Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
+	@Getter
+	private Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
 
 	@Override
 	public MetaValue getMetaValue(String key) {

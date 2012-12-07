@@ -16,7 +16,7 @@ public abstract class MetaEntityBase<TId extends Serializable> extends EntityBas
 
 	private static final long serialVersionUID = 8802449633388271176L;
 
-	@Getter(lazy = true)
+	@Getter
 	private final Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
 
 	@Override

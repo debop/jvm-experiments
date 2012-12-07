@@ -1,12 +1,12 @@
 package kr.kth.data.domain.model;
 
+import com.google.common.collect.Maps;
 import kr.kth.commons.tools.MapperTool;
 import kr.kth.commons.tools.ReflectTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -22,8 +22,8 @@ public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue ex
 
 	private static final long serialVersionUID = 8316501523660904445L;
 
-	@Getter(lazy = true)
-	private final Map<Locale, TLocaleValue> localeMap = new HashMap<>();
+	@Getter
+	private Map<Locale, TLocaleValue> localeMap = Maps.newLinkedHashMap();
 
 	private TLocaleValue defaultLocaleValue = null;
 

@@ -101,7 +101,7 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	boolean existsByNamedQuery(String queryName, HibernateParameter... parameters);
 
-	long Count();
+	long count();
 
 	long count(DetachedCriteria dc);
 

@@ -18,7 +18,7 @@ public class User extends EntityBase<Long> {
 
 	private static final long serialVersionUID = 6892074618286797904L;
 
-	private Long id;
+	//private Long id;
 
 	private String firstname;
 	private String lastname;

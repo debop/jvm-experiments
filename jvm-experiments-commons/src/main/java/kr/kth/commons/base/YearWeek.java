@@ -52,13 +52,15 @@ public class YearWeek implements Serializable, Comparable<YearWeek> {
 		if (!(o instanceof YearWeek)) {
 			return false;
 		}
-		YearWeek that = (YearWeek) o;
-		return (this.year == that.year) && (this.week == that.week);
+		//YearWeek that = (YearWeek) o;
+		//return (this.year == that.year) && (this.week == that.week);
+		return hashCode() == o.hashCode();
 	}
 
 	@Override
 	public int hashCode() {
-		return year * 100 + week;
+		// return year * 100 + week;
+		return Objects.hashCode(year, week);
 	}
 
 	@Override

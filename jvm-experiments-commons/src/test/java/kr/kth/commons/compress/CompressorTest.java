@@ -54,14 +54,14 @@ public class CompressorTest extends AbstractTest {
 			try {
 				compressAndDecompress(compressor);
 			} catch (Exception e) {
-				CompressorTest.log.error("compressor=" + compressor, e);
+				log.error("compressor=" + compressor, e);
 			}
 	}
 
 	private static void compressAndDecompress(Compressor compressor) {
 
-		if (CompressorTest.log.isDebugEnabled())
-			CompressorTest.log.debug("압축/복원 테스트를 시작합니다... compressor=" + compressor);
+		if (log.isDebugEnabled())
+			log.debug("압축/복원 테스트를 시작합니다... compressor=" + compressor);
 
 		try {
 			byte[] plainBytes = StringTool.getUtf8Bytes(plainText);
@@ -78,7 +78,7 @@ public class CompressorTest extends AbstractTest {
 
 		} catch (Exception e) {
 			//if (log.isErrorEnabled())
-			CompressorTest.log.error("압축/복원 테스트 실패 compressor=" + compressor, e);
+			log.error("압축/복원 테스트 실패 compressor=" + compressor, e);
 		}
 	}
 }

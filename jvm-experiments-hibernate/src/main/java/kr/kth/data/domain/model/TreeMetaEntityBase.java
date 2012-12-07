@@ -17,7 +17,7 @@ public abstract class TreeMetaEntityBase<T extends Entity<TId> & TreeEntity<T>, 
 
 	private static final long serialVersionUID = -7475565290976767358L;
 
-	@Getter(lazy = true)
+	@Getter
 	private final Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
 
 	@Override

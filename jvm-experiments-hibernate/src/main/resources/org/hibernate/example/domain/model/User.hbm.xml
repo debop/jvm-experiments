@@ -11,10 +11,13 @@
 			<generator class="native"/>
 		</id>
 
+		<natural-id>
+			<property name="username" column="UserName" length="128" not-null="true"/>
+			<property name="userpwd" column="UserPwd" length="128" not-null="true"/>
+		</natural-id>
+
 		<property name="firstname" column="FirstName" length="255" not-null="true"/>
 		<property name="lastname" column="LastName" length="255" not-null="true"/>
-		<property name="username" column="UserName" length="128"/>
-		<property name="userpwd" column="UserPwd" length="128"/>
 		<property name="userEmail" column="UserEmail" length="255"/>
 
 		<component name="homeAddress" class="Address">

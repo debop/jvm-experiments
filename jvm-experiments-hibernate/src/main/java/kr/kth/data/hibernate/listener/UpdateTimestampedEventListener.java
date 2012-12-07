@@ -18,8 +18,8 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 	private static final long serialVersionUID = -7472589588444503777L;
 
 	public UpdateTimestampedEventListener() {
-		if (UpdateTimestampedEventListener.log.isDebugEnabled())
-			UpdateTimestampedEventListener.log.debug("UpdateTimestampedEventListener 생성");
+		if (log.isDebugEnabled())
+			log.debug("UpdateTimestampedEventListener 생성");
 	}
 
 	@Override
@@ -27,8 +27,8 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 		Object entity = event.getEntity();
 		if (entity instanceof UpdateTimestampedEntity) {
 			((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
-			if (UpdateTimestampedEventListener.log.isDebugEnabled())
-				UpdateTimestampedEventListener.log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
+			if (log.isDebugEnabled())
+				log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
 		}
 		return false;
 	}
@@ -36,14 +36,14 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 	@Override
 	public boolean onPreUpdate(PreUpdateEvent event) {
 
-		if (UpdateTimestampedEventListener.log.isDebugEnabled())
-			UpdateTimestampedEventListener.log.debug("onPreUpdate 호출. PersistEvent=[{}]", event);
+		if (log.isDebugEnabled())
+			log.debug("onPreUpdate 호출. PersistEvent=[{}]", event);
 
 		Object entity = event.getEntity();
 		if (entity instanceof UpdateTimestampedEntity) {
 			((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
-			if (UpdateTimestampedEventListener.log.isDebugEnabled())
-				UpdateTimestampedEventListener.log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
+			if (log.isDebugEnabled())
+				log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
 		}
 		return false;
 	}

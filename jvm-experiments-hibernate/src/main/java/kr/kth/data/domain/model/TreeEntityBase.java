@@ -22,11 +22,12 @@ public abstract class TreeEntityBase<T extends TreeEntity<T>, TId extends Serial
 	@Setter
 	private T parent;
 
-	@Getter(lazy = true)
-	private final Set<T> children = Sets.newLinkedHashSet();
+	@Getter
+	private Set<T> children = Sets.newLinkedHashSet();
 
-	@Getter(lazy = true)
-	private final TreeNodePosition nodePosition = new TreeNodePosition();
+	@Getter
+	@Setter
+	private TreeNodePosition nodePosition = new TreeNodePosition();
 
 	@Override
 	protected Objects.ToStringHelper buildStringHelper() {

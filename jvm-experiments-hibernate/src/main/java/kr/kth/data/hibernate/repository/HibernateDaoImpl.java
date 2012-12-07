@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Hibernate 용 Repository 입니다.
+ * Hibernate 용 Data Access Object 입니다.
  * Spring의 HibernateDaoSupport 및 HibernateTemplate는 더 이상 사용하지 말라.
  * 참고: http://forum.springsource.org/showthread.php?117227-Missing-Hibernate-Classes-Interfaces-in-spring-orm-3.1.0.RC1
  * User: sunghyouk.bae@gmail.com
@@ -56,7 +56,6 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public E load(Serializable id) {
 		return (E) getSession().load(entityClass, id);
 	}
@@ -356,7 +355,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public long Count() {
+	public long count() {
 		return count(getSession().createCriteria(entityClass));
 	}
 

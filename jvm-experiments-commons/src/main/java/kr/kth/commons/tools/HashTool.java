@@ -12,15 +12,12 @@ public final class HashTool {
 
 	public static final int NullValue = 0;
 	public static final int OneValue = 1;
-	static final int Factor = 31;
+	public static final int Factor = 31;
 
 	private HashTool() { }
 
 	/**
 	 * 지정한 객체의 Hash Code 를 반환합니다. 객체가 null이면, 0을 반환합니다.
-	 *
-	 * @param x hashcode 값을 얻고자하는 객체
-	 * @return 객체의 hashcode 값
 	 */
 	public static int compute(Object x) {
 		return (x != null) ? x.hashCode() : NullValue;
@@ -28,10 +25,6 @@ public final class HashTool {
 
 	/**
 	 * 지정된 객체들의 Hash Code를 조합한 Hash Code를 생성합니다.
-	 *
-	 * @param x
-	 * @param y
-	 * @return
 	 */
 	public static int compute(Object x, Object y) {
 		return compute(x) * Factor + compute(y);
@@ -39,11 +32,6 @@ public final class HashTool {
 
 	/**
 	 * 지정된 객체들의 Hash Code를 조합한 Hash Code를 생성합니다.
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
 	 */
 	public static int compute(Object x, Object y, Object z) {
 		return compute(x, y) * Factor + compute(z);

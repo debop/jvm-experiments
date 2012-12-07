@@ -51,8 +51,8 @@ public class UserDaoJdbc extends springbook.chap03.UserDao implements springbook
 	@Override
 	public void add(final User user) {
 
-		if (UserDaoJdbc.log.isDebugEnabled())
-			UserDaoJdbc.log.debug("add user = [{}]", user);
+		if (log.isDebugEnabled())
+			log.debug("add user = [{}]", user);
 
 		PlatformTransactionManager tm = new DataSourceTransactionManager(jdbcTemplate.getDataSource());
 		TransactionStatus ts = tm.getTransaction(new DefaultTransactionDefinition());

@@ -39,7 +39,7 @@ public class Budget extends JpaEntityBase {
 	@Type(type = "org.jpa.example.domain.model.usertypes.MonetaryAmountCompositeUserType")
 	@Columns(columns =
 		         {
-			         @Column(name = "COMPOSITE_AMOUT"),
+			         @Column(name = "COMPOSITE_AMOUNT"),
 			         @Column(name = "COMPOSITE_CURRENCY", length = 8)
 		         })
 	private MonetaryAmount compositePrice;

@@ -1,7 +1,7 @@
 package org.jpa.example.domain.model;
 
 import com.google.common.base.Objects;
-import kr.kth.data.domain.model.StatefulEntityBase;
+import kr.kth.data.jpa.domain.JpaEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
@@ -23,7 +23,7 @@ import javax.persistence.*;
 @DynamicUpdate
 @Getter
 @Setter
-public class JpaUser extends StatefulEntityBase {
+public class JpaUser extends JpaEntityBase {
 
 	private static final long serialVersionUID = -4278711858304883834L;
 
@@ -72,7 +72,7 @@ public class JpaUser extends StatefulEntityBase {
 	@Override
 	public int hashCode() {
 		if (isPersisted())
-			return super.hashCode();
+			return Objects.hashCode(id);
 
 		return Objects.hashCode(username, password);
 	}
