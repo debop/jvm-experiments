@@ -27,6 +27,9 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 
 
 	public ConcurrentHashMapCacheRepository(long validFor) {
+		if (log.isDebugEnabled())
+			log.debug("ConcurrentHashMapCacheRepository 인스턴스를 생성합니다. validFor=[{}]", validFor);
+
 		if (validFor > 0)
 			setExpiry(validFor);
 

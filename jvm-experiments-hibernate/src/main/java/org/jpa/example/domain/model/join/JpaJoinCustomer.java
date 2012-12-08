@@ -2,7 +2,7 @@ package org.jpa.example.domain.model.join;
 
 import com.google.common.base.Objects;
 import kr.kth.commons.tools.HashTool;
-import kr.kth.data.jpa.domain.JpaEntityBase;
+import kr.kth.data.domain.model.AnnotatedEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Generated;
@@ -21,14 +21,14 @@ import java.util.Date;
 @SecondaryTable(name = "JPA_JOIN_CUSTOMER_ADDR", pkJoinColumns = @PrimaryKeyJoinColumn(name = "CUSTOMER_ID"))
 @Getter
 @Setter
-public class JpaJoinCustomer extends JpaEntityBase {
+public class JpaJoinCustomer extends AnnotatedEntityBase {
 
 	private static final long serialVersionUID = 6609847114968580068L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	@Column(name = "CUSTOMER_ID")
-	private String id;
+	private Long id;
 
 	@Column(name = "CUSTOMER_NAME")
 	private String name;

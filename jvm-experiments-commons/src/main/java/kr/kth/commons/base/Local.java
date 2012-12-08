@@ -1,16 +1,16 @@
 package kr.kth.commons.base;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 
 /**
- * Thread Context별로 격리된 저장소를 제공합니다.
+ * Thread Context 별로 격리된 저장소를 제공합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
@@ -24,7 +24,7 @@ public class Local {
 		new ThreadLocal<HashMap>() {
 			@Override
 			public HashMap initialValue() {
-				return new LinkedHashMap();
+				return Maps.newLinkedHashMap();
 			}
 		};
 

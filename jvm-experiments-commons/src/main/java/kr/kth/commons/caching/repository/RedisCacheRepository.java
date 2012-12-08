@@ -2,10 +2,10 @@ package kr.kth.commons.caching.repository;
 
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.caching.CacheRepositoryBase;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 
-import javax.inject.Inject;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -19,14 +19,16 @@ import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 @Slf4j
 public class RedisCacheRepository extends CacheRepositoryBase {
 
-	@Inject
-	private final Jedis jedis;
+	@Setter
+	private Jedis jedis;
+
+	public RedisCacheRepository() {}
 
 	public RedisCacheRepository(Jedis jedis) {
 		this.jedis = Guard.shouldNotBeNull(jedis, "jedis");
 	}
 
-	public Jedis getJedis() {
+	public synchronized Jedis getJedis() {
 		if (!jedis.isConnected()) {
 			if (log.isDebugEnabled())
 				log.debug("Redis 서버에 연결합니다...");

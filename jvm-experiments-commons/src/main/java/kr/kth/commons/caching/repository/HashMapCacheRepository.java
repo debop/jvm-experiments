@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableMap;
 import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -27,16 +26,13 @@ import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 @SuppressWarnings("unchecked")
 public class HashMapCacheRepository extends CacheRepositoryBase {
 
-	@Inject
 	private final Cache cache;
 
 	public HashMapCacheRepository(Cache<String, Object> cache) {
-
 		this.cache = shouldNotBeNull(cache, "cache");
 	}
 
 	public HashMapCacheRepository(long validFor) {
-
 		if (validFor > 0)
 			setExpiry(validFor);
 

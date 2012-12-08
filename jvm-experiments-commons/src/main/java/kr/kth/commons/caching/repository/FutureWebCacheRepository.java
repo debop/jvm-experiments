@@ -28,6 +28,9 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
 	private final LoadingCache<String, String> cache;
 
 	public FutureWebCacheRepository() {
+		if (log.isDebugEnabled())
+			log.debug("FutureWebCacheRepository 인스턴스를 생성합니다.");
+
 		cache = CacheBuilder.newBuilder().build(getCacheLoader());
 	}
 

@@ -4,7 +4,7 @@ package kr.kth.commons.base;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
-public class SR {
+public final class SR {
 
 	private SR() {}
 

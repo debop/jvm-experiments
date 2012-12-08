@@ -64,6 +64,7 @@ public class SpringContextTest {
 		try {
 			log.info("querying all the managed entities...");
 			final Map<String, ClassMetadata> metadataMap = session.getSessionFactory().getAllClassMetadata();
+
 			for (Object key : metadataMap.keySet()) {
 				final ClassMetadata classMetadata = metadataMap.get(key);
 				final String entityName = classMetadata.getEntityName();

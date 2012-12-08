@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import kr.kth.commons.base.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * 주소 정보
@@ -13,7 +12,6 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
 public class Address extends ValueObjectBase {
 
 	private static final long serialVersionUID = 4556469620637965297L;

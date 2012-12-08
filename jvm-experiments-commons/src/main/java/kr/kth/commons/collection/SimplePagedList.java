@@ -1,9 +1,10 @@
 package kr.kth.commons.collection;
 
-import kr.kth.commons.base.Guard;
 import lombok.Getter;
 
 import java.util.List;
+
+import static kr.kth.commons.base.Guard.*;
 
 /**
  * 페이징된 목록을 표현하는 클래스입니다.
@@ -22,16 +23,10 @@ public class SimplePagedList<E> implements PagedList<E> {
 	private final long pageCount;
 
 	public SimplePagedList(List<E> list, int pageNo, int pageSize, long itemCount) {
-
-		Guard.shouldNotBeNull(list, "list");
-		Guard.shouldBePositiveNumber(pageNo, "pageNo");
-		Guard.shouldBePositiveNumber(pageSize, "pageSize");
-		Guard.shouldNotBeNegativeNumber(itemCount, "itemCount");
-
-		this.list = list;
-		this.pageNo = pageNo;
-		this.pageSize = pageSize;
-		this.itemCount = itemCount;
+		this.list = shouldNotBeNull(list, "list");
+		this.pageNo = shouldBePositiveNumber(pageNo, "pageNo");
+		this.pageSize = shouldBePositiveNumber(pageSize, "pageSize");
+		this.itemCount = shouldNotBeNegativeNumber(itemCount, "itemCount");
 
 		this.pageCount = (long) (itemCount / pageSize) + ((itemCount % pageSize) > 0 ? 1 : 0);
 	}

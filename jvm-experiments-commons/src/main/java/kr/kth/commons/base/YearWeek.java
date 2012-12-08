@@ -3,22 +3,24 @@ package kr.kth.commons.base;
 import com.google.common.base.Objects;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 년차 (Week of Year) 를 나타냅니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
-public class YearWeek implements Serializable, Comparable<YearWeek> {
+@Slf4j
+@Getter
+@Setter
+public class YearWeek extends ValueObjectBase implements Comparable<YearWeek> {
 
 	private static final long serialVersionUID = -5529645755326276780L;
 
 	public static final YearWeek MIN_VALUE = new YearWeek();
 
-	@Getter @Setter private int year;
-	@Getter @Setter private int week;
+	private int year;
+	private int week;
 
 	public YearWeek() {
 		this(0, 1);
@@ -45,30 +47,16 @@ public class YearWeek implements Serializable, Comparable<YearWeek> {
 		return this.week - that.week;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == this) return true;
-		if (o == null) return false;
-		if (!(o instanceof YearWeek)) {
-			return false;
-		}
-		//YearWeek that = (YearWeek) o;
-		//return (this.year == that.year) && (this.week == that.week);
-		return hashCode() == o.hashCode();
-	}
 
 	@Override
 	public int hashCode() {
-		// return year * 100 + week;
-		return Objects.hashCode(year, week);
+		return year * 100 + week;
 	}
 
 	@Override
-	public String toString() {
-		return
-			Objects.toStringHelper(this)
-			       .add("year", year)
-			       .add("week", week)
-			       .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("year", year)
+		            .add("week", week);
 	}
 }

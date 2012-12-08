@@ -1,6 +1,5 @@
 package kr.kth.commons.caching.repository;
 
-import com.google.common.base.Preconditions;
 import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import net.sf.ehcache.Element;
 import java.util.Arrays;
 import java.util.Map;
 
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 
 
@@ -25,7 +25,9 @@ public class EhCacheRepository extends CacheRepositoryBase {
 	private final Ehcache ehcache;
 
 	public EhCacheRepository(Ehcache ehcache) {
-		this.ehcache = Preconditions.checkNotNull(ehcache, "ehcache should not be null.");
+		if (log.isDebugEnabled())
+			log.debug("EhCacheRepository 인스턴스를 생성합니다. ehcache=[{}]", ehcache);
+		this.ehcache = shouldNotBeNull(ehcache, "ehcache");
 	}
 
 	@Override

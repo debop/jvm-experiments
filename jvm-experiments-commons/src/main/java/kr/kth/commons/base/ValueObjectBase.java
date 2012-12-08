@@ -9,7 +9,7 @@ import com.google.common.base.Objects;
  */
 public abstract class ValueObjectBase implements ValueObject {
 
-	private static final long serialVersionUID = 5546630455380910528L;
+	//private static final long serialVersionUID = 5546630455380910528L;
 
 	@Override
 	public boolean equals(Object obj) {

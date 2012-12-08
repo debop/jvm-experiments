@@ -1,6 +1,7 @@
 package kr.kth.commons.base;
 
 import kr.kth.commons.tools.StringTool;
+import lombok.extern.slf4j.Slf4j;
 
 import static java.lang.String.format;
 
@@ -11,7 +12,10 @@ import static java.lang.String.format;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
-public class Guard {
+@Slf4j
+public final class Guard {
+
+	private Guard() {}
 
 	public static <T> T firstNotNull(T first, T second) {
 		if (first != null)
@@ -22,147 +26,161 @@ public class Guard {
 		throw new IllegalArgumentException("all parameters is null.");
 	}
 
-	public static void assertTrue(boolean condition) throws IllegalArgumentException {
+	public static void assertTrue(boolean condition) {
 		if (!condition)
 			throw new IllegalArgumentException();
 	}
 
-	public static void assertTrue(boolean condition, String format, Object... args) throws IllegalArgumentException {
+	public static void assertTrue(boolean condition, String format, Object... args) {
 		if (!condition)
 			throw new IllegalArgumentException(format(format, args));
 	}
 
 	public static void shouldBeEquals(Object actual,
 	                                  Object expected,
-	                                  String actualName) throws IllegalArgumentException {
+	                                  final String actualName) {
 		if (actual != expected)
 			throw new IllegalArgumentException(format(SR.ShouldBeEquals, actualName, actual, expected));
 	}
 
 	public static void shouldNotBeEquals(Object actual,
 	                                     Object expected,
-	                                     String actualName) throws IllegalArgumentException {
+	                                     final String actualName) {
 		if (actual == expected)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeEquals, actualName, actual, expected));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeEquals, actualName, actual, expected));
 	}
 
-	public static <T> void shouldBeNull(T arg, String argName) throws IllegalArgumentException {
+	public static <T> void shouldBeNull(T arg, final String argName) {
 		if (arg != null)
-			throw new IllegalArgumentException(String.format(SR.ShouldBeNull, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBeNull, argName));
 	}
 
-	public static <T> T shouldNotBeNull(T arg, String argName) throws IllegalArgumentException {
+	public static <T> T shouldNotBeNull(T arg, final String argName) {
 		if (arg == null)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeNull, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeNull, argName));
 
 		return arg;
 	}
 
-	public static String shouldBeEmpty(String arg, String argName) throws IllegalArgumentException {
+	public static String shouldBeEmpty(String arg, final String argName) {
 		if (StringTool.isNotEmpty(arg))
-			throw new IllegalArgumentException(String.format(SR.ShouldBeEmptyString, argName));
-
+			throw new IllegalArgumentException(format(SR.ShouldBeEmptyString, argName));
 		return arg;
 	}
 
-	public static String shouldNotBeEmpty(String arg, String argName) throws IllegalArgumentException {
+	public static String shouldNotBeEmpty(String arg, final String argName) {
 		if (StringTool.isEmpty(arg))
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeEmptyString, argName));
-
+			throw new IllegalArgumentException(format(SR.ShouldNotBeEmptyString, argName));
 		return arg;
 	}
 
-	public static String shouldBeWhiteSpace(String arg, String argName) throws IllegalArgumentException {
+	public static String shouldBeWhiteSpace(String arg, final String argName) {
 		if (StringTool.isNotWhiteSpace(arg))
-			throw new IllegalArgumentException(String.format(SR.ShouldBeWhiteSpace, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBeWhiteSpace, argName));
 
 		return arg;
 	}
 
-	public static String shouldNotBeWhiteSpace(String arg, String argName) throws IllegalArgumentException {
+	public static String shouldNotBeWhiteSpace(String arg, final String argName) {
 		if (StringTool.isWhiteSpace(arg))
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeWhiteSpace, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeWhiteSpace, argName));
 
 		return arg;
 	}
 
-	public static void shouldBePositiveNumber(int arg, String argName) throws IllegalArgumentException {
+	public static int shouldBePositiveNumber(int arg, final String argName) {
 		if (arg <= 0)
-			throw new IllegalArgumentException(String.format(SR.ShouldBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBePositiveNumber(long arg, String argName) throws IllegalArgumentException {
+	public static long shouldBePositiveNumber(long arg, final String argName) {
 		if (arg <= 0L)
-			throw new IllegalArgumentException(String.format(SR.ShouldBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBePositiveNumber(float arg, String argName) throws IllegalArgumentException {
+	public static float shouldBePositiveNumber(float arg, final String argName) {
 		if (arg <= 0f)
-			throw new IllegalArgumentException(String.format(SR.ShouldBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBePositiveNumber(double arg, String argName) throws IllegalArgumentException {
+	public static double shouldBePositiveNumber(double arg, final String argName) {
 		if (arg <= 0.0)
-			throw new IllegalArgumentException(String.format(SR.ShouldBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBePositiveNumber(int arg, String argName) throws IllegalArgumentException {
+	public static int shouldNotBePositiveNumber(int arg, final String argName) {
 		if (arg > 0)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBePositiveNumber(long arg, String argName) throws IllegalArgumentException {
+	public static long shouldNotBePositiveNumber(long arg, final String argName) {
 		if (arg > 0L)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBePositiveNumber(float arg, String argName) throws IllegalArgumentException {
+	public static float shouldNotBePositiveNumber(float arg, final String argName) {
 		if (arg > 0f)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBePositiveNumber(double arg, String argName) throws IllegalArgumentException {
+	public static double shouldNotBePositiveNumber(double arg, final String argName) {
 		if (arg > 0.0)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBePositiveNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBePositiveNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBeNegativeNumber(int arg, String argName) throws IllegalArgumentException {
+	public static int shouldBeNegativeNumber(int arg, final String argName) {
 		if (arg < 0)
-			throw new IllegalArgumentException(String.format(SR.ShouldBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBeNegativeNumber(long arg, String argName) throws IllegalArgumentException {
+	public static long shouldBeNegativeNumber(long arg, final String argName) {
 		if (arg < 0L)
-			throw new IllegalArgumentException(String.format(SR.ShouldBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBeNegativeNumber(float arg, String argName) throws IllegalArgumentException {
+	public static float shouldBeNegativeNumber(float arg, final String argName) {
 		if (arg < 0f)
-			throw new IllegalArgumentException(String.format(SR.ShouldBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldBeNegativeNumber(double arg, String argName) throws IllegalArgumentException {
+	public static double shouldBeNegativeNumber(double arg, final String argName) {
 		if (arg < 0.0)
-			throw new IllegalArgumentException(String.format(SR.ShouldBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBeNegativeNumber(int arg, String argName) throws IllegalArgumentException {
+	public static int shouldNotBeNegativeNumber(int arg, final String argName) {
 		if (arg >= 0)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBeNegativeNumber(long arg, String argName) throws IllegalArgumentException {
+	public static long shouldNotBeNegativeNumber(long arg, final String argName) {
 		if (arg >= 0L)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBeNegativeNumber(float arg, String argName) throws IllegalArgumentException {
+	public static float shouldNotBeNegativeNumber(float arg, final String argName) {
 		if (arg >= 0f)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeNegativeNumber, argName));
+		return arg;
 	}
 
-	public static void shouldNotBeNegativeNumber(double arg, String argName) throws IllegalArgumentException {
+	public static double shouldNotBeNegativeNumber(double arg, final String argName) {
 		if (arg >= 0.0)
-			throw new IllegalArgumentException(String.format(SR.ShouldNotBeNegativeNumber, argName));
+			throw new IllegalArgumentException(format(SR.ShouldNotBeNegativeNumber, argName));
+		return arg;
 	}
 }

@@ -2,6 +2,7 @@ package kr.kth.commons.caching.repository;
 
 import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.spy.memcached.MemcachedClient;
 
@@ -20,8 +21,10 @@ import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 @Slf4j
 public class MemcachedRepository extends CacheRepositoryBase {
 
-	@Getter
-	private final MemcachedClient client;
+	@Getter @Setter
+	private MemcachedClient client;
+
+	public MemcachedRepository() { }
 
 	public MemcachedRepository(MemcachedClient client) {
 		this.client = shouldNotBeNull(client, "client");
