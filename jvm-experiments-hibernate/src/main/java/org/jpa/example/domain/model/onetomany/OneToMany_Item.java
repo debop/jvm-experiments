@@ -1,13 +1,13 @@
 package org.jpa.example.domain.model.onetomany;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Sets;
 import kr.kth.commons.tools.HashTool;
 import kr.kth.data.jpa.domain.JpaEntityBase;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -34,7 +34,7 @@ public class OneToMany_Item extends JpaEntityBase {
 
 	@OneToMany(mappedBy = "item", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@LazyCollection(value = LazyCollectionOption.EXTRA)
-	private Set<OneToMany_Bid> bids = new HashSet<OneToMany_Bid>();
+	private Set<OneToMany_Bid> bids = Sets.newHashSet();
 
 	@Override
 	public int hashCode() {

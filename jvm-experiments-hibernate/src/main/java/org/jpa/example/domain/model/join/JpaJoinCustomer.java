@@ -1,4 +1,4 @@
-package JpaCustomerample.domain.model.join;
+package org.jpa.example.domain.model.join;
 
 import com.google.common.base.Objects;
 import kr.kth.commons.tools.HashTool;
@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import org.jpa.example.domain.model.join.JpaJoinAddress;
 
 import javax.persistence.*;
 import java.util.Date;

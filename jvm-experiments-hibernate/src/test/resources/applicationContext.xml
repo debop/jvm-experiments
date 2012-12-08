@@ -19,6 +19,7 @@
 				<value>org.jpa.example.domain.model</value>
 				<value>org.jpa.example.domain.model.collection</value>
 				<value>org.jpa.example.domain.model.join</value>
+				<value>org.jpa.example.domain.model.joinedSubclass</value>
 				<value>org.jpa.example.domain.model.onetomany</value>
 				<value>org.jpa.example.domain.model.onetoone</value>
 				<value>org.jpa.example.domain.model.subclass</value>

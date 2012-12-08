@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import kr.kth.commons.base.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,7 +15,6 @@ import java.util.UUID;
  */
 @Getter
 @Setter
-@ToString
 public class Address extends ValueObjectBase {
 
 	private static final long serialVersionUID = -4051226015707369322L;
@@ -39,16 +37,5 @@ public class Address extends ValueObjectBase {
 		            .add("street", street)
 		            .add("zipcode", zipcode)
 		            .add("city", city);
-	}
-}
-
-class AddressEx extends Address {
-
-	private String country;
-
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("country", country);
 	}
 }

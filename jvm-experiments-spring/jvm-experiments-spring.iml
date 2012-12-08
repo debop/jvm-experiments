@@ -81,9 +81,8 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.0.6" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.9" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.9" level="project" />
-    <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.7.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.jolbox:bonecp-provider:0.7.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.jolbox:bonecp-spring:0.7.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0-rc1" level="project" />
+    <orderEntry type="library" name="Maven: com.jolbox:bonecp-spring:0.8.0-rc1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:com.springsource.javax.activation:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:com.springsource.javax.mail:1.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.aopalliance:com.springsource.org.aopalliance:1.0.0" level="project" />
