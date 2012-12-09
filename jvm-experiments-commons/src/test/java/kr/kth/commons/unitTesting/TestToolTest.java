@@ -25,12 +25,12 @@ public class TestToolTest {
 			                  @Override
 			                  public void run() {
 				                  for (int i = LowerBound; i < UpperBound; i++) {
-					                  if (log.isDebugEnabled())
-						                  log.debug("FindRoot({}) returns [{}]", i, Hero.findRoot(i));
+//					                  if (log.isDebugEnabled())
+//						                  log.debug("FindRoot({}) returns [{}]", i, Hero.findRoot(i));
+					                  Hero.findRoot(i);
 				                  }
 			                  }
 		                  });
-
 	}
 
 	@Test
@@ -42,8 +42,8 @@ public class TestToolTest {
 				for (int i = LowerBound; i < UpperBound; i++) {
 					Hero.findRoot(i);
 				}
-				if (log.isDebugEnabled())
-					log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
+//				if (log.isDebugEnabled())
+//					log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
 				return Hero.findRoot(UpperBound);
 			}
 		};

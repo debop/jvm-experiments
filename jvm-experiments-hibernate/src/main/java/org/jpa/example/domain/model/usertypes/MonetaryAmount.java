@@ -15,6 +15,8 @@ import java.util.Currency;
  */
 public class MonetaryAmount extends ValueObjectBase {
 
+	private static final long serialVersionUID = 3784911023192209715L;
+
 	@Getter private final BigDecimal amount;
 	@Getter private final Currency currency;
 

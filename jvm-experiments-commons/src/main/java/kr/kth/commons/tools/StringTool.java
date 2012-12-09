@@ -3,6 +3,7 @@ package kr.kth.commons.tools;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import kr.kth.commons.base.BinaryStringFormat;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.apache.commons.codec.binary.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
+
+import static java.lang.String.format;
 
 /**
  * 문자열 처리를 위한 Utility Class 입니다.
@@ -154,12 +157,17 @@ public final class StringTool {
 	 * 16 진수로 표현된 데이타를 바이트 배열로 변환합니다.
 	 *
 	 * @param hexString 16진수로 표현된 문자열
-	 * @return
+	 * @return 16 진수 바이트 배열
 	 */
 	public static byte[] getBytesFromHexString(final String hexString) {
+		if (isEmpty(hexString))
+			return new byte[0];
+
 		try {
 			return Hex.decodeHex(hexString.toCharArray());
 		} catch (DecoderException e) {
+			if (log.isErrorEnabled())
+				log.error("16진수로 표현된 문자열을 바이트 배열로 변환하는데 실패했습니다.", e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -306,7 +314,7 @@ public final class StringTool {
 	}
 
 	public static String quotedStr(final String str) {
-		return isNull(str) ? NULL_STR : String.format("\'%s\'", str.replace("\'", "\'\'"));
+		return isNull(str) ? NULL_STR : format("\'%s\'", str.replace("\'", "\'\'"));
 	}
 
 	public static String quotedStr(final String str, final String defaultStr) {
@@ -330,9 +338,9 @@ public final class StringTool {
 
 	public static Iterable<String> split(final String str, final char... separators) {
 		if (isEmpty(str))
-			return new ArrayList<String>();
+			return Lists.newArrayList();
 
-		List<String> result = new ArrayList<String>();
+		List<String> result = Lists.newArrayList();
 		List<Character> seps = Chars.asList(separators);
 
 		int length = str.length();
@@ -351,15 +359,16 @@ public final class StringTool {
 
 	public static Iterable<String> split(final String str, final String... separators) {
 		if (isEmpty(str))
-			return new ArrayList<String>();
+			return Lists.newArrayList();
 
-		List<String> result = new ArrayList<String>();
+		List<String> result = Lists.newArrayList();
+		List<char[]> seps = Lists.newArrayList();
 
-		List<char[]> seps = new ArrayList<char[]>();
 		for (String sep : separators) {
 			seps.add(sep.toCharArray());
 		}
 		char[] strArray = str.toCharArray();
+
 		int startIndex = 0;
 		for (int i = 0; i < strArray.length; i++) {
 			for (char[] sep : seps) {
@@ -452,7 +461,8 @@ public final class StringTool {
 	 * 객체의 필드 정보를 이용하여, 객체를 문자열로 표현합니다.
 	 */
 	public static String objectToString(Object obj) {
-		if (obj == null) return "null";
+		if (obj == null)
+			return NULL_STR;
 
 		Objects.ToStringHelper helper = Objects.toStringHelper(obj);
 

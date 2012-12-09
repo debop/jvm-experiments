@@ -1,5 +1,6 @@
 package kr.kth.data.hibernate.usertype;
 
+import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.annotations.common.util.ReflectHelper;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -26,7 +28,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 
 	@Override
 	public String objectToSQLString(Object value) {
-		return '\'' + ((Enum) value).name() + '\'';
+		return StringTool.quotedStr(((Enum) value).name());
 	}
 
 	@Override
@@ -62,21 +64,18 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 
 	@Override
 	public boolean equals(Object x, Object y) throws HibernateException {
-		if (x == y) return true;       // equal by reference
-		if (x == null || y == null)
-			return false;
-
-		return x.equals(y);         // equalivalent by value
+		return Objects.equals(x, y);
 	}
 
 	@Override
 	public int hashCode(Object x) throws HibernateException {
-		return (x == null) ? 0 : x.hashCode();
+		return Objects.hashCode(x);
 	}
 
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
 		throws HibernateException, SQLException {
+
 		String value = rs.getString(names[0]);
 		return rs.wasNull() ? null : fromXMLString(value);
 	}
@@ -84,6 +83,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
 		throws HibernateException, SQLException {
+
 		if (value == null)
 			st.setNull(index, sqlTypes()[0]);
 		else

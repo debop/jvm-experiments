@@ -7,7 +7,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 
 /**
- * Annotation 기반의 Hibernate Entity를 표현한 기반 클래스입니다.
+ * Annotation 기반의 Hibernate Entity를 표현한 추상 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 7.
  */

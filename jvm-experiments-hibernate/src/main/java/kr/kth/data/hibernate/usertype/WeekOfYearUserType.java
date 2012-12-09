@@ -126,12 +126,15 @@ public class WeekOfYearUserType implements CompositeUserType {
 	}
 
 	@Override
-	public Serializable disassemble(Object value, SessionImplementor session) throws HibernateException {
+	public Serializable disassemble(Object value,
+	                                SessionImplementor session) throws HibernateException {
 		return (YearWeek) deepCopy(value);
 	}
 
 	@Override
-	public Object assemble(Serializable cached, SessionImplementor session, Object owner) throws HibernateException {
+	public Object assemble(Serializable cached,
+	                       SessionImplementor session,
+	                       Object owner) throws HibernateException {
 		return (YearWeek) deepCopy(cached);
 	}
 

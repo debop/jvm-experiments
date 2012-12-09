@@ -29,7 +29,7 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 
 	abstract public JsonSerializer getJsonSerializer();
 
-	public JsonTextObject serialize(Object value) throws Exception {
+	public JsonTextObject serialize(Object value) {
 		if (value == null)
 			return JsonTextObject.Empty;
 
@@ -41,16 +41,20 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object deserialize(JsonTextObject jto) throws Exception {
+	public Object deserialize(JsonTextObject jto) throws HibernateException {
+
 		if (jto == null || jto == JsonTextObject.Empty)
 			return null;
 
 		if (log.isDebugEnabled())
 			log.debug("JsonTextObject를 역직렬화 합니다. jto=[{}]", jto);
 
-		Class clazz = Class.forName(jto.getClassName());
-		return getJsonSerializer().deserialize(jto.getJsonText(), clazz);
-
+		try {
+			Class clazz = Class.forName(jto.getClassName());
+			return getJsonSerializer().deserialize(jto.getJsonText(), clazz);
+		} catch (ClassNotFoundException e) {
+			return new HibernateException(e);
+		}
 	}
 
 	public JsonTextObject asJsonTextObject(Object value) {
@@ -118,18 +122,14 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 	                          SessionImplementor session,
 	                          Object owner) throws HibernateException,
 	                                               SQLException {
-		try {
-			String className = StringType.INSTANCE.nullSafeGet(rs, names[0], session);
-			String jsonText = StringType.INSTANCE.nullSafeGet(rs, names[1], session);
+		String className = StringType.INSTANCE.nullSafeGet(rs, names[0], session);
+		String jsonText = StringType.INSTANCE.nullSafeGet(rs, names[1], session);
 
-			if (log.isDebugEnabled())
-				log.debug("JsonText 정보를 로드했습니다. className=[{}], jsonText=[{}]",
-				          className, ellipsisChar(jsonText, 80));
+		if (log.isDebugEnabled())
+			log.debug("JsonText 정보를 로드했습니다. className=[{}], jsonText=[{}]",
+			          className, ellipsisChar(jsonText, 80));
 
-			return deserialize(new JsonTextObject(className, jsonText));
-		} catch (Exception ex) {
-			throw new HibernateException("Json 정보를 로드하는데 실패했습니다.", ex);
-		}
+		return deserialize(new JsonTextObject(className, jsonText));
 	}
 
 	@Override
@@ -138,22 +138,18 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 	                        int index,
 	                        SessionImplementor session) throws HibernateException,
 	                                                           SQLException {
-		try {
-			if (value == null) {
-				StringType.INSTANCE.nullSafeSet(st, null, index, session);
-				StringType.INSTANCE.nullSafeSet(st, null, index + 1, session);
+		if (value == null) {
+			StringType.INSTANCE.nullSafeSet(st, null, index, session);
+			StringType.INSTANCE.nullSafeSet(st, null, index + 1, session);
 
-			} else {
-				JsonTextObject jto = serialize(value);
+		} else {
+			JsonTextObject jto = serialize(value);
 
-				if (log.isDebugEnabled())
-					log.debug("객체를 Json 정보로 직렬화하여 저장합니다. jto=[{}]", jto.toString());
+			if (log.isDebugEnabled())
+				log.debug("객체를 Json 정보로 직렬화하여 저장합니다. jto=[{}]", jto.toString());
 
-				StringType.INSTANCE.nullSafeSet(st, jto.getClassName(), index, session);
-				StringType.INSTANCE.nullSafeSet(st, jto.getJsonText(), index + 1, session);
-			}
-		} catch (Exception ex) {
-			throw new HibernateException("객체를 Json 정보로 직렬화하여 저장하는데 실패했습니다.", ex);
+			StringType.INSTANCE.nullSafeSet(st, jto.getClassName(), index, session);
+			StringType.INSTANCE.nullSafeSet(st, jto.getJsonText(), index + 1, session);
 		}
 	}
 
@@ -162,12 +158,8 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 		if (value == null)
 			return null;
 
-		try {
-			JsonTextObject jto = asJsonTextObject(value);
-			return new JsonTextObject(jto);
-		} catch (Exception ex) {
-			throw new HibernateException(ex);
-		}
+		JsonTextObject jto = asJsonTextObject(value);
+		return new JsonTextObject(jto);
 	}
 
 	@Override
@@ -176,12 +168,15 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 	}
 
 	@Override
-	public Serializable disassemble(Object value, SessionImplementor session) throws HibernateException {
+	public Serializable disassemble(Object value,
+	                                SessionImplementor session) throws HibernateException {
 		return (Serializable) deepCopy(value);
 	}
 
 	@Override
-	public Object assemble(Serializable cached, SessionImplementor session, Object owner) throws HibernateException {
+	public Object assemble(Serializable cached,
+	                       SessionImplementor session,
+	                       Object owner) throws HibernateException {
 		return deepCopy(cached);
 	}
 

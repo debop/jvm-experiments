@@ -77,8 +77,8 @@ public class CompressorTest extends AbstractTest {
 			Assert.assertEquals(plainText, decompressedText);
 
 		} catch (Exception e) {
-			//if (log.isErrorEnabled())
-			log.error("압축/복원 테스트 실패 compressor=" + compressor, e);
+			if (log.isErrorEnabled())
+				log.error("압축/복원 테스트 실패 compressor=" + compressor, e);
 		}
 	}
 }

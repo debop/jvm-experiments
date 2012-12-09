@@ -27,12 +27,12 @@ import java.util.Objects;
 public class TimeRangeUserType implements CompositeUserType {
 
 	public static TimeRange asTimeRange(Object value) {
+		if (value == null)
+			return null;
 
-		TimeRange timeRange = (TimeRange) value;
-
-		Guard.assertTrue(timeRange != null, "Expected=[%s] type but input=[%s]",
-		                 TimeRange.class.getName(), value.getClass().getName());
-		return timeRange;
+		if (value instanceof TimeRange)
+			return (TimeRange) value;
+		return null;
 	}
 
 	@Override
