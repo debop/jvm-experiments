@@ -7,14 +7,14 @@ import org.junit.Test;
 import java.util.concurrent.ForkJoinPool;
 
 /**
- * pudding.pudding.commons.parallelism.forkjoin.FibonacciTestCase
+ * pudding.pudding.commons.parallelism.forkjoin.FibonacciTest
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 28.
  */
 @Slf4j
-public class FibonacciTestCase {
+public class FibonacciTest {
 
-	private static final int N = 24;
+	private static final int N = 32;
 
 	@Test
 	public void sillyWorkerTest() {
@@ -27,10 +27,10 @@ public class FibonacciTestCase {
 
 		stopwatch.stop();
 
-		if (log.isDebugEnabled()) {
-			log.debug("Computing Fibonacci number=[{}]", N);
-			log.debug("Computed Result=[{}]", result);
-			log.debug(stopwatch.toString());
+		if (FibonacciTest.log.isDebugEnabled()) {
+			FibonacciTest.log.debug("Computing Fibonacci number=[{}]", N);
+			FibonacciTest.log.debug("Computed Result=[{}]", result);
+			FibonacciTest.log.debug(stopwatch.toString());
 		}
 	}
 
@@ -38,8 +38,8 @@ public class FibonacciTestCase {
 	public void forkJoinWorkerTest() {
 		int processors = Runtime.getRuntime().availableProcessors();
 
-		if (log.isDebugEnabled())
-			log.debug("process count=[{}]", processors);
+		if (FibonacciTest.log.isDebugEnabled())
+			FibonacciTest.log.debug("process count=[{}]", processors);
 
 		Stopwatch stopwatch = new Stopwatch();
 		stopwatch.start();
@@ -53,9 +53,9 @@ public class FibonacciTestCase {
 		long result = task.getResult();
 
 		stopwatch.stop();
-		if (log.isDebugEnabled()) {
-			log.debug("Computed result=[{}]", result);
-			log.debug(stopwatch.toString());
+		if (FibonacciTest.log.isDebugEnabled()) {
+			FibonacciTest.log.debug("Computed result=[{}]", result);
+			FibonacciTest.log.debug(stopwatch.toString());
 		}
 	}
 }
