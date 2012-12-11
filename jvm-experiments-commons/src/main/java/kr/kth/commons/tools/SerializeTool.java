@@ -3,7 +3,7 @@ package kr.kth.commons.tools;
 import kr.kth.commons.base.BinaryStringFormat;
 import kr.kth.commons.base.Serializer;
 import kr.kth.commons.io.BinarySerializer;
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayOutputStream;
@@ -102,7 +102,7 @@ public final class SerializeTool {
 
 	public static Future<byte[]> serializeObjectAsync(final Object graph) {
 		return
-			AsyncTaskTool.startNew(new Callable<byte[]>() {
+			AsyncTool.startNew(new Callable<byte[]>() {
 				@Override
 				public byte[] call() throws Exception {
 					return binarySerializer.serialize(graph);
@@ -112,7 +112,7 @@ public final class SerializeTool {
 
 	public static Future<Object> deserializeObjectAsync(final byte[] bytes) {
 		return
-			AsyncTaskTool.startNew(new Callable<Object>() {
+			AsyncTool.startNew(new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					return binarySerializer.deserialize(bytes);
@@ -124,9 +124,9 @@ public final class SerializeTool {
 	public static <T> Future<T> copyObjectAsync(final T graph) {
 
 		if (graph == null)
-			return AsyncTaskTool.getTaskHasResult(null);
+			return AsyncTool.getTaskHasResult(null);
 
-		return AsyncTaskTool.startNew(new Callable<T>() {
+		return AsyncTool.startNew(new Callable<T>() {
 			@Override
 			public T call() throws Exception {
 				return (T) binarySerializer.deserialize(binarySerializer.serialize(graph));

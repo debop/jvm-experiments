@@ -2,7 +2,7 @@ package kr.kth.commons.compress;
 
 import kr.kth.commons.base.BinaryStringFormat;
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import kr.kth.commons.tools.StreamTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -61,14 +61,14 @@ public class CompressTool {
 	                                                 final BinaryStringFormat stringFormat) {
 		Guard.shouldNotBeNull(compressor, "compressor");
 		if (isEmpty(plainText)) {
-			AsyncTaskTool.getTaskHasResult("");
+			AsyncTool.getTaskHasResult("");
 		}
 
 		if (log.isDebugEnabled())
 			log.debug("다음 문자열을 압축합니다... plainText=[{}]", ellipsisChar(plainText, 80));
 
 		return
-			AsyncTaskTool.startNew(new Callable<String>() {
+			AsyncTool.startNew(new Callable<String>() {
 				@Override
 				public String call() throws Exception {
 					byte[] compressedBytes = compressor.compress(getUtf8Bytes(plainText));
@@ -117,14 +117,14 @@ public class CompressTool {
 		shouldNotBeNull(compressor, "compressor");
 
 		if (isEmpty(compressedText)) {
-			return AsyncTaskTool.getTaskHasResult("");
+			return AsyncTool.getTaskHasResult("");
 		}
 
 		if (log.isDebugEnabled())
 			log.debug("압축된 문자열을 복원합니다... compressedText=" +
 				          ellipsisChar(compressedText, 80));
 		return
-			AsyncTaskTool.startNew(new Callable<String>() {
+			AsyncTool.startNew(new Callable<String>() {
 				@Override
 				public String call() throws Exception {
 					byte[] plainBytes = compressor.decompress(getBytesFromString(compressedText,
@@ -168,7 +168,7 @@ public class CompressTool {
 		shouldNotBeNull(inputStream, "inputStream");
 
 		return
-			AsyncTaskTool.startNew(new Callable<OutputStream>() {
+			AsyncTool.startNew(new Callable<OutputStream>() {
 				@Override
 				public OutputStream call() throws Exception {
 					return compressStream(compressor, inputStream);
@@ -181,7 +181,7 @@ public class CompressTool {
 		shouldNotBeNull(compressor, "compressor");
 		shouldNotBeNull(inputStream, "inputStream");
 
-		return AsyncTaskTool.startNew(new Callable<OutputStream>() {
+		return AsyncTool.startNew(new Callable<OutputStream>() {
 			@Override
 			public OutputStream call() throws Exception {
 				byte[] compressedBytes = toByteArray(inputStream);

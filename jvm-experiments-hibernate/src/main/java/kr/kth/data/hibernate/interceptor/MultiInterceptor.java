@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.interceptor;
 
 import com.google.common.collect.Lists;
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +53,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onDelete메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTaskTool.newTask(new Callable<Void>() {
+			FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					interceptor.onDelete(entity1, id1, state1, propertyNames1, types1);
@@ -64,7 +64,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 		}
 
 		try {
-			AsyncTaskTool.getAll(tasks);
+			AsyncTool.getAll(tasks);
 		} catch (Exception ex) {
 			log.error("Interceptor.onDelete 작업 시 예외가 발생했습니다.", ex);
 		}
@@ -94,7 +94,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTaskTool.newTask(new Callable<Boolean>() {
+			FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
 					return interceptor.onFlushDirty(entity1,
@@ -109,7 +109,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 		}
 
 		try {
-			List<Boolean> results = AsyncTaskTool.getAll(tasks);
+			List<Boolean> results = AsyncTool.getAll(tasks);
 			return !(results.contains(Boolean.FALSE));
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -136,7 +136,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onLoad 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTaskTool.newTask(new Callable<Boolean>() {
+			FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
 					return interceptor.onLoad(entity1, id1, state1, propertyNames1, types1);
@@ -146,7 +146,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 		}
 
 		try {
-			List<Boolean> results = AsyncTaskTool.getAll(tasks);
+			List<Boolean> results = AsyncTool.getAll(tasks);
 			return !(results.contains(Boolean.FALSE));
 		} catch (Exception ex) {
 			log.error("Interceptor.onLoad 작업 시 예외가 발생했습니다.", ex);
@@ -172,7 +172,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 onSave 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTaskTool.newTask(new Callable<Boolean>() {
+			FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
 				@Override
 				public Boolean call() throws Exception {
 					return interceptor.onSave(entity1, id1, state1, propertyNames1, types1);
@@ -182,7 +182,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 		}
 
 		try {
-			List<Boolean> results = AsyncTaskTool.getAll(tasks);
+			List<Boolean> results = AsyncTool.getAll(tasks);
 			return !(results.contains(Boolean.FALSE));
 		} catch (Exception ex) {
 			if (log.isErrorEnabled())
@@ -205,7 +205,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 postFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTaskTool.newTask(new Callable<Void>() {
+			FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					interceptor.postFlush(entities1);
@@ -216,7 +216,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 		}
 
 		try {
-			AsyncTaskTool.getAll(tasks);
+			AsyncTool.getAll(tasks);
 		} catch (Exception ex) {
 			if (log.isErrorEnabled())
 				log.error("Interceptor.postFlush 작업 시 예외가 발생했습니다.", ex);
@@ -237,7 +237,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 			if (log.isDebugEnabled())
 				log.debug("인터셉터의 preFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTaskTool.newTask(new Callable<Void>() {
+			FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					interceptor.preFlush(entities1);
@@ -248,7 +248,7 @@ public class MultiInterceptor extends EmptyInterceptor {
 		}
 
 		try {
-			AsyncTaskTool.getAll(tasks);
+			AsyncTool.getAll(tasks);
 		} catch (Exception ex) {
 			if (log.isErrorEnabled())
 				log.error("Interceptor.preFlush 작업 시 예외가 발생했습니다.", ex);

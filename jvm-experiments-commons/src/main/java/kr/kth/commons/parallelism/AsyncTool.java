@@ -8,6 +8,7 @@ import kr.kth.commons.base.Func1;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -20,9 +21,9 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
  * Date: 12. 9. 14
  */
 @Slf4j
-public class AsyncTaskTool {
+public class AsyncTool {
 
-	private AsyncTaskTool() {}
+	private AsyncTool() {}
 
 	private static ExecutorService executor =
 		Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2);
@@ -100,7 +101,7 @@ public class AsyncTaskTool {
 	/**
 	 * 지정한 시퀀스를 인자로 하는 함수를 수행하고, 결과를 반환하는 {@link java.util.concurrent.FutureTask} 의 리스트를 반환한다.
 	 */
-	public static <T, R> List<Future<R>> runAsync(final Iterable<T> elements,
+	public static <T, R> List<Future<R>> runAsync(final Iterable<? extends T> elements,
 	                                              final Func1<T, R> function) throws InterruptedException {
 		shouldNotBeNull(function, "function");
 
@@ -118,40 +119,48 @@ public class AsyncTaskTool {
 		return executor.invokeAll(tasks);
 	}
 
+	public static <T> void invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
+		getAll(executor.invokeAll(tasks));
+	}
+
+	public static <T> void invokeAll(Collection<? extends Callable<T>> tasks,
+	                                 long timeout,
+	                                 TimeUnit unit) throws InterruptedException {
+		getAll(executor.invokeAll(tasks, timeout, unit));
+	}
+
 	/**
 	 * 비동기 작업들을 실행하고, 작업이 완료되거나 취소될때까지 기다립니다.
 	 */
-	public static <T> void runAll(Iterable<FutureTask<T>> tasks) throws Exception {
+	public static <T> void runAll(Iterable<? extends Future<T>> tasks) {
 
-		if (log.isDebugEnabled())
-			log.debug("비동기 작업들을 실행시킵니다...");
+		if (AsyncTool.log.isDebugEnabled())
+			AsyncTool.log.debug("비동기 작업들이 완료될 때까지 기다립니다...");
 
-		for (final FutureTask<T> task : tasks) {
-			if (!task.isCancelled() && !task.isDone())
-				task.run();
-		}
+		getAll(tasks);
 
-		if (log.isDebugEnabled())
-			log.debug("비동기 작업들이 완료될 때까지 기다립니다...");
-
-		waitAllTasks(tasks);
-
-		if (log.isDebugEnabled())
-			log.debug("비동기 작업들이 모두 완료 되었습니다!!!");
+		if (AsyncTool.log.isDebugEnabled())
+			AsyncTool.log.debug("비동기 작업들이 모두 완료 되었습니다!!!");
 	}
 
 	/**
 	 * 비동기 작업 목록들의 결과값을 모두 취합하여 반환합니다. (동시에 모든 작업을 수행하여, 성능 상 이익입니다.)
 	 */
-	public static <T> List<T> getAll(Iterable<? extends Future<T>> tasks) throws Exception {
+	public static <T> List<T> getAll(Iterable<? extends Future<T>> tasks) {
 
-		if (log.isDebugEnabled())
-			log.debug("비동기 작업의 결과를 취합합니다...");
+		if (AsyncTool.log.isDebugEnabled())
+			AsyncTool.log.debug("비동기 작업의 결과를 취합합니다...");
 
 		List<T> results = new CopyOnWriteArrayList<T>();
 
-		for (final Future<T> task : tasks) {
-			results.add(task.get());
+		try {
+			for (final Future<T> task : tasks) {
+				results.add(task.get());
+			}
+		} catch (Exception e) {
+			if (log.isDebugEnabled())
+				log.debug("비동기 작업 시 예외가 발생했습니다.", e);
+			throw new RuntimeException(e);
 		}
 		return results;
 	}
@@ -161,14 +170,20 @@ public class AsyncTaskTool {
 	 */
 	public static <T> List<T> getAll(Iterable<? extends Future<T>> tasks,
 	                                 long timeout,
-	                                 TimeUnit unit) throws Exception {
-		if (log.isDebugEnabled())
-			log.debug(format("비동기 작업의 결과를 취합합니다... timeout=[%d], unit=[%s]", timeout, unit));
+	                                 TimeUnit unit) {
+		if (AsyncTool.log.isDebugEnabled())
+			AsyncTool.log.debug(format("비동기 작업의 결과를 취합합니다... timeout=[%d], unit=[%s]", timeout, unit));
 
 		List<T> results = new CopyOnWriteArrayList<T>();
 
-		for (final Future<T> task : tasks) {
-			results.add(task.get(timeout, unit));
+		try {
+			for (final Future<T> task : tasks) {
+				results.add(task.get(timeout, unit));
+			}
+		} catch (Exception e) {
+			if (log.isDebugEnabled())
+				log.debug("비동기 작업 시 예외가 발생했습니다.", e);
+			throw new RuntimeException(e);
 		}
 		return results;
 	}
@@ -177,13 +192,13 @@ public class AsyncTaskTool {
 	 * 모든 {@link java.util.concurrent.Future}의 {@link java.util.concurrent.Future#isDone()}
 	 * 또는 {@link java.util.concurrent.Future#isCancelled()} 가 될 때까지 기다립니다.
 	 */
-	public static <T> void waitAll(Iterable<Future<T>> futures) {
+	public static <T> void waitAll(Iterable<? extends Future<? extends T>> futures) {
 		boolean allCompleted = false;
 
 		while (!allCompleted) {
-			allCompleted = Iterables.all(futures, new Predicate<Future<T>>() {
+			allCompleted = Iterables.all(futures, new Predicate<Future<?>>() {
 				@Override
-				public boolean apply(@Nullable Future<T> input) {
+				public boolean apply(@Nullable Future<?> input) {
 					if (input == null)
 						return true;
 					return (input.isDone() || input.isCancelled());
@@ -196,12 +211,13 @@ public class AsyncTaskTool {
 	 * 모든 {@link java.util.concurrent.FutureTask}의 {@link java.util.concurrent.Future#isDone()}
 	 * 또는 {@link java.util.concurrent.Future#isCancelled()} 가 될 때까지 기다립니다.
 	 */
-	public static <T> void waitAllTasks(Iterable<FutureTask<T>> futureTasks) {
+	public static <T> void waitAllTasks(Iterable<? extends Future<T>> futureTasks) {
 		boolean allCompleted = false;
+
 		while (!allCompleted) {
-			allCompleted = Iterables.all(futureTasks, new Predicate<FutureTask<T>>() {
+			allCompleted = Iterables.all(futureTasks, new Predicate<Future<T>>() {
 				@Override
-				public boolean apply(@Nullable FutureTask<T> input) {
+				public boolean apply(@Nullable Future<T> input) {
 					assert input != null;
 					return (input.isDone() || input.isCancelled());
 				}

@@ -17,10 +17,13 @@ public class TestTool {
 
 	private TestTool() {}
 
+	private static ExecutorService newExecutorService() {
+		return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+	}
+
 	public static void runTasks(int count, final Runnable runnable) {
 
-		ExecutorService executor =
-			Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		ExecutorService executor = newExecutorService();
 
 		try {
 			final CountDownLatch latch = new CountDownLatch(count);
@@ -46,8 +49,7 @@ public class TestTool {
 	@SafeVarargs
 	public static <T> void runTasks(int count, Callable<T>... callables) {
 
-		ExecutorService executor =
-			Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		ExecutorService executor = newExecutorService();
 
 		try {
 			List<Future<T>> futures = Lists.newArrayList();
@@ -70,10 +72,10 @@ public class TestTool {
 	}
 
 	public static void runTasks(int count, final Action1<Integer> action) {
-		ExecutorService executor =
-			Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
+		ExecutorService executor = newExecutorService();
 		final CountDownLatch latch = new CountDownLatch(count);
+
 		try {
 
 			for (int i = 0; i < count; i++) {

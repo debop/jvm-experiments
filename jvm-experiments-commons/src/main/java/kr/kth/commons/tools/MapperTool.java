@@ -1,7 +1,7 @@
 package kr.kth.commons.tools;
 
 import com.google.common.collect.Lists;
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
@@ -61,7 +61,7 @@ public final class MapperTool {
 	}
 
 	public static <T> Future<T> mapAsync(final Object source, final Class<T> destinationClass) {
-		return AsyncTaskTool.startNew(new Callable<T>() {
+		return AsyncTool.startNew(new Callable<T>() {
 			@Override
 			public T call() throws Exception {
 				return mapper.map(source, destinationClass);
@@ -71,7 +71,7 @@ public final class MapperTool {
 
 	public static <S, T> Future<List<T>> mapListAsync(final Iterable<S> sources, final Class<T> destinationClass) {
 
-		return AsyncTaskTool.startNew(new Callable<List<T>>() {
+		return AsyncTool.startNew(new Callable<List<T>>() {
 			@Override
 			public List<T> call() throws Exception {
 				List<T> destinations = Lists.newArrayList();

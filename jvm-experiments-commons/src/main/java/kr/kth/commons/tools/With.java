@@ -4,7 +4,7 @@ import kr.kth.commons.base.Action0;
 import kr.kth.commons.base.Action1;
 import kr.kth.commons.base.Func0;
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Callable;
@@ -114,7 +114,7 @@ public class With {
 		Guard.shouldNotBeNull(action, "action");
 		try {
 			Future<Void> future =
-				AsyncTaskTool.startNew(new Callable<Void>() {
+				AsyncTool.startNew(new Callable<Void>() {
 					@Override
 					public Void call() throws Exception {
 						action.perform();

@@ -1,6 +1,6 @@
 package kr.kth.commons.io;
 
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+import static kr.kth.commons.tools.StringTool.listToString;
+
 /**
  * 파일 관련 Tool
  * User: sunghyouk.bae@gmail.com
@@ -25,6 +27,8 @@ public class FileTool {
 	private FileTool() {}
 
 	public static Path createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("디렉토리를 생성합니다. dir=[{}]", dir);
 		return Files.createDirectory(dir, attrs);
 	}
 
@@ -32,6 +36,11 @@ public class FileTool {
 		return Files.createDirectories(dir, attrs);
 	}
 
+	public static Path createFile(Path path, FileAttribute<?>... attrs) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("파일 생성. path=[{}], attrs=[{}]", path, listToString(attrs));
+		return Files.createFile(path, attrs);
+	}
 
 	public static void copy(Path source, Path target, CopyOption... options) throws IOException {
 		Files.copy(source, target, options);
@@ -41,7 +50,7 @@ public class FileTool {
 	                                     final Path target,
 	                                     final CopyOption... options) {
 		return
-			AsyncTaskTool.startNew(new Callable<Void>() {
+			AsyncTool.startNew(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					copy(source, target, options);
@@ -51,6 +60,8 @@ public class FileTool {
 	}
 
 	public static void delete(Path path) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("디렉토리/파일 삭제. path=[{}]", path);
 		Files.delete(path);
 	}
 
@@ -84,7 +95,7 @@ public class FileTool {
 
 	public static Future<Void> deleteDirectoryAsync(final Path directory, final boolean deep) {
 		return
-			AsyncTaskTool.startNew(new Callable<Void>() {
+			AsyncTool.startNew(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					deleteDirectory(directory, deep);
@@ -98,12 +109,14 @@ public class FileTool {
 	}
 
 	public static byte[] readAllBytes(Path path) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("파일로부터 모든 내용을 읽어옵니다. path=[{}]", path);
 		return Files.readAllBytes(path);
 	}
 
 	public static Future<byte[]> readAllBytesAsync(final Path path) {
 		return
-			AsyncTaskTool.startNew(new Callable<byte[]>() {
+			AsyncTool.startNew(new Callable<byte[]>() {
 				@Override
 				public byte[] call() throws Exception {
 					return readAllBytes(path);
@@ -116,6 +129,8 @@ public class FileTool {
 	}
 
 	public static List<String> readAllLines(Path path, Charset cs) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("파일 내용을 문자열로 읽어드립니다. path=[{}], charset=[{}]", path, cs);
 		return Files.readAllLines(path, cs);
 	}
 
@@ -125,7 +140,7 @@ public class FileTool {
 
 	public static Future<List<String>> readAllLinesAsync(final Path path, final Charset cs) {
 		return
-			AsyncTaskTool.startNew(new Callable<List<String>>() {
+			AsyncTool.startNew(new Callable<List<String>>() {
 				@Override
 				public List<String> call() throws Exception {
 					return readAllLines(path, cs);
@@ -134,13 +149,20 @@ public class FileTool {
 	}
 
 	public static void write(Path target, byte[] bytes, OpenOption... openOptions) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("파일에 binary 형태의 정보를 씁니다. target=[{}], openOptions=[{}]",
+			          target, listToString(openOptions));
+
 		Files.write(target, bytes, openOptions);
 	}
 
 	public static void write(Path target,
-	                         Iterable<CharSequence> lines,
+	                         Iterable<String> lines,
 	                         Charset cs,
 	                         OpenOption... openOptions) throws IOException {
+		if (log.isDebugEnabled())
+			log.debug("파일에 텍스트 정보를 씁니다. target=[{}], lines=[{}], charset=[{}], openOptions=[{}]",
+			          target, listToString(lines), cs, listToString(openOptions));
 		Files.write(target, lines, cs, openOptions);
 	}
 
@@ -149,7 +171,7 @@ public class FileTool {
 	                                      final byte[] bytes,
 	                                      final OpenOption... openOptions) {
 		return
-			AsyncTaskTool.startNew(new Callable<Void>() {
+			AsyncTool.startNew(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					write(target, bytes, openOptions);
@@ -160,11 +182,11 @@ public class FileTool {
 
 	@Async
 	public static Future<Void> writeAsync(final Path target,
-	                                      final Iterable<CharSequence> lines,
+	                                      final Iterable<String> lines,
 	                                      final Charset cs,
 	                                      final OpenOption... openOptions) {
 		return
-			AsyncTaskTool.startNew(new Callable<Void>() {
+			AsyncTool.startNew(new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
 					write(target, lines, cs, openOptions);

@@ -3,7 +3,7 @@ package kr.kth.commons.caching.repository;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import kr.kth.commons.caching.CacheRepositoryBase;
-import kr.kth.commons.parallelism.AsyncTaskTool;
+import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -64,7 +64,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 
 	public Future<Object> getAsync(final String key) {
 		return
-			AsyncTaskTool.startNew(new Callable<Object>() {
+			AsyncTool.startNew(new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					return cache.getIfPresent(key);

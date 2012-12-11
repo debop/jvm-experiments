@@ -90,7 +90,7 @@ public final class StringTool {
 			return isMultiByteString(bytes);
 		} catch (Exception e) {
 			if (log.isErrorEnabled())
-				log.error("멀티바이트 문자열인지 확인하는데 실패했습니다. str=[{}], exception={}", str, e);
+				log.error("멀티바이트 문자열인지 확인하는데 실패했습니다. str=" + ellipsisChar(str, 24), e);
 			return false;
 		}
 	}
@@ -485,17 +485,7 @@ public final class StringTool {
 	/**
 	 * {@link Iterable} 정보를 문자열로 표현합니다.
 	 */
-	public static <T> String listToString(final Iterable<T> items) {
-		if (items == null)
-			return "null";
-
-		return join(items, ",");
-	}
-
-	/**
-	 * {@link java.util.Collection} 정보를 문자열로 표현합니다.
-	 */
-	public static <T> String listToString(final Collection<T> items) {
+	public static <T> String listToString(final Iterable<? extends T> items) {
 		if (items == null)
 			return "null";
 
