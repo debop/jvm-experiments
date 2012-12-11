@@ -15,18 +15,28 @@ public abstract class DigestorBase implements Digestor {
 
 	abstract public String getAlgorithm();
 
-	protected byte[] doDigest(byte[] plainBytes) throws Exception {
+	protected byte[] doDigest(byte[] plainBytes) {
 		if (ArrayTool.isEmpty(plainBytes))
 			return ArrayTool.EmptyByteArray;
 
-		MessageDigest digestor = MessageDigest.getInstance(getAlgorithm());
-		return digestor.digest(plainBytes);
+		if (log.isDebugEnabled())
+			log.debug("Digestor=[{}] 를 이용하여 Hashing 암호화를 수행합니다.", getAlgorithm());
+
+		try {
+			MessageDigest digestor = MessageDigest.getInstance(getAlgorithm());
+			return digestor.digest(plainBytes);
+		} catch (Exception e) {
+			if (log.isErrorEnabled())
+				log.error("예외가 발생했습니다.", e);
+			throw new RuntimeException(e);
+		}
+
 	}
 
 	@Override
-	public byte[] digest(byte[] plainBytes) throws Exception {
+	public byte[] digest(byte[] plainBytes) {
 		if (log.isDebugEnabled())
-			log.debug("데이터를 암호화합니다. algorithm=" + getAlgorithm());
+			log.debug("데이터를 암호화합니다. algorithm=[{}]", getAlgorithm());
 
 		return doDigest(plainBytes);
 	}

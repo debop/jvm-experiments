@@ -8,7 +8,7 @@ import kr.kth.commons.parallelism.AsyncTaskTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.Future;
 
 /**
  * kr.kth.commons.tools.With
@@ -113,7 +113,7 @@ public class With {
 
 		Guard.shouldNotBeNull(action, "action");
 		try {
-			FutureTask<Void> futureTask =
+			Future<Void> future =
 				AsyncTaskTool.startNew(new Callable<Void>() {
 					@Override
 					public Void call() throws Exception {
@@ -121,7 +121,7 @@ public class With {
 						return null;
 					}
 				});
-			futureTask.get();
+			future.get();
 		} catch (Exception e) {
 			if (exceptionAction != null) {
 				exceptionAction.perform(e);

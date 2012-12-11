@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.Future;
 
 import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
@@ -100,26 +100,28 @@ public final class SerializeTool {
 		return deserializeObject(serializeObject(graph));
 	}
 
-	public static FutureTask<byte[]> serializeObjectAsync(final Object graph) {
-		return AsyncTaskTool.startNew(new Callable<byte[]>() {
-			@Override
-			public byte[] call() throws Exception {
-				return binarySerializer.serialize(graph);
-			}
-		});
+	public static Future<byte[]> serializeObjectAsync(final Object graph) {
+		return
+			AsyncTaskTool.startNew(new Callable<byte[]>() {
+				@Override
+				public byte[] call() throws Exception {
+					return binarySerializer.serialize(graph);
+				}
+			});
 	}
 
-	public static FutureTask<Object> deserializeObjectAsync(final byte[] bytes) {
-		return AsyncTaskTool.startNew(new Callable<Object>() {
-			@Override
-			public Object call() throws Exception {
-				return binarySerializer.deserialize(bytes);
-			}
-		});
+	public static Future<Object> deserializeObjectAsync(final byte[] bytes) {
+		return
+			AsyncTaskTool.startNew(new Callable<Object>() {
+				@Override
+				public Object call() throws Exception {
+					return binarySerializer.deserialize(bytes);
+				}
+			});
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> FutureTask<T> copyObjectAsync(final T graph) {
+	public static <T> Future<T> copyObjectAsync(final T graph) {
 
 		if (graph == null)
 			return AsyncTaskTool.getTaskHasResult(null);

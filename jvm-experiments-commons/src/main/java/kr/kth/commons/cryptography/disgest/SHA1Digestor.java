@@ -7,7 +7,6 @@ package kr.kth.commons.cryptography.disgest;
  */
 public final class SHA1Digestor extends DigestorBase {
 
-
 	@Override
 	public final String getAlgorithm() {
 		return "SHA-1";

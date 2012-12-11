@@ -13,6 +13,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
 
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import static java.lang.String.format;
@@ -33,6 +34,8 @@ public final class StringTool {
 	public static final String TRIMMING_STR = "...";
 	public static final String NULL_STR = "NULL";
 	public static final String EMPTY_STR = "";
+
+	public static final Charset UTF8 = Charset.forName("UTF-8");
 
 	private StringTool() {}
 

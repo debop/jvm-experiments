@@ -9,5 +9,5 @@ public interface Digestor {
 
 	String getAlgorithm();
 
-	byte[] digest(byte[] plainBytes) throws Exception;
+	byte[] digest(byte[] plainBytes);
 }
