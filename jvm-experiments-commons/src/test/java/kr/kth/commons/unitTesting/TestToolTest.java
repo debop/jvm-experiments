@@ -1,5 +1,7 @@
 package kr.kth.commons.unitTesting;
 
+import kr.kth.commons.base.AutoStopwatch;
+import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -14,39 +16,47 @@ import java.util.concurrent.Callable;
 public class TestToolTest {
 
 	private static final int LowerBound = 0;
-	private static final int UpperBound = 1000;
+	private static final int UpperBound = 99999;
 
 
 	@Test
 	public void runTasksWithAction() {
 
-		TestTool.runTasks(100,
-		                  new Runnable() {
-			                  @Override
-			                  public void run() {
-				                  for (int i = LowerBound; i < UpperBound; i++) {
-					                  if (i % 10 == 0 && log.isDebugEnabled())
-						                  log.debug("FindRoot({}) returns [{}]", i, Hero.findRoot(i));
-					                  Hero.findRoot(i);
-				                  }
-			                  }
-		                  });
+		Runnable runnable =
+			new Runnable() {
+				@Override
+				public void run() {
+					for (int i = LowerBound; i < UpperBound; i++) {
+						Hero.findRoot(i);
+					}
+					if (log.isDebugEnabled())
+						log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
+				}
+			};
+
+		@Cleanup
+		AutoStopwatch stopwatch = new AutoStopwatch();
+		TestTool.runTasks(100, runnable, runnable);
 	}
 
 	@Test
 	public void runTasksWithCallables() {
 
-		Callable<Double> callable = new Callable<Double>() {
-			@Override
-			public Double call() throws Exception {
-				for (int i = LowerBound; i < UpperBound; i++) {
-					Hero.findRoot(i);
+		Callable<Double> callable =
+			new Callable<Double>() {
+				@Override
+				public Double call() throws Exception {
+					for (int i = LowerBound; i < UpperBound; i++) {
+						Hero.findRoot(i);
+					}
+					if (log.isDebugEnabled())
+						log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
+					return Hero.findRoot(UpperBound);
 				}
-				if (log.isDebugEnabled())
-					log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
-				return Hero.findRoot(UpperBound);
-			}
-		};
+			};
+
+		@Cleanup
+		AutoStopwatch stopwatch = new AutoStopwatch();
 		TestTool.runTasks(100, callable, callable);
 	}
 

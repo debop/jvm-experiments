@@ -1,6 +1,5 @@
 package kr.kth.data.hibernate.unitofwork;
 
-import kr.kth.commons.base.Action0;
 import kr.kth.commons.base.AutoCloseableAction;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.base.Local;
@@ -63,9 +62,9 @@ public final class UnitOfWorkManager {
 
 		globalNonThreadSafeUnitOfWork = global;
 
-		return new AutoCloseableAction(new Action0() {
+		return new AutoCloseableAction(new Runnable() {
 			@Override
-			public void perform() {
+			public void run() {
 				globalNonThreadSafeUnitOfWork = null;
 			}
 		});

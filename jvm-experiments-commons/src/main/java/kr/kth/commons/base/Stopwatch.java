@@ -53,8 +53,8 @@ public class Stopwatch {
 		endTime = System.nanoTime();
 		elapsedTime = endTime - startTime;
 
-		if (log.isDebugEnabled())
-			log.debug("Elapsed time = [{}] msecs", elapsedTime / 1000000.0);
+		if (log.isInfoEnabled())
+			log.info("Elapsed time = [{}] msecs", elapsedTime / 1000000.0);
 
 		if (this.runGC)
 			cleanUp();

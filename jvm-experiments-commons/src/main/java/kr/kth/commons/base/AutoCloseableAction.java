@@ -11,10 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AutoCloseableAction implements AutoCloseable {
 
-	@Getter private final Action0 action;
+	@Getter private final Runnable action;
 	@Getter protected boolean closed;
 
-	public AutoCloseableAction(Action0 action) {
+	public AutoCloseableAction(final Runnable action) {
 		Guard.shouldNotBeNull(action, "action");
 		this.action = action;
 		this.closed = false;
@@ -30,7 +30,7 @@ public class AutoCloseableAction implements AutoCloseable {
 				log.debug("AutoCloseable의 close 작업을 수행합니다...");
 
 			if (action != null)
-				action.perform();
+				action.run();
 
 			if (log.isDebugEnabled())
 				log.debug("AutoCloseable의 close 작업을 완료했습니다.");
