@@ -24,6 +24,9 @@ public class Local {
 		new ThreadLocal<HashMap>() {
 			@Override
 			public HashMap initialValue() {
+				if (log.isDebugEnabled())
+					log.debug("현 ThreadContext 에 저장소를 생성합니다...");
+
 				return Maps.newLinkedHashMap();
 			}
 		};
@@ -34,19 +37,19 @@ public class Local {
 
 	public static Object get(Object key) {
 		shouldNotBeNull(key, "key");
-		return getMap().get(key);
+		return threadLocal.get().get(key);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static void put(Object key, Object value) {
 		shouldNotBeNull(key, "key");
-		getMap().put(key, value);
+		if (log.isDebugEnabled())
+			log.debug("Local 저장소에 key=[{}], value=[{}]를 저장합니다.", key, value);
+
+		threadLocal.get().put(key, value);
 	}
 
 	public static void clear() {
-		if (threadLocal.get() != null) {
-			threadLocal.get().clear();
-			threadLocal.remove();
-		}
+		threadLocal.get().clear();
 	}
 }

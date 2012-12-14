@@ -9,6 +9,7 @@ import org.hibernate.example.domain.model.collection.Item;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * org.jpa.example.domain.model.onetomany.OneToMany_Bid
@@ -34,6 +35,9 @@ public class OneToMany_Bid extends JpaEntityBase {
 
 	@Column(name = "AMOUNT", nullable = false)
 	private BigDecimal amount;
+
+	@Transient
+	private Timestamp timestamp;
 
 	@Override
 	public int hashCode() {
