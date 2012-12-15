@@ -122,24 +122,30 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public List<E> find(Criterion[] criterions) {
-		return find(criterions, -1, -1);
+	public List<E> findByCriteria(Criterion... criterions) {
+		return findByCriteria(criterions, -1, -1);
 	}
 
 	@Override
-	public List<E> find(Criterion[] criterions, int firstResult, int maxResults, Order... orders) {
+	public List<E> findByCriteria(Criterion[] criterions, int firstResult, int maxResults, Order... orders) {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		HibernateTool.addCriterions(criteria, criterions);
+
 		return find(criteria, firstResult, maxResults, orders);
 	}
 
 	@Override
-	public List<E> find(Query query, HibernateParameter... parameters) {
-		return find(query, -1, -1, parameters);
+	public List<E> findByExample(Example example) {
+		return getSession().createCriteria(entityClass).add(example).list();
 	}
 
 	@Override
-	public List<E> find(Query query, int firstResult, int maxResults, HibernateParameter... parameters) {
+	public List<E> findByQuery(Query query, HibernateParameter... parameters) {
+		return findByQuery(query, -1, -1, parameters);
+	}
+
+	@Override
+	public List<E> findByQuery(Query query, int firstResult, int maxResults, HibernateParameter... parameters) {
 		HibernateTool.setPaging(query, firstResult, maxResults);
 		HibernateTool.setParameters(query, parameters);
 
@@ -160,7 +166,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 			          queryString, firstResult, maxResults, StringTool.listToString(parameters));
 
 		Query query = getSession().createQuery(queryString);
-		return find(query, firstResult, maxResults, parameters);
+		return findByQuery(query, firstResult, maxResults, parameters);
 	}
 
 	@Override
@@ -176,7 +182,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 			          queryName, firstResult, maxResults, StringTool.listToString(parameters));
 
 		Query query = getSession().getNamedQuery(queryName);
-		return find(query, firstResult, maxResults, parameters);
+		return findByQuery(query, firstResult, maxResults, parameters);
 	}
 
 
@@ -204,30 +210,30 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public PagedList<E> getPage(Query query, int pageNo, int pageSize, HibernateParameter... parameters) {
+	public PagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters) {
 		Query countQuery = getSession().createQuery(query.getQueryString());
 		long itemCount = count(countQuery, parameters);
 
 		int firstResult = (pageNo - 1) * pageSize;
-		List<E> list = find(query, firstResult, pageSize, parameters);
+		List<E> list = findByQuery(query, firstResult, pageSize, parameters);
 
 		return new SimplePagedList<E>(list, firstResult, pageSize, itemCount);
 	}
 
 	@Override
 	public PagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters) {
-		return getPage(getSession().createQuery(queryString),
-		               pageNo,
-		               pageSize,
-		               parameters);
+		return getPageByQuery(getSession().createQuery(queryString),
+		                      pageNo,
+		                      pageSize,
+		                      parameters);
 	}
 
 	@Override
 	public PagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters) {
-		return getPage(getSession().getNamedQuery(queryName),
-		               pageNo,
-		               pageSize,
-		               parameters);
+		return getPageByQuery(getSession().getNamedQuery(queryName),
+		                      pageNo,
+		                      pageSize,
+		                      parameters);
 	}
 
 	@Override
@@ -236,7 +242,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public E findOne(Criterion[] criterions) {
+	public E findOneByCriteria(Criterion... criterions) {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		for (Criterion criterion : criterions)
 			criteria.add(criterion);
@@ -245,7 +251,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public E findOne(Query query, HibernateParameter... parameters) {
+	public E findOneByQuery(Query query, HibernateParameter... parameters) {
 		return (E) HibernateTool.setParameters(query, parameters).uniqueResult();
 	}
 
@@ -257,7 +263,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 			          queryString, StringTool.listToString(parameters));
 
 		Query query = getSession().createQuery(queryString);
-		return findOne(query, parameters);
+		return findOneByQuery(query, parameters);
 	}
 
 	@Override
@@ -268,7 +274,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 			          queryName, StringTool.listToString(parameters));
 
 		Query query = getSession().getNamedQuery(queryName);
-		return findOne(query, parameters);
+		return findOneByQuery(query, parameters);
 	}
 
 
@@ -285,15 +291,15 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public E findFirst(Criterion[] criterions) {
+	public E findFirstByCriteria(Criterion... criterions) {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		HibernateTool.addCriterions(criteria, criterions);
 		return findFirst(criteria);
 	}
 
 	@Override
-	public E findFirst(Query query, HibernateParameter... parameters) {
-		List<E> list = find(query, 0, 1, parameters);
+	public E findFirstByQuery(Query query, HibernateParameter... parameters) {
+		List<E> list = findByQuery(query, 0, 1, parameters);
 		if (list.size() > 0)
 			return list.get(0);
 		return null;
@@ -303,14 +309,14 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	public E findFirstByQueryString(String queryString, HibernateParameter... parameters) {
 		if (log.isDebugEnabled())
 			log.debug("쿼리문 실행. queryString=[{}], parameters=[{}]", queryString, StringTool.listToString(parameters));
-		return findFirst(getSession().createQuery(queryString), parameters);
+		return findFirstByQuery(getSession().createQuery(queryString), parameters);
 	}
 
 	@Override
 	public E findFirstByNamedQuery(String queryName, HibernateParameter... parameters) {
 		if (log.isDebugEnabled())
 			log.debug("쿼리문 실행. queryName=[{}], parameters=[{}]", queryName, StringTool.listToString(parameters));
-		return findFirst(getSession().getNamedQuery(queryName), parameters);
+		return findFirstByQuery(getSession().getNamedQuery(queryName), parameters);
 	}
 
 	protected boolean exists(Criteria criteria) {
@@ -328,13 +334,13 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public boolean exists(Criterion[] criterions) {
-		return (findFirst(criterions) != null);
+	public boolean existsByCriteria(Criterion... criterions) {
+		return (findFirstByCriteria(criterions) != null);
 	}
 
 	@Override
-	public boolean exists(Query query, HibernateParameter... parameters) {
-		return (findFirst(query, parameters) != null);
+	public boolean existsByQuery(Query query, HibernateParameter... parameters) {
+		return (findFirstByQuery(query, parameters) != null);
 	}
 
 	@Override
@@ -366,7 +372,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public long count(Criterion[] criterions) {
+	public long countByCriteria(Criterion... criterions) {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		HibernateTool.addCriterions(criteria, criterions);
 

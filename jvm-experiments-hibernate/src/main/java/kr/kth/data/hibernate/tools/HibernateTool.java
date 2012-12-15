@@ -5,14 +5,12 @@ import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.SerializeTool;
 import kr.kth.data.domain.model.StatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
-import kr.kth.data.hibernate.interceptor.UpdateTimestampedInterceptor;
 import kr.kth.data.hibernate.listener.UpdateTimestampedEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -20,8 +18,6 @@ import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.EventType;
 import org.hibernate.internal.CriteriaImpl;
 import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.hibernate.type.ObjectType;
 
 import java.util.HashMap;
@@ -36,49 +32,6 @@ import static kr.kth.commons.base.Guard.firstNotNull;
  */
 @Slf4j
 public class HibernateTool {
-
-	private static SessionFactory sessionFactory;
-	//private static Context jndiContext;
-
-	static {
-		buildSessionFactory();
-	}
-
-	private static void buildSessionFactory() {
-
-		if (log.isInfoEnabled())
-			log.info("새로운 SessionFactory 생성을 시작합니다...");
-
-		try {
-			Configuration configuration = new Configuration();
-
-			configuration.addResource("hibernate.cfg.xml");
-			configuration.setInterceptor(new UpdateTimestampedInterceptor());
-			//configuration.setNamingStrategy(new OracleNamingStrategy());
-			configuration.configure();
-			ServiceRegistry serviceRegistry =
-				new ServiceRegistryBuilder()
-					.applySettings(configuration.getProperties())
-					.buildServiceRegistry();
-
-			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-			registerListeners(sessionFactory);
-
-			//jndiContext = new InitialContext();
-
-			if (log.isInfoEnabled())
-				log.info("새로운 SessionFactory를 생성했습니다.");
-		} catch (Throwable ex) {
-			// Make sure you log the exception, as it might be swallowed
-			System.err.println("Initial SessionFactory creation failed." + ex);
-			throw new ExceptionInInitializerError(ex);
-		}
-	}
-
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
 
 	public static void registerListeners(SessionFactory sessionFactory) {
 		EventListenerRegistry registry =
@@ -125,9 +78,6 @@ public class HibernateTool {
 
 	/**
 	 * {@link DetachedCriteria} 를 복사합니다.
-	 *
-	 * @param dc
-	 * @return
 	 */
 	public static DetachedCriteria copyDetachedCriteria(DetachedCriteria dc) {
 		return (DetachedCriteria) SerializeTool.copyObject(dc);
@@ -138,7 +88,7 @@ public class HibernateTool {
 	}
 
 	/**
-	 *
+	 * {@link DetachedCriteria} 를 현 {@link Session} 에서 사용할 {@link Criteria} 로 변환합니다.
 	 */
 	public static Criteria getExecutableCriteria(Session session, DetachedCriteria dc) {
 		return dc.getExecutableCriteria(session);
@@ -163,9 +113,9 @@ public class HibernateTool {
 	}
 
 	public static DetachedCriteria addOrders(DetachedCriteria dc, Order... orders) {
-		for (Order order : orders)
+		for (Order order : orders) {
 			dc.addOrder(order);
-
+		}
 		return dc;
 	}
 
@@ -192,15 +142,11 @@ public class HibernateTool {
 
 	/**
 	 * {@link Criteria} 에 {@link Criterion} 들을 AND 로 추가합니다.
-	 *
-	 * @param criteria
-	 * @param criterions
-	 * @return
 	 */
 	public static Criteria addCriterions(Criteria criteria, Criterion... criterions) {
-		for (Criterion criterion : criterions)
+		for (Criterion criterion : criterions) {
 			criteria.add(criterion);
-
+		}
 		return criteria;
 	}
 

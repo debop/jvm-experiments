@@ -42,18 +42,17 @@ public class TestToolTest {
 	@Test
 	public void runTasksWithCallables() {
 
-		Callable<Double> callable =
-			new Callable<Double>() {
-				@Override
-				public Double call() throws Exception {
-					for (int i = LowerBound; i < UpperBound; i++) {
-						Hero.findRoot(i);
-					}
-					if (log.isDebugEnabled())
-						log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
-					return Hero.findRoot(UpperBound);
+		Callable<Double> callable = new Callable<Double>() {
+			@Override
+			public Double call() throws Exception {
+				for (int i = LowerBound; i < UpperBound; i++) {
+					Hero.findRoot(i);
 				}
-			};
+				if (log.isDebugEnabled())
+					log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
+				return Hero.findRoot(UpperBound);
+			}
+		};
 
 		@Cleanup
 		AutoStopwatch stopwatch = new AutoStopwatch();

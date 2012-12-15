@@ -311,7 +311,7 @@ public class EntityTool {
 		criteria.add(Restrictions.eq("parent", entity));
 
 //		HibernateRepository<T> repository = (HibernateRepository<T>) HbRepositoryFactory.get(entity.getClass());
-//		return repository.count(criteria);
+//		return repository.countByCriteria(criteria);
 		// TODO: 구현 중
 		return null;
 	}
@@ -324,7 +324,7 @@ public class EntityTool {
 		criteria.add(Restrictions.eq("parent", entity));
 
 //		HibernateRepository<T> repository = (HibernateRepository<T>) HbRepositoryFactory.get(entity.getClass());
-//		return repository.exists(criteria);
+//		return repository.existsByCriteria(criteria);
 		// TODO: 구현 중
 		return null;
 	}

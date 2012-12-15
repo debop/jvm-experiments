@@ -1,6 +1,5 @@
 package org.hibernate.example.domain;
 
-import kr.kth.data.hibernate.tools.HibernateTool;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * org.hibernate.example.domain.AbstractHibernateTest
@@ -17,8 +17,7 @@ import org.junit.Before;
 @Slf4j
 public abstract class AbstractHibernateTest {
 
-	@Getter(lazy = true)
-	private static final SessionFactory sessionFactory = HibernateTool.getSessionFactory();
+	@Autowired SessionFactory sessionFactory;
 
 	@Getter @Setter protected Session session;
 
@@ -34,8 +33,7 @@ public abstract class AbstractHibernateTest {
 
 	protected void onBefore() {
 		if (session == null)
-			session = getSessionFactory().openSession();
-
+			session = sessionFactory.openSession();
 	}
 
 	protected void onAfter() {

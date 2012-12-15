@@ -95,7 +95,7 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
 			int usage = usageCount.decrementAndGet();
 
 			if (log.isDebugEnabled())
-				log.debug("Usage count of UnitOfWork = [{}]", usage);
+				log.debug("Usage countByCriteria of UnitOfWork = [{}]", usage);
 
 			if (usage != 0) {
 				if (log.isDebugEnabled())

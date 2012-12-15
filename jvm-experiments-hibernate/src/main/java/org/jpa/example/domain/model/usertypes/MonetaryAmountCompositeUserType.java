@@ -67,7 +67,10 @@ public class MonetaryAmountCompositeUserType implements CompositeUserType {
 	}
 
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+	public Object nullSafeGet(ResultSet rs,
+	                          String[] names,
+	                          SessionImplementor session,
+	                          Object owner)
 		throws HibernateException, SQLException {
 
 		BigDecimal amount = rs.getBigDecimal(names[0]);
@@ -82,7 +85,10 @@ public class MonetaryAmountCompositeUserType implements CompositeUserType {
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+	public void nullSafeSet(PreparedStatement st,
+	                        Object value,
+	                        int index,
+	                        SessionImplementor session)
 		throws HibernateException, SQLException {
 
 		if (value == null) {
@@ -107,17 +113,23 @@ public class MonetaryAmountCompositeUserType implements CompositeUserType {
 	}
 
 	@Override
-	public Serializable disassemble(Object value, SessionImplementor session) throws HibernateException {
+	public Serializable disassemble(Object value,
+	                                SessionImplementor session) throws HibernateException {
 		return (Serializable) deepCopy(value);
 	}
 
 	@Override
-	public Object assemble(Serializable cached, SessionImplementor session, Object owner) throws HibernateException {
+	public Object assemble(Serializable cached,
+	                       SessionImplementor session,
+	                       Object owner) throws HibernateException {
 		return deepCopy(cached);
 	}
 
 	@Override
-	public Object replace(Object original, Object target, SessionImplementor session, Object owner) throws HibernateException {
+	public Object replace(Object original,
+	                      Object target,
+	                      SessionImplementor session,
+	                      Object owner) throws HibernateException {
 		return deepCopy(original);
 	}
 }

@@ -45,5 +45,6 @@
 		<!-- joined-subclass component -->
 		<mapping resource="org/hibernate/example/domain/model/joinedSubclass/Company.hbm.xml"/>
 		<mapping resource="org/hibernate/example/domain/model/joinedSubclass/Person.hbm.xml"/>
+
 	</session-factory>
 </hibernate-configuration>

@@ -33,8 +33,10 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 
 	@Override
 	public void setSessionFactory(SessionFactory sessionFactory) {
+		Guard.shouldNotBeNull(sessionFactory, "sessionFactory");
 		if (log.isInfoEnabled())
-			log.info("SessionFactory를 설정합니다. factory=[{}]", sessionFactory);
+			log.info("SessionFactory를 설정합니다. sessionFactory=[{}]", sessionFactory);
+
 		this.sessionFactory = sessionFactory;
 	}
 

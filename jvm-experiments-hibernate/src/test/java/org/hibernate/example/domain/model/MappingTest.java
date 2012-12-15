@@ -8,6 +8,9 @@ import org.hibernate.example.domain.model.join.Join_Customer;
 import org.hibernate.metadata.ClassMetadata;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +25,10 @@ import static org.junit.Assert.assertNotNull;
  * Date: 12. 11. 19
  */
 @Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "/applicationContext.xml")
 public class MappingTest extends AbstractHibernateTest {
+
 
 	@Test
 	public void entityMappingTest() {
@@ -50,6 +56,11 @@ public class MappingTest extends AbstractHibernateTest {
 
 	@Test
 	public void categoryAndEvent() {
+
+		session.createQuery("delete from Event").executeUpdate();
+		session.createQuery("delete from Category").executeUpdate();
+		session.flush();
+
 		Category category = new Category("category1");
 
 		Event event1 = new Event("event1", new Date());
@@ -76,6 +87,9 @@ public class MappingTest extends AbstractHibernateTest {
 
 	@Test
 	public void stateEntityImplSave() {
+
+		session.createQuery("delete from StatefulEntityImpl").executeUpdate();
+		session.flush();
 
 		StatefulEntityImpl stateEntity = new StatefulEntityImpl("abc");
 		session.persist(stateEntity);

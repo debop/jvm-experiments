@@ -28,7 +28,7 @@ public class JpaUser extends JpaEntityBase {
 	private static final long serialVersionUID = -4278711858304883834L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	@Column(name = "USER_ID")
 	private Long id;
 
@@ -47,7 +47,12 @@ public class JpaUser extends JpaEntityBase {
 	private String password;
 
 	@Column(name = "USER_EMAIL")
+	@Index(name = "IX_USER_EMAIL")
 	private String email;
+
+	@Column(name = "IS_ACTIVE", nullable = false)
+	@Basic(fetch = FetchType.LAZY)
+	private String exAttrs;
 
 	@Embedded
 	@AttributeOverrides(

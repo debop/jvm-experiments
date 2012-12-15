@@ -6,10 +6,7 @@ import kr.kth.data.hibernate.HibernateParameter;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -42,13 +39,15 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	List<E> find(DetachedCriteria dc, int firstResult, int maxResults, Order... orders);
 
-	List<E> find(Criterion[] criterions);
+	List<E> findByCriteria(Criterion... criterions);
 
-	List<E> find(Criterion[] criterions, int firstResult, int maxResults, Order... orders);
+	List<E> findByCriteria(Criterion[] criterions, int firstResult, int maxResults, Order... orders);
 
-	List<E> find(Query query, HibernateParameter... parameters);
+	List<E> findByExample(Example example);
 
-	List<E> find(Query query, int firstResult, int maxResults, HibernateParameter... parameters);
+	List<E> findByQuery(Query query, HibernateParameter... parameters);
+
+	List<E> findByQuery(Query query, int firstResult, int maxResults, HibernateParameter... parameters);
 
 	List<E> findByQueryString(String queryString, HibernateParameter... parameters);
 
@@ -61,7 +60,7 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	PagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
 
-	PagedList<E> getPage(Query query, int pageNo, int pageSize, HibernateParameter... parameters);
+	PagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters);
 
 	PagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters);
 
@@ -70,9 +69,9 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	E findOne(DetachedCriteria dc);
 
-	E findOne(Criterion[] criterions);
+	E findOneByCriteria(Criterion... criterions);
 
-	E findOne(Query query, HibernateParameter... parameters);
+	E findOneByQuery(Query query, HibernateParameter... parameters);
 
 	E findOneByQueryString(String queryString, HibernateParameter... parameters);
 
@@ -81,9 +80,9 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	E findFirst(DetachedCriteria dc);
 
-	E findFirst(Criterion[] criterions);
+	E findFirstByCriteria(Criterion... criterions);
 
-	E findFirst(Query query, HibernateParameter... parameters);
+	E findFirstByQuery(Query query, HibernateParameter... parameters);
 
 	E findFirstByQueryString(String queryString, HibernateParameter... parameters);
 
@@ -93,9 +92,9 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	boolean exists(DetachedCriteria dc);
 
-	boolean exists(Criterion[] criterions);
+	boolean existsByCriteria(Criterion... criterions);
 
-	boolean exists(Query query, HibernateParameter... parameters);
+	boolean existsByQuery(Query query, HibernateParameter... parameters);
 
 	boolean existsByQueryString(String queryString, HibernateParameter... parameters);
 
@@ -105,7 +104,7 @@ public interface HibernateDao<E extends StatefulEntity> {
 
 	long count(DetachedCriteria dc);
 
-	long count(Criterion[] criterions);
+	long countByCriteria(Criterion... criterions);
 
 
 	void merge(E entity);

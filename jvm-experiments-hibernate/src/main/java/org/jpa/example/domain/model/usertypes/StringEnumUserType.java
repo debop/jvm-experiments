@@ -41,12 +41,13 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void setParameterValues(Properties parameters) {
 		String enumClassName = parameters.getProperty("enumClassName");
 		try {
 			enumClass = ReflectHelper.classForName(enumClassName);
 		} catch (ClassNotFoundException e) {
-			throw new HibernateException("Enum class not found.", e);
+			throw new HibernateException("Enum class not found. enumClassName=" + enumClassName, e);
 		}
 	}
 
@@ -79,10 +80,15 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
-		throws HibernateException, SQLException {
+	public void nullSafeSet(PreparedStatement st,
+	                        Object value,
+	                        int index,
+	                        SessionImplementor session) throws HibernateException, SQLException {
 
-		StringType.INSTANCE.nullSafeSet(st, (value != null) ? toXMLString(value) : null, index, session);
+		StringType.INSTANCE.nullSafeSet(st,
+		                                (value != null) ? toXMLString(value) : null,
+		                                index,
+		                                session);
 	}
 
 	@Override

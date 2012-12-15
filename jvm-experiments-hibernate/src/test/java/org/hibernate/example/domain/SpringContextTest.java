@@ -85,6 +85,10 @@ public class SpringContextTest {
 
 	@Test
 	public void categoryAndEvent() {
+
+		session.createQuery("delete from Event").executeUpdate();
+		session.createQuery("delete from Category").executeUpdate();
+		session.flush();
 		Category category = new Category("category1");
 
 		Event event1 = new Event("event1", new Date());
@@ -110,6 +114,9 @@ public class SpringContextTest {
 
 	@Test
 	public void stateEntityImplSave() {
+
+		session.createQuery("delete from StatefulEntityImpl").executeUpdate();
+		session.flush();
 
 		StatefulEntityImpl stateEntity = new StatefulEntityImpl("abc");
 		session.persist(stateEntity);
