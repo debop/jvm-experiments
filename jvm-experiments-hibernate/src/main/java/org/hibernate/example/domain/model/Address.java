@@ -5,9 +5,6 @@ import kr.kth.commons.base.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.UUID;
-
 /**
  * 주소 정보
  * JpaUser: sunghyouk.bae@gmail.com
@@ -22,9 +19,6 @@ public class Address extends ValueObjectBase {
 	private String street;
 	private String zipcode;
 	private String city;
-
-	private Date lastUpdated;
-	private UUID systemId;
 
 	@Override
 	public int hashCode() {

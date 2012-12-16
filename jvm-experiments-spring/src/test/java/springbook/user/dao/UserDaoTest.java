@@ -1,5 +1,6 @@
 package springbook.user.dao;
 
+import kr.kth.commons.spring3.Spring;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -60,6 +61,32 @@ public class UserDaoTest {
 		Assert.assertNotNull(dao);
 
 		UserDao dao2 = context.getBean("userDao", UserDao.class);
+		Assert.assertNotNull(dao2);
+
+		Assert.assertEquals(dao, dao2);
+	}
+
+	@Test
+	public void springAnnotationApplicationContext() {
+		Spring.initByAnnotatedClasses(DaoFactory.class);
+
+		UserDao dao = Spring.getBean("userDao", UserDao.class);
+		Assert.assertNotNull(dao);
+
+		UserDao dao2 = Spring.getBean("userDao", UserDao.class);
+		Assert.assertNotNull(dao2);
+
+		Assert.assertEquals(dao, dao2);
+	}
+
+	@Test
+	public void springXmlApplicationContext() {
+		Spring.init("applicationContext.xml");
+
+		UserDao dao = Spring.getBean("userDao", UserDao.class);
+		Assert.assertNotNull(dao);
+
+		UserDao dao2 = Spring.getBean("userDao", UserDao.class);
 		Assert.assertNotNull(dao2);
 
 		Assert.assertEquals(dao, dao2);

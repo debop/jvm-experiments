@@ -13,7 +13,7 @@
 	<version>${kr.escp.version}</version>
 
 	<properties>
-		<hibernate4.version>4.1.8.Final</hibernate4.version>
+		<hibernate4.version>4.1.9.Final</hibernate4.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

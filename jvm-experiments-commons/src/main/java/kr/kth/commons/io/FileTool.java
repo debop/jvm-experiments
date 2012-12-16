@@ -1,19 +1,27 @@
 package kr.kth.commons.io;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import kr.kth.commons.parallelism.AsyncTool;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.channels.AsynchronousFileChannel;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import static kr.kth.commons.base.Guard.assertTrue;
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 import static kr.kth.commons.tools.StringTool.listToString;
 
 /**
@@ -23,6 +31,9 @@ import static kr.kth.commons.tools.StringTool.listToString;
  */
 @Slf4j
 public class FileTool {
+
+	public static final int DEFAULT_BUFFER_SIZE = 4096;
+	private static final boolean isDebugEnabled = log.isDebugEnabled();
 
 	private FileTool() {}
 
@@ -114,12 +125,41 @@ public class FileTool {
 		return Files.readAllBytes(path);
 	}
 
-	public static Future<byte[]> readAllBytesAsync(final Path path) {
+	public static Future<byte[]> readAllBytesAsync(final Path path, final OpenOption... openOptions) {
+		shouldNotBeNull(path, "path");
+		assertTrue(FileTool.exists(path), "File not found. file=[%s]", path);
+
+		if (isDebugEnabled)
+			log.debug("비동기 방식으로 파일 정보를 읽어 byte array로 반환합니다. file=[{}], openOptions=[{}]",
+			          path, listToString(openOptions));
+
 		return
 			AsyncTool.startNew(new Callable<byte[]>() {
 				@Override
 				public byte[] call() throws Exception {
-					return readAllBytes(path);
+					ByteBuffer buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE);
+					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+					try (AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(path, openOptions)) {
+						boolean completed = false;
+						do {
+							Future<Integer> readCountFuture = fileChannel.read(buffer, 0);
+							int readCount = readCountFuture.get();
+							completed = readCount == 0;
+
+							if (!completed) {
+								outputStream.write(buffer.array(), 0, readCount);
+								buffer.clear();
+							}
+						} while (!completed);
+
+					} catch (IOException | InterruptedException | ExecutionException e) {
+						if (log.isErrorEnabled())
+							log.error("파일 내용을 읽어오는데 실패했습니다.", e);
+						throw new RuntimeException(e);
+					}
+
+					return outputStream.toByteArray();
 				}
 			});
 	}
@@ -138,14 +178,20 @@ public class FileTool {
 		return readAllLinesAsync(path, StringTool.UTF8);
 	}
 
-	public static Future<List<String>> readAllLinesAsync(final Path path, final Charset cs) {
-		return
-			AsyncTool.startNew(new Callable<List<String>>() {
-				@Override
-				public List<String> call() throws Exception {
-					return readAllLines(path, cs);
-				}
-			});
+	public static Future<List<String>> readAllLinesAsync(final Path path,
+	                                                     final Charset cs,
+	                                                     final OpenOption... openOptions) {
+		return AsyncTool.startNew(new Callable<List<String>>() {
+			@Override
+			public List<String> call() throws Exception {
+				Future<byte[]> readTask = readAllBytesAsync(path, openOptions);
+				byte[] bytes = readTask.get();
+				CharBuffer content = cs.decode(ByteBuffer.wrap(bytes));
+
+				return Lists.newArrayList(Splitter.on(System.lineSeparator())
+				                                  .split(content));
+			}
+		});
 	}
 
 	public static void write(Path target, byte[] bytes, OpenOption... openOptions) throws IOException {
@@ -170,28 +216,39 @@ public class FileTool {
 	public static Future<Void> writeAsync(final Path target,
 	                                      final byte[] bytes,
 	                                      final OpenOption... openOptions) {
-		return
-			AsyncTool.startNew(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					write(target, bytes, openOptions);
+		if (log.isDebugEnabled())
+			log.debug("비동기 방식으로 데이터를 파일에 씁니다. target=[{}], openOptions=[{}]", target, listToString(openOptions));
+
+		return AsyncTool.startNew(new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				try (AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(target, openOptions)) {
+					ByteBuffer buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE);
+					int position = 0;
+					boolean completed = false;
+					do {
+						buffer.put(bytes, position, DEFAULT_BUFFER_SIZE);
+						Future<Integer> writeResult = fileChannel.write(buffer, position);
+						completed = writeResult.get() == 0 && position >= bytes.length;
+						position += writeResult.get();
+						buffer.reset();
+					} while (!completed);
 					return null;
+
+				} catch (IOException | ExecutionException | InterruptedException e) {
+					if (log.isErrorEnabled())
+						log.error("비동기 방식으로 파일에 쓰는 동안 예외가 발생했습니다.", e);
+					throw new RuntimeException(e);
 				}
-			});
+			}
+		});
 	}
 
-	@Async
 	public static Future<Void> writeAsync(final Path target,
 	                                      final Iterable<String> lines,
 	                                      final Charset cs,
 	                                      final OpenOption... openOptions) {
-		return
-			AsyncTool.startNew(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					write(target, lines, cs, openOptions);
-					return null;
-				}
-			});
+		String allText = StringTool.join(lines, System.lineSeparator());
+		return writeAsync(target, cs.encode(allText).array(), openOptions);
 	}
 }
