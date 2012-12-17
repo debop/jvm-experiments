@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * Date: 12. 9. 14
  */
 @Slf4j
-public class GsonSerializer implements JsonSerializer {
+public class GsonSerializer implements IJsonSerializer {
 
 	@Getter @Setter private Gson gson;
 
@@ -27,7 +27,7 @@ public class GsonSerializer implements JsonSerializer {
 
 
 	@Override
-	public String serializeAsText(Object graph) {
+	public String serializeToText(Object graph) {
 		if (graph == null)
 			return "";
 
@@ -39,11 +39,11 @@ public class GsonSerializer implements JsonSerializer {
 
 	@Override
 	public <T> T deserialize(byte[] bytes, Class<T> targetType) {
-		return deserialize(StringTool.getUtf8String(bytes), targetType);
+		return deserializeFromText(StringTool.getUtf8String(bytes), targetType);
 	}
 
 	@Override
-	public <T> T deserialize(String jsonText, Class<T> targetType) {
+	public <T> T deserializeFromText(String jsonText, Class<T> targetType) {
 		if (StringTool.isWhiteSpace(jsonText))
 			return Defaults.defaultValue(targetType);
 
@@ -56,11 +56,6 @@ public class GsonSerializer implements JsonSerializer {
 
 	@Override
 	public byte[] serialize(Object graph) {
-		return StringTool.getUtf8Bytes(serializeAsText(graph));
-	}
-
-	@Override
-	public Object deserialize(byte[] bytes) {
-		return deserialize(StringTool.getUtf8String(bytes), Object.class);
+		return StringTool.getUtf8Bytes(serializeToText(graph));
 	}
 }

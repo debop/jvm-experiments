@@ -5,17 +5,22 @@ import kr.kth.commons.base.DataObject;
 import kr.kth.commons.base.Func1;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.json.GsonSerializer;
-import kr.kth.commons.json.JsonSerializer;
+import kr.kth.commons.json.IJsonSerializer;
 import kr.kth.commons.parallelism.Parallels;
 import kr.kth.commons.tools.MapperTool;
 import kr.kth.commons.tools.StringTool;
 import kr.kth.data.domain.model.*;
+import kr.kth.data.hibernate.HibernateParameter;
+import kr.kth.data.hibernate.repository.HibernateDao;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.LocaleType;
+import org.hibernate.type.ObjectType;
+import org.hibernate.type.StringType;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;
@@ -40,7 +45,7 @@ public class EntityTool {
 
 
 	@Getter(lazy = true)
-	private static final JsonSerializer gsonSerializer = new GsonSerializer();
+	private static final IJsonSerializer gsonSerializer = new GsonSerializer();
 
 
 	public static String entityToString(DataObject entity) {
@@ -48,7 +53,7 @@ public class EntityTool {
 	}
 
 	public static String asGsonText(DataObject entity) throws Exception {
-		return getGsonSerializer().serializeAsText(entity);
+		return getGsonSerializer().serializeToText(entity);
 	}
 
 	// region << Hierarchy >>
@@ -172,13 +177,12 @@ public class EntityTool {
 
 		String hql = String.format(GET_LIST_BY_LOCALE_KEY, entityClass.getName());
 		if (log.isDebugEnabled())
-			log.debug("Locale[{}]를 가지는 엔티티 조회 hql=[{}]", locale, hql);
+			log.debug("Entity [{}] 의 Locale[{}]를 가지는 엔티티 조회 hql=[{}]",
+			          entityClass.getName(), locale, hql);
 
+		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		return dao.findByQueryString(hql, new HibernateParameter("key", locale, LocaleType.INSTANCE));
 
-//		HibernateRepository<T> repository = HbRepositoryFactory.get(entityClass);
-//		return repository.getListByHql(hql, new HibernateParameter("key", locale.getLanguage()));
-		// TODO: 구현 중
-		return null;
 	}
 
 	public static <T extends LocaleEntity<TLocaleValue>, TLocaleValue extends LocaleValue>
@@ -188,11 +192,12 @@ public class EntityTool {
 	                       org.hibernate.type.Type type) {
 
 		String hql = String.format(GET_LIST_BY_LOCALE_PROPERTY, entityClass.getName(), propertyName, propertyName);
+		if (log.isDebugEnabled())
+			log.debug("Entity [{}] 에 Locale 속성[{}]의 값이 [{}] 인 엔티티를 조회합니다. hql=[{}]",
+			          entityClass.getName(), propertyName, value, hql);
 
-//		HibernateRepository<T> repository = HbRepositoryFactory.get(entityClass);
-//		return repository.getListByHql(hql, new HibernateParameter(propertyName, value, type));
-		// TODO : 구현 중
-		return null;
+		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		return dao.findByQueryString(hql, new HibernateParameter(propertyName, value, ObjectType.INSTANCE));
 	}
 
 	// endregion
@@ -211,12 +216,10 @@ public class EntityTool {
 		String hql = String.format(GET_LIST_BY_META_KEY, entityClass.getName());
 
 		if (log.isDebugEnabled())
-			log.debug("메타데이타 키 [{}] 를 가지는 엔티티 조회 hql=[{}]", key, hql);
+			log.debug("엔티티 [{}]의 메타데이타 키 [{}] 를 가지는 엔티티 조회 hql=[{}]", entityClass.getName(), key, hql);
 
-//		HibernateRepository<T> repository = HbRepositoryFactory.get(entityClass);
-//		return repository.getListByHql(hql, new HibernateParameter("key", key, StringType.INSTANCE));
-		// TODO: 구현 중
-		return null;
+		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		return dao.findByQueryString(hql, new HibernateParameter("key", key, StringType.INSTANCE));
 	}
 
 	public static <T extends MetaEntity> List<T> containsMetaValue(Class<T> entityClass, String value) {
@@ -226,10 +229,8 @@ public class EntityTool {
 		if (log.isDebugEnabled())
 			log.debug("메타데이타 value[{}]를 가지는 엔티티 조회 hql=[{}]", value, hql);
 
-//		HibernateRepository<T> repository = HbRepositoryFactory.get(entityClass);
-//		return repository.getListByHql(hql, new HibernateParameter("value", value, StringType.INSTANCE));
-		// TODO: 구현 중
-		return null;
+		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		return dao.findByQueryString(hql, new HibernateParameter("value", value, StringType.INSTANCE));
 	}
 
 	// endregion

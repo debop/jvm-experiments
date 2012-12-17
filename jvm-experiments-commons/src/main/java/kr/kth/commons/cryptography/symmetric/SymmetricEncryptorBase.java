@@ -18,9 +18,9 @@ import java.security.Key;
  * Date: 12. 9. 14
  */
 @Slf4j
-public abstract class SymmetricEncryptorBase implements SymmetricEncryptor {
+public abstract class SymmetricEncryptorBase implements ISymmetricEncryptor {
 
-	protected static final String DEFAULT_PASSWD = "pudding.pudding.commons.core";
+	protected static final String DEFAULT_PASSWD = "sunghyouk.bae@gmail.com";
 
 	@Getter
 	protected final String password;
@@ -62,7 +62,7 @@ public abstract class SymmetricEncryptorBase implements SymmetricEncryptor {
 
 
 	@Override
-	public byte[] encrypt(byte[] plainBytes) throws Exception {
+	public byte[] encrypt(byte[] plainBytes) {
 
 		if (ArrayTool.isEmpty(plainBytes))
 			return ArrayTool.EmptyByteArray;
@@ -70,18 +70,26 @@ public abstract class SymmetricEncryptorBase implements SymmetricEncryptor {
 		if (log.isDebugEnabled())
 			log.debug("암호화를 수행합니다...");
 
-		return doEncrypt(plainBytes);
+		try {
+			return doEncrypt(plainBytes);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public byte[] decrypt(byte[] cipherBytes) throws Exception {
+	public byte[] decrypt(byte[] cipherBytes) {
 		if (ArrayTool.isEmpty(cipherBytes))
 			return ArrayTool.EmptyByteArray;
 
 		if (log.isDebugEnabled())
 			log.debug("복호화를 수행합니다...");
 
-		return doDecrypt(cipherBytes);
+		try {
+			return doDecrypt(cipherBytes);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

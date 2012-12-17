@@ -1,6 +1,6 @@
 package kr.kth.commons.io;
 
-import kr.kth.commons.base.Serializer;
+import kr.kth.commons.base.ISerializer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
  * Date: 12. 10. 4.
  */
 @Slf4j
-public class BinarySerializer implements Serializer {
+public class BinarySerializer implements ISerializer {
 
 	/**
 	 * {@inheritDoc}
@@ -41,16 +41,15 @@ public class BinarySerializer implements Serializer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object deserialize(byte[] bytes) {
+	@SuppressWarnings("unchecked")
+	public <T> T deserialize(byte[] bytes, Class<T> clazz) {
 
 		if (bytes == null || bytes.length == 0)
 			return null;
 
-		try (
-			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-			ObjectInputStream ois = new ObjectInputStream(bis)) {
-
-			return ois.readObject();
+		try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+		     ObjectInputStream ois = new ObjectInputStream(bis)) {
+			return (T) ois.readObject();
 		} catch (Exception e) {
 			log.error("객체정보를 역직렬화하는데 실패했습니다.", e);
 			throw new RuntimeException(e);

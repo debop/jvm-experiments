@@ -3,6 +3,7 @@ package kr.kth.commons.spring3;
 import kr.kth.commons.base.AutoCloseableAction;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.base.Local;
+import kr.kth.commons.tools.ArrayTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -15,6 +16,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -220,6 +222,18 @@ public final class Spring {
 			          beanClass.getName(), includeNonSingletons, allowEagerInit);
 
 		return getContext().getBeanNamesForType(beanClass, includeNonSingletons, allowEagerInit);
+	}
+
+	/**
+	 * 지정한 타입의 Bean 들의 인스턴스를 가져옵니다. (Prototype Bean 도 포함됩니다.)
+	 */
+	public static <T> List<T> getBeansByType(Class<T> beanClass) {
+		return getBeansByType(beanClass, true, true);
+	}
+
+	public static <T> List<T> getBeansByType(Class<T> beanClass, boolean includeNonSingletons, boolean allowEagerInit) {
+		Map<String, T> beanMap = getBeansOfType(beanClass, includeNonSingletons, allowEagerInit);
+		return ArrayTool.toList(beanMap.values());
 	}
 
 	/**

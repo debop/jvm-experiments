@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class JsonSerializerTest extends AbstractTest {
 
-	private static final List<JsonSerializer> serializers =
+	private static final List<IJsonSerializer> serializers =
 		Lists.newArrayList(new GsonSerializer(), new JacksonSerializer());
 
 	@Test
@@ -26,7 +26,7 @@ public class JsonSerializerTest extends AbstractTest {
 		User user = User.getUser(999);
 
 		for (int i = 0; i < serializers.size(); i++) {
-			JsonSerializer serializer = serializers.get(i);
+			IJsonSerializer serializer = serializers.get(i);
 
 			byte[] serializedBytes = serializer.serialize(user);
 			User deserialized = serializer.deserialize(serializedBytes, User.class);

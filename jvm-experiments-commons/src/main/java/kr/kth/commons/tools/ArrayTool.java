@@ -1,10 +1,14 @@
 package kr.kth.commons.tools;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.cryptography.CryptoTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Array 관련 Utility class 입니다.
@@ -63,5 +67,39 @@ public final class ArrayTool {
 		return CryptoTool.getRandomBytes(size);
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> toList(Object[] array) {
+		List<T> results = Lists.newArrayList();
+		for (Object item : array) {
+			results.add((T) item);
+		}
+		return results;
+	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> toList(Collection<?> collection) {
+		List<T> results = Lists.newArrayList();
+		for (Object item : collection) {
+			results.add((T) item);
+		}
+		return results;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Set<T> toSet(Object[] array) {
+		Set<T> results = Sets.newHashSet();
+		for (Object item : array) {
+			results.add((T) item);
+		}
+		return results;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Set<T> toSet(Collection<?> collection) {
+		Set<T> results = Sets.newHashSet();
+		for (Object item : collection) {
+			results.add((T) item);
+		}
+		return results;
+	}
 }

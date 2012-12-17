@@ -2,7 +2,7 @@ package kr.kth.data.hibernate.usertype;
 
 import com.google.common.base.Objects;
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.json.JsonSerializer;
+import kr.kth.commons.json.IJsonSerializer;
 import kr.kth.commons.json.JsonTextObject;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
@@ -27,7 +27,7 @@ import static kr.kth.commons.tools.StringTool.ellipsisChar;
 @Slf4j
 public abstract class AbstractJsonTextUserType implements CompositeUserType {
 
-	abstract public JsonSerializer getJsonSerializer();
+	abstract public IJsonSerializer getJsonSerializer();
 
 	public JsonTextObject serialize(Object value) {
 		if (value == null)
@@ -37,7 +37,7 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 		                 "인스턴스 수형이 JsonTextObject가 아닙니다. value type=" + value.getClass().getName());
 
 		return new JsonTextObject(value.getClass().getName(),
-		                          getJsonSerializer().serializeAsText(value));
+		                          getJsonSerializer().serializeToText(value));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -51,7 +51,7 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 
 		try {
 			Class clazz = Class.forName(jto.getClassName());
-			return getJsonSerializer().deserialize(jto.getJsonText(), clazz);
+			return getJsonSerializer().deserializeFromText(jto.getJsonText(), clazz);
 		} catch (ClassNotFoundException e) {
 			return new HibernateException(e);
 		}
@@ -66,12 +66,12 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 
 	@Override
 	public String[] getPropertyNames() {
-		return new String[] { "className", "jsonText" };
+		return new String[]{"className", "jsonText"};
 	}
 
 	@Override
 	public Type[] getPropertyTypes() {
-		return new Type[] { StringType.INSTANCE, StringType.INSTANCE };
+		return new Type[]{StringType.INSTANCE, StringType.INSTANCE};
 	}
 
 	@Override

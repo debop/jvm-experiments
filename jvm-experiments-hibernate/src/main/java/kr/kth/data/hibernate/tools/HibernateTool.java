@@ -1,11 +1,14 @@
 package kr.kth.data.hibernate.tools;
 
+import com.google.common.collect.Maps;
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.tools.ArrayTool;
+import kr.kth.commons.spring3.Spring;
 import kr.kth.commons.tools.SerializeTool;
 import kr.kth.data.domain.model.StatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.listener.UpdateTimestampedEventListener;
+import kr.kth.data.hibernate.repository.HibernateDao;
+import kr.kth.data.hibernate.repository.HibernateDaoFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -20,10 +23,10 @@ import org.hibernate.internal.CriteriaImpl;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.type.ObjectType;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static kr.kth.commons.base.Guard.firstNotNull;
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 /**
  * Hibernate 관련 Tool
@@ -33,7 +36,23 @@ import static kr.kth.commons.base.Guard.firstNotNull;
 @Slf4j
 public class HibernateTool {
 
-	public static void registerListeners(SessionFactory sessionFactory) {
+	private static final boolean isDebugEnabled = log.isDebugEnabled();
+
+	private HibernateTool() {}
+
+	public static HibernateDaoFactory getHibernateDaoFactory() {
+		return Spring.getBean(HibernateDaoFactory.class);
+	}
+
+	public static <E extends StatefulEntity> HibernateDao getHibernateDao(Class<E> entityClass) {
+		return getHibernateDaoFactory().getOrCreateHibernateDao(entityClass);
+	}
+
+	public static void registerUpdateTimestampEventListener(SessionFactory sessionFactory) {
+
+		if (log.isInfoEnabled())
+			log.info("지정된 SessionFactory에 UpdateTimestampedEventListener를 등록합니다.");
+
 		EventListenerRegistry registry =
 			((SessionFactoryImpl) sessionFactory)
 				.getServiceRegistry()
@@ -45,7 +64,7 @@ public class HibernateTool {
 	}
 
 	public static Map<String, Object> toMap(HibernateParameter... parameters) {
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = Maps.newHashMap();
 		for (HibernateParameter parameter : parameters) {
 			map.put(parameter.getName(), parameter.getValue());
 		}
@@ -57,33 +76,25 @@ public class HibernateTool {
 		return DetachedCriteria.forClass(clazz);
 	}
 
-	public static Criteria createCriteria(Class entityClass, Session session,
-	                                      Order[] orders, Criterion... criterions) {
+	public static Criteria createCriteria(Class entityClass, Session session, Order[] orders, Criterion... criterions) {
 		if (log.isDebugEnabled())
-			log.debug(entityClass.getName() + "에 대한 Criteria를 생성합니다...");
+			log.debug("엔티티 [{}] 에 대한 Criteria를 생성합니다...", entityClass.getName());
 
 		Criteria criteria = session.createCriteria(entityClass);
-
-		if (orders != null && orders.length > 0) {
-			for (Order order : orders) {
-				criteria.addOrder(order);
-			}
-		}
-
-		for (Criterion criterion : criterions) {
-			criteria.add(criterion);
-		}
-		return criteria;
+		addOrders(criteria, orders);
+		return addCriterions(criteria, criterions);
 	}
 
 	/**
 	 * {@link DetachedCriteria} 를 복사합니다.
 	 */
 	public static DetachedCriteria copyDetachedCriteria(DetachedCriteria dc) {
+		shouldNotBeNull(dc, "dc");
 		return (DetachedCriteria) SerializeTool.copyObject(dc);
 	}
 
 	public static Criteria copyCriteria(Criteria criteria) {
+		shouldNotBeNull(criteria, "criteria");
 		return (Criteria) SerializeTool.copyObject((CriteriaImpl) criteria);
 	}
 
@@ -113,6 +124,8 @@ public class HibernateTool {
 	}
 
 	public static DetachedCriteria addOrders(DetachedCriteria dc, Order... orders) {
+		shouldNotBeNull(dc, "dc");
+
 		for (Order order : orders) {
 			dc.addOrder(order);
 		}
@@ -120,6 +133,8 @@ public class HibernateTool {
 	}
 
 	public static DetachedCriteria addOrders(DetachedCriteria dc, Iterable<Order> orders) {
+		shouldNotBeNull(dc, "dc");
+
 		for (Order order : orders)
 			dc.addOrder(order);
 
@@ -127,6 +142,8 @@ public class HibernateTool {
 	}
 
 	public static Criteria addOrders(Criteria criteria, Order... orders) {
+		shouldNotBeNull(criteria, "criteria");
+
 		for (Order order : orders) {
 			criteria.addOrder(order);
 		}
@@ -134,6 +151,8 @@ public class HibernateTool {
 	}
 
 	public static Criteria addOrders(Criteria criteria, Iterable<Order> orders) {
+		shouldNotBeNull(criteria, "criteria");
+
 		for (Order order : orders) {
 			criteria.addOrder(order);
 		}
@@ -144,6 +163,8 @@ public class HibernateTool {
 	 * {@link Criteria} 에 {@link Criterion} 들을 AND 로 추가합니다.
 	 */
 	public static Criteria addCriterions(Criteria criteria, Criterion... criterions) {
+		shouldNotBeNull(criteria, "criteria");
+
 		for (Criterion criterion : criterions) {
 			criteria.add(criterion);
 		}
@@ -151,15 +172,15 @@ public class HibernateTool {
 	}
 
 	/**
-	 * {@link org.hibernate.Query} 의 인자에 값을 설정합니다.
+	 * {@link Query} 의 인자에 값을 설정합니다.
 	 */
 	public static Query setParameters(Query query, HibernateParameter... params) {
 		Guard.shouldNotBeNull(query, "query");
 
-		if (ArrayTool.isEmpty(params))
-			return query;
-
 		for (HibernateParameter param : params) {
+			if (isDebugEnabled)
+				log.debug("쿼리문의 인자값을 설정합니다. param=[{}]", param);
+
 			query.setParameter(param.getName(),
 			                   param.getValue(),
 			                   firstNotNull(param.getType(), ObjectType.INSTANCE));
@@ -167,8 +188,14 @@ public class HibernateTool {
 		return query;
 	}
 
+	/**
+	 * {@link Criteria} 에 조회 범위를 지정합니다.
+	 */
 	public static Criteria setPaging(Criteria criteria, Integer firstResult, Integer maxResults) {
 		Guard.shouldNotBeNull(criteria, "criteria");
+
+		if (isDebugEnabled)
+			log.debug("criteria에 fetch range를 지정합니다. firstResult=[{}], maxResults=[{}]", firstResult, maxResults);
 
 		if (firstResult != null && firstResult >= 0)
 			criteria.setFirstResult(firstResult);
@@ -179,11 +206,18 @@ public class HibernateTool {
 		return criteria;
 	}
 
+	/**
+	 * {@link Query} 에 조회 범위를 지정합니다.
+	 */
 	public static Query setPaging(Query query, Integer firstResult, Integer maxResults) {
 		Guard.shouldNotBeNull(query, "query");
 
+		if (isDebugEnabled)
+			log.debug("query에 fetch range를 지정합니다. firstResult=[{}], maxResults=[{}]", firstResult, maxResults);
+
 		if (firstResult != null && firstResult >= 0)
 			query.setFirstResult(firstResult);
+
 		if (maxResults != null && maxResults > 0)
 			query.setMaxResults(maxResults);
 

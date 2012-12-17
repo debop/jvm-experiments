@@ -2,12 +2,17 @@ package kr.kth.commons.compress;
 
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import kr.kth.commons.AbstractTest;
+import kr.kth.commons.spring3.Spring;
+import kr.kth.commons.spring3.configuration.CompressorConfiguration;
+import kr.kth.commons.spring3.configuration.SerializerConfiguration;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -22,15 +27,18 @@ public class CompressorTest extends AbstractTest {
 	protected static final String text = "동해물과 백두산이 마르고 닳도록, 하느님이 부우하사 우리나라 만세~ Hello world!";
 	protected static String plainText;
 
-	private static final Compressor[] compressors = new Compressor[] {
-		new GZipCompressor(),
-		new BZip2Compressor(),
-		new DeflateCompressor(),
-		new XZCompressor()
-	};
+	private static Collection<Compressor> compressors;
 
 	@BeforeClass
 	public static void BeforeClass() {
+
+		if (Spring.isNotInitialized())
+			Spring.initByAnnotatedClasses(CompressorConfiguration.class,
+			                              SerializerConfiguration.class);
+
+		Map<String, Compressor> compressorMap = Spring.getBeansOfType(Compressor.class);
+		compressors = compressorMap.values();
+
 
 		Random random = new Random(System.currentTimeMillis());
 		StringBuilder builder = new StringBuilder();

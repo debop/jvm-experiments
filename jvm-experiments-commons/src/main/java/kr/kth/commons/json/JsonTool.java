@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JsonTool {
 
-	private static final JsonSerializer serializer = new GsonSerializer();
+	private static final IJsonSerializer serializer = new GsonSerializer();
 
 	/**
 	 * 지정된 객체를 Json 직렬화를 수행하여 byte 배열로 변환합니다.
@@ -25,7 +25,7 @@ public class JsonTool {
 	 */
 	public static <T> String serializeAsText(T graph) {
 		Guard.shouldNotBeNull(graph, "graph");
-		return serializer.serializeAsText(graph);
+		return serializer.serializeToText(graph);
 	}
 
 	/**
@@ -39,6 +39,6 @@ public class JsonTool {
 	 * 지정된 JSON TEXT 를 역직렬화하여, 대상 객체로 빌드합니다.
 	 */
 	public static <T> T deserializeFromText(String jsonText, Class<T> targetType) {
-		return serializer.deserialize(jsonText, targetType);
+		return serializer.deserializeFromText(jsonText, targetType);
 	}
 }

@@ -8,15 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.example.domain.model.Category;
 import org.hibernate.example.domain.model.Event;
 import org.jpa.example.domain.model.JpaUser;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
+import org.junit.*;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -28,30 +21,31 @@ import java.util.List;
  * Date: 12. 11. 26.
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/applicationContext.xml")
 public class HibernateRepositoryTest {
 
-	ApplicationContext springContext;
 	HibernateDaoFactory hibernateDaofactory;
 	HibernateTransactionManager transactionManager;
 	UnitOfWorkManager unitOfWork;
 
 	@BeforeClass
 	public static void beforeClass() {
-
+		if (Spring.isNotInitialized())
+			Spring.init("applicationContext.xml");
 	}
 
 	@Before
 	public void before() {
-		Spring.init("/applicationContext.xml");
-
-		springContext = Spring.getContext();
 		hibernateDaofactory = Spring.getBean(HibernateDaoFactory.class);
 		transactionManager = Spring.getBean(HibernateTransactionManager.class);
 		unitOfWork = Spring.getBean(UnitOfWorkManager.class);
 
 		unitOfWork.start();
+	}
+
+	@AfterClass
+	public static void afterClass() {
+		if (Spring.isInitialized())
+			Spring.reset();
 	}
 
 	@Test

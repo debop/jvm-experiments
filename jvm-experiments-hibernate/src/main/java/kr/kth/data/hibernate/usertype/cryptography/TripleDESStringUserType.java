@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.usertype.cryptography;
 
-import kr.kth.commons.cryptography.symmetric.SymmetricEncryptor;
+import kr.kth.commons.cryptography.symmetric.ISymmetricEncryptor;
 import kr.kth.commons.cryptography.symmetric.TripleDESEncryptor;
 
 /**
@@ -10,10 +10,10 @@ import kr.kth.commons.cryptography.symmetric.TripleDESEncryptor;
  */
 public class TripleDESStringUserType extends AbstractSymmetricEncryptStringUserType {
 
-	private static final SymmetricEncryptor encryptor = new TripleDESEncryptor();
+	private static final ISymmetricEncryptor encryptor = new TripleDESEncryptor();
 
 	@Override
-	public SymmetricEncryptor getEncryptor() {
+	public ISymmetricEncryptor getEncryptor() {
 		return encryptor;
 	}
 }

@@ -22,7 +22,7 @@ public class BinarySerializerTest extends AbstractTest {
 
 		YearWeek yearWeek = new YearWeek(2000, 1);
 
-		YearWeek copied = (YearWeek) serializer.deserialize(serializer.serialize(yearWeek));
+		YearWeek copied = serializer.deserialize(serializer.serialize(yearWeek), YearWeek.class);
 
 		assertNotNull(copied);
 		assertEquals(yearWeek, copied);
@@ -46,7 +46,7 @@ public class BinarySerializerTest extends AbstractTest {
 			company.getUsers().add(user);
 		}
 
-		Company copied = (Company) serializer.deserialize(serializer.serialize(company));
+		Company copied = (Company) serializer.deserialize(serializer.serialize(company), Company.class);
 
 		assertNotNull(copied);
 		assertEquals(100, copied.getUsers().size());

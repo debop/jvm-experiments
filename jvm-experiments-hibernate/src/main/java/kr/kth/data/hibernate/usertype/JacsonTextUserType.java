@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.usertype;
 
+import kr.kth.commons.json.IJsonSerializer;
 import kr.kth.commons.json.JacksonSerializer;
-import kr.kth.commons.json.JsonSerializer;
 
 /**
  * {@link JacksonSerializer} 를 이용하여, 객체를 Json 직렬화하여 저장하는 사용자 타입입니다.
@@ -10,10 +10,10 @@ import kr.kth.commons.json.JsonSerializer;
  */
 public class JacsonTextUserType extends AbstractJsonTextUserType {
 
-	private static final JsonSerializer serializer = new JacksonSerializer();
+	private static final IJsonSerializer serializer = new JacksonSerializer();
 
 	@Override
-	public JsonSerializer getJsonSerializer() {
+	public IJsonSerializer getJsonSerializer() {
 		return serializer;
 	}
 }
