@@ -32,7 +32,7 @@ public interface IUnitOfWorkFactory {
 
 	/**
 	 * 현 Thread-Context 에서 사용할 Session 을 반환합니다.
-	 * {@link kr.kth.data.hibernate.unitofwork.UnitOfWorkManager#start()} 시에 Session은 생성됩니다.
+	 * {@link kr.kth.data.hibernate.unitofwork.UnitOfWorks#start()} 시에 Session은 생성됩니다.
 	 */
 	Session getCurrentSession();
 

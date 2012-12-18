@@ -1,7 +1,8 @@
 package kr.kth.data.hibernate.repository;
 
 import kr.kth.commons.spring3.Spring;
-import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
+import kr.kth.data.hibernate.unitofwork.IUnitOfWork;
+import kr.kth.data.hibernate.unitofwork.UnitOfWorks;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,16 +17,16 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import java.util.List;
 
 /**
- * kr.kth.data.hibernate.repository.HibernateRepositoryTest
+ * kr.kth.data.hibernate.repository.HibernateDaoTest
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 26.
  */
 @Slf4j
-public class HibernateRepositoryTest {
+public class HibernateDaoTest {
 
 	HibernateDaoFactory hibernateDaofactory;
 	HibernateTransactionManager transactionManager;
-	UnitOfWorkManager unitOfWork;
+	IUnitOfWork unitOfWork;
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -37,9 +38,14 @@ public class HibernateRepositoryTest {
 	public void before() {
 		hibernateDaofactory = Spring.getBean(HibernateDaoFactory.class);
 		transactionManager = Spring.getBean(HibernateTransactionManager.class);
-		unitOfWork = Spring.getBean(UnitOfWorkManager.class);
 
-		unitOfWork.start();
+		unitOfWork = UnitOfWorks.start();
+	}
+
+	@After
+	public void after() throws Exception {
+		if (unitOfWork != null)
+			unitOfWork.close();
 	}
 
 	@AfterClass

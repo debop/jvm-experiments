@@ -3,8 +3,6 @@ package kr.kth.data.hibernate.repository;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.base.Local;
 import kr.kth.data.domain.model.IStatefulEntity;
-import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +16,6 @@ import org.springframework.stereotype.Component;
 public class HibernateDaoFactory {
 
 	private static final String HIBERNATE_DAO_KEY = "kr.kth.data.hibernate.repository.IHibernateDao";
-
-	@Setter
-	private UnitOfWorkManager unitOfWorkManager;
 
 	public <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass) {
 		Guard.shouldNotBeNull(entityClass, "entityClass");
@@ -38,7 +33,6 @@ public class HibernateDaoFactory {
 				log.debug("IHibernateDao<{}> 인스턴스를 생성합니다.", entityClass.getName());
 
 			dao = new HibernateDaoImpl<E>(entityClass);
-			dao.setUnitOfWorkManager(unitOfWorkManager);
 			Local.put(daoKey, dao);
 		}
 

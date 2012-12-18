@@ -41,11 +41,13 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
 	}
 
 	@Override
-	public void increseUsage() {
+	public int increseUsage() {
 		int usage = usageCount.incrementAndGet();
 
 		if (log.isDebugEnabled())
 			log.debug("UnitOfWorkAdapter의 사용 횟수를 증가했습니다. usageCount=[{}]", usage);
+
+		return usage;
 	}
 
 	@Override

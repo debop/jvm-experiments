@@ -5,7 +5,6 @@ import kr.kth.commons.base.Local;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -22,9 +21,6 @@ public class HibernateUnitOfWorkFactory implements IUnitOfWorkFactory {
 	protected final Object syncLock = new Object();
 	protected SessionFactory sessionFactory;
 	protected Map<String, SessionFactory> sessionFactories;
-
-	@Autowired UnitOfWorkManager unitOfWorkManager;
-
 
 	@Override
 	public SessionFactory getSessionFactory() {
@@ -53,7 +49,7 @@ public class HibernateUnitOfWorkFactory implements IUnitOfWorkFactory {
 	@Override
 	public Session getCurrentSession() {
 		Session session = (Session) Local.get(CURRENT_HIBERNATE_SESSION);
-		Guard.assertTrue(session != null, "Session이 현 Thread Context에서 생성되지 않았습니다. UnitOfWorkManager.start() 를 먼저 호출하셔야 합니다.");
+		Guard.assertTrue(session != null, "Session이 현 Thread Context에서 생성되지 않았습니다. UnitOfWorks.start() 를 먼저 호출하셔야 합니다.");
 		return session;
 	}
 
@@ -97,6 +93,6 @@ public class HibernateUnitOfWorkFactory implements IUnitOfWorkFactory {
 			session = adapter.getPrevious().getSession();
 
 		setCurrentSession(session);
-		unitOfWorkManager.closeUnitOfWork(adapter);
+		UnitOfWorks.closeUnitOfWork(adapter);
 	}
 }

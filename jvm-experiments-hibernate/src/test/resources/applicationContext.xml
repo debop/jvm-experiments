@@ -36,11 +36,9 @@
 	<bean id="unitOfWorkFactory" class="kr.kth.data.hibernate.unitofwork.HibernateUnitOfWorkFactory">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<bean id="unitOfWorkManager" class="kr.kth.data.hibernate.unitofwork.UnitOfWorkManager">
-		<property name="unitOfWorkFactory" ref="unitOfWorkFactory"/>
-	</bean>
 
 	<bean id="hibernateDaoFactory" class="kr.kth.data.hibernate.repository.HibernateDaoFactory">
-		<property name="unitOfWorkManager" ref="unitOfWorkManager"/>
 	</bean>
+
+	<!-- TODO: 다중 SessionFactory 에 대한 처리를 구현해야 합니다^^ -->
 </beans>
