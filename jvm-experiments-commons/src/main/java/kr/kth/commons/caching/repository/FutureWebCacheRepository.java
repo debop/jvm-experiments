@@ -3,7 +3,6 @@ package kr.kth.commons.caching.repository;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import kr.kth.commons.caching.CacheRepositoryBase;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;

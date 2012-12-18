@@ -1,6 +1,5 @@
 package kr.kth.commons.caching.repository;
 
-import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

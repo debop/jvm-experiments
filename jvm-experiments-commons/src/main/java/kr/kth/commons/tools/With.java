@@ -1,8 +1,8 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.base.Action0;
+import kr.kth.commons.base.Action;
 import kr.kth.commons.base.Action1;
-import kr.kth.commons.base.Func0;
+import kr.kth.commons.base.Function;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
@@ -18,19 +18,19 @@ import java.util.concurrent.Future;
 @Slf4j
 public class With {
 
-	public static void tryAction(Action0 action) {
+	public static void tryAction(Action action) {
 		tryAction(action, null, null);
 	}
 
-	public static void tryAction(Action0 action, Action1<Exception> exceptionAction) {
+	public static void tryAction(Action action, Action1<Exception> exceptionAction) {
 		tryAction(action, exceptionAction, null);
 	}
 
-	public static void tryAction(Action0 action, Action0 finallyAction) {
+	public static void tryAction(Action action, Action finallyAction) {
 		tryAction(action, null, finallyAction);
 	}
 
-	public static void tryAction(Action0 action, Action1<Exception> exceptionAction, Action0 finallyAction) {
+	public static void tryAction(Action action, Action1<Exception> exceptionAction, Action finallyAction) {
 		Guard.shouldNotBeNull(action, "action");
 		try {
 			action.perform();
@@ -55,11 +55,11 @@ public class With {
 		tryAction(action, arg, exceptionAction, null);
 	}
 
-	public static <T> void tryAction(Action1<T> action, final T arg, Action0 finallyAction) {
+	public static <T> void tryAction(Action1<T> action, final T arg, Action finallyAction) {
 		tryAction(action, arg, null, finallyAction);
 	}
 
-	public static <T> void tryAction(Action1<T> action, final T arg, Action1<Exception> exceptionAction, Action0 finallyAction) {
+	public static <T> void tryAction(Action1<T> action, final T arg, Action1<Exception> exceptionAction, Action finallyAction) {
 		Guard.shouldNotBeNull(action, "action");
 		try {
 			action.perform(arg);
@@ -76,18 +76,18 @@ public class With {
 		}
 	}
 
-	public static <R> R tryFunction(Func0<R> func) {
+	public static <R> R tryFunction(Function<R> func) {
 		return tryFunction(func, null, null, null);
 	}
 
-	public static <R> R tryFunction(Func0<R> func, Func0<R> valueFactory) {
+	public static <R> R tryFunction(Function<R> func, Function<R> valueFactory) {
 		return tryFunction(func, valueFactory, null, null);
 	}
 
-	public static <R> R tryFunction(Func0<R> func,
-	                                Func0<R> valueFactory,
+	public static <R> R tryFunction(Function<R> func,
+	                                Function<R> valueFactory,
 	                                Action1<Exception> exceptionAction,
-	                                Action0 finallyAction) {
+	                                Action finallyAction) {
 		Guard.shouldNotBeNull(func, "func");
 		try {
 			return func.execute();
@@ -105,11 +105,11 @@ public class With {
 		return (valueFactory != null) ? valueFactory.execute() : (R) null;
 	}
 
-	public static void tryActionAsync(final Action0 action) {
+	public static void tryActionAsync(final Action action) {
 		tryActionAsync(action, null, null);
 	}
 
-	public static void tryActionAsync(final Action0 action, Action1<Exception> exceptionAction, Action0 finallyAction) {
+	public static void tryActionAsync(final Action action, Action1<Exception> exceptionAction, Action finallyAction) {
 
 		Guard.shouldNotBeNull(action, "action");
 		try {

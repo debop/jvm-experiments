@@ -1,9 +1,9 @@
 package kr.kth.data.hibernate.tools;
 
 import com.google.common.collect.Sets;
-import kr.kth.commons.base.DataObject;
-import kr.kth.commons.base.Func1;
+import kr.kth.commons.base.Function1;
 import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.IDataObject;
 import kr.kth.commons.json.GsonSerializer;
 import kr.kth.commons.json.IJsonSerializer;
 import kr.kth.commons.parallelism.Parallels;
@@ -11,7 +11,7 @@ import kr.kth.commons.tools.MapperTool;
 import kr.kth.commons.tools.StringTool;
 import kr.kth.data.domain.model.*;
 import kr.kth.data.hibernate.HibernateParameter;
-import kr.kth.data.hibernate.repository.HibernateDao;
+import kr.kth.data.hibernate.repository.IHibernateDao;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -48,11 +48,11 @@ public class EntityTool {
 	private static final IJsonSerializer gsonSerializer = new GsonSerializer();
 
 
-	public static String entityToString(DataObject entity) {
+	public static String entityToString(IDataObject entity) {
 		return (entity != null) ? StringTool.objectToString(entity) : StringTool.NULL_STR;
 	}
 
-	public static String asGsonText(DataObject entity) throws Exception {
+	public static String asGsonText(IDataObject entity) throws Exception {
 		return getGsonSerializer().serializeToText(entity);
 	}
 
@@ -180,7 +180,7 @@ public class EntityTool {
 			log.debug("Entity [{}] 의 Locale[{}]를 가지는 엔티티 조회 hql=[{}]",
 			          entityClass.getName(), locale, hql);
 
-		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		IHibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
 		return dao.findByQueryString(hql, new HibernateParameter("key", locale, LocaleType.INSTANCE));
 
 	}
@@ -196,7 +196,7 @@ public class EntityTool {
 			log.debug("Entity [{}] 에 Locale 속성[{}]의 값이 [{}] 인 엔티티를 조회합니다. hql=[{}]",
 			          entityClass.getName(), propertyName, value, hql);
 
-		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		IHibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
 		return dao.findByQueryString(hql, new HibernateParameter(propertyName, value, ObjectType.INSTANCE));
 	}
 
@@ -218,7 +218,7 @@ public class EntityTool {
 		if (log.isDebugEnabled())
 			log.debug("엔티티 [{}]의 메타데이타 키 [{}] 를 가지는 엔티티 조회 hql=[{}]", entityClass.getName(), key, hql);
 
-		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		IHibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
 		return dao.findByQueryString(hql, new HibernateParameter("key", key, StringType.INSTANCE));
 	}
 
@@ -229,7 +229,7 @@ public class EntityTool {
 		if (log.isDebugEnabled())
 			log.debug("메타데이타 value[{}]를 가지는 엔티티 조회 hql=[{}]", value, hql);
 
-		HibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
+		IHibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
 		return dao.findByQueryString(hql, new HibernateParameter("value", value, StringType.INSTANCE));
 	}
 
@@ -274,7 +274,7 @@ public class EntityTool {
 			return new ArrayList<>();
 
 		return
-			Parallels.run(sources, new Func1<S, T>() {
+			Parallels.run(sources, new Function1<S, T>() {
 				@Override
 				public T execute(@Nullable S input) {
 					return MapperTool.map(input, targetClass);

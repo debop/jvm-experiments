@@ -7,4 +7,4 @@ import java.io.Serializable;
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
-public interface DataObject extends Serializable { }
+public interface IDataObject extends Serializable {}

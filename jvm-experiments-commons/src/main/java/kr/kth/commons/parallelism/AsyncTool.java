@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import kr.kth.commons.base.Action1;
-import kr.kth.commons.base.Func1;
+import kr.kth.commons.base.Function1;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -84,7 +84,7 @@ public class AsyncTool {
 	}
 
 	public static <T, V> Future<V> continueTask(final FutureTask<T> prevTask,
-	                                            final Func1<T, V> function) {
+	                                            final Function1<T, V> function) {
 		return startNew(new Callable<V>() {
 			@Override
 			public V call() throws Exception {
@@ -102,7 +102,7 @@ public class AsyncTool {
 	 * 지정한 시퀀스를 인자로 하는 함수를 수행하고, 결과를 반환하는 {@link java.util.concurrent.FutureTask} 의 리스트를 반환한다.
 	 */
 	public static <T, R> List<Future<R>> runAsync(final Iterable<? extends T> elements,
-	                                              final Func1<T, R> function) throws InterruptedException {
+	                                              final Function1<T, R> function) throws InterruptedException {
 		shouldNotBeNull(function, "function");
 
 		List<Callable<R>> tasks = Lists.newArrayList();

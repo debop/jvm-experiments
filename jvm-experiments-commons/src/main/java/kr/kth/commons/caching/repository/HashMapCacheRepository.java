@@ -3,7 +3,6 @@ package kr.kth.commons.caching.repository;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
-import kr.kth.commons.caching.CacheRepositoryBase;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;

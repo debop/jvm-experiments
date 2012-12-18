@@ -8,7 +8,7 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
-public interface PagedList<E> extends Serializable {
+public interface IPagedList<E> extends Serializable {
 
 	/**
 	 * 페이지 처리된 목록

@@ -55,7 +55,7 @@ public class HibernateRepositoryTest {
 
 		TransactionStatus txstatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
-			HibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.getOrCreateHibernateDao(JpaUser.class);
+			IHibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.getOrCreateHibernateDao(JpaUser.class);
 			List<JpaUser> users = jpaUserDao.getAll();
 
 			Assert.assertEquals(0, users.size());
@@ -70,7 +70,7 @@ public class HibernateRepositoryTest {
 
 	@Test
 	public void createCategoryHiberateDao() {
-		HibernateDao<Category> categoryDao = hibernateDaofactory.getOrCreateHibernateDao(Category.class);
+		IHibernateDao<Category> categoryDao = hibernateDaofactory.getOrCreateHibernateDao(Category.class);
 		List<Category> categories = categoryDao.getAll();
 		Assert.assertEquals(0, categories.size());
 	}

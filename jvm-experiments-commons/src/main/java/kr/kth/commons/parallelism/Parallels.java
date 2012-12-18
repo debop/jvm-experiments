@@ -2,7 +2,7 @@ package kr.kth.commons.parallelism;
 
 import com.google.common.collect.Lists;
 import kr.kth.commons.base.Action1;
-import kr.kth.commons.base.Func1;
+import kr.kth.commons.base.Function1;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.util.NamedThreadFactory;
 
@@ -74,7 +74,7 @@ public class Parallels {
 		}
 	}
 
-	public static <T, V> List<V> run(final Iterable<T> elements, final Func1<T, V> function) {
+	public static <T, V> List<V> run(final Iterable<T> elements, final Function1<T, V> function) {
 		shouldNotBeNull(elements, "elements");
 		shouldNotBeNull(function, "function");
 

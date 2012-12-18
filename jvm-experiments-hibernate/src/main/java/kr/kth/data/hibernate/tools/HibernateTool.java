@@ -7,8 +7,8 @@ import kr.kth.commons.tools.SerializeTool;
 import kr.kth.data.domain.model.StatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.listener.UpdateTimestampedEventListener;
-import kr.kth.data.hibernate.repository.HibernateDao;
 import kr.kth.data.hibernate.repository.HibernateDaoFactory;
+import kr.kth.data.hibernate.repository.IHibernateDao;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -44,7 +44,7 @@ public class HibernateTool {
 		return Spring.getBean(HibernateDaoFactory.class);
 	}
 
-	public static <E extends StatefulEntity> HibernateDao getHibernateDao(Class<E> entityClass) {
+	public static <E extends StatefulEntity> IHibernateDao getHibernateDao(Class<E> entityClass) {
 		return getHibernateDaoFactory().getOrCreateHibernateDao(entityClass);
 	}
 

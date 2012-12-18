@@ -7,16 +7,16 @@ import com.google.common.base.Objects;
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
-public abstract class ValueObjectBase implements ValueObject {
+public abstract class ValueObjectBase implements IValueObject {
 
 	//private static final long serialVersionUID = 5546630455380910528L;
 
 	@Override
 	public boolean equals(Object obj) {
 		return obj == this ||
-			(obj != null &&
-				getClass() == obj.getClass() &&
-				hashCode() == obj.hashCode());
+			       (obj != null &&
+				        getClass() == obj.getClass() &&
+				        hashCode() == obj.hashCode());
 	}
 
 	@Override

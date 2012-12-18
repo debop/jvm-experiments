@@ -1,15 +1,15 @@
-package kr.kth.commons.caching;
+package kr.kth.commons.caching.repository;
 
 import com.google.common.base.Objects;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Cache 시스템에 정보를 관리하는 CacheRepository 의 기본 추상화 클래스입니다.
+ * Cache 시스템에 정보를 관리하는 ICacheRepository 의 기본 추상화 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
 @Slf4j
-public abstract class CacheRepositoryBase implements CacheRepository {
+public abstract class CacheRepositoryBase implements ICacheRepository {
 
 	private long expiry = 0;
 

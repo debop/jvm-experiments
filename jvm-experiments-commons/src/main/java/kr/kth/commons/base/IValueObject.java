@@ -5,5 +5,5 @@ package kr.kth.commons.base;
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
-public interface ValueObject extends DataObject {
+public interface IValueObject extends IDataObject {
 }

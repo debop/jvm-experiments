@@ -8,7 +8,7 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
-public interface ScrolledList<E, N extends Comparable<N>> extends Serializable {
+public interface IScrolledList<E, N extends Comparable<N>> extends Serializable {
 
 	/**
 	 * 스크롤 영역의 목록

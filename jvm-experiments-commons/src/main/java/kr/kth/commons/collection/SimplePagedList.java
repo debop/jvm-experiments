@@ -12,7 +12,7 @@ import static kr.kth.commons.base.Guard.*;
  * Date: 12. 9. 13
  */
 @Getter
-public class SimplePagedList<E> implements PagedList<E> {
+public class SimplePagedList<E> implements IPagedList<E> {
 
 	private static final long serialVersionUID = -5027718652421583413L;
 

@@ -41,6 +41,12 @@ public class Local {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static <T> T get(Object key, Class<T> clazz) {
+		shouldNotBeNull(key, "key");
+		return (T) threadLocal.get().get(key);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static void put(Object key, Object value) {
 		shouldNotBeNull(key, "key");
 		if (log.isDebugEnabled())

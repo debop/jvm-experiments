@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.repository;
 
-import kr.kth.commons.collection.PagedList;
+import kr.kth.commons.collection.IPagedList;
 import kr.kth.data.domain.model.StatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
 import org.hibernate.Criteria;
@@ -13,11 +13,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * kr.kth.data.hibernate.repository.HibernateDao
+ * Hibernate 용 Data Access Object Interface 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 27.
  */
-public interface HibernateDao<E extends StatefulEntity> {
+public interface IHibernateDao<E extends StatefulEntity> {
 
 	Class<E> getEntityClass();
 
@@ -58,13 +58,13 @@ public interface HibernateDao<E extends StatefulEntity> {
 	List<E> findByNamedQuery(String queryName, int firstResult, int maxResults, HibernateParameter... parameters);
 
 
-	PagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
+	IPagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
 
-	PagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters);
+	IPagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters);
 
-	PagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters);
+	IPagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters);
 
-	PagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters);
+	IPagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters);
 
 
 	E findOne(DetachedCriteria dc);
@@ -160,16 +160,16 @@ public interface HibernateDao<E extends StatefulEntity> {
 	                                     int firstResult,
 	                                     int maxResults);
 
-	<TProject> PagedList<TProject> reportPage(Class<TProject> projectClass,
-	                                          ProjectionList projectionList,
-	                                          DetachedCriteria dc,
-	                                          int pageNo,
-	                                          int pageSize);
+	<TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
+	                                           ProjectionList projectionList,
+	                                           DetachedCriteria dc,
+	                                           int pageNo,
+	                                           int pageSize);
 
-	<TProject> PagedList<TProject> reportPage(Class<TProject> projectClass,
-	                                          ProjectionList projectionList,
-	                                          Criteria criteria,
-	                                          int pageNo,
-	                                          int pageSize);
+	<TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
+	                                           ProjectionList projectionList,
+	                                           Criteria criteria,
+	                                           int pageNo,
+	                                           int pageSize);
 
 }

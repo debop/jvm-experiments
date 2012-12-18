@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.repository;
 
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.collection.PagedList;
+import kr.kth.commons.collection.IPagedList;
 import kr.kth.commons.collection.SimplePagedList;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.StringTool;
@@ -36,7 +36,7 @@ import java.util.List;
 @Slf4j
 @Repository
 @SuppressWarnings("unchecked")
-public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<E> {
+public class HibernateDaoImpl<E extends StatefulEntity> implements IHibernateDao<E> {
 
 	@Getter
 	private Class<E> entityClass;
@@ -186,7 +186,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 
-	protected final PagedList<E> getPage(Criteria criteria, int pageNo, int pageSize, Order... orders) {
+	protected final IPagedList<E> getPage(Criteria criteria, int pageNo, int pageSize, Order... orders) {
 
 		final Criteria countCriteria = HibernateTool.copyCriteria(criteria);
 		long itemCount = count(countCriteria);
@@ -198,7 +198,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public PagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders) {
+	public IPagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders) {
 
 		DetachedCriteria countDc = HibernateTool.copyDetachedCriteria(dc);
 		long itemCount = count(countDc);
@@ -210,7 +210,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public PagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters) {
+	public IPagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters) {
 		Query countQuery = getSession().createQuery(query.getQueryString());
 		long itemCount = count(countQuery, parameters);
 
@@ -221,7 +221,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public PagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters) {
+	public IPagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters) {
 		return getPageByQuery(getSession().createQuery(queryString),
 		                      pageNo,
 		                      pageSize,
@@ -229,7 +229,7 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public PagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters) {
+	public IPagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters) {
 		return getPageByQuery(getSession().getNamedQuery(queryName),
 		                      pageNo,
 		                      pageSize,
@@ -521,11 +521,11 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public <TProject> PagedList<TProject> reportPage(Class<TProject> projectClass,
-	                                                 ProjectionList projectionList,
-	                                                 DetachedCriteria dc,
-	                                                 int pageNo,
-	                                                 int pageSize) {
+	public <TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
+	                                                  ProjectionList projectionList,
+	                                                  DetachedCriteria dc,
+	                                                  int pageNo,
+	                                                  int pageSize) {
 		return reportPage(projectClass,
 		                  projectionList,
 		                  dc.getExecutableCriteria(getSession()),
@@ -534,11 +534,11 @@ public class HibernateDaoImpl<E extends StatefulEntity> implements HibernateDao<
 	}
 
 	@Override
-	public <TProject> PagedList<TProject> reportPage(Class<TProject> projectClass,
-	                                                 ProjectionList projectionList,
-	                                                 Criteria criteria,
-	                                                 int pageNo,
-	                                                 int pageSize) {
+	public <TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
+	                                                  ProjectionList projectionList,
+	                                                  Criteria criteria,
+	                                                  int pageNo,
+	                                                  int pageSize) {
 		Criteria projectCriteria =
 			buildProjectionCriteria(projectClass, criteria, projectionList, false);
 

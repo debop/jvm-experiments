@@ -5,7 +5,7 @@ package kr.kth.commons.base;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 27.
  */
-public interface Func2<T1, T2, R> {
+public interface Function2<T1, T2, R> {
 
 	R execute(T1 arg1, T2 arg2);
 }
