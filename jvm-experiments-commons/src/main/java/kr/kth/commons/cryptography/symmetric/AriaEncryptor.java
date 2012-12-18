@@ -7,7 +7,7 @@ package kr.kth.commons.cryptography.symmetric;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 14
  */
-public final class AriaEncryptor extends SymmetricEncryptorBase {
+public final class AriaEncryptor extends SymmetricByteEncryptorBase {
 
 	@Override
 	public final String getAlgorithm() {
@@ -15,19 +15,23 @@ public final class AriaEncryptor extends SymmetricEncryptorBase {
 	}
 
 	@Override
-	public int getKeySize() {
-		return 128;
+	public boolean isInitialized() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	protected byte[] doEncrypt(byte[] plainBytes) {
-		throw new UnsupportedOperationException();
+	public void setPassword(String password) {
+		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	protected byte[] doDecrypt(byte[] cipherBytes) {
-		throw new UnsupportedOperationException();
+	public byte[] encrypt(byte[] plainBytes) {
+		return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
+	@Override
+	public byte[] decrypt(byte[] encryptedBytes) {
+		return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
+	}
 
 }

@@ -53,6 +53,10 @@ public class FileTool {
 		return Files.createFile(path, attrs);
 	}
 
+	public static void copy(Path source, Path target) throws IOException {
+		Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+	}
+
 	public static void copy(Path source, Path target, CopyOption... options) throws IOException {
 		Files.copy(source, target, options);
 	}

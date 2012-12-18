@@ -1,9 +1,9 @@
 package kr.kth.commons.spring3.configuration;
 
-import kr.kth.commons.cryptography.symmetric.AESEncryptor;
-import kr.kth.commons.cryptography.symmetric.DESEncryptor;
-import kr.kth.commons.cryptography.symmetric.RC2Encryptor;
-import kr.kth.commons.cryptography.symmetric.TripleDESEncryptor;
+import kr.kth.commons.cryptography.disgest.*;
+import kr.kth.commons.cryptography.symmetric.DESByteEncryptor;
+import kr.kth.commons.cryptography.symmetric.RC2ByteEncryptor;
+import kr.kth.commons.cryptography.symmetric.TripleDESByteEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,23 +15,44 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EncryptorConfiguration {
 
-	@Bean(name = "aesEncryptor")
-	public AESEncryptor aesEncryptor() {
-		return new AESEncryptor();
+	@Bean(name = "md5StringDigester")
+	public MD5StringDigester md5StringDigester() {
+		return new MD5StringDigester();
 	}
 
-	@Bean(name = "desEncryptor")
-	public DESEncryptor desEncryptor() {
-		return new DESEncryptor();
+	@Bean(name = "sha1StringDigester")
+	public SHA1StringDigester sha1StringDigester() {
+		return new SHA1StringDigester();
 	}
 
-	@Bean(name = "rc2Encryptor")
-	public RC2Encryptor rc2Encryptor() {
-		return new RC2Encryptor();
+	@Bean(name = "sha256StringDigester")
+	public SHA256StringDigester sha256StringDigester() {
+		return new SHA256StringDigester();
 	}
 
-	@Bean(name = "tripleDESEncryptor")
-	public TripleDESEncryptor tripleDESEncryptor() {
-		return new TripleDESEncryptor();
+	@Bean(name = "sha384StringDigester")
+	public SHA384StringDigester sha384StringDigester() {
+		return new SHA384StringDigester();
+	}
+
+	@Bean(name = "sha512StringDigester")
+	public SHA512StringDigester sha512StringDigester() {
+		return new SHA512StringDigester();
+	}
+
+
+	@Bean(name = "desByteEncryptor")
+	public DESByteEncryptor desByteEncryptor() {
+		return new DESByteEncryptor();
+	}
+
+	@Bean(name = "tripleByteEncryptor")
+	public TripleDESByteEncryptor tripleDESByteEncryptor() {
+		return new TripleDESByteEncryptor();
+	}
+
+	@Bean(name = "rc2ByteEncryptor")
+	public RC2ByteEncryptor rc2ByteEncryptor() {
+		return new RC2ByteEncryptor();
 	}
 }

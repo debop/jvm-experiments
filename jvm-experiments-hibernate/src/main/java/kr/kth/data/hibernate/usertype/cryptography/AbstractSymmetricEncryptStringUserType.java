@@ -2,7 +2,7 @@ package kr.kth.data.hibernate.usertype.cryptography;
 
 import com.google.common.base.Objects;
 import kr.kth.commons.base.BinaryStringFormat;
-import kr.kth.commons.cryptography.symmetric.ISymmetricEncryptor;
+import kr.kth.commons.cryptography.symmetric.ISymmetricByteEncryptor;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
@@ -23,7 +23,7 @@ import java.sql.SQLException;
 @Slf4j
 public abstract class AbstractSymmetricEncryptStringUserType implements UserType {
 
-	abstract public ISymmetricEncryptor getEncryptor();
+	abstract public ISymmetricByteEncryptor getEncryptor();
 
 	/**
 	 * 문자열을 암호화하여, 16진법 문자열로 변환합니다.
