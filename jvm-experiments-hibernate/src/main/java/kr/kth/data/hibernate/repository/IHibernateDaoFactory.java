@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.repository;
 
-import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.domain.model.IStatefulEntity;
 
 /**
  * 설명을 추가하세요.
@@ -9,5 +9,5 @@ import kr.kth.data.domain.model.StatefulEntity;
  */
 public interface IHibernateDaoFactory {
 
-	<E extends StatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass);
+	<E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass);
 }

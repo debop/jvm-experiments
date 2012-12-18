@@ -1,8 +1,8 @@
 package kr.kth.commons.spring3;
 
-import kr.kth.commons.compress.Compressor;
 import kr.kth.commons.compress.DeflateCompressor;
 import kr.kth.commons.compress.GZipCompressor;
+import kr.kth.commons.compress.ICompressor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +17,12 @@ import org.springframework.context.annotation.Configuration;
 public class AnnotatedBeanConfig {
 
 	@Bean
-	public Compressor defaultCompressor() {
+	public ICompressor defaultCompressor() {
 		return new GZipCompressor();
 	}
 
 	@Bean
-	public Compressor deflateCompressor() {
+	public ICompressor deflateCompressor() {
 		return new DeflateCompressor();
 	}
 }

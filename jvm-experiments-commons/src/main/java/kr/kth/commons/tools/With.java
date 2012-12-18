@@ -16,7 +16,9 @@ import java.util.concurrent.Future;
  * Date: 12. 11. 30.
  */
 @Slf4j
-public class With {
+public final class With {
+
+	private With() {}
 
 	public static void tryAction(Action action) {
 		tryAction(action, null, null);
@@ -39,7 +41,7 @@ public class With {
 				exceptionAction.perform(e);
 			} else {
 				if (log.isWarnEnabled())
-					log.warn("예외가 발생했지만, 무시합니다.", e);
+					log.warn("예외가 발생했지만, 무시합니다^^", e);
 			}
 		} finally {
 			if (finallyAction != null)

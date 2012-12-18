@@ -1,7 +1,7 @@
 package kr.kth.commons.io;
 
 import kr.kth.commons.base.ISerializer;
-import kr.kth.commons.compress.Compressor;
+import kr.kth.commons.compress.ICompressor;
 import kr.kth.commons.cryptography.symmetric.ISymmetricByteEncryptor;
 import kr.kth.commons.spring3.Spring;
 import kr.kth.commons.spring3.configuration.CompressorConfiguration;
@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class SerializerTest {
 
-	static List<Compressor> compressors;
+	static List<ICompressor> compressors;
 	static List<ISerializer> serializers;
 	static List<ISymmetricByteEncryptor> encryptors;
 
@@ -33,7 +33,7 @@ public class SerializerTest {
 			                              EncryptorConfiguration.class,
 			                              SerializerConfiguration.class);
 
-		compressors = Spring.getBeansByType(Compressor.class);
+		compressors = Spring.getBeansByType(ICompressor.class);
 		serializers = Spring.getBeansByType(ISerializer.class);
 		encryptors = Spring.getBeansByType(ISymmetricByteEncryptor.class);
 	}
@@ -59,7 +59,7 @@ public class SerializerTest {
 
 	@Test
 	public void compressableSerializeTest() {
-		for (Compressor compressor : compressors) {
+		for (ICompressor compressor : compressors) {
 			for (ISerializer serializer : serializers) {
 				ISerializer cs = new CompressableSerializer(serializer, compressor);
 

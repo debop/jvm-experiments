@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Hibernate 용 UnitOfWork Factory 클래스입니다.
+ * Hibernate 용 IUnitOfWork Factory 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 30.
  */
 @Slf4j
-public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
+public class HibernateUnitOfWorkFactory implements IUnitOfWorkFactory {
 
 	public static final String CURRENT_HIBERNATE_SESSION = "hibernateUnitOfWorkFactory.current.hibernate.session";
 
@@ -71,9 +71,9 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 	}
 
 	@Override
-	public UnitOfWorkImplementor create(SessionFactory factory, UnitOfWorkImplementor previous) {
+	public IUnitOfWorkImplementor create(SessionFactory factory, IUnitOfWorkImplementor previous) {
 		if (log.isDebugEnabled())
-			log.debug("새로운 UnitOfWorkImplementor 인스턴스를 생성합니다... factory=[{}], previous=[{}]",
+			log.debug("새로운 IUnitOfWorkImplementor 인스턴스를 생성합니다... factory=[{}], previous=[{}]",
 			          factory, previous);
 
 		if (factory == null)
@@ -86,7 +86,7 @@ public class HibernateUnitOfWorkFactory implements UnitOfWorkFactory {
 	}
 
 	@Override
-	public void closeUnitOfWork(UnitOfWorkImplementor adapter) {
+	public void closeUnitOfWork(IUnitOfWorkImplementor adapter) {
 		Guard.shouldNotBeNull(adapter, "adapter");
 
 		if (log.isDebugEnabled())

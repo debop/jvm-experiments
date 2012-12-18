@@ -74,7 +74,7 @@ public class SpringContextTest {
 				log.info("executing hql= " + query.getQueryString());
 
 				for (Object o : query.list()) {
-					log.info("Entity=  " + o);
+					log.info("IEntity=  " + o);
 				}
 			}
 		} finally {

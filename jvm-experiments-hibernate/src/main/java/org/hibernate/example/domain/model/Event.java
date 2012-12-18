@@ -2,17 +2,19 @@ package org.hibernate.example.domain.model;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import kr.kth.commons.period.tools.TimeTool;
 import kr.kth.data.domain.model.EntityBase;
-import kr.kth.data.domain.model.UpdateTimestampedEntity;
+import kr.kth.data.domain.model.IUpdateTimestampedEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
 @Setter
-public class Event extends EntityBase<Long> implements UpdateTimestampedEntity {
+public class Event extends EntityBase<Long> implements IUpdateTimestampedEntity {
 
 	private static final long serialVersionUID = 930773110476290116L;
 
@@ -31,10 +33,10 @@ public class Event extends EntityBase<Long> implements UpdateTimestampedEntity {
 	private Category category;
 
 	@Setter(value = AccessLevel.PROTECTED)
-	private Date updateTimestamp;
+	private Timestamp updateTimestamp;
 
 	public void updateUpdateTimestamp() {
-		updateTimestamp = new Date();
+		updateTimestamp = TimeTool.getNowTimestamp();
 	}
 
 

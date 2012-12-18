@@ -12,10 +12,10 @@ import java.util.Set;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 19
  */
-public abstract class LocaleMetaTreeEntityBase<T extends Entity<TId> & TreeEntity<T>,
-	TId extends Serializable,
-	TLocaleValue extends LocaleValue>
-	extends LocaleMetaEntityBase<TId, TLocaleValue> implements TreeEntity<T> {
+public abstract class LocaleMetaTreeEntityBase<T extends IEntity<TId> & ITreeEntity<T>,
+	                                              TId extends Serializable,
+	                                              TLocaleValue extends ILocaleValue>
+	extends LocaleMetaEntityBase<TId, TLocaleValue> implements ITreeEntity<T> {
 
 	private static final long serialVersionUID = -4521048731750418059L;
 

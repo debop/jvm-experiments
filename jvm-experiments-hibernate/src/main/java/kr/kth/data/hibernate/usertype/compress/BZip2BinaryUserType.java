@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.usertype.compress;
 
 import kr.kth.commons.compress.BZip2Compressor;
-import kr.kth.commons.compress.Compressor;
+import kr.kth.commons.compress.ICompressor;
 
 /**
  * GZip 알고리즘 ({@link BZip2Compressor} 으로 이진 데이터 값을 압축하여 Binary로 저장합니다.
@@ -10,10 +10,10 @@ import kr.kth.commons.compress.Compressor;
  */
 public class BZip2BinaryUserType extends AbstractCompressedBinaryUserType {
 
-	private static final Compressor compressor = new BZip2Compressor();
+	private static final ICompressor compressor = new BZip2Compressor();
 
 	@Override
-	public Compressor getCompressor() {
+	public ICompressor getCompressor() {
 		return compressor;
 	}
 }

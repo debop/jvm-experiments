@@ -1,6 +1,5 @@
 package kr.kth.commons.compress;
 
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import kr.kth.commons.AbstractTest;
 import kr.kth.commons.spring3.Spring;
 import kr.kth.commons.spring3.configuration.CompressorConfiguration;
@@ -16,7 +15,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * {@link Compressor} TestCase
+ * {@link ICompressor} TestCase
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
@@ -27,7 +26,7 @@ public class CompressorTest extends AbstractTest {
 	protected static final String text = "동해물과 백두산이 마르고 닳도록, 하느님이 부우하사 우리나라 만세~ Hello world!";
 	protected static String plainText;
 
-	private static Collection<Compressor> compressors;
+	private static Collection<ICompressor> compressors;
 
 	@BeforeClass
 	public static void BeforeClass() {
@@ -36,7 +35,7 @@ public class CompressorTest extends AbstractTest {
 			Spring.initByAnnotatedClasses(CompressorConfiguration.class,
 			                              SerializerConfiguration.class);
 
-		Map<String, Compressor> compressorMap = Spring.getBeansOfType(Compressor.class);
+		Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class);
 		compressors = compressorMap.values();
 
 
@@ -53,23 +52,24 @@ public class CompressorTest extends AbstractTest {
 		plainText = builder.toString();
 	}
 
-	@BenchmarkOptions(concurrency = BenchmarkOptions.CONCURRENCY_AVAILABLE_CORES,
-	                  benchmarkRounds = 1,
-	                  warmupRounds = 1)
+	//	@BenchmarkOptions(concurrency = BenchmarkOptions.CONCURRENCY_AVAILABLE_CORES,
+//	                  benchmarkRounds = 1,
+//	                  warmupRounds = 1)
 	@Test
 	public void testCompressors() {
-		for (Compressor compressor : compressors)
+		for (ICompressor compressor : compressors) {
 			try {
 				compressAndDecompress(compressor);
 			} catch (Exception e) {
 				log.error("compressor=" + compressor, e);
 			}
+		}
 	}
 
-	private static void compressAndDecompress(Compressor compressor) {
+	private static void compressAndDecompress(ICompressor compressor) {
 
 		if (log.isDebugEnabled())
-			log.debug("압축/복원 테스트를 시작합니다... compressor=" + compressor);
+			log.debug("압축/복원 테스트를 시작합니다... compressor=[{}]", compressor);
 
 		try {
 			byte[] plainBytes = StringTool.getUtf8Bytes(plainText);

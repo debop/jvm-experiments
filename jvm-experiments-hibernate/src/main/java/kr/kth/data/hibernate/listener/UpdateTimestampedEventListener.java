@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.listener;
 
-import kr.kth.data.domain.model.UpdateTimestampedEntity;
+import kr.kth.data.domain.model.IUpdateTimestampedEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.event.spi.PreInsertEvent;
 import org.hibernate.event.spi.PreInsertEventListener;
@@ -8,7 +8,7 @@ import org.hibernate.event.spi.PreUpdateEvent;
 import org.hibernate.event.spi.PreUpdateEventListener;
 
 /**
- * {@link UpdateTimestampedEntity} 를 구현한 엔티티의 updateTimestamp 값을 엔티티 저장 시에 갱신해 주는 Event Listener 입니다.
+ * {@link kr.kth.data.domain.model.IUpdateTimestampedEntity} 를 구현한 엔티티의 updateTimestamp 값을 엔티티 저장 시에 갱신해 주는 Event Listener 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 22.
  */
@@ -25,8 +25,8 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 	@Override
 	public boolean onPreInsert(PreInsertEvent event) {
 		Object entity = event.getEntity();
-		if (entity instanceof UpdateTimestampedEntity) {
-			((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
+		if (entity instanceof IUpdateTimestampedEntity) {
+			((IUpdateTimestampedEntity) entity).updateUpdateTimestamp();
 			if (log.isDebugEnabled())
 				log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
 		}
@@ -40,8 +40,8 @@ public class UpdateTimestampedEventListener implements PreInsertEventListener, P
 			log.debug("onPreUpdate 호출. PersistEvent=[{}]", event);
 
 		Object entity = event.getEntity();
-		if (entity instanceof UpdateTimestampedEntity) {
-			((UpdateTimestampedEntity) entity).updateUpdateTimestamp();
+		if (entity instanceof IUpdateTimestampedEntity) {
+			((IUpdateTimestampedEntity) entity).updateUpdateTimestamp();
 			if (log.isDebugEnabled())
 				log.debug("UpdateTimestampedEntity의 updateTimestamp 값을 설정했습니다.");
 		}

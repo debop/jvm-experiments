@@ -26,16 +26,16 @@ import static kr.kth.commons.tools.StringTool.*;
 public class CompressTool {
 
 	@Getter
-	private static final byte[] buffer = new byte[Compressor.BUFFER_SIZE];
+	private static final byte[] buffer = new byte[ICompressor.BUFFER_SIZE];
 
-	public static String compressString(Compressor compressor,
+	public static String compressString(ICompressor compressor,
 	                                    String plainText) {
 		return compressString(compressor,
 		                      plainText,
 		                      BinaryStringFormat.HexDecimal);
 	}
 
-	public static String compressString(Compressor compressor,
+	public static String compressString(ICompressor compressor,
 	                                    String plainText,
 	                                    BinaryStringFormat stringFormat) {
 		Guard.shouldNotBeNull(compressor, "compressor");
@@ -49,14 +49,14 @@ public class CompressTool {
 		return getStringFromBytes(compressedBytes, stringFormat);
 	}
 
-	public static Future<String> compressStringAsync(final Compressor compressor,
+	public static Future<String> compressStringAsync(final ICompressor compressor,
 	                                                 final String plainText) {
 		return compressStringAsync(compressor,
 		                           plainText,
 		                           BinaryStringFormat.HexDecimal);
 	}
 
-	public static Future<String> compressStringAsync(final Compressor compressor,
+	public static Future<String> compressStringAsync(final ICompressor compressor,
 	                                                 final String plainText,
 	                                                 final BinaryStringFormat stringFormat) {
 		Guard.shouldNotBeNull(compressor, "compressor");
@@ -77,14 +77,14 @@ public class CompressTool {
 			});
 	}
 
-	public static String decompressString(Compressor compressor,
+	public static String decompressString(ICompressor compressor,
 	                                      String compressedText) {
 		return decompressString(compressor,
 		                        compressedText,
 		                        BinaryStringFormat.HexDecimal);
 	}
 
-	public static String decompressString(Compressor compressor,
+	public static String decompressString(ICompressor compressor,
 	                                      String compressedText,
 	                                      BinaryStringFormat stringFormat) {
 		shouldNotBeNull(compressor, "compressor");
@@ -104,14 +104,14 @@ public class CompressTool {
 		return plainText;
 	}
 
-	public static Future<String> decompressStringAsync(final Compressor compressor,
+	public static Future<String> decompressStringAsync(final ICompressor compressor,
 	                                                   final String compressedText) {
 		return decompressStringAsync(compressor,
 		                             compressedText,
 		                             BinaryStringFormat.HexDecimal);
 	}
 
-	public static Future<String> decompressStringAsync(final Compressor compressor,
+	public static Future<String> decompressStringAsync(final ICompressor compressor,
 	                                                   final String compressedText,
 	                                                   final BinaryStringFormat stringFormat) {
 		shouldNotBeNull(compressor, "compressor");
@@ -140,7 +140,7 @@ public class CompressTool {
 
 	}
 
-	public static OutputStream compressStream(Compressor compressor,
+	public static OutputStream compressStream(ICompressor compressor,
 	                                          InputStream inputStream) throws IOException {
 		shouldNotBeNull(compressor, "compressor");
 		shouldNotBeNull(inputStream, "inputStream");
@@ -151,7 +151,7 @@ public class CompressTool {
 		return StreamTool.toOutputStream(compressedBytes);
 	}
 
-	public static OutputStream decompressStream(Compressor compressor,
+	public static OutputStream decompressStream(ICompressor compressor,
 	                                            InputStream inputStream) throws IOException {
 		shouldNotBeNull(compressor, "compressor");
 		shouldNotBeNull(inputStream, "inputStream");
@@ -162,7 +162,7 @@ public class CompressTool {
 		return StreamTool.toOutputStream(plainBytes);
 	}
 
-	public static Future<OutputStream> compressStreamAsync(final Compressor compressor,
+	public static Future<OutputStream> compressStreamAsync(final ICompressor compressor,
 	                                                       final InputStream inputStream) {
 		shouldNotBeNull(compressor, "compressor");
 		shouldNotBeNull(inputStream, "inputStream");
@@ -176,7 +176,7 @@ public class CompressTool {
 			});
 	}
 
-	public static Future<OutputStream> decompressStreamAsync(final Compressor compressor,
+	public static Future<OutputStream> decompressStreamAsync(final ICompressor compressor,
 	                                                         final InputStream inputStream) {
 		shouldNotBeNull(compressor, "compressor");
 		shouldNotBeNull(inputStream, "inputStream");

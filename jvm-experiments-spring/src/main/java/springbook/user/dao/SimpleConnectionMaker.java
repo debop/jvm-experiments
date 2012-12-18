@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Date: 12. 11. 16
  */
 @Slf4j
-public class SimpleConnectionMaker implements ConnectionMaker {
+public class SimpleConnectionMaker implements IConnectionMaker {
 
 	public Connection makeConnection() throws ClassNotFoundException, SQLException {
 

@@ -17,7 +17,7 @@ import java.util.TreeSet;
  * Date: 12. 12. 2.
  */
 @Slf4j
-public class SortedDateSet extends TreeSet<Date> implements DateSet {
+public class SortedDateSet extends TreeSet<Date> implements IDateSet {
 
 	private static final long serialVersionUID = 3251868222462713969L;
 
@@ -70,9 +70,9 @@ public class SortedDateSet extends TreeSet<Date> implements DateSet {
 		Date max = getMax();
 
 		return (min != null) &&
-			(min.getTime() == TimeSpec.ZeroTick) &&
-			(max != null) &&
-			(max.getTime() == TimeSpec.ZeroTick);
+			       (min.getTime() == TimeSpec.ZeroTick) &&
+			       (max != null) &&
+			       (max.getTime() == TimeSpec.ZeroTick);
 	}
 
 

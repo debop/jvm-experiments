@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.usertype.compress;
 
-import kr.kth.commons.compress.Compressor;
+import kr.kth.commons.compress.ICompressor;
 import kr.kth.commons.compress.XZCompressor;
 
 /**
@@ -10,10 +10,10 @@ import kr.kth.commons.compress.XZCompressor;
  */
 public class XZStringUserType extends AbstractCompressedStringUserType {
 
-	private static final Compressor compressor = new XZCompressor();
+	private static final ICompressor compressor = new XZCompressor();
 
 	@Override
-	public Compressor getCompressor() {
+	public ICompressor getCompressor() {
 		return compressor;
 	}
 }

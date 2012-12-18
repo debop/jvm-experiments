@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.spring3.Spring;
 import kr.kth.commons.tools.SerializeTool;
-import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.domain.model.IStatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.listener.UpdateTimestampedEventListener;
 import kr.kth.data.hibernate.repository.HibernateDaoFactory;
@@ -36,15 +36,15 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public class HibernateTool {
 
-	private static final boolean isDebugEnabled = log.isDebugEnabled();
-
 	private HibernateTool() {}
+
+	private static final boolean isDebugEnabled = log.isDebugEnabled();
 
 	public static HibernateDaoFactory getHibernateDaoFactory() {
 		return Spring.getBean(HibernateDaoFactory.class);
 	}
 
-	public static <E extends StatefulEntity> IHibernateDao getHibernateDao(Class<E> entityClass) {
+	public static <E extends IStatefulEntity> IHibernateDao getHibernateDao(Class<E> entityClass) {
 		return getHibernateDaoFactory().getOrCreateHibernateDao(entityClass);
 	}
 
@@ -72,7 +72,7 @@ public class HibernateTool {
 	}
 
 
-	public static <T extends StatefulEntity> DetachedCriteria createDetachedCriteria(Class<T> clazz) {
+	public static <T extends IStatefulEntity> DetachedCriteria createDetachedCriteria(Class<T> clazz) {
 		return DetachedCriteria.forClass(clazz);
 	}
 

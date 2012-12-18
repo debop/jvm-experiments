@@ -10,24 +10,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
 /**
- * {@link UnitOfWork} 의 가장 기본적인 구현 클래스입니다.
+ * {@link IUnitOfWork} 의 가장 기본적인 구현 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 29.
  */
 @Slf4j
 public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
 
-	@Getter private final UnitOfWorkFactory factory;
+	@Getter private final IUnitOfWorkFactory factory;
 	@Getter private final Session session;
 	@Getter private final UnitOfWorkAdapter previous;
 	private AtomicInteger usageCount = new AtomicInteger(-1);
 	protected boolean closed = false;
 
-	public UnitOfWorkAdapter(UnitOfWorkFactory factory, Session session) {
+	public UnitOfWorkAdapter(IUnitOfWorkFactory factory, Session session) {
 		this(factory, session, null);
 	}
 
-	public UnitOfWorkAdapter(UnitOfWorkFactory factory, Session session, UnitOfWorkAdapter previous) {
+	public UnitOfWorkAdapter(IUnitOfWorkFactory factory, Session session, UnitOfWorkAdapter previous) {
 		shouldNotBeNull(factory, "factory");
 		shouldNotBeNull(session, "session");
 
@@ -70,16 +70,16 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
 	@Override
 	public boolean isInActiveTransaction() {
 		return session.getTransaction() != null &&
-			session.getTransaction().isActive();
+			       session.getTransaction().isActive();
 	}
 
 	@Override
-	public UnitOfWorkTransaction beginTransaction() {
+	public IUnitOfWorkTransaction beginTransaction() {
 		return new UnitOfWorkTransactionAdapter(session.beginTransaction());
 	}
 
 	@Override
-	public UnitOfWorkTransaction beginTransaction(TransactionDefinition transactionDefinition) {
+	public IUnitOfWorkTransaction beginTransaction(TransactionDefinition transactionDefinition) {
 		return new UnitOfWorkTransactionAdapter(session.beginTransaction());
 	}
 
@@ -95,7 +95,7 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
 			int usage = usageCount.decrementAndGet();
 
 			if (log.isDebugEnabled())
-				log.debug("Usage countByCriteria of UnitOfWork = [{}]", usage);
+				log.debug("Usage countByCriteria of IUnitOfWork = [{}]", usage);
 
 			if (usage != 0) {
 				if (log.isDebugEnabled())

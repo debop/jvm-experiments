@@ -17,8 +17,8 @@ import java.util.Set;
  * Date: 12. 9. 19
  */
 @Slf4j
-public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue extends LocaleValue>
-	extends EntityBase<TId> implements LocaleEntity<TLocaleValue> {
+public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue extends ILocaleValue>
+	extends EntityBase<TId> implements ILocaleEntity<TLocaleValue> {
 
 	private static final long serialVersionUID = 8316501523660904445L;
 
@@ -49,7 +49,7 @@ public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue ex
 				log.debug("기본 Locale 정보가 없습니다. 엔티티 [{}] 속성으로 기본 Locale [{}] 정보를 생성합니다...",
 				          getClass().getName(), localeValueClass.getName());
 
-			// ModelMapper가 엔티티의 속성 중 LocaleValue 속성과 같은 것들에 대해 값을 복사한다.
+			// ModelMapper가 엔티티의 속성 중 ILocaleValue 속성과 같은 것들에 대해 값을 복사한다.
 			//
 			return MapperTool.map(this, localeValueClass);
 

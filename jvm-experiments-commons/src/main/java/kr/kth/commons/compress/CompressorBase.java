@@ -10,7 +10,7 @@ import java.io.IOException;
  * Date: 12. 9. 12
  */
 @Slf4j
-public abstract class CompressorBase implements Compressor {
+public abstract class CompressorBase implements ICompressor {
 
 	abstract public String getAlgorithm();
 
@@ -67,6 +67,6 @@ public abstract class CompressorBase implements Compressor {
 	}
 
 	public String toString() {
-		return getAlgorithm() + "Compressor";
+		return getAlgorithm() + "ICompressor";
 	}
 }

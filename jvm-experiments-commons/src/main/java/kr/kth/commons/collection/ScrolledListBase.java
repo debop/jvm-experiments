@@ -14,7 +14,7 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
  * Date: 12. 9. 13
  */
 @Slf4j
-public class ScrolledListBase<E, N extends Comparable<N>> implements IScrolledList<E, N> {
+public abstract class ScrolledListBase<E, N extends Comparable<N>> implements IScrolledList<E, N> {
 
 	private static final long serialVersionUID = -5077876937253068976L;
 

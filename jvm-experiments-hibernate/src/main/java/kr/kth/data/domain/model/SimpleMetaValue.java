@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SimpleMetaValue extends ValueObjectBase implements MetaValue {
+public class SimpleMetaValue extends ValueObjectBase implements IMetaValue {
 
 	private static final long serialVersionUID = -6675942606392780717L;
 

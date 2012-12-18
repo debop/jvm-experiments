@@ -25,10 +25,10 @@ public class SpringTest extends AbstractTest {
 
 	private static final Object syncLock = new Object();
 
-	private static Class[] compressorClasses = new Class[] { BZip2Compressor.class,
-	                                                         DeflateCompressor.class,
-	                                                         GZipCompressor.class,
-	                                                         XZCompressor.class };
+	private static Class[] compressorClasses = new Class[]{BZip2Compressor.class,
+	                                                       DeflateCompressor.class,
+	                                                       GZipCompressor.class,
+	                                                       XZCompressor.class};
 
 	@Override
 	protected void onBefore() {
@@ -97,7 +97,7 @@ public class SpringTest extends AbstractTest {
 		compressor = Spring.tryGetBean(GZipCompressor.class);
 		assertNull(compressor);
 
-		Compressor deflator = getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+		ICompressor deflator = getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
 		assertNotNull(deflator);
 		assertTrue(deflator instanceof DeflateCompressor);
 	}
@@ -109,11 +109,11 @@ public class SpringTest extends AbstractTest {
 			getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
 		}
 
-		Map<String, Compressor> compressorMap = Spring.getBeansOfType(Compressor.class, true, true);
+		Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class, true, true);
 		assertTrue(compressorMap.size() > 0);
 		assertEquals(compressorClasses.length, compressorMap.size());
 
-		Compressor gzip = Spring.getBean(GZipCompressor.class);
+		ICompressor gzip = Spring.getBean(GZipCompressor.class);
 		assertNotNull(gzip);
 		assertTrue(gzip instanceof GZipCompressor);
 	}

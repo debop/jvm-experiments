@@ -5,10 +5,11 @@ import kr.kth.commons.base.ExecutableAdapter;
 import kr.kth.commons.base.Guard;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * kr.kth.commons.parallelism.TimedExecutor
+ * 시간 제약이 있는 Executor 를 구현했습니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 16.
  */
@@ -16,13 +17,13 @@ import java.util.concurrent.TimeoutException;
 public class TimedExecutor {
 
 	private final long timeout;
-	private final int checkMilliSeconds;
+	private final long checkMilliSeconds;
 
 	private TimedExecutor(long timeout) {
 		this(timeout, 1000);
 	}
 
-	private TimedExecutor(long timeout, int checkMilliSeconds) {
+	private TimedExecutor(long timeout, long checkMilliSeconds) {
 		if (log.isDebugEnabled())
 			log.debug("TimedExecutor 생성. timeout=[{}], checkMilliSeconds=[{}]", timeout, checkMilliSeconds);
 
@@ -34,13 +35,13 @@ public class TimedExecutor {
 		Guard.shouldNotBeNull(executable, "executable");
 
 		if (log.isDebugEnabled())
-			log.debug("Executable 인스턴스를 수행합니다.");
+			log.debug("제한된 시간[{}] (sec)에 Executable 인스턴스를 수행합니다.", TimeUnit.SECONDS.toSeconds(timeout));
 
 		final ExecutableAdapter adapter = new ExecutableAdapter(executable);
 		final Thread separateThread = new Thread(adapter);
 		separateThread.start();
 
-		int runningTime = 0;
+		long runningTime = 0L;
 		do {
 			if (runningTime > timeout) {
 				try {

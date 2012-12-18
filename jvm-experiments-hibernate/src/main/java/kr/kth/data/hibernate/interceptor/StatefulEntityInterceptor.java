@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.interceptor;
 
-import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.domain.model.IStatefulEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
@@ -21,8 +21,8 @@ public class StatefulEntityInterceptor extends EmptyInterceptor {
 	 * 엔티티가 영구 저장소에 저장된 엔티티인지 여부를 반환합니다.
 	 */
 	public Boolean isPersisted(Object entity) {
-		if (entity instanceof StatefulEntity)
-			return ((StatefulEntity) entity).isPersisted();
+		if (entity instanceof IStatefulEntity)
+			return ((IStatefulEntity) entity).isPersisted();
 		return null;
 	}
 
@@ -31,8 +31,8 @@ public class StatefulEntityInterceptor extends EmptyInterceptor {
 	 */
 	@Override
 	public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		if (entity instanceof StatefulEntity) {
-			((StatefulEntity) entity).onLoad();
+		if (entity instanceof IStatefulEntity) {
+			((IStatefulEntity) entity).onLoad();
 		}
 		return false;
 	}
@@ -41,8 +41,8 @@ public class StatefulEntityInterceptor extends EmptyInterceptor {
 	 * 엔티티가 삭제된 후에 호출되는 메소드입니다. 엔티티의 isPersisted 상태를 false 로 설정합니다.
 	 */
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		if (entity instanceof StatefulEntity) {
-			((StatefulEntity) entity).onLoad();
+		if (entity instanceof IStatefulEntity) {
+			((IStatefulEntity) entity).onLoad();
 		}
 		return false;
 	}

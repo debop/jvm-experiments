@@ -5,12 +5,12 @@ import org.hibernate.Transaction;
 
 
 /**
- * UnitOfWork 에서 사용할 Transaction
+ * IUnitOfWork 에서 사용할 Transaction
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 29.
  */
 @Slf4j
-public class UnitOfWorkTransactionAdapter implements UnitOfWorkTransaction {
+public class UnitOfWorkTransactionAdapter implements IUnitOfWorkTransaction {
 
 	private final Transaction transaction;
 

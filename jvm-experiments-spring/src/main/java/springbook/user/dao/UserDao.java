@@ -18,13 +18,13 @@ import java.sql.SQLException;
 @Slf4j
 public class UserDao {
 
-	@Setter private ConnectionMaker connectionMaker;
+	@Setter private IConnectionMaker connectionMaker;
 
 	public UserDao() {
 		this(new SimpleConnectionMaker());
 	}
 
-	public UserDao(ConnectionMaker connectionMaker) {
+	public UserDao(IConnectionMaker connectionMaker) {
 		this.connectionMaker = connectionMaker;
 	}
 

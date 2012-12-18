@@ -1,6 +1,6 @@
 package kr.ecloud.framework.data.jdbc.impl;
 
-import kr.ecloud.framework.data.jdbc.JdbcRepository;
+import kr.ecloud.framework.data.jdbc.IJdbcRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,7 +16,7 @@ import java.util.List;
  * Date: 12. 11. 17.
  */
 @Slf4j
-public abstract class JdbcRepositoryImpl implements JdbcRepository {
+public abstract class JdbcRepositoryImpl implements IJdbcRepository {
 
 	NamedParameterJdbcTemplate jdbcTemplate;
 

@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.repository;
 
 import kr.kth.commons.collection.IPagedList;
-import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.domain.model.IStatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
@@ -17,7 +17,7 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 27.
  */
-public interface IHibernateDao<E extends StatefulEntity> {
+public interface IHibernateDao<E extends IStatefulEntity> {
 
 	Class<E> getEntityClass();
 

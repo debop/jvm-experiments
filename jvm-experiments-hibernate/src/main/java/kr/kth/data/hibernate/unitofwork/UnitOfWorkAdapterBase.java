@@ -6,12 +6,12 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
- * {@link UnitOfWorkImplementor} 를 구현한 기본 클래스
+ * {@link IUnitOfWorkImplementor} 를 구현한 기본 클래스
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 29.
  */
 @Slf4j
-public abstract class UnitOfWorkAdapterBase implements UnitOfWorkImplementor {
+public abstract class UnitOfWorkAdapterBase implements IUnitOfWorkImplementor {
 
 	@Autowired UnitOfWorkManager unitOfWorkManager;
 
@@ -24,10 +24,10 @@ public abstract class UnitOfWorkAdapterBase implements UnitOfWorkImplementor {
 		if (transactionDefinition == null)
 			transactionDefinition = new DefaultTransactionDefinition();
 
-		UnitOfWorkTransaction tx = unitOfWorkManager.getCurrent().beginTransaction(transactionDefinition);
+		IUnitOfWorkTransaction tx = unitOfWorkManager.getCurrent().beginTransaction(transactionDefinition);
 
 		try {
-			// forces a flush of the current UnitOfWork
+			// forces a flush of the current IUnitOfWork
 			tx.commit();
 
 		} catch (Exception e) {

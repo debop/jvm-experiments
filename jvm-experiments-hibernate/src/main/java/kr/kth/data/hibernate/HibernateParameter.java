@@ -3,10 +3,9 @@ package kr.kth.data.hibernate;
 import com.google.common.base.Objects;
 import kr.kth.data.domain.NamedParameterBase;
 import lombok.Getter;
-import org.hibernate.type.Type;
 
 /**
- * Hibernate용 Parameter
+ * Hibernate용 Parameter 정보를 표현합니다.
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
@@ -15,13 +14,13 @@ public class HibernateParameter extends NamedParameterBase {
 	private static final long serialVersionUID = -6291985997768450558L;
 
 	@Getter
-	private Type type;
+	private org.hibernate.type.Type type;
 
 	public HibernateParameter(String name, Object value) {
 		super(name, value);
 	}
 
-	public HibernateParameter(String name, Object value, Type type) {
+	public HibernateParameter(String name, Object value, org.hibernate.type.Type type) {
 		super(name, value);
 		this.type = type;
 	}

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Date: 12. 11. 19
  */
 @Slf4j
-public abstract class EntityBase<TId extends Serializable> extends StatefulEntityBase implements Entity<TId> {
+public abstract class EntityBase<TId extends Serializable> extends StatefulEntityBase implements IEntity<TId> {
 
 	private static final long serialVersionUID = 4766509654284022534L;
 	protected TId id;
@@ -42,7 +42,7 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
 		if (sameType) {
 			EntityBase<TId> entity = (EntityBase<TId>) obj;
 			return hasSameNonDefaultIdAs(entity) ||
-				((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
+				       ((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
 		}
 		return false;
 	}
@@ -59,7 +59,7 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
 		return Objects.hashCode(id);
 	}
 
-	private boolean hasSameNonDefaultIdAs(Entity<TId> entity) {
+	private boolean hasSameNonDefaultIdAs(IEntity<TId> entity) {
 
 		try {
 			Class<TId> idClass = ReflectTool.getGenericParameterType(this);
@@ -78,7 +78,7 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
 		return false;
 	}
 
-	private boolean hashSameBusinessSignature(Entity<TId> other) {
+	private boolean hashSameBusinessSignature(IEntity<TId> other) {
 		return (other != null) && (hashCode() == other.hashCode());
 	}
 }

@@ -13,8 +13,8 @@ import java.util.Set;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 15.
  */
-public abstract class TreeEntityBase<T extends TreeEntity<T>, TId extends Serializable>
-	extends EntityBase<TId> implements TreeEntity<T> {
+public abstract class TreeEntityBase<T extends ITreeEntity<T>, TId extends Serializable>
+	extends EntityBase<TId> implements ITreeEntity<T> {
 
 	private static final long serialVersionUID = 5383928955741762564L;
 

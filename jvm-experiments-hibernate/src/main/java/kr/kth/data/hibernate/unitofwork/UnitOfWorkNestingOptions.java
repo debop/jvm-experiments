@@ -1,18 +1,18 @@
 package kr.kth.data.hibernate.unitofwork;
 
 /**
- * {@link UnitOfWork} 생성 옵션
+ * {@link IUnitOfWork} 생성 옵션
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 29.
  */
 public enum UnitOfWorkNestingOptions {
 
 	/**
-	 * 기존에 {@link UnitOfWork} 가 있다면, 그것을 사용하고, 아니면 새로운 UnitOfWork를 생성한다.
+	 * 기존에 {@link IUnitOfWork} 가 있다면, 그것을 사용하고, 아니면 새로운 UnitOfWork를 생성한다.
 	 */
 	ReturnExistingOrCreateUnitOfWork(0),
 	/**
-	 * 새로운 {@link UnitOfWork} 인스턴스를 생성하고, 기존에 UnitOfWork 인스턴스가 있다면, 새로 생성된 UnitOfWork를 중첩한다.
+	 * 새로운 {@link IUnitOfWork} 인스턴스를 생성하고, 기존에 IUnitOfWork 인스턴스가 있다면, 새로 생성된 UnitOfWork를 중첩한다.
 	 */
 	CreateNewOrNestUnitOfWork(1);
 

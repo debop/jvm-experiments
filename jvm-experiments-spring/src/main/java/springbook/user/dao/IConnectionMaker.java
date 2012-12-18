@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 16
  */
-public interface ConnectionMaker {
+public interface IConnectionMaker {
 
 	Connection makeConnection() throws ClassNotFoundException, SQLException;
 }

@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.usertype.compress;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.compress.Compressor;
+import kr.kth.commons.compress.ICompressor;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.BinaryType;
@@ -20,9 +20,9 @@ import java.sql.SQLException;
 public abstract class AbstractCompressedUserType implements UserType {
 
 	/**
-	 * 속성 값을 압축/복원하는 {@link Compressor}의 구현 객체를 반환합니다.
+	 * 속성 값을 압축/복원하는 {@link kr.kth.commons.compress.ICompressor}의 구현 객체를 반환합니다.
 	 */
-	abstract public Compressor getCompressor();
+	abstract public ICompressor getCompressor();
 
 
 	abstract public Class returnedClass();
@@ -45,7 +45,7 @@ public abstract class AbstractCompressedUserType implements UserType {
 
 	@Override
 	public int[] sqlTypes() {
-		return new int[] { BinaryType.INSTANCE.sqlType() };
+		return new int[]{BinaryType.INSTANCE.sqlType()};
 	}
 
 	@Override

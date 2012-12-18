@@ -12,15 +12,15 @@ import java.util.Set;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 19
  */
-public abstract class MetaEntityBase<TId extends Serializable> extends EntityBase<TId> implements MetaEntity {
+public abstract class MetaEntityBase<TId extends Serializable> extends EntityBase<TId> implements IMetaEntity {
 
 	private static final long serialVersionUID = 8802449633388271176L;
 
 	@Getter
-	private final Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
+	private final Map<String, IMetaValue> metaMap = Maps.newLinkedHashMap();
 
 	@Override
-	public MetaValue getMetaValue(String key) {
+	public IMetaValue getMetaValue(String key) {
 		return getMetaMap().get(key);
 	}
 
@@ -30,7 +30,7 @@ public abstract class MetaEntityBase<TId extends Serializable> extends EntityBas
 	}
 
 	@Override
-	public void addMetaValue(String metaKey, MetaValue metaValue) {
+	public void addMetaValue(String metaKey, IMetaValue metaValue) {
 		getMetaMap().put(metaKey, metaValue);
 	}
 

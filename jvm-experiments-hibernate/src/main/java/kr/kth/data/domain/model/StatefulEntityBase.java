@@ -8,7 +8,7 @@ import kr.kth.commons.base.ValueObjectBase;
  * JpaUser: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
-public abstract class StatefulEntityBase extends ValueObjectBase implements StatefulEntity {
+public abstract class StatefulEntityBase extends ValueObjectBase implements IStatefulEntity {
 
 	private static final long serialVersionUID = -2050040672948447046L;
 

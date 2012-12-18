@@ -5,7 +5,7 @@ import kr.kth.commons.collection.IPagedList;
 import kr.kth.commons.collection.SimplePagedList;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.StringTool;
-import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.domain.model.IStatefulEntity;
 import kr.kth.data.hibernate.HibernateParameter;
 import kr.kth.data.hibernate.tools.CriteriaTool;
 import kr.kth.data.hibernate.tools.HibernateTool;
@@ -36,7 +36,7 @@ import java.util.List;
 @Slf4j
 @Repository
 @SuppressWarnings("unchecked")
-public class HibernateDaoImpl<E extends StatefulEntity> implements IHibernateDao<E> {
+public class HibernateDaoImpl<E extends IStatefulEntity> implements IHibernateDao<E> {
 
 	@Getter
 	private Class<E> entityClass;

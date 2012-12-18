@@ -12,16 +12,16 @@ import java.util.Set;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 19
  */
-public abstract class TreeMetaEntityBase<T extends Entity<TId> & TreeEntity<T>, TId extends Serializable>
-	extends TreeEntityBase<T, TId> implements MetaEntity {
+public abstract class TreeMetaEntityBase<T extends IEntity<TId> & ITreeEntity<T>, TId extends Serializable>
+	extends TreeEntityBase<T, TId> implements IMetaEntity {
 
 	private static final long serialVersionUID = -7475565290976767358L;
 
 	@Getter
-	private final Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
+	private final Map<String, IMetaValue> metaMap = Maps.newLinkedHashMap();
 
 	@Override
-	public MetaValue getMetaValue(String key) {
+	public IMetaValue getMetaValue(String key) {
 		return getMetaMap().get(key);
 	}
 
@@ -31,7 +31,7 @@ public abstract class TreeMetaEntityBase<T extends Entity<TId> & TreeEntity<T>, 
 	}
 
 	@Override
-	public void addMetaValue(String metaKey, MetaValue metaValue) {
+	public void addMetaValue(String metaKey, IMetaValue metaValue) {
 		getMetaMap().put(metaKey, metaValue);
 	}
 

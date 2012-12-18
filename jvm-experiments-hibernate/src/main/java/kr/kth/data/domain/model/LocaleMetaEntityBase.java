@@ -12,16 +12,16 @@ import java.util.Set;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 19
  */
-public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValue extends LocaleValue>
-	extends LocaleEntityBase<TId, TLocaleValue> implements MetaEntity {
+public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValue extends ILocaleValue>
+	extends LocaleEntityBase<TId, TLocaleValue> implements IMetaEntity {
 
 	private static final long serialVersionUID = -3409892017189966160L;
 
 	@Getter
-	private Map<String, MetaValue> metaMap = Maps.newLinkedHashMap();
+	private Map<String, IMetaValue> metaMap = Maps.newLinkedHashMap();
 
 	@Override
-	public MetaValue getMetaValue(String key) {
+	public IMetaValue getMetaValue(String key) {
 		return getMetaMap().get(key);
 		//return Functions.forMap(metaMap);
 	}
@@ -32,7 +32,7 @@ public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValu
 	}
 
 	@Override
-	public void addMetaValue(String metaKey, MetaValue metaValue) {
+	public void addMetaValue(String metaKey, IMetaValue metaValue) {
 		getMetaMap().put(metaKey, metaValue);
 	}
 

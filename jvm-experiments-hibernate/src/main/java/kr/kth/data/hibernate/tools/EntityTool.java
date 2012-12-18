@@ -58,7 +58,7 @@ public class EntityTool {
 
 	// region << Hierarchy >>
 
-	public static <T extends HierarchyEntity<T>> void assertNotCircularHierarchy(T child, T parent) {
+	public static <T extends IHierarchyEntity<T>> void assertNotCircularHierarchy(T child, T parent) {
 		if (child == parent)
 			throw new IllegalArgumentException("Child and Paremt are same.");
 
@@ -69,7 +69,7 @@ public class EntityTool {
 			throw new IllegalArgumentException("parent의 조상과 child의 조상이 같은 넘이 있으면 안됩니다.");
 	}
 
-	public static <T extends HierarchyEntity<T>> void setHierarchy(T child, T oldParent, T newParent) {
+	public static <T extends IHierarchyEntity<T>> void setHierarchy(T child, T oldParent, T newParent) {
 		Guard.shouldNotBeNull(child, "child");
 
 		if (log.isDebugEnabled())
@@ -83,7 +83,7 @@ public class EntityTool {
 			setHierarchy(child, newParent);
 	}
 
-	public static <T extends HierarchyEntity<T>> void setHierarchy(T child, T parent) {
+	public static <T extends IHierarchyEntity<T>> void setHierarchy(T child, T parent) {
 		if (parent == null || child == null)
 			return;
 
@@ -102,7 +102,7 @@ public class EntityTool {
 		child.getAncestors().addAll(parent.getAncestors());
 	}
 
-	public static <T extends HierarchyEntity<T>> void removeHierarchy(T child, T parent) {
+	public static <T extends IHierarchyEntity<T>> void removeHierarchy(T child, T parent) {
 		if (parent == null)
 			return;
 
@@ -125,7 +125,7 @@ public class EntityTool {
 		}
 	}
 
-	public static <T extends HierarchyEntity<T> & Entity<TId>, TId extends Serializable>
+	public static <T extends IHierarchyEntity<T> & IEntity<TId>, TId extends Serializable>
 	DetachedCriteria GetAncestorsCriteria(T entity, Session session, Class<T> entityClass) {
 		return
 			DetachedCriteria
@@ -134,7 +134,7 @@ public class EntityTool {
 				.add(Restrictions.eq("des.id", entity.getId()));
 	}
 
-	public static <T extends HierarchyEntity<T> & Entity<TId>, TId extends Serializable>
+	public static <T extends IHierarchyEntity<T> & IEntity<TId>, TId extends Serializable>
 	DetachedCriteria GetDescendentsCriteria(T entity, Session session, Class<T> entityClass) {
 		return
 			DetachedCriteria.forClass(entityClass)
@@ -142,14 +142,14 @@ public class EntityTool {
 			                .add(Restrictions.eq("ans.id", entity.getId()));
 	}
 
-	public static <T extends HierarchyEntity<T> & Entity<TId>, TId extends Serializable>
+	public static <T extends IHierarchyEntity<T> & IEntity<TId>, TId extends Serializable>
 	DetachedCriteria GetAncestorsIdCriteria(T entity, Session session, Class<T> entityClass) {
 		return
 			GetAncestorsCriteria(entity, session, entityClass)
 				.setProjection(Projections.distinct(Projections.id()));
 	}
 
-	public static <T extends HierarchyEntity<T> & Entity<TId>, TId extends Serializable>
+	public static <T extends IHierarchyEntity<T> & IEntity<TId>, TId extends Serializable>
 	DetachedCriteria GetDescendentsIdCriteria(T entity, Session session, Class<T> entityClass) {
 		return
 			GetDescendentsCriteria(entity, session, entityClass)
@@ -158,7 +158,7 @@ public class EntityTool {
 
 	// endregion
 
-	// region << LocaleEntity >>
+	// region << ILocaleEntity >>
 
 	final static String GET_LIST_BY_LOCALE_KEY =
 		"select distinct loen from %s loen where :key in indices (loen.localeMap)";
@@ -166,18 +166,18 @@ public class EntityTool {
 	final static String GET_LIST_BY_LOCALE_PROPERTY =
 		"select distinct loen from %s loen join loen.localeMap locale where locale.%s = :%s";
 
-	public static <T extends LocaleEntity<TLocaleValue>, TLocaleValue extends LocaleValue>
+	public static <T extends ILocaleEntity<TLocaleValue>, TLocaleValue extends ILocaleValue>
 	void CopyLocale(T source, T destination) {
 		for (Locale locale : source.getLcoales())
 			destination.addLocaleValue(locale, source.getLocaleValue(locale));
 	}
 
-	public static <T extends LocaleEntity<TLocaleValue>, TLocaleValue extends LocaleValue>
+	public static <T extends ILocaleEntity<TLocaleValue>, TLocaleValue extends ILocaleValue>
 	List<T> containsLocale(Class<T> entityClass, Locale locale) {
 
 		String hql = String.format(GET_LIST_BY_LOCALE_KEY, entityClass.getName());
 		if (log.isDebugEnabled())
-			log.debug("Entity [{}] 의 Locale[{}]를 가지는 엔티티 조회 hql=[{}]",
+			log.debug("IEntity [{}] 의 Locale[{}]를 가지는 엔티티 조회 hql=[{}]",
 			          entityClass.getName(), locale, hql);
 
 		IHibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
@@ -185,7 +185,7 @@ public class EntityTool {
 
 	}
 
-	public static <T extends LocaleEntity<TLocaleValue>, TLocaleValue extends LocaleValue>
+	public static <T extends ILocaleEntity<TLocaleValue>, TLocaleValue extends ILocaleValue>
 	List<T> containsLocale(Class<T> entityClass,
 	                       String propertyName,
 	                       Object value,
@@ -193,7 +193,7 @@ public class EntityTool {
 
 		String hql = String.format(GET_LIST_BY_LOCALE_PROPERTY, entityClass.getName(), propertyName, propertyName);
 		if (log.isDebugEnabled())
-			log.debug("Entity [{}] 에 Locale 속성[{}]의 값이 [{}] 인 엔티티를 조회합니다. hql=[{}]",
+			log.debug("IEntity [{}] 에 Locale 속성[{}]의 값이 [{}] 인 엔티티를 조회합니다. hql=[{}]",
 			          entityClass.getName(), propertyName, value, hql);
 
 		IHibernateDao<T> dao = HibernateTool.getHibernateDao(entityClass);
@@ -203,14 +203,14 @@ public class EntityTool {
 	// endregion
 
 
-	// region << MetaEntity >>
+	// region << IMetaEntity >>
 
 	static final String GET_LIST_BY_META_KEY =
 		"select distinct me from %s me where :key in indices(me.metaMap)";
 	static final String GET_LIST_BY_META_VALUE =
 		"select distinct me from %s me join me.metaMap meta where meta.value = :value";
 
-	public static <T extends MetaEntity> List<T> containsMetaKey(Class<T> entityClass, String key) {
+	public static <T extends IMetaEntity> List<T> containsMetaKey(Class<T> entityClass, String key) {
 		Guard.shouldNotBeWhiteSpace(key, "key");
 
 		String hql = String.format(GET_LIST_BY_META_KEY, entityClass.getName());
@@ -222,7 +222,7 @@ public class EntityTool {
 		return dao.findByQueryString(hql, new HibernateParameter("key", key, StringType.INSTANCE));
 	}
 
-	public static <T extends MetaEntity> List<T> containsMetaValue(Class<T> entityClass, String value) {
+	public static <T extends IMetaEntity> List<T> containsMetaValue(Class<T> entityClass, String value) {
 		Guard.shouldNotBeWhiteSpace(value, "value");
 
 		String hql = String.format(GET_LIST_BY_META_VALUE, entityClass.getName());
@@ -235,7 +235,7 @@ public class EntityTool {
 
 	// endregion
 
-	// region << Entity Mapper >>
+	// region << IEntity Mapper >>
 
 	/**
 	 * 원본 엔티티의 속성정보를 대상 엔티티의 속성정보로 매핑시킵니다.
@@ -286,7 +286,7 @@ public class EntityTool {
 
 	// region << TreeNode >>
 
-	public static <T extends TreeEntity<T>> void updateTreeNodePosition(T entity) {
+	public static <T extends ITreeEntity<T>> void updateTreeNodePosition(T entity) {
 		Guard.shouldNotBeNull(entity, "entity");
 
 		if (log.isTraceEnabled())
@@ -304,7 +304,7 @@ public class EntityTool {
 		}
 	}
 
-	public static <T extends TreeEntity<T>> Long getChildCount(T entity) {
+	public static <T extends ITreeEntity<T>> Long getChildCount(T entity) {
 		if (log.isDebugEnabled())
 			log.debug("tree entity의 자식 엔티티의 수를 구합니다. entity=[{}]", entity);
 
@@ -317,7 +317,7 @@ public class EntityTool {
 		return null;
 	}
 
-	public static <T extends TreeEntity<T>> Boolean hasChildren(T entity) {
+	public static <T extends ITreeEntity<T>> Boolean hasChildren(T entity) {
 		if (log.isDebugEnabled())
 			log.debug("tree entity 가 자식을 가지는지 확안합니다. entity=[{}]", entity);
 

@@ -41,7 +41,7 @@ public class TestTool {
 			}
 		} catch (InterruptedException e) {
 			if (log.isErrorEnabled())
-				log.error("예외가 발생했습니다.", e);
+				log.error("작업 수행 중 예외가 발생했습니다.", e);
 			throw new RuntimeException(e);
 		} finally {
 			executor.shutdown();

@@ -2,6 +2,7 @@ package kr.kth.commons.period.tools;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -16,7 +17,16 @@ public final class TimeTool {
 
 	// TODO : 구현 필요
 
-	public static final Date getNow() {
+
+	public static Date getNow() {
 		return new Date();
+	}
+
+	public static Long getNowTime() {
+		return new Date().getTime();
+	}
+
+	public static Timestamp getNowTimestamp() {
+		return new Timestamp(getNowTime());
 	}
 }

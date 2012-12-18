@@ -24,7 +24,7 @@ public class CompressableSerializerTest {
 
 	@Test
 	public void shouldBeExistsCompressors() {
-		Map<String, Compressor> compressorMap = Spring.getBeansOfType(Compressor.class);
+		Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class);
 		Assert.assertNotNull(compressorMap);
 		Assert.assertTrue(compressorMap.size() > 0);
 	}

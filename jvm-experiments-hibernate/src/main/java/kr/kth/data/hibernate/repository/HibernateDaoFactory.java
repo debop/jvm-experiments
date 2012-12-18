@@ -2,7 +2,7 @@ package kr.kth.data.hibernate.repository;
 
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.base.Local;
-import kr.kth.data.domain.model.StatefulEntity;
+import kr.kth.data.domain.model.IStatefulEntity;
 import kr.kth.data.hibernate.unitofwork.UnitOfWorkManager;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +22,13 @@ public class HibernateDaoFactory {
 	@Setter
 	private UnitOfWorkManager unitOfWorkManager;
 
-	public <E extends StatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass) {
+	public <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass) {
 		Guard.shouldNotBeNull(entityClass, "entityClass");
 		return getOrCreateHibernateDaoInternal(entityClass);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected synchronized <E extends StatefulEntity> IHibernateDao<E> getOrCreateHibernateDaoInternal(Class<E> entityClass) {
+	protected synchronized <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDaoInternal(Class<E> entityClass) {
 
 		String daoKey = getHibernateDaoKey(entityClass);
 		HibernateDaoImpl<E> dao = (HibernateDaoImpl<E>) Local.get(daoKey);

@@ -19,7 +19,7 @@ public class UserDaoTest {
 
 	@Test
 	public void userDaoTest() throws Exception {
-		ConnectionMaker connectionMaker = new SimpleConnectionMaker();
+		IConnectionMaker connectionMaker = new SimpleConnectionMaker();
 		UserDao dao = new UserDao(connectionMaker);
 
 		User user = new User();

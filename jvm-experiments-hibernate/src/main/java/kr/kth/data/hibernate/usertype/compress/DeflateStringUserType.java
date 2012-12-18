@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.usertype.compress;
 
-import kr.kth.commons.compress.Compressor;
 import kr.kth.commons.compress.DeflateCompressor;
+import kr.kth.commons.compress.ICompressor;
 
 /**
  * Deflate 알고리즘 ({@link DeflateCompressor} 으로 문자열 속성 값을 압축하여 Binary로 저장합니다.
@@ -10,10 +10,10 @@ import kr.kth.commons.compress.DeflateCompressor;
  */
 public class DeflateStringUserType extends AbstractCompressedStringUserType {
 
-	private static final Compressor compressor = new DeflateCompressor();
+	private static final ICompressor compressor = new DeflateCompressor();
 
 	@Override
-	public Compressor getCompressor() {
+	public ICompressor getCompressor() {
 		return compressor;
 	}
 }

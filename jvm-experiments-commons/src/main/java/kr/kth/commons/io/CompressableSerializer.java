@@ -2,8 +2,8 @@ package kr.kth.commons.io;
 
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.base.ISerializer;
-import kr.kth.commons.compress.Compressor;
 import kr.kth.commons.compress.GZipCompressor;
+import kr.kth.commons.compress.ICompressor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -14,13 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CompressableSerializer extends SerializerDecorator {
 
-	private final Compressor compressor;
+	private final ICompressor compressor;
 
 	public CompressableSerializer(ISerializer serializer) {
 		this(serializer, new GZipCompressor());
 	}
 
-	public CompressableSerializer(ISerializer serializer, Compressor compressor) {
+	public CompressableSerializer(ISerializer serializer, ICompressor compressor) {
 		super(serializer);
 		Guard.shouldNotBeNull(compressor, "compressor");
 		this.compressor = compressor;

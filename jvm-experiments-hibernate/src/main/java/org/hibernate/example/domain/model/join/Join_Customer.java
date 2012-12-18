@@ -1,12 +1,14 @@
 package org.hibernate.example.domain.model.join;
 
 import com.google.common.base.Objects;
+import kr.kth.commons.period.tools.TimeTool;
 import kr.kth.data.domain.model.EntityBase;
-import kr.kth.data.domain.model.UpdateTimestampedEntity;
+import kr.kth.data.domain.model.IUpdateTimestampedEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class Join_Customer extends EntityBase<Long> implements UpdateTimestampedEntity {
+public class Join_Customer extends EntityBase<Long> implements IUpdateTimestampedEntity {
 
 	private static final long serialVersionUID = 9221823986414874215L;
 
@@ -34,7 +36,7 @@ public class Join_Customer extends EntityBase<Long> implements UpdateTimestamped
 	private Address address = new Address();
 
 	@Setter(value = AccessLevel.PRIVATE)
-	private Date updateTimestamp;
+	private Timestamp updateTimestamp;
 
 	@Override
 	public int hashCode() {
@@ -54,6 +56,6 @@ public class Join_Customer extends EntityBase<Long> implements UpdateTimestamped
 
 	@Override
 	public void updateUpdateTimestamp() {
-		this.updateTimestamp = new Date();
+		this.updateTimestamp = TimeTool.getNowTimestamp();
 	}
 }
