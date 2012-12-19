@@ -10,6 +10,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static kr.kth.commons.spring3.Spring.getOrRegisterBean;
@@ -25,10 +26,11 @@ public class SpringTest extends AbstractTest {
 
 	private static final Object syncLock = new Object();
 
-	private static Class[] compressorClasses = new Class[]{BZip2Compressor.class,
-	                                                       DeflateCompressor.class,
-	                                                       GZipCompressor.class,
-	                                                       XZCompressor.class};
+	private static Class[] compressorClasses =
+		new Class[] { BZip2Compressor.class,
+		              DeflateCompressor.class,
+		              GZipCompressor.class,
+		              XZCompressor.class };
 
 	@Override
 	protected void onBefore() {
@@ -54,7 +56,6 @@ public class SpringTest extends AbstractTest {
 
 			GenericApplicationContext localContext = new GenericApplicationContext();
 
-
 			try (AutoCloseableAction action = Spring.useLocalContext(localContext)) {
 				assertSame(localContext, Spring.getContext());
 			} catch (Exception ex) {
@@ -71,6 +72,7 @@ public class SpringTest extends AbstractTest {
 
 		try {
 			Integer bean = Spring.getBean(Integer.class);
+			assertNull(bean);
 		} catch (Exception e) {
 		}
 
@@ -103,10 +105,12 @@ public class SpringTest extends AbstractTest {
 	}
 
 	@Test
+	@SuppressWarnings("unchecked")
 	public void getAllTypes() {
 
 		for (Class clazz : compressorClasses) {
-			getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+			ICompressor bean = (ICompressor) getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+			assertNotNull(bean);
 		}
 
 		Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class, true, true);
@@ -116,6 +120,21 @@ public class SpringTest extends AbstractTest {
 		ICompressor gzip = Spring.getBean(GZipCompressor.class);
 		assertNotNull(gzip);
 		assertTrue(gzip instanceof GZipCompressor);
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	public void getBeansByTypeTest() {
+
+		for (Class clazz : compressorClasses) {
+			ICompressor bean = (ICompressor) getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+			assertNotNull(bean);
+		}
+
+		List<ICompressor> compressors = Spring.getBeansByType(ICompressor.class);
+		assertTrue(compressors.size() > 0);
+		for (ICompressor compressor : compressors)
+			assertNotNull(compressor);
 	}
 
 	@Test

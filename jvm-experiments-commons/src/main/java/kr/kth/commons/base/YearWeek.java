@@ -11,16 +11,14 @@ import lombok.extern.slf4j.Slf4j;
  * Date: 12. 9. 12
  */
 @Slf4j
-@Getter
-@Setter
-public class YearWeek extends ValueObjectBase implements Comparable<YearWeek> {
+public class YearWeek extends ValueObjectBase implements IYearWeek, Comparable<YearWeek> {
 
 	private static final long serialVersionUID = -5529645755326276780L;
 
 	public static final YearWeek MIN_VALUE = new YearWeek();
 
-	private int year;
-	private int week;
+	@Getter @Setter private int year;
+	@Getter @Setter private int week;
 
 	public YearWeek() {
 		this(0, 1);

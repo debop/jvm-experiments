@@ -2,7 +2,7 @@ package org.hibernate.example.domain.model;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import kr.kth.commons.period.tools.TimeTool;
+import kr.kth.commons.timeperiod.tools.TimeTool;
 import kr.kth.data.domain.model.EntityBase;
 import kr.kth.data.domain.model.IUpdateTimestampedEntity;
 import lombok.AccessLevel;

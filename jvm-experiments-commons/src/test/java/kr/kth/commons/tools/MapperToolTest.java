@@ -2,7 +2,8 @@ package kr.kth.commons.tools;
 
 import com.google.common.collect.Lists;
 import kr.kth.commons.base.ValueObjectBase;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,7 +52,8 @@ public class MapperToolTest {
 	}
 
 
-	@Data
+	@Getter
+	@Setter
 	public static class Parent extends ValueObjectBase {
 
 		private Integer id;
@@ -61,7 +63,8 @@ public class MapperToolTest {
 		private List<Child> children = Lists.newArrayList();
 	}
 
-	@Data
+	@Getter
+	@Setter
 	public static class Child extends ValueObjectBase {
 
 		private Integer id;
@@ -70,7 +73,8 @@ public class MapperToolTest {
 		private Parent parent;
 	}
 
-	@Data
+	@Getter
+	@Setter
 	public static class ParentDTO extends ValueObjectBase {
 
 		private Integer id;
@@ -79,7 +83,8 @@ public class MapperToolTest {
 		private List<ChildDTO> children = Lists.newArrayList();
 	}
 
-	@Data
+	@Getter
+	@Setter
 	public static class ChildDTO extends ValueObjectBase {
 
 		private Integer id;

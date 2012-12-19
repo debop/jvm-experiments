@@ -1,8 +1,8 @@
 package kr.kth.data.hibernate.usertype;
 
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.period.TimeSpec;
-import kr.kth.commons.period.timerange.TimeRange;
+import kr.kth.commons.timeperiod.TimeSpec;
+import kr.kth.commons.timeperiod.timerange.TimeRange;
 import kr.kth.commons.tools.ConvertTool;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
