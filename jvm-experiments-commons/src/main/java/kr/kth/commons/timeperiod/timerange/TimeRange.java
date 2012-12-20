@@ -3,9 +3,7 @@ package kr.kth.commons.timeperiod.timerange;
 import kr.kth.commons.timeperiod.ITimePeriod;
 import kr.kth.commons.timeperiod.ITimeRange;
 import kr.kth.commons.timeperiod.TimePeriodBase;
-
-import java.sql.Timestamp;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * Time 기준으로 기간을 표현합니다. 단 하한(시작시각) 과 상한(완료시각) 은 Open 일 수 있습니다. 즉 개구간일 수 있습니다.
@@ -16,7 +14,7 @@ public class TimeRange extends TimePeriodBase implements ITimeRange {
 
 	private static final long serialVersionUID = -8743222521934888987L;
 
-	public static final ITimeRange Anytime = new TimeRange(true);
+	public static final TimeRange Anytime = new TimeRange(true);
 
 	public TimeRange() {
 		super();
@@ -26,27 +24,27 @@ public class TimeRange extends TimePeriodBase implements ITimeRange {
 		super(readonly);
 	}
 
-	public TimeRange(Date moment) {
+	public TimeRange(DateTime moment) {
 		super(moment, false);
 	}
 
-	public TimeRange(Date moment, boolean readonly) {
+	public TimeRange(DateTime moment, boolean readonly) {
 		super(moment, readonly);
 	}
 
-	public TimeRange(Date start, Date end) {
+	public TimeRange(DateTime start, DateTime end) {
 		super(start, end, false);
 	}
 
-	public TimeRange(Date start, Date end, boolean readonly) {
+	public TimeRange(DateTime start, DateTime end, boolean readonly) {
 		super(start, end, readonly);
 	}
 
-	public TimeRange(Date start, Timestamp duration) {
+	public TimeRange(DateTime start, long duration) {
 		super(start, duration, false);
 	}
 
-	public TimeRange(Date start, Timestamp duration, boolean readonly) {
+	public TimeRange(DateTime start, long duration, boolean readonly) {
 		super(start, duration, readonly);
 	}
 
@@ -55,43 +53,43 @@ public class TimeRange extends TimePeriodBase implements ITimeRange {
 	}
 
 	@Override
-	public void setStart(Date start) {
+	public void setStart(DateTime start) {
 		assertMutable();
 		this.start = start;
 	}
 
 	@Override
-	public void setEnd(Date end) {
+	public void setEnd(DateTime end) {
 		assertMutable();
 		this.end = end;
 	}
 
 	@Override
-	public void setDuration(Timestamp duration) {
+	public void setDuration(long duration) {
 		assertMutable();
-		this.end = new Date(start.getTime() + duration.getTime());
+		this.end = getStart().plus(duration);
 	}
 
 	@Override
-	public void expandStartTo(Date moment) {
+	public void expandStartTo(DateTime moment) {
 		assertMutable();
 		this.start = moment;
 	}
 
 	@Override
-	public void expandEndTo(Date moment) {
+	public void expandEndTo(DateTime moment) {
 		assertMutable();
 		this.end = moment;
 	}
 
 	@Override
-	public void expandTo(Date moment) {
+	public void expandTo(DateTime moment) {
 		assertMutable();
-		if (moment.getTime() <= start.getTime())
+
+		if (moment.compareTo(start) <= 0)
 			setStart(moment);
-		else if (moment.getTime() >= end.getTime())
+		else if (moment.compareTo(end) >= 0)
 			setEnd(moment);
-		//setEnd(moment);
 	}
 
 	@Override
@@ -102,13 +100,13 @@ public class TimeRange extends TimePeriodBase implements ITimeRange {
 	}
 
 	@Override
-	public void shrinkStartTo(Date moment) {
+	public void shrinkStartTo(DateTime moment) {
 		assertMutable();
 		this.start = moment;
 	}
 
 	@Override
-	public void shrinkEndTo(Date moment) {
+	public void shrinkEndTo(DateTime moment) {
 		assertMutable();
 		this.end = moment;
 	}

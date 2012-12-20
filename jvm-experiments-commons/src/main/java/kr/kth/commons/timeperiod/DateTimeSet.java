@@ -4,10 +4,9 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import kr.kth.commons.base.Guard;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 
-import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -17,20 +16,20 @@ import java.util.TreeSet;
  * Date: 12. 12. 2.
  */
 @Slf4j
-public class DateSet extends TreeSet<Date> implements IDateSet {
+public class DateTimeSet extends TreeSet<DateTime> implements IDateTimeSet {
 
 	private static final long serialVersionUID = 3251868222462713969L;
 
-	public DateSet() {}
+	public DateTimeSet() {}
 
-	public DateSet(Collection<Date> moments) {
+	public DateTimeSet(Collection<? extends DateTime> moments) {
 		super(moments);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Date get(int index) {
+	public DateTime get(int index) {
 		Guard.assertTrue(index >= 0 && index < size(), "Index 의 범위가 벗어났습니다. index=%d, size()=%d", index, size());
 
 		if (index == 0)
@@ -45,7 +44,7 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Date getMin() {
+	public DateTime getMin() {
 		return (isEmpty() ? null : first());
 	}
 
@@ -53,7 +52,7 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Date getMax() {
+	public DateTime getMax() {
 		return (isEmpty() ? null : last());
 	}
 
@@ -64,10 +63,11 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	public Long getDuration() {
 		if (isEmpty())
 			return null;
-		Date min = getMin();
-		Date max = getMax();
 
-		return (min != null && max != null) ? (max.getTime() - min.getTime()) : null;
+		DateTime min = getMin();
+		DateTime max = getMax();
+
+		return (min != null && max != null) ? (max.getMillis() - min.getMillis()) : null;
 	}
 
 	/**
@@ -84,18 +84,18 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	 */
 	@Override
 	public boolean isAnyTime() {
-		Date min = getMin();
-		Date max = getMax();
+		DateTime min = getMin();
+		DateTime max = getMax();
 
 		return (min != null) &&
-			(min.getTime() == TimeSpec.ZeroTick) &&
-			(max != null) &&
-			(max.getTime() == TimeSpec.ZeroTick);
+			       (min.getMillis() == TimeSpec.ZeroTick) &&
+			       (max != null) &&
+			       (max.getMillis() == TimeSpec.ZeroTick);
 	}
 
 	@Override
-	public boolean addAll(Iterable<? extends Date> moments) {
-		for (Date moment : moments)
+	public boolean addAll(Iterable<? extends DateTime> moments) {
+		for (DateTime moment : moments)
 			super.add(moment);
 		return true;
 	}
@@ -104,13 +104,13 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Timestamp> getDurations(int startIndex, int count) {
+	public List<Long> getDurations(int startIndex, int count) {
 
 		int endIndex = Math.min(startIndex + count, size() - 1);
-		List<Timestamp> durations = Lists.newArrayList();
+		List<Long> durations = Lists.newArrayList();
 
 		for (int i = startIndex; i < endIndex; i++) {
-			durations.add(new Timestamp(get(i + 1).getTime() - get(i).getTime()));
+			durations.add(get(i + 1).getMillis() - get(i).getMillis());
 		}
 		return durations;
 	}
@@ -119,7 +119,7 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Date findPrevious(Date moment) {
+	public DateTime findPrevious(DateTime moment) {
 		return super.headSet(moment, false).higher(moment);
 	}
 
@@ -127,7 +127,7 @@ public class DateSet extends TreeSet<Date> implements IDateSet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Date findNext(Date moment) {
+	public DateTime findNext(DateTime moment) {
 		return tailSet(moment, false).lower(moment);
 	}
 }

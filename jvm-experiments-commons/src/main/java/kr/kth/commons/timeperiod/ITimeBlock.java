@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * Time Block 을 표현하는 인터페이스입니다.
@@ -9,13 +9,13 @@ import java.util.Date;
  */
 public interface ITimeBlock extends ITimePeriod {
 
-	void setStart(Date start);
+	void setStart(DateTime start);
 
-	void setEnd(Date end);
+	void setEnd(DateTime end);
 
 	void setDuration(long duration);
 
-	void setup(Date start, long duration);
+	void setup(DateTime start, long duration);
 
 	void durationFromStart(long duration);
 

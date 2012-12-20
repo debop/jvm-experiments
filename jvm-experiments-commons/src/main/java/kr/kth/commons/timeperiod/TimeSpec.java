@@ -1,9 +1,9 @@
 package kr.kth.commons.timeperiod;
 
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * 시간과 관련된 단위 상수에 해당하는 정보를 제공합니다.
@@ -27,6 +27,12 @@ public final class TimeSpec {
 	public static final int MillisPerHour = MillisPerMinute * 60;
 	public static final int MillisPerDay = MillisPerHour * 24;
 
+	public static final int CalendarYearStartMonth = 1;
+	public static final int WeekDaysPerWeek = 5;
+	public static final int WeekEndsPerWeek = 2;
+
+	public static final int FirstWorkingDayOfWeek = Calendar.MONDAY;
+
 	// Number of days in a non-leap year
 	public static final int DaysPerYear = 365;
 	// Number of days in 4 years
@@ -49,8 +55,9 @@ public final class TimeSpec {
 	public static final long MaxMillis = (long) DaysTo10000 * MillisPerDay;
 
 
-	public static final Date MinPeriodTime = new Date(MinTicks);
-	public static final Date MaxPeriodTime = new Date(MaxTicks);
+	public static final DateTime MinPeriodTime = new DateTime(MinTicks);
+	public static final DateTime MaxPeriodTime = new DateTime(MaxTicks);
 
-	public static final Timestamp ZeroTimestamp = new Timestamp(0);
+	public static final long MinPeriodDuration = 0;
+	public static final long MaxPeriodDuration = MaxPeriodTime.getMillis() - MinPeriodTime.getMillis();
 }

@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * {@link ITimePeriod}의 시작시각 또는 완료시각을 키로 가지고, {@link ITimePeriod} 를 Value로 가지는
@@ -26,7 +26,7 @@ public interface ITimeLineMomentCollection {
 
 	void Remove(ITimePeriod period);
 
-	ITimeLineMoment find(Date moment);
+	ITimeLineMoment find(DateTime moment);
 
-	boolean contains(Date moment);
+	boolean contains(DateTime moment);
 }

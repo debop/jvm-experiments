@@ -1,6 +1,7 @@
 package kr.kth.commons.timeperiod;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.Locale;
 
 /**
@@ -36,28 +37,28 @@ public interface ITimeFormatter {
 
 	String getCollection(int count);
 
-	String getCollectionPeriod(int count, Date start, Date end, long duration);
+	String getCollectionPeriod(int count, DateTime start, DateTime end, long duration);
 
-	String getDate(Date date);
+	String getDate(DateTime date);
 
-	String getShortDate(Date date);
+	String getShortDate(DateTime date);
 
-	String getLongDate(Date date);
+	String getLongDate(DateTime date);
 
-	String getTime(Date date);
+	String getTime(DateTime date);
 
-	String getShortTime(Date date);
+	String getShortTime(DateTime date);
 
-	String getLongTime(Date date);
+	String getLongTime(DateTime date);
 
 	String getDuration(long duration);
 
 	String getDuration(long duration, DurationFormatKind durationFormatKind);
 
-	String getPeriod(Date start, Date end, long duration);
+	String getPeriod(DateTime start, DateTime end, long duration);
 
 
-	String getInterval(Date start, Date end, IntervalEdge startEdge, IntervalEdge endEdge, long duration);
+	String getInterval(DateTime start, DateTime end, IntervalEdge startEdge, IntervalEdge endEdge, long duration);
 
 	String getCalendarPeriod(String start, String end, long duration);
 

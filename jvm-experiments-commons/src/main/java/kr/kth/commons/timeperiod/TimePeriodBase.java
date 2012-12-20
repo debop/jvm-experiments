@@ -2,54 +2,55 @@ package kr.kth.commons.timeperiod;
 
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
-
-import java.sql.Timestamp;
-import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 /**
  * 기간을 나타내는 기본 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 18
  */
+@Slf4j
 public abstract class TimePeriodBase implements ITimePeriod {
 
 	private static final long serialVersionUID = 7093665366996191218L;
 
-	protected Date start;
-	protected Date end;
+	protected DateTime start;
+	protected DateTime end;
 	protected boolean readonly = false;
 
 	protected TimePeriodBase() {
-		this((Date) null, (Date) null, false);
+		this((DateTime) null, (DateTime) null, false);
 	}
 
 	protected TimePeriodBase(boolean readonly) {
 		this(TimeSpec.MinPeriodTime, TimeSpec.MaxPeriodTime, readonly);
 	}
 
-	protected TimePeriodBase(Date moment) {
+	protected TimePeriodBase(DateTime moment) {
 		this(moment, moment, false);
 	}
 
-	protected TimePeriodBase(Date moment, boolean readonly) {
+	protected TimePeriodBase(DateTime moment, boolean readonly) {
 		this(moment, moment, readonly);
 	}
 
-	protected TimePeriodBase(Date start, Date end) {
+	protected TimePeriodBase(DateTime start, DateTime end) {
 		this(start, end, false);
 	}
 
-	protected TimePeriodBase(Date start, Date end, boolean readonly) {
+	protected TimePeriodBase(DateTime start, DateTime end, boolean readonly) {
 		this.start = Guard.firstNotNull(start, TimeSpec.MinPeriodTime);
 		this.end = Guard.firstNotNull(end, TimeSpec.MaxPeriodTime);
 		setReadonly(readonly);
 	}
 
-	protected TimePeriodBase(Date start, Long duration) {
+	protected TimePeriodBase(DateTime start, Long duration) {
 		this(start, duration, false);
 	}
 
-	protected TimePeriodBase(Date start, Long duration, boolean readonly) {
+	protected TimePeriodBase(DateTime start, Long duration, boolean readonly) {
 		this.start = Guard.firstNotNull(start, TimeSpec.MinPeriodTime);
 		this.end = TimeSpec.MaxPeriodTime;
 		setDuration(duration);
@@ -64,19 +65,24 @@ public abstract class TimePeriodBase implements ITimePeriod {
 		setReadonly(src.isReadonly());
 	}
 
+	protected TimePeriodBase(ITimePeriod src, boolean readonly) {
+		this(src);
+		setReadonly(readonly);
+	}
+
 	@Override
-	public Date getStart() {
+	public DateTime getStart() {
 		return this.start;
 	}
 
 	@Override
-	public Date getEnd() {
+	public DateTime getEnd() {
 		return this.end;
 	}
 
 	@Override
 	public Long getDuration() {
-		return (end.getTime() - start.getTime());
+		return (end.getMillis() - start.getMillis());
 	}
 
 	@Override
@@ -85,23 +91,22 @@ public abstract class TimePeriodBase implements ITimePeriod {
 		assert (duration != null) && (duration >= 0);
 
 		if (hasStart())
-			this.end = new Date(this.start.getTime() + duration);
+			this.end = start.plus(duration);
 	}
 
 	@Override
 	public String getDurationDescription() {
-		// TODO: TimeFormatter를 이용하여 구현 필요
-		return getDuration().toString();
+		return Duration.millis(getDuration()).toString();
 	}
 
 	@Override
 	public boolean hasStart() {
-		return this.start.getTime() != TimeSpec.MinPeriodTime.getTime();
+		return this.start != TimeSpec.MinPeriodTime;
 	}
 
 	@Override
 	public boolean hasEnd() {
-		return this.end.getTime() != TimeSpec.MaxPeriodTime.getTime();
+		return this.end != TimeSpec.MaxPeriodTime;
 	}
 
 	@Override
@@ -129,7 +134,7 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	}
 
 	@Override
-	public void setup(Date start, Date end) {
+	public void setup(DateTime start, DateTime end) {
 		assertMutable();
 		start = Guard.firstNotNull(start, TimeSpec.MinPeriodTime);
 		end = Guard.firstNotNull(end, TimeSpec.MaxPeriodTime);
@@ -137,28 +142,28 @@ public abstract class TimePeriodBase implements ITimePeriod {
 
 	@Override
 	public ITimePeriod copy() {
-		return copy(TimeSpec.ZeroTimestamp);
+		return copy(0);
 	}
 
 	@Override
-	public ITimePeriod copy(Timestamp offset) {
-		if (offset.getTime() == 0)
+	public ITimePeriod copy(long offset) {
+		if (offset == 0)
 			return new TimeRange(this);
 
-		return new TimeRange(hasStart() ? new Date(start.getTime() + offset.getTime()) : start,
-		                     hasEnd() ? new Date(end.getTime() + offset.getTime()) : end);
+		return new TimeRange(hasStart() ? start.plus(offset) : start,
+		                     hasEnd() ? end.plus(offset) : end);
 	}
 
 	@Override
-	public void move(Timestamp offset) {
-		if (offset == null || offset.getTime() == 0)
+	public void move(long offset) {
+		if (offset == 0)
 			return;
 
 		if (hasStart())
-			this.start = new Date(this.start.getTime() + offset.getTime());
+			this.start = this.start.plus(offset);
 
 		if (hasEnd())
-			this.end = new Date(this.end.getTime() + offset.getTime());
+			this.end = this.end.plus(offset);
 	}
 
 	@Override
@@ -167,7 +172,7 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	}
 
 	@Override
-	public boolean hasInside(Date moment) {
+	public boolean hasInside(DateTime moment) {
 		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 

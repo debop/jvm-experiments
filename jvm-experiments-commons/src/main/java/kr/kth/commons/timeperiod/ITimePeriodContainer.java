@@ -1,8 +1,8 @@
 package kr.kth.commons.timeperiod;
 
 import kr.kth.commons.base.SortDirection;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,17 +14,13 @@ public interface ITimePeriodContainer extends List<ITimePeriod>, ITimePeriod {
 
 	/**
 	 * 컨테이너의 시작시각을 설정합니다.
-	 *
-	 * @param start
 	 */
-	void setStart(Date start);
+	void setStart(DateTime start);
 
 	/**
 	 * 컨테이너의 완료시각을 설정합니다.
-	 *
-	 * @param end
 	 */
-	void setEnd(Date end);
+	void setEnd(DateTime end);
 
 	/**
 	 * 지정한 기간을 포함하고 있는지 검사한다.

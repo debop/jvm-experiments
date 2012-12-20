@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * kr.kth.commons.timeperiod.ITimeLineMoment
@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public interface ITimeLineMoment {
 
-	Date getMoment();
+	DateTime getMoment();
 
 	ITimePeriodCollection getPeriods();
 

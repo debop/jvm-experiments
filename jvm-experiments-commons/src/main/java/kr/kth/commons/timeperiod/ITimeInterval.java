@@ -1,7 +1,6 @@
 package kr.kth.commons.timeperiod;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * 시간 간격을 나타냅니다.
@@ -50,29 +49,34 @@ public interface ITimeInterval extends ITimePeriod {
 	boolean isDegenerate();
 
 	/**
-	 * 사용가능한 시간간격인가?
+	 * 사용가능한 Interval 인가?
 	 */
-	boolean isInetervalEnabled();
+	boolean isIntervalEnabled();
+
+	/**
+	 * 사용가능한 Interval 인지를 설정합니다.
+	 */
+	void setIntervalEnabled(boolean intervalEnabled);
 
 	/**
 	 * 시작 시각
 	 */
-	Date getStartInterval();
+	DateTime getStartInterval();
 
 	/**
 	 * 시작 시각을 설정합니다.
 	 */
-	void setStartInterval(Date start);
+	void setStartInterval(DateTime start);
 
 	/**
 	 * 완료 시각
 	 */
-	Date getEndInterval();
+	DateTime getEndInterval();
 
 	/**
 	 * 완료 시각을 설정합니다.
 	 */
-	void setEndInterval(Date end);
+	void setEndInterval(DateTime end);
 
 	/**
 	 * 시작 시각의 개/폐구간 종류
@@ -94,22 +98,19 @@ public interface ITimeInterval extends ITimePeriod {
 	 */
 	void setEndEdge(IntervalEdge edge);
 
-	void expandStartTo(Date moment);
+	void expandStartTo(DateTime moment);
 
-	void expandEndTo(Date moment);
+	void expandEndTo(DateTime moment);
 
-	void expandTo(Date moment);
+	void expandTo(DateTime moment);
 
 	void expandTo(ITimePeriod period);
 
-	void shrinkStartTo(Date moment);
+	void shrinkStartTo(DateTime moment);
 
-	void shrinkEndTo(Date moment);
+	void shrinkEndTo(DateTime moment);
 
-	void shrinkTo(Date moment);
+	void shrinkTo(DateTime moment);
 
 	void shrinkTo(ITimePeriod period);
-
-	@Override
-	ITimeInterval copy(Timestamp offset);
 }

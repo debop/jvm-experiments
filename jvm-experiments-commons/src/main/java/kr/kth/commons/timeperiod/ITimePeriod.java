@@ -1,8 +1,8 @@
 package kr.kth.commons.timeperiod;
 
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * 시간 간격을 표현합니다. 시작~완료 구간과 기간을 표현하는 인터페이스입니다.
@@ -11,9 +11,9 @@ import java.util.Date;
  */
 public interface ITimePeriod extends Comparable<ITimePeriod>, Serializable {
 
-	Date getStart();
+	DateTime getStart();
 
-	Date getEnd();
+	DateTime getEnd();
 
 	Long getDuration();
 
@@ -33,17 +33,17 @@ public interface ITimePeriod extends Comparable<ITimePeriod>, Serializable {
 
 	boolean isReadonly();
 
-	void setup(Date start, Date end);
+	void setup(DateTime start, DateTime end);
 
 	ITimePeriod copy();
 
-	ITimePeriod copy(Timestamp offset);
+	ITimePeriod copy(long offset);
 
-	void move(Timestamp offset);
+	void move(long offset);
 
 	void isSamePeriod(ITimePeriod that);
 
-	boolean hasInside(Date moment);
+	boolean hasInside(DateTime moment);
 
 	boolean overlapsWith(ITimePeriod that);
 
