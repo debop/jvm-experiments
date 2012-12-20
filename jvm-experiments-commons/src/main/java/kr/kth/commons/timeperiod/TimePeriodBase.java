@@ -1,5 +1,6 @@
 package kr.kth.commons.timeperiod;
 
+import com.google.common.base.Objects;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
 import lombok.extern.slf4j.Slf4j;
@@ -209,5 +210,15 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	protected final void assertMutable() {
 		if (readonly)
 			throw new IllegalStateException("Current object is readonly.");
+	}
+
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this)
+		              .add("start", getStart())
+		              .add("end", getEnd())
+		              .add("duration", getDuration())
+		              .add("readonly", isReadonly())
+		              .toString();
 	}
 }

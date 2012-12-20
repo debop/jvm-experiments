@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod.clock;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * kr.kth.commons.timeperiod.clock.SystemClock
@@ -14,7 +14,7 @@ public class SystemClock extends ClockBase {
 	SystemClock() {}
 
 	@Override
-	public Date getNow() {
-		return new Date();
+	public DateTime getNow() {
+		return new DateTime();
 	}
 }

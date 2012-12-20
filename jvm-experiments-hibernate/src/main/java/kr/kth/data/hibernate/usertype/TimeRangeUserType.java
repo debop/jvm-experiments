@@ -3,13 +3,13 @@ package kr.kth.data.hibernate.usertype;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.TimeSpec;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
-import kr.kth.commons.tools.ConvertTool;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.DateType;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -70,10 +70,10 @@ public class TimeRangeUserType implements CompositeUserType {
 
 		switch (property) {
 			case 0:
-				timeRange.setStart(ConvertTool.toDate(value, TimeSpec.MinPeriodTime));
+				timeRange.setStart((value != null) ? new DateTime(value) : TimeSpec.MinPeriodTime);
 				break;
 			case 1:
-				timeRange.setEnd(ConvertTool.toDate(value, TimeSpec.MaxPeriodTime));
+				timeRange.setEnd((value != null) ? new DateTime(value) : TimeSpec.MaxPeriodTime);
 				break;
 			default:
 				throw new IllegalArgumentException("복합 수형의 인덱스 범위가 벗어났습니다. 0, 1만 가능합니다. property=" + property);
@@ -102,12 +102,13 @@ public class TimeRangeUserType implements CompositeUserType {
 		Date start = (Date) DateType.INSTANCE.nullSafeGet(rs, names[0], session, owner);
 		Date end = (Date) DateType.INSTANCE.nullSafeGet(rs, names[1], session, owner);
 
-		return new TimeRange(start, end);
+		return new TimeRange(new DateTime(start), new DateTime(end));
 	}
 
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
 		throws HibernateException, SQLException {
+
 		if (value == null) {
 			DateType.INSTANCE.nullSafeSet(st, null, index, session);
 			DateType.INSTANCE.nullSafeSet(st, null, index + 1, session);

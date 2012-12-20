@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod.clock;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * kr.kth.commons.timeperiod.clock.StaticClock
@@ -11,7 +11,7 @@ public class StaticClock extends ClockBase {
 
 	private static final long serialVersionUID = -3634515685313254258L;
 
-	public StaticClock(Date now) {
+	public StaticClock(DateTime now) {
 		super(now);
 	}
 }

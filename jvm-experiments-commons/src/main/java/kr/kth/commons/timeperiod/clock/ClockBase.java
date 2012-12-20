@@ -1,15 +1,14 @@
 package kr.kth.commons.timeperiod.clock;
 
 import kr.kth.commons.timeperiod.IClock;
+import kr.kth.commons.timeperiod.tools.TimeTool;
 import lombok.Setter;
-import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
- * kr.kth.commons.timeperiod.clock.ClockBase
+ * Clock
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 19.
  */
@@ -18,29 +17,29 @@ public abstract class ClockBase implements IClock, Serializable {
 	private static final long serialVersionUID = 2363723693141613884L;
 
 	@Setter
-	private Date now;
+	private DateTime now;
 
 	protected ClockBase() {}
 
-	protected ClockBase(Date now) {
+	protected ClockBase(DateTime now) {
 		this.now = now;
 	}
 
 	@Override
-	public Date getNow() {
+	public DateTime getNow() {
 		if (now == null)
-			now = new Date();
+			now = new DateTime();
 		return now;
 	}
 
 
 	@Override
-	public Date getToday() {
-		return DateUtils.truncate(getNow(), Calendar.DATE);
+	public DateTime getToday() {
+		return TimeTool.trimToDay(this.getNow());
 	}
 
 	@Override
 	public long getTimeOfDay() {
-		return getNow().getTime() - getToday().getTime();
+		return getNow().getMillisOfDay();
 	}
 }

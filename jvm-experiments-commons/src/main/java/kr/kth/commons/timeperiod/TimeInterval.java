@@ -4,8 +4,7 @@ import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
 import kr.kth.commons.timeperiod.tools.TimeTool;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * 설명을 추가하세요.
@@ -51,27 +50,27 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 		this(TimeSpec.MinPeriodTime, TimeSpec.MaxPeriodTime);
 	}
 
-	public TimeInterval(Date moment) {
+	public TimeInterval(DateTime moment) {
 		this(moment, IntervalEdge.Closed, IntervalEdge.Closed, true, false);
 	}
 
-	public TimeInterval(Date moment, IntervalEdge startEdge, IntervalEdge endEdge) {
+	public TimeInterval(DateTime moment, IntervalEdge startEdge, IntervalEdge endEdge) {
 		this(moment, startEdge, endEdge, true, false);
 	}
 
-	public TimeInterval(Date moment, IntervalEdge startEdge, IntervalEdge endEdge, boolean intervalEnabled, boolean readonly) {
+	public TimeInterval(DateTime moment, IntervalEdge startEdge, IntervalEdge endEdge, boolean intervalEnabled, boolean readonly) {
 		this(moment, moment, startEdge, endEdge, intervalEnabled, readonly);
 	}
 
-	public TimeInterval(Date startInterval, Date endInterval) {
+	public TimeInterval(DateTime startInterval, DateTime endInterval) {
 		this(startInterval, endInterval, IntervalEdge.Closed, IntervalEdge.Closed, true, false);
 	}
 
-	public TimeInterval(Date startInterval, Date endInterval, IntervalEdge startEdge, IntervalEdge endEdge) {
+	public TimeInterval(DateTime startInterval, DateTime endInterval, IntervalEdge startEdge, IntervalEdge endEdge) {
 		this(startInterval, endInterval, startEdge, endEdge, true, false);
 	}
 
-	public TimeInterval(Date startInterval, Date endInterval, IntervalEdge startEdge, IntervalEdge endEdge,
+	public TimeInterval(DateTime startInterval, DateTime endInterval, IntervalEdge startEdge, IntervalEdge endEdge,
 	                    boolean intervalEnabled, boolean readonly) {
 		super(startInterval, endInterval, readonly);
 
@@ -90,7 +89,7 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 			this.end = interval.getEndInterval();
 			this.startEdge = interval.getStartEdge();
 			this.endEdge = interval.getEndEdge();
-			this.intervalEnabled = interval.isInetervalEnabled();
+			this.intervalEnabled = interval.isIntervalEnabled();
 		}
 	}
 
@@ -152,21 +151,22 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 	}
 
 	@Override
-	public Date getStartInterval() {
+	public DateTime getStartInterval() {
 		return this.start;
 	}
 
 	@Override
-	public void setStartInterval(Date start) {
+	public void setStartInterval(DateTime start) {
 		assertMutable();
-		Guard.assertTrue(start.getTime() <= this.end.getTime(), "start");
+		Guard.assertTrue(start.compareTo(this.end) <= 0,
+		                 "새로운 start=[%s]는 end=[%s] 보다 작거나 같아야 합니다.", start, this.end);
 		this.start = start;
 	}
 
 	@Override
-	public Date getStart() {
+	public DateTime getStart() {
 		if (this.intervalEnabled && isStartOpen())
-			return new Date(this.start.getTime() + 1);
+			return this.start.plus(1L);
 		return this.start;
 	}
 
@@ -188,21 +188,22 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 
 
 	@Override
-	public Date getEndInterval() {
+	public DateTime getEndInterval() {
 		return this.end;
 	}
 
 	@Override
-	public void setEndInterval(Date end) {
+	public void setEndInterval(DateTime end) {
 		assertMutable();
-		Guard.assertTrue(end.getTime() >= this.start.getTime(), "end");
+		Guard.assertTrue(end.compareTo(this.start) >= 0,
+		                 "새로운 end=[%s]가 start=[{}]보다 크거나 같아야 합니다.", end, this.start);
 		this.end = end;
 	}
 
 	@Override
-	public Date getEnd() {
+	public DateTime getEnd() {
 		if (intervalEnabled || isEndOpen())
-			return new Date(this.end.getTime() - 1);
+			return this.end.minus(1L);
 		return this.end;
 	}
 
@@ -219,11 +220,11 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 
 	@Override
 	public Long getDuration() {
-		return this.end.getTime() - this.start.getTime();
+		return this.end.minus(this.start.getMillis()).getMillis();
 	}
 
 	@Override
-	public void setup(Date start, Date end) {
+	public void setup(DateTime start, DateTime end) {
 		super.setup(start, end);
 
 		if (log.isDebugEnabled())
@@ -238,17 +239,17 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 	}
 
 	@Override
-	public void expandStartTo(Date moment) {
-
-	}
-
-	@Override
-	public void expandEndTo(Date moment) {
+	public void expandStartTo(DateTime moment) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public void expandTo(Date moment) {
+	public void expandEndTo(DateTime moment) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void expandTo(DateTime moment) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
@@ -258,17 +259,17 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 	}
 
 	@Override
-	public void shrinkStartTo(Date moment) {
+	public void shrinkStartTo(DateTime moment) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public void shrinkEndTo(Date moment) {
+	public void shrinkEndTo(DateTime moment) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public void shrinkTo(Date moment) {
+	public void shrinkTo(DateTime moment) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 

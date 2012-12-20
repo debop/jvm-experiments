@@ -3,9 +3,8 @@ package kr.kth.commons.timeperiod.timerange;
 import kr.kth.commons.AbstractTest;
 import kr.kth.commons.timeperiod.tools.TimeTool;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 import org.junit.Test;
-
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +19,7 @@ public class TimeRangeTest extends AbstractTest {
 	@Test
 	public void createTest() {
 
-		Date now = TimeTool.getNow();
+		DateTime now = TimeTool.getNow();
 		TimeRange timeRange = new TimeRange(now);
 
 		if (log.isDebugEnabled())

@@ -16,6 +16,6 @@ public class TimeSpecTest extends AbstractTest {
 
 	@Test
 	public void testTimeSpec() {
-		assertEquals(0, TimeSpec.ZeroTimestamp.getTime());
+		assertEquals(0, TimeSpec.ZeroTick);
 	}
 }

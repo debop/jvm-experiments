@@ -3,7 +3,7 @@ package kr.kth.commons.timeperiod;
 import java.util.Date;
 
 /**
- * 설명을 추가하세요.
+ * {@link ITimePeriod} 컬렉션입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 18
  */

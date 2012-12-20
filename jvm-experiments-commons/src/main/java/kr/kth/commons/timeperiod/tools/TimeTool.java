@@ -29,12 +29,12 @@ public final class TimeTool {
 	private static final Date UnixEpoch = new Date(0);
 
 
-	public static Date getNow() {
-		return new Date();
+	public static DateTime getNow() {
+		return DateTime.now();
 	}
 
 	public static Long getNowTime() {
-		return new Date().getTime();
+		return DateTime.now().getMillis();
 	}
 
 	public static Timestamp getNowTimestamp() {
@@ -72,7 +72,9 @@ public final class TimeTool {
 			return Lists.newArrayList(new TimeRange(period.getStart(), period.getEnd()));
 		}
 
-		// TODO 작업 해야 합니다.
+		List<ITimePeriod> years = Lists.newArrayList();
+
+		return years;
 	}
 
 
@@ -158,12 +160,12 @@ public final class TimeTool {
 
 	// region << Relation >>
 
-	public static boolean hasInside(ITimePeriod period, Date target) {
+	public static boolean hasInside(ITimePeriod period, DateTime target) {
 		Guard.shouldNotBeNull(period, "period");
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean hasInside = target.compareTo(period.getStart()) >= 0 &&
-			                    target.compareTo(period.getEnd()) <= 0;
+			target.compareTo(period.getEnd()) <= 0;
 
 		if (isDebugEnabled)
 			log.debug("기간[{}]에 대상날짜[{}]가 포함(Inside)되는지 여부를 검사. hasInside=[{}]",
@@ -242,9 +244,9 @@ public final class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean isIntersected = hasInside(period, target.getStart()) ||
-			                        hasInside(period, target.getEnd()) ||
-			                        (target.getStart().compareTo(period.getStart()) < 0 &&
-				                         target.getEnd().compareTo(period.getEnd()) > 0);
+			hasInside(period, target.getEnd()) ||
+			(target.getStart().compareTo(period.getStart()) < 0 &&
+				target.getEnd().compareTo(period.getEnd()) > 0);
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]에 교차구간이 있는지 확인합니다. isIntersected=[{}]",
 			          asString(period), asString(target), isIntersected);
@@ -262,10 +264,10 @@ public final class TimeTool {
 		PeriodRelation relation = getRelation(period, target);
 
 		boolean isOverlaps = relation != PeriodRelation.After &&
-			                     relation != PeriodRelation.StartTouching &&
-			                     relation != PeriodRelation.EndTouching &&
-			                     relation != PeriodRelation.Before &&
-			                     relation != PeriodRelation.NoRelation;
+			relation != PeriodRelation.StartTouching &&
+			relation != PeriodRelation.EndTouching &&
+			relation != PeriodRelation.Before &&
+			relation != PeriodRelation.NoRelation;
 
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]이 overlap 되는지 확인합니다. isOverlaps=[{}]",
@@ -284,8 +286,8 @@ public final class TimeTool {
 		TimeBlock intersectionBlock = null;
 
 		if (intersectsWith(period, target)) {
-			Date start = max(period.getStart(), target.getStart());
-			Date end = min(period.getEnd(), target.getEnd());
+			DateTime start = max(period.getStart(), target.getStart());
+			DateTime end = min(period.getEnd(), target.getEnd());
 
 			intersectionBlock = new TimeBlock(start, end, period.isReadonly());
 		}
@@ -299,8 +301,8 @@ public final class TimeTool {
 		Guard.shouldNotBeNull(period, "period");
 		Guard.shouldNotBeNull(target, "target");
 
-		Date start = min(period.getStart(), target.getStart());
-		Date end = max(period.getEnd(), target.getEnd());
+		DateTime start = min(period.getStart(), target.getStart());
+		DateTime end = max(period.getEnd(), target.getEnd());
 		TimeBlock unionBlock = new TimeBlock(start, end, period.isReadonly());
 
 		if (isDebugEnabled)
@@ -320,8 +322,8 @@ public final class TimeTool {
 		TimeRange intersectionRange = null;
 
 		if (intersectsWith(period, target)) {
-			Date start = max(period.getStart(), target.getStart());
-			Date end = min(period.getEnd(), target.getEnd());
+			DateTime start = max(period.getStart(), target.getStart());
+			DateTime end = min(period.getEnd(), target.getEnd());
 			intersectionRange = new TimeRange(start, end, period.isReadonly());
 		}
 
@@ -342,8 +344,8 @@ public final class TimeTool {
 		TimeRange unionRange = null;
 
 		if (intersectsWith(period, target)) {
-			Date start = min(period.getStart(), target.getStart());
-			Date end = max(period.getEnd(), target.getEnd());
+			DateTime start = min(period.getStart(), target.getStart());
+			DateTime end = max(period.getEnd(), target.getEnd());
 			unionRange = new TimeRange(start, end, period.isReadonly());
 		}
 
@@ -357,10 +359,6 @@ public final class TimeTool {
 	// endregion
 
 	// region << Trim >>
-
-	public static Date trimToYear(Date moment) {
-		return trimToYear(new DateTime(moment.getTime())).toDate();
-	}
 
 	public static DateTime trimToYear(DateTime moment) {
 		return new DateTime().withYear(moment.getYear());

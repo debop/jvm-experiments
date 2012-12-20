@@ -4,8 +4,6 @@ import kr.kth.commons.base.Guard;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
 /**
  * 설명을 추가하세요.
  * User: sunghyouk.bae@gmail.com
@@ -30,7 +28,7 @@ public class TimeBlock extends TimePeriodBase implements ITimeBlock {
 		this.duration = super.getDuration();
 	}
 
-	public TimeBlock(Date moment) {
+	public TimeBlock(DateTime moment) {
 		this(moment, false);
 	}
 

@@ -30,7 +30,7 @@ public interface ITimePeriodContainer extends List<ITimePeriod>, ITimePeriod {
 	/**
 	 * 지정한 {@link ITimePeriod} 들을 컨테이너에 모두 추가한다.
 	 */
-	void addAll(Iterable<ITimePeriod> periods);
+	void addAll(Iterable<? extends ITimePeriod> periods);
 
 	/**
 	 * 모든 항목을 {@link ITimePeriod#getStart()} 를 기준으로 정렬합니다.

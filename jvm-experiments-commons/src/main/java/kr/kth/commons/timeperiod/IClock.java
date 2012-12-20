@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * kr.kth.commons.timeperiod.IClock
@@ -12,12 +12,12 @@ public interface IClock {
 	/**
 	 * 현재 시각
 	 */
-	Date getNow();
+	DateTime getNow();
 
 	/**
 	 * 오늘 (현재 시각의 날짜부분만)
 	 */
-	Date getToday();
+	DateTime getToday();
 
 	/**
 	 * 현재 시각의 시간 부분만
