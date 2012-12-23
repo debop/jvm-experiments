@@ -16,6 +16,8 @@ public class TimeRange extends TimePeriodBase implements ITimeRange {
 
 	public static final TimeRange Anytime = new TimeRange(true);
 
+	// region << Constructors >>
+
 	public TimeRange() {
 		super();
 	}
@@ -51,6 +53,12 @@ public class TimeRange extends TimePeriodBase implements ITimeRange {
 	public TimeRange(ITimePeriod src) {
 		super(src);
 	}
+
+	public TimeRange(ITimePeriod src, boolean readonly) {
+		super(src, readonly);
+	}
+
+	// endregion
 
 	@Override
 	public void setStart(DateTime start) {

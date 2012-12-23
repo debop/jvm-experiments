@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * {@link ITimePeriod} 컬렉션입니다.
@@ -9,23 +9,23 @@ import java.util.Date;
  */
 public interface ITimePeriodCollection extends ITimePeriodContainer {
 
-	boolean hasInsidePeriods(ITimePeriod period);
+	boolean hasInsidePeriods(final ITimePeriod target);
 
-	boolean hasOverlapPeriods(ITimePeriod period);
+	boolean hasOverlapPeriods(final ITimePeriod target);
 
-	boolean hasIntersectionPeriods(Date moment);
+	boolean hasIntersectionPeriods(final DateTime moment);
 
-	boolean hasIntersectionPeriods(ITimePeriod period);
+	boolean hasIntersectionPeriods(final ITimePeriod target);
 
-	Iterable<ITimePeriod> insidePeriods(ITimePeriod period);
+	Iterable<ITimePeriod> insidePeriods(final ITimePeriod target);
 
-	Iterable<ITimePeriod> overlapPeriods(ITimePeriod period);
+	Iterable<ITimePeriod> overlapPeriods(final ITimePeriod target);
 
-	Iterable<ITimePeriod> intersectionPeriods(Date moment);
+	Iterable<ITimePeriod> intersectionPeriods(final DateTime moment);
 
-	Iterable<ITimePeriod> intersectionPeriods(ITimePeriod period);
+	Iterable<ITimePeriod> intersectionPeriods(final ITimePeriod target);
 
-	Iterable<ITimePeriod> relationPeriods(ITimePeriod period, PeriodRelation relation);
+	Iterable<ITimePeriod> relationPeriods(final ITimePeriod target, PeriodRelation relation);
 
-	Iterable<ITimePeriod> relationPeriods(ITimePeriod period, PeriodRelation... relations);
+	Iterable<ITimePeriod> relationPeriods(final ITimePeriod target, PeriodRelation... relations);
 }

@@ -183,4 +183,36 @@ public final class Guard {
 			throw new IllegalArgumentException(format(SR.ShouldNotBeNegativeNumber, argName));
 		return arg;
 	}
+
+	public static void shouldBeInRange(int index, int fromInclude, int toExclude, String argName) {
+		if (index >= fromInclude && index < toExclude)
+			return;
+
+		String errMsg = format("%s[%d] 이 범위 [%d, %d)를 벗어났습니다.", argName, index, fromInclude, toExclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeInRange(long index, long fromInclude, long toExclude, String argName) {
+		if (index >= fromInclude && index < toExclude)
+			return;
+
+		String errMsg = format("%s[%d] 이 범위 [%d, %d)를 벗어났습니다.", argName, index, fromInclude, toExclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeBetween(int index, int fromInclude, int toInclude, String argName) {
+		if (index >= fromInclude && index < toInclude)
+			return;
+
+		String errMsg = format("%s[%d] 이 범위 [%d, %d]를 벗어났습니다.", argName, index, fromInclude, toInclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeBetween(long index, long fromInclude, long toInclude, String argName) {
+		if (index >= fromInclude && index < toInclude)
+			return;
+
+		String errMsg = format("%s[%d] 이 범위 [%d, %d]를 벗어났습니다.", argName, index, fromInclude, toInclude);
+		throw new IllegalArgumentException(errMsg);
+	}
 }

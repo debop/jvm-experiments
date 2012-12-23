@@ -15,4 +15,8 @@ public enum HalfYearKind {
 	HalfYearKind(int halfYear) {
 		this.halfYear = halfYear;
 	}
+
+	public final int getValue() {
+		return halfYear;
+	}
 }

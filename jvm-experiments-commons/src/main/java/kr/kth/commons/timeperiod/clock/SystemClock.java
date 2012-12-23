@@ -14,7 +14,7 @@ public class SystemClock extends ClockBase {
 	SystemClock() {}
 
 	@Override
-	public DateTime getNow() {
+	public DateTime now() {
 		return new DateTime();
 	}
 }

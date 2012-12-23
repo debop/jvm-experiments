@@ -1,11 +1,12 @@
 package kr.kth.commons.timeperiod;
 
 import kr.kth.commons.base.Guard;
+import kr.kth.commons.timeperiod.tools.TimeTool;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 /**
- * 설명을 추가하세요.
+ * 기준 일자의 시간 간격을 이용하여 기간을 표현합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 20
  */
@@ -14,6 +15,7 @@ public class TimeBlock extends TimePeriodBase implements ITimeBlock {
 
 	public static final TimeBlock Anytime = new TimeBlock(true);
 
+	private static final long serialVersionUID = -6360640930351210761L;
 
 	private long duration;
 
@@ -110,6 +112,7 @@ public class TimeBlock extends TimePeriodBase implements ITimeBlock {
 	public TimeBlock copy(long offset) {
 		if (offset == 0)
 			return new TimeBlock(this);
+
 		return new TimeBlock(hasStart() ? getStart().plus(offset) : getStart(),
 		                     hasEnd() ? getEnd().plus(offset) : getEnd(),
 		                     isReadonly());
@@ -158,23 +161,24 @@ public class TimeBlock extends TimePeriodBase implements ITimeBlock {
 	@Override
 	public ITimeBlock getNextBlock(long offset) {
 		long startOff = (offset > 0) ? offset : -offset;
-		return new TimeBlock(getEnd().plus(startOff), this.duration, isReadonly());
+		ITimeBlock result = new TimeBlock(getEnd().plus(startOff), this.duration, isReadonly());
+
+		if (log.isDebugEnabled())
+			log.debug("Next Block을 구합니다. offset=[{}], NextBlock=[{}]", offset, result);
+
+		return result;
 	}
 
 	@Override
 	public ITimePeriod getIntersection(ITimePeriod that) {
 		Guard.shouldNotBeNull(that, "that");
-		// TODO: TimeTool.getIntersectionBlock 구현 필요
-		// return TimeTool.getIntersectionBlock(this, that);
-		throw new IllegalStateException("구현 중");
+		return TimeTool.getIntersectionBlock(this, that);
 	}
 
 	@Override
 	public ITimePeriod getUnion(ITimePeriod that) {
 		Guard.shouldNotBeNull(that, "that");
-		// TODO: TimeTool.getUnionBlock 구현 필요
-		// return TimeTool.getUnionBlock(this, that);
-		throw new IllegalStateException("구현 중");
+		return TimeTool.getUnionBlock(this, that);
 	}
 
 	protected void assertValidDuration(long duration) {

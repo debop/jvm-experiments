@@ -2,9 +2,7 @@ package kr.kth.commons.timeperiod.tools;
 
 import com.google.common.collect.Lists;
 import kr.kth.commons.base.Guard;
-import kr.kth.commons.timeperiod.ITimePeriod;
-import kr.kth.commons.timeperiod.PeriodRelation;
-import kr.kth.commons.timeperiod.TimeBlock;
+import kr.kth.commons.timeperiod.*;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
@@ -57,11 +55,162 @@ public final class TimeTool {
 		}
 	}
 
-	// region << Iteration >>
+	// region << Calendar >>
+
+	/**
+	 * 지정한 {@link ITimeCalendar} 기준으로 moment가 속한 년도를 구합니다.
+	 */
+	public static int getYearOf(ITimeCalendar calendar, DateTime moment) {
+		return getYearOf(calendar.getBaseMonthOfYear(), calendar.getYear(moment), calendar.getMonth(moment));
+	}
+
+	public static int getYearOf(DateTime moment, int startMonthOfYear) {
+		return getYearOf(startMonthOfYear, moment.getYear(), moment.getMonthOfYear());
+	}
+
+	public static int getYearOf(int startMonthOfYear, int year, int monthOfYear) {
+		return (monthOfYear >= startMonthOfYear) ? year : year - 1;
+	}
+
+	public static YearAndHalfYear nextHalfyear(HalfYearKind startHalfyear) {
+		Integer year = 0;
+		HalfYearKind halfyear = HalfYearKind.First;
+
+		nextHalfyear(startHalfyear, year, halfyear);
+		return new YearAndHalfYear(year, halfyear);
+	}
+
+	public static void nextHalfyear(HalfYearKind startHalfyear, Integer year, HalfYearKind halfyear) {
+		addHalfyear(startHalfyear, 1, year, halfyear);
+	}
+
+	// endregion
+
+
+	// region << Current >>
+
+
+	// endregion
+
+
+	// region << Start / End TimeOfYear >>
+
+	public static DateTime startTimeOfYear(DateTime moment) {
+		return startTimeOfYear(moment, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime startTimeOfYear(DateTime moment, int startMonthOfYear) {
+		int monthOffset = moment.getMonthOfYear() - startMonthOfYear;
+		int year = monthOffset < 0 ? moment.getYear() - 1 : moment.getYear();
+
+		DateTime result = new DateTime(year, startMonthOfYear, 1, 0, 0);
+
+		if (log.isDebugEnabled())
+			log.debug("DateTime [{}]이 속한 Year의 시작일은 [{}] 입니다. startMonthOfYear=[{}]",
+			          moment, result, startMonthOfYear);
+
+		return result;
+	}
+
+	public static DateTime startTimeOfYear(int year) {
+		return startTimeOfYear(year, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime startTimeOfYear(int year, int startMonthOfYear) {
+		return new DateTime(year, startMonthOfYear, 1, 0, 0);
+	}
+
+	public static DateTime endTimeOfYear(DateTime moment) {
+		return endTimeOfYear(moment, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime endTimeOfYear(DateTime moment, int startMonthOfYear) {
+		return startTimeOfYear(moment, startMonthOfYear)
+			.plusYears(1)
+			.minus(TimeSpec.MinTicks);
+	}
+
+	public static DateTime endTimeOfYear(int year) {
+		return endTimeOfYear(year, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime endTimeOfYear(int year, int startMonthOfYear) {
+		return endTimeOfYear(startTimeOfYear(year, startMonthOfYear), startMonthOfYear);
+	}
+
+	/**
+	 * 전년도 시작 시각
+	 */
+	public static DateTime startTimeOfLastYear(DateTime moment) {
+		return startTimeOfYear(moment.getYear() - 1);
+	}
+
+	/**
+	 * 전년도 마지막 시각
+	 */
+	public static DateTime endTimeOfLastYear(DateTime moment) {
+		return endTimeOfYear(moment.getYear() - 1);
+	}
+
+	// endregion
+
+	// region << Start / End TimeOfHalfyear >>
+
+	public static DateTime startTimeOfHalfyear(DateTime moment) {
+		return startTimeOfHalfyear(moment, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime startTimeOfHalfyear(DateTime moment, int startMonthOfYear) {
+		HalfYearKind halfyear = getHalfyearOfMonth(startMonthOfYear, moment.getMonthOfYear()).getValue();
+		int months = (halfyear.getValue() - 1) * TimeSpec.MonthsPerHalfyear;
+
+		DateTime result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months);
+
+		if (log.isDebugEnabled())
+			log.debug("시간[{}]이 속한 반기의 시작일은 [{}] 입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear);
+
+		return result;
+	}
+
+	public static DateTime startTimeOfHalfyear(int year, HalfYearKind halfYearKind) {
+		return startTimeOfHalfyear(year, halfYearKind, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime startTimeOfHalfyear(int year, HalfYearKind halfyearKind, int startMonthOfYear) {
+		int month = (halfyearKind.getValue() - 1) * TimeSpec.MonthsPerHalfyear + 1;
+		return startTimeOfHalfyear(new DateTime(year, month, 1, 0, 0),
+		                           startMonthOfYear);
+	}
+
+	public static DateTime endTimeOfHalfyear(DateTime moment) {
+		return endTimeOfHalfyear(moment, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime endTimeOfHalfyear(DateTime moment, int startMonthOfYear) {
+		return
+			startTimeOfHalfyear(moment)
+				.plusMonths(TimeSpec.MonthsPerHalfyear)
+				.minus(TimeSpec.MinPositiveDuration);
+	}
+
+	public static DateTime endTimeOfHalfyear(int year, HalfYearKind halfYearKind) {
+		return endTimeOfHalfyear(year, halfYearKind, TimeSpec.CalendarYearStartMonth);
+	}
+
+	public static DateTime endTimeOfHalfyear(int year, HalfYearKind halfyearKind, int startMonthOfYear) {
+		int month = (halfyearKind.getValue() - 1) * TimeSpec.MonthsPerHalfyear + 1;
+		return endTimeOfHalfyear(new DateTime(year, month, 1, 0, 0), startMonthOfYear);
+	}
+
+	// endregion
+
+
+	// region << Iterables >>
 
 	public static List<? extends ITimePeriod> forEachYears(ITimePeriod period) {
+
 		if (isDebugEnabled)
-			log.debug("기간[{}]에 대해 Year 단위로 열거합니다", period);
+			log.debug("기간 [{}]에 대해 Year 단위로 열거합니다", period);
 
 		if (period == null || period.isAnyTime())
 			return Lists.newArrayList();
@@ -69,10 +218,18 @@ public final class TimeTool {
 		assertHasPeriod(period);
 
 		if (period.getStart().getYear() == period.getEnd().getYear()) {
-			return Lists.newArrayList(new TimeRange(period.getStart(), period.getEnd()));
+			return Lists.newArrayList(getTimeRange(period.getStart(), period.getEnd()));
 		}
 
 		List<ITimePeriod> years = Lists.newArrayList();
+
+		years.add(getTimeRange(period.getStart(), endTimeOfYear(period.getStart())));
+		DateTime current = startTimeOfYear(period.getStart()).plusYears(1);
+
+		int endYear = period.getEnd().getYear();
+		while (current.getYear() < endYear) {
+			// TODO: 구현 중
+		}
 
 		return years;
 	}
@@ -154,6 +311,38 @@ public final class TimeTool {
 			start = start.plus(duration);
 			duration = -duration;
 		}
+	}
+
+	// endregion
+
+	// region << Period >>
+
+	public static TimeBlock getTimeBlock(DateTime start, long duration) {
+		return new TimeBlock(start, duration, false);
+	}
+
+	public static TimeBlock getTimeBlock(DateTime start, DateTime end) {
+		return new TimeBlock(start, end, false);
+	}
+
+	public static TimeRange getTimeRange(DateTime start, long duration) {
+		return new TimeRange(start, duration, false);
+	}
+
+	public static TimeRange getTimeRange(DateTime start, DateTime end) {
+		return new TimeRange(start, end, false);
+	}
+
+	public static TimeRange getRelativeYearPeriod(DateTime start, int years) {
+		return new TimeRange(start, start.plusYears(years));
+	}
+
+	public static TimeRange getRelativeMonthPeriod(DateTime start, int months) {
+		return new TimeRange(start, start.plusMonths(months));
+	}
+
+	public static TimeRange getRelativeDayPeriod(DateTime start, int days) {
+		return new TimeRange(start, start.plusDays(days));
 	}
 
 	// endregion
@@ -365,51 +554,51 @@ public final class TimeTool {
 	}
 
 	public static DateTime trimToMonth(DateTime moment) {
-		return trimToMonth(moment, moment.getMonthOfYear());
+		return trimToMonth(moment, 1);
 	}
 
-	public static DateTime trimToMonth(DateTime moment, int month) {
-		return trimToYear(moment).plusMonths(month);
+	public static DateTime trimToMonth(DateTime moment, int monthOfYear) {
+		return trimToDay(moment).withMonthOfYear(monthOfYear);
 	}
 
 	public static DateTime trimToDay(DateTime moment) {
-		return trimToDay(moment, moment.getDayOfMonth());
+		return trimToDay(moment, 1);
 	}
 
 	public static DateTime trimToDay(DateTime moment, int dayOfMonth) {
-		return trimToMonth(moment, moment.getMonthOfYear()).plusDays(dayOfMonth);
+		return trimToHour(moment).withDayOfMonth(dayOfMonth);
 	}
 
 	public static DateTime trimToHour(DateTime moment) {
-		return trimToHour(moment, moment.getHourOfDay());
+		return trimToHour(moment, 0);
 	}
 
 	public static DateTime trimToHour(DateTime moment, int hourOfDay) {
-		return trimToDay(moment, moment.getDayOfMonth()).plusHours(hourOfDay);
+		return trimToMinute(moment).withHourOfDay(hourOfDay);
 	}
 
 	public static DateTime trimToMinute(DateTime moment) {
-		return trimToMinute(moment, moment.getMinuteOfHour());
+		return trimToMinute(moment, 0);
 	}
 
 	public static DateTime trimToMinute(DateTime moment, int minuteOfHour) {
-		return trimToHour(moment, moment.getHourOfDay()).plusMinutes(minuteOfHour);
+		return trimToSecond(moment).withMinuteOfHour(minuteOfHour);
 	}
 
 	public static DateTime trimToSecond(DateTime moment) {
-		return trimToSecond(moment, moment.getSecondOfMinute());
+		return trimToSecond(moment, 0);
 	}
 
 	public static DateTime trimToSecond(DateTime moment, int secondsOfMinute) {
-		return trimToMinute(moment).plusSeconds(secondsOfMinute);
+		return trimToMillis(moment).withSecondOfMinute(secondsOfMinute);
 	}
 
 	public static DateTime trimToMillis(DateTime moment) {
-		return trimToSecond(moment, moment.getMillisOfSecond());
+		return trimToSecond(moment, 0);
 	}
 
 	public static DateTime trimToMillis(DateTime moment, int millisOfSecond) {
-		return trimToSecond(moment).plusMillis(millisOfSecond);
+		return moment.withMillisOfSecond(millisOfSecond);
 	}
 
 	// endregion

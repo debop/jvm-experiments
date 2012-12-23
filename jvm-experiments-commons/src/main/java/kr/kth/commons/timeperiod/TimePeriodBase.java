@@ -3,9 +3,13 @@ package kr.kth.commons.timeperiod;
 import com.google.common.base.Objects;
 import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
+import kr.kth.commons.timeperiod.tools.TimeTool;
+import kr.kth.commons.tools.HashTool;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+
+import static kr.kth.commons.base.Guard.firstNotNull;
 
 /**
  * 기간을 나타내는 기본 클래스입니다.
@@ -42,8 +46,8 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	}
 
 	protected TimePeriodBase(DateTime start, DateTime end, boolean readonly) {
-		this.start = Guard.firstNotNull(start, TimeSpec.MinPeriodTime);
-		this.end = Guard.firstNotNull(end, TimeSpec.MaxPeriodTime);
+		this.start = firstNotNull(start, TimeSpec.MinPeriodTime);
+		this.end = firstNotNull(end, TimeSpec.MaxPeriodTime);
 		setReadonly(readonly);
 	}
 
@@ -52,7 +56,7 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	}
 
 	protected TimePeriodBase(DateTime start, Long duration, boolean readonly) {
-		this.start = Guard.firstNotNull(start, TimeSpec.MinPeriodTime);
+		this.start = firstNotNull(start, TimeSpec.MinPeriodTime);
 		this.end = TimeSpec.MaxPeriodTime;
 		setDuration(duration);
 		setReadonly(readonly);
@@ -86,13 +90,12 @@ public abstract class TimePeriodBase implements ITimePeriod {
 		return (end.getMillis() - start.getMillis());
 	}
 
-	@Override
 	public void setDuration(Long duration) {
 		assertMutable();
 		assert (duration != null) && (duration >= 0);
 
 		if (hasStart())
-			this.end = start.plus(duration);
+			this.end = this.start.plus(duration);
 	}
 
 	@Override
@@ -137,11 +140,10 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	@Override
 	public void setup(DateTime start, DateTime end) {
 		assertMutable();
-		start = Guard.firstNotNull(start, TimeSpec.MinPeriodTime);
-		end = Guard.firstNotNull(end, TimeSpec.MaxPeriodTime);
+		start = firstNotNull(start, TimeSpec.MinPeriodTime);
+		end = firstNotNull(end, TimeSpec.MaxPeriodTime);
 	}
 
-	@Override
 	public ITimePeriod copy() {
 		return copy(0);
 	}
@@ -168,43 +170,68 @@ public abstract class TimePeriodBase implements ITimePeriod {
 	}
 
 	@Override
-	public void isSamePeriod(ITimePeriod that) {
-		//To change body of implemented methods use File | Settings | File Templates.
+	public boolean isSamePeriod(ITimePeriod that) {
+		return (that != null) &&
+			Objects.equal(this.start, that.getStart()) &&
+			Objects.equal(this.end, that.getEnd());
+
 	}
 
 	@Override
 	public boolean hasInside(DateTime moment) {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return TimeTool.hasInside(this, moment);
+	}
+
+	@Override
+	public boolean hasInside(ITimePeriod that) {
+		Guard.shouldNotBeNull(that, "that");
+		return TimeTool.hasInside(this, that);
+	}
+
+	@Override
+	public boolean intersectsWith(ITimePeriod that) {
+		return TimeTool.intersectsWith(this, that);
 	}
 
 	@Override
 	public boolean overlapsWith(ITimePeriod that) {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return TimeTool.overlapsWith(this, that);
 	}
 
 	@Override
 	public void reset() {
-		//To change body of implemented methods use File | Settings | File Templates.
+		assertMutable();
+		this.start = TimeSpec.MinPeriodTime;
+		this.end = TimeSpec.MaxPeriodTime;
 	}
 
 	@Override
 	public PeriodRelation getRelation(ITimePeriod that) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		Guard.shouldNotBeNull(that, "that");
+		return TimeTool.getRelation(this, that);
+	}
+
+	@Override
+	public String getDescription(ITimeFormatter formatter) {
+		return format(formatter);
 	}
 
 	@Override
 	public ITimePeriod getIntersection(ITimePeriod that) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		Guard.shouldNotBeNull(that, "that");
+		return TimeTool.getIntersectionRange(this, that);
 	}
 
 	@Override
 	public ITimePeriod getUnion(ITimePeriod that) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		Guard.shouldNotBeNull(that, "that");
+		return TimeTool.getUnionBlock(this, that);
 	}
 
 	@Override
 	public int compareTo(ITimePeriod o) {
-		return 0;  //To change body of implemented methods use File | Settings | File Templates.
+		Guard.shouldNotBeNull(o, "o");
+		return this.start.compareTo(o.getStart());
 	}
 
 	protected final void assertMutable() {
@@ -212,13 +239,23 @@ public abstract class TimePeriodBase implements ITimePeriod {
 			throw new IllegalStateException("Current object is readonly.");
 	}
 
+	protected String format(ITimeFormatter formatter) {
+		return formatter.getPeriod(getStart(), getEnd(), getDuration());
+	}
+
+
+	@Override
+	public int hashCode() {
+		return HashTool.compute(getStart(), getEnd(), isReadonly());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return (obj != null) && (obj.getClass() == getClass()) && (obj.hashCode() == hashCode());
+	}
+
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("start", getStart())
-		              .add("end", getEnd())
-		              .add("duration", getDuration())
-		              .add("readonly", isReadonly())
-		              .toString();
+		return getClass().getName() + "# " + getDescription(null);
 	}
 }

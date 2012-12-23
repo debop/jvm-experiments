@@ -1,5 +1,6 @@
 package kr.kth.data.domain.model;
 
+import com.google.common.base.Defaults;
 import com.google.common.base.Objects;
 import kr.kth.commons.tools.ReflectTool;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
 		if (sameType) {
 			EntityBase<TId> entity = (EntityBase<TId>) obj;
 			return hasSameNonDefaultIdAs(entity) ||
-				       ((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
+				((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
 		}
 		return false;
 	}
@@ -63,7 +64,8 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
 
 		try {
 			Class<TId> idClass = ReflectTool.getGenericParameterType(this);
-			TId defaultValue = (TId) idClass.newInstance();
+
+			TId defaultValue = Defaults.defaultValue(idClass); //ActivatorTool.createInstance(idClass);
 
 			boolean idHasValue = !java.util.Objects.equals(id, defaultValue);
 			if (idHasValue) {

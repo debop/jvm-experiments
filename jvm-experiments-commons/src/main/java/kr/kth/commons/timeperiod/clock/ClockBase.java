@@ -26,7 +26,7 @@ public abstract class ClockBase implements IClock, Serializable {
 	}
 
 	@Override
-	public DateTime getNow() {
+	public DateTime now() {
 		if (now == null)
 			now = new DateTime();
 		return now;
@@ -34,12 +34,12 @@ public abstract class ClockBase implements IClock, Serializable {
 
 
 	@Override
-	public DateTime getToday() {
-		return TimeTool.trimToDay(this.getNow());
+	public DateTime today() {
+		return TimeTool.trimToDay(this.now());
 	}
 
 	@Override
-	public long getTimeOfDay() {
-		return getNow().getMillisOfDay();
+	public long timeOfDay() {
+		return now().getMillisOfDay();
 	}
 }

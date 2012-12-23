@@ -17,8 +17,6 @@ public interface ITimePeriod extends Comparable<ITimePeriod>, Serializable {
 
 	Long getDuration();
 
-	void setDuration(Long duration);
-
 	String getDurationDescription();
 
 	boolean hasStart();
@@ -35,21 +33,25 @@ public interface ITimePeriod extends Comparable<ITimePeriod>, Serializable {
 
 	void setup(DateTime start, DateTime end);
 
-	ITimePeriod copy();
-
 	ITimePeriod copy(long offset);
 
 	void move(long offset);
 
-	void isSamePeriod(ITimePeriod that);
+	boolean isSamePeriod(ITimePeriod that);
 
 	boolean hasInside(DateTime moment);
+
+	boolean hasInside(ITimePeriod that);
+
+	boolean intersectsWith(ITimePeriod that);
 
 	boolean overlapsWith(ITimePeriod that);
 
 	void reset();
 
 	PeriodRelation getRelation(ITimePeriod that);
+
+	String getDescription(ITimeFormatter formatter);
 
 	ITimePeriod getIntersection(ITimePeriod that);
 

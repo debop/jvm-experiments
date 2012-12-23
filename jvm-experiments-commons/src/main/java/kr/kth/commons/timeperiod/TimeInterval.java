@@ -6,6 +6,8 @@ import kr.kth.commons.timeperiod.tools.TimeTool;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
+import static kr.kth.commons.base.Guard.shouldNotBeNull;
+
 /**
  * 설명을 추가하세요.
  * User: sunghyouk.bae@gmail.com
@@ -240,41 +242,69 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 
 	@Override
 	public void expandStartTo(DateTime moment) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		assertMutable();
+		if (start.compareTo(moment) > 0)
+			start = moment;
 	}
 
 	@Override
 	public void expandEndTo(DateTime moment) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		assertMutable();
+		if (end.compareTo(moment) < 0)
+			end = moment;
 	}
 
 	@Override
 	public void expandTo(DateTime moment) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		shouldNotBeNull(moment, "moment");
+		assertMutable();
+
+		expandStartTo(moment);
+		expandEndTo(moment);
 	}
 
 	@Override
 	public void expandTo(ITimePeriod period) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		shouldNotBeNull(period, "period");
+		assertMutable();
+
+		expandStartTo(period.getStart());
+		expandEndTo(period.getEnd());
 	}
 
 	@Override
 	public void shrinkStartTo(DateTime moment) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		shouldNotBeNull(moment, "moment");
+		assertMutable();
+
+		if (start.compareTo(moment) < 0)
+			start = moment;
 	}
 
 	@Override
 	public void shrinkEndTo(DateTime moment) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		shouldNotBeNull(moment, "moment");
+		assertMutable();
+
+		if (end.compareTo(moment) > 0)
+			end = moment;
 	}
 
 	@Override
 	public void shrinkTo(DateTime moment) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		shouldNotBeNull(moment, "moment");
+		assertMutable();
+
+		shrinkStartTo(moment);
+		shrinkEndTo(moment);
 	}
 
 	@Override
 	public void shrinkTo(ITimePeriod period) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		shouldNotBeNull(period, "period");
+		assertMutable();
+
+		shrinkStartTo(period.getStart());
+		shrinkEndTo(period.getEnd());
 	}
 }

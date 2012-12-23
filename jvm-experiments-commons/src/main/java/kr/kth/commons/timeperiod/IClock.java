@@ -12,15 +12,15 @@ public interface IClock {
 	/**
 	 * 현재 시각
 	 */
-	DateTime getNow();
+	DateTime now();
 
 	/**
 	 * 오늘 (현재 시각의 날짜부분만)
 	 */
-	DateTime getToday();
+	DateTime today();
 
 	/**
 	 * 현재 시각의 시간 부분만
 	 */
-	long getTimeOfDay();
+	long timeOfDay();
 }
