@@ -24,7 +24,10 @@
 		<springframework.version>3.2.0.RELEASE</springframework.version>
 		<spring.integration.version>2.2.0.RELEASE</spring.integration.version>
 		<guice.version>[3.0, )</guice.version>
+
+		<lambdaj.version>[2.3.3, )</lambdaj.version>
 		<bonecp.version>0.8.0-rc1</bonecp.version>
+
 
 		<slf4j.version>[1.7.1, )</slf4j.version>
 		<logback.version>[1.0.7, )</logback.version>
@@ -72,6 +75,51 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<args>
+								<arg>-make:transitive</arg>
+								<arg>-dependencyfile</arg>
+								<arg>${project.build.directory}/.scala_dependencies</arg>
+							</args>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<scalaVersion>${scala.version}</scalaVersion>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.scala-tools</groupId>
+				<artifactId>maven-scala-plugin</artifactId>
+				<version>2.14.2</version>
+				<executions>
+					<execution>
+						<id>compile-scala</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile-tests-scala</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -167,6 +215,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.googlecode.lambdaj</groupId>
+			<artifactId>lambdaj</artifactId>
+			<version>${lambdaj.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>[2.2.2, )</version>
@@ -250,6 +304,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>13.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.trove4j</groupId>
+			<artifactId>trove4j</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 
 		<dependency>
@@ -354,6 +414,19 @@
 			<artifactId>junit-benchmarks</artifactId>
 			<version>[0.4.0, )</version>
 			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-compiler</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -198,20 +198,13 @@ public abstract class CalendarTimeRange extends TimeRange implements ICalendarTi
 
 
 	@Override
-	public boolean equals(Object other) {
-		return (other != null) && (other instanceof ICalendarTimeRange) && hashCode() == other.hashCode();
-	}
-
-	@Override
 	public int hashCode() {
 		return HashTool.compute(super.hashCode(), timeCalendar);
 	}
 
 	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("description", getDescription(null))
-		              .add("timeCalendar", timeCalendar)
-		              .toString();
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("timeCalendar", timeCalendar);
 	}
 }

@@ -2,6 +2,7 @@ package kr.kth.commons.timeperiod;
 
 import com.google.common.base.Objects;
 import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.ValueObjectBase;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
 import kr.kth.commons.timeperiod.tools.TimeTool;
 import kr.kth.commons.tools.HashTool;
@@ -17,7 +18,7 @@ import static kr.kth.commons.base.Guard.firstNotNull;
  * Date: 12. 9. 18
  */
 @Slf4j
-public abstract class TimePeriodBase implements ITimePeriod {
+public abstract class TimePeriodBase extends ValueObjectBase implements ITimePeriod {
 
 	private static final long serialVersionUID = 7093665366996191218L;
 
@@ -243,19 +244,16 @@ public abstract class TimePeriodBase implements ITimePeriod {
 		return formatter.getPeriod(getStart(), getEnd(), getDuration());
 	}
 
-
 	@Override
 	public int hashCode() {
-		return HashTool.compute(getStart(), getEnd(), isReadonly());
+		return HashTool.compute(this.start, this.end, this.readonly);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return (obj != null) && (obj.getClass() == getClass()) && (obj.hashCode() == hashCode());
-	}
-
-	@Override
-	public String toString() {
-		return getClass().getName() + "# " + getDescription(null);
+	protected Objects.ToStringHelper buildStringHelper() {
+		return super.buildStringHelper()
+		            .add("start", start)
+		            .add("end", end)
+		            .add("readonly", readonly);
 	}
 }

@@ -1,6 +1,10 @@
 package kr.kth.commons.tools;
 
+import kr.kth.commons.base.Guard;
+
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * kr.kth.commons.tools.ListTool
@@ -27,6 +31,13 @@ public final class ListTool {
 		return min;
 	}
 
+	public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
+		Guard.shouldNotBeNull(comp, "comp");
+		if (coll == null) return null;
+
+		return Collections.max(coll, comp);
+	}
+
 	/**
 	 * 컬렉션에서 최대값을 가지는 요소를 구합니다.
 	 */
@@ -41,5 +52,15 @@ public final class ListTool {
 			if (item.compareTo(max) > 0) max = (T) item;
 		}
 		return max;
+	}
+
+	/**
+	 * 컬렉션에서 최대값을 구합니다.
+	 */
+	public static <T> T max(Collection<? extends T> coll, Comparator<? super T> comp) {
+		Guard.shouldNotBeNull(comp, "comp");
+		if (coll == null) return null;
+
+		return Collections.max(coll, comp);
 	}
 }

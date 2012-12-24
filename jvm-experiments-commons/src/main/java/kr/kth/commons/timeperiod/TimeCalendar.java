@@ -15,6 +15,8 @@ public class TimeCalendar implements ITimeCalendar {
 
 	private static final long serialVersionUID = -7246039577107197119L;
 
+	public static final TimeCalendar Default = new TimeCalendar();
+
 
 	@Override
 	public Locale getLocale() {

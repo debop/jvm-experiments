@@ -228,6 +228,7 @@ public final class TimeTool {
 
 		int endYear = period.getEnd().getYear();
 		while (current.getYear() < endYear) {
+
 			// TODO: 구현 중
 		}
 
