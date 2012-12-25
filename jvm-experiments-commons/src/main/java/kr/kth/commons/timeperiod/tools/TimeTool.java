@@ -12,12 +12,12 @@ import java.text.DateFormat;
 import java.util.*;
 
 /**
- * 설명을 추가하세요.
+ * DateTime 관련 Helper Class 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 18
  */
 @Slf4j
-public final class TimeTool {
+public class TimeTool {
 
 	private TimeTool() {}
 
@@ -55,6 +55,14 @@ public final class TimeTool {
 		}
 	}
 
+	public static DateTime DatePart(DateTime dateTime) {
+		return dateTime.withTimeAtStartOfDay();
+	}
+
+	public static DateTime TimePart(DateTime dateTime) {
+		return new DateTime(dateTime.getMillis() - dateTime.withTimeAtStartOfDay().getMillis());
+	}
+
 	// region << Calendar >>
 
 	/**
@@ -80,9 +88,64 @@ public final class TimeTool {
 		return new YearAndHalfYear(year, halfyear);
 	}
 
-	public static void nextHalfyear(HalfYearKind startHalfyear, Integer year, HalfYearKind halfyear) {
-		addHalfyear(startHalfyear, 1, year, halfyear);
+	public static void nextHalfyear(HalfYearKind startHalfyearKind, Integer year, HalfYearKind halfyearKind) {
+		// TODO: 구현 중
 	}
+
+	public static YearAndHalfYear previousHalfyear(HalfYearKind startHalfyearKind) {
+		return null;
+	}
+
+	public static void PreviousHalfyear(HalfYearKind startHalfyearKind, Integer year, HalfYearKind halfyearKind) {
+		addHalfyear(startHalfyearKind, -1, year, halfyearKind);
+	}
+
+	public static YearAndHalfYear addHalfyear(HalfYearKind startHalfyeearKind, int count) {
+		return addHalfyear(startHalfyeearKind, 0, count);
+	}
+
+	public static YearAndHalfYear addHalfyear(HalfYearKind startHalfyearKind, int startYear, int count) {
+		Integer year = null;
+		HalfYearKind halfyear = null;
+
+		addHalfyear(startYear, startHalfyearKind, count, year, halfyear);
+		return new YearAndHalfYear(year, halfyear);
+	}
+
+	public static void addHalfyear(HalfYearKind startHalfyearKind, int count, Integer year, HalfYearKind halfyearKind) {
+		addHalfyear(0, startHalfyearKind, count, year, halfyearKind);
+	}
+
+	public static void addHalfyear(int startYear, HalfYearKind startHalfyearKind, int count,
+	                               Integer year, HalfYearKind halfyearKind) {
+		int offsetYear = Math.abs(count) / TimeSpec.HalfyearsPerYear + 1;
+		int startHalfyearCount = ((startYear + offsetYear) * TimeSpec.HalfyearsPerYear) + (startHalfyearKind.getValue() - 1);
+		int targetHalfyearCount = startHalfyearCount + count;
+
+		year = (targetHalfyearCount / TimeSpec.HalfyearsPerYear) - offsetYear;
+		halfyearKind = HalfYearKind.valueOf((targetHalfyearCount % TimeSpec.HalfyearsPerYear) + 1);
+	}
+
+	public static HalfYearKind getHalfyearOfMonth(int yearMonth) {
+		return getHalfyearOfMonth(TimeSpec.CalendarYearStartMonth, yearMonth);
+	}
+
+	public static HalfYearKind getHalfyearOfMonth(int yearBaseMonth, int yearMonth) {
+		int yearMonthIndex = yearMonth - 1;
+		int yearStartMonthIndex = yearBaseMonth - 1;
+		if (yearMonthIndex < yearStartMonthIndex) {
+			yearMonthIndex += TimeSpec.MonthsPerYear;
+		}
+		int deltaMonths = yearMonthIndex - yearStartMonthIndex;
+		return HalfYearKind.valueOf((deltaMonths / TimeSpec.MonthsPerHalfyear) + 1);
+	}
+
+	public static int[] getMonthsOfHalfyear(HalfYearKind halfyear) {
+		return (halfyear == HalfYearKind.First)
+		       ? TimeSpec.FirstHalfyearMonths
+		       : TimeSpec.SecondHalfyearMonths;
+	}
+
 
 	// endregion
 
@@ -161,15 +224,16 @@ public final class TimeTool {
 	}
 
 	public static DateTime startTimeOfHalfyear(DateTime moment, int startMonthOfYear) {
-		HalfYearKind halfyear = getHalfyearOfMonth(startMonthOfYear, moment.getMonthOfYear()).getValue();
-		int months = (halfyear.getValue() - 1) * TimeSpec.MonthsPerHalfyear;
-
-		DateTime result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months);
-
-		if (log.isDebugEnabled())
-			log.debug("시간[{}]이 속한 반기의 시작일은 [{}] 입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear);
-
-		return result;
+//		HalfYearKind halfyearKind = getHalfyearOfMonth(startMonthOfYear, moment.getMonthOfYear()).getValue();
+//		int months = (halfyearKind.getValue() - 1) * TimeSpec.MonthsPerHalfyear;
+//
+//		DateTime result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months);
+//
+//		if (log.isDebugEnabled())
+//			log.debug("시간[{}]이 속한 반기의 시작일은 [{}] 입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear);
+//
+//		return result;
+		return null;
 	}
 
 	public static DateTime startTimeOfHalfyear(int year, HalfYearKind halfYearKind) {

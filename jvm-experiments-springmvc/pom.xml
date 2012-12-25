@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>jvm-experiments-parent</artifactId>
 		<groupId>jvm-experiments</groupId>
-		<version>${kr.escp.version}</version>
+		<version>${kr.kth.version}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jvm-experiments-springmvc</artifactId>
@@ -20,19 +20,19 @@
 		<dependency>
 			<groupId>jvm-experiments</groupId>
 			<artifactId>jvm-experiments-commons</artifactId>
-			<version>${kr.escp.version}</version>
+			<version>${kr.kth.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>jvm-experiments</groupId>
 			<artifactId>jvm-experiments-hibernate</artifactId>
-			<version>${kr.escp.version}</version>
+			<version>${kr.kth.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>jvm-experiments</groupId>
 			<artifactId>jvm-experiments-spring</artifactId>
-			<version>${kr.escp.version}</version>
+			<version>${kr.kth.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

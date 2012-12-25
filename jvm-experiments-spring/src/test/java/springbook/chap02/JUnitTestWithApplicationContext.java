@@ -1,5 +1,7 @@
 package springbook.chap02;
 
+import com.google.common.collect.Sets;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +9,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -24,8 +27,15 @@ public class JUnitTestWithApplicationContext {
 
 	@Autowired ApplicationContext context;
 
-	static Set<JUnitTestWithApplicationContext> testObjects = new HashSet<>();
-	static ApplicationContext contextObject = null;
+	private Set<JUnitTestWithApplicationContext> testObjects;
+	private ApplicationContext contextObject;
+
+
+	@Before
+	public void before() {
+		testObjects = Sets.newHashSet();
+		contextObject = null;
+	}
 
 	@Test
 	public void test1() {

@@ -1,8 +1,12 @@
 package kr.kth.commons.timeperiod.timerange;
 
 import com.google.common.collect.Lists;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.ITimeCalendar;
+import kr.kth.commons.timeperiod.ITimeFormatter;
 import kr.kth.commons.timeperiod.TimeCalendar;
+import kr.kth.commons.timeperiod.TimeFormatter;
+import kr.kth.commons.timeperiod.tools.TimeTool;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -33,8 +37,7 @@ public class HourRangeCollection extends HourTimeRange {
 	}
 
 	public List<HourRange> getHours() {
-
-		DateTime startHour = getStart().withTime(getStartHour(), 0, 0, 0);
+		DateTime startHour = TimeTool.trimToHour(getStart(), getStartHour());
 		List<HourRange> hourRanges = Lists.newArrayListWithCapacity(getHourCount());
 
 		for (int i = 0; i < getHourCount(); i++) {
@@ -42,5 +45,15 @@ public class HourRangeCollection extends HourTimeRange {
 		}
 
 		return hourRanges;
+	}
+
+	@Override
+	protected String format(ITimeFormatter formatter) {
+		ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
+		return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
+		                             fmt.getShortDate(getEnd()),
+		                             fmt.getShortTime(getStart()),
+		                             fmt.getShortTime(getEnd()),
+		                             getDuration());
 	}
 }

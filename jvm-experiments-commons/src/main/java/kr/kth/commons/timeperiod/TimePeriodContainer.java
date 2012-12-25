@@ -9,7 +9,6 @@ import kr.kth.commons.tools.ListTool;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -121,7 +120,7 @@ public class TimePeriodContainer implements ITimePeriodContainer {
 				Lists.transform(periods,
 				                new Function<ITimePeriod, DateTime>() {
 					                @Override
-					                public DateTime apply(@Nullable ITimePeriod input) {
+					                public DateTime apply(ITimePeriod input) {
 						                return input.getStart();
 					                }
 				                });
@@ -138,7 +137,7 @@ public class TimePeriodContainer implements ITimePeriodContainer {
 				Lists.transform(periods,
 				                new Function<ITimePeriod, DateTime>() {
 					                @Override
-					                public DateTime apply(@Nullable ITimePeriod input) {
+					                public DateTime apply(ITimePeriod input) {
 						                return input.getEnd();
 					                }
 				                });

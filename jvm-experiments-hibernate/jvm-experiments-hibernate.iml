@@ -22,7 +22,8 @@
     <facet type="scala" name="Scala">
       <configuration>
         <option name="compilerLibraryLevel" value="Project" />
-        <option name="compilerLibraryName" value="Maven: org.scala-lang:scala-compiler-bundle:2.10.0" />
+        <option name="compilerLibraryName" value="Maven: org.scala-lang:scala-compiler-bundle:2.10.0-M7" />
+        <option name="maximumHeapSize" value="1024" />
         <option name="vmOptions" value="" />
       </configuration>
     </facet>
@@ -35,7 +36,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire-reports" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -100,9 +105,9 @@
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.9" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0-rc1" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp-spring:0.8.0-rc1" level="project" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-compiler:2.10.0" level="project" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.0" level="project" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-reflect:2.10.0" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-compiler:2.10.0-M7" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.0-M7" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-reflect:2.10.0-M7" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:4.1.9.Final" level="project" />
     <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.1_spec:1.0.0.Final" level="project" />

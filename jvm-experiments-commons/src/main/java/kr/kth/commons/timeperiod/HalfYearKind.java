@@ -19,4 +19,8 @@ public enum HalfYearKind {
 	public final int getValue() {
 		return halfYear;
 	}
+
+	public static HalfYearKind valueOf(int value) {
+		return (value == 2) ? Second : First;
+	}
 }

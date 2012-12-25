@@ -43,13 +43,13 @@ public abstract class YearTimeRange extends YearCalendarTimeRange {
 		return getTimeCalendar().getYearName(getEndYear());
 	}
 
-	public Iterable<HalfyearRange> getHalfyears() {
-		// TODO: 구현 중
-	}
-
-	public Iterable<MonthRange> getMonths() {
-		// TODO: 구현 중
-	}
+//	public Iterable<HalfyearRange> getHalfyears() {
+//		// TODO: 구현 중
+//	}
+//
+//	public Iterable<MonthRange> getMonths() {
+//		// TODO: 구현 중
+//	}
 
 	@Override
 	public int hashCode() {

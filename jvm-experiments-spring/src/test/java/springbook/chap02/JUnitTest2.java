@@ -1,12 +1,13 @@
 package springbook.chap02;
 
+import com.google.common.collect.Sets;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -16,7 +17,13 @@ import static org.junit.Assert.assertThat;
  */
 public class JUnitTest2 {
 
-	static Set<JUnitTest2> testObjects = new HashSet<JUnitTest2>();
+	private Set<JUnitTest2> testObjects;
+
+	@Before
+	public void before() {
+		testObjects = Sets.newHashSet();
+	}
+
 
 	@Test
 	public void test1() {

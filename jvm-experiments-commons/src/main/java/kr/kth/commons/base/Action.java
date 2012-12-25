@@ -8,4 +8,5 @@ package kr.kth.commons.base;
 public interface Action {
 
 	public void perform();
+
 }

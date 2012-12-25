@@ -1,8 +1,12 @@
 package kr.kth.commons.timeperiod.timerange;
 
 import com.google.common.collect.Lists;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.timeperiod.ITimeCalendar;
+import kr.kth.commons.timeperiod.ITimeFormatter;
 import kr.kth.commons.timeperiod.TimeCalendar;
+import kr.kth.commons.timeperiod.TimeFormatter;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -12,6 +16,7 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 25.
  */
+@Slf4j
 public class MinuteRangeCollection extends MinuteTimeRange {
 
 	private static final long serialVersionUID = 3798232473967314158L;
@@ -34,13 +39,27 @@ public class MinuteRangeCollection extends MinuteTimeRange {
 
 	public List<MinuteRange> getMinutes() {
 
-		DateTime startMinute = getStart().withTime(getStartHour(), getStartMinute(), 0, 0);
+		DateTime startMinute = getStart().withHourOfDay(getStartHour()).withMinuteOfHour(getStartMinute());
 		List<MinuteRange> minuteRanges = Lists.newArrayListWithCapacity(getMinuteCount());
+
+		if (log.isDebugEnabled())
+			log.debug("분단위 기간을 나타내는 MinuteRange 컬렉션을 빌드합니다. startMinute=[{}], minuteCount=[{}]",
+			          startMinute, getMinuteCount());
 
 		for (int i = 0; i < getMinuteCount(); i++) {
 			minuteRanges.add(new MinuteRange(startMinute.plusMinutes(i), getTimeCalendar()));
 		}
 
 		return minuteRanges;
+	}
+
+	@Override
+	protected String format(ITimeFormatter formatter) {
+		ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
+		return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
+		                             fmt.getShortDate(getEnd()),
+		                             fmt.getShortTime(getStart()),
+		                             fmt.getShortTime(getEnd()),
+		                             getDuration());
 	}
 }

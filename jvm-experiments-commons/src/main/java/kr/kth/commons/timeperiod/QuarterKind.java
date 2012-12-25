@@ -30,4 +30,25 @@ public enum QuarterKind {
 	QuarterKind(int quarter) {
 		this.quarter = quarter;
 	}
+
+	public int intValue() {
+		return quarter;
+	}
+
+	public static QuarterKind valueOf(Integer quarter) {
+		if (quarter == null)
+			return null;
+		switch (quarter) {
+			case 1:
+				return QuarterKind.First;
+			case 2:
+				return QuarterKind.Second;
+			case 3:
+				return QuarterKind.Third;
+			case 4:
+				return QuarterKind.Fouth;
+			default:
+				throw new RuntimeException("지원히지 않는 값입니다. quarter=" + quarter);
+		}
+	}
 }
