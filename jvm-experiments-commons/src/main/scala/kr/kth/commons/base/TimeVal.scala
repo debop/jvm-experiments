@@ -1,6 +1,5 @@
 package kr.kth.commons.base
 
-import lombok.extern.slf4j.Slf4j
 import kr.kth.commons.tools.HashTool
 import org.joda.time.{Duration, DateTime}
 
@@ -9,7 +8,6 @@ import org.joda.time.{Duration, DateTime}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-@Slf4j
 class TimeVal extends ValueObjectBase with Comparable[TimeVal] {
 
 	var time: DateTime = _

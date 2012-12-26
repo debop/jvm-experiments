@@ -2,6 +2,7 @@ package kr.kth.commons.timeperiod.tools;
 
 import com.google.common.collect.Lists;
 import kr.kth.commons.base.Guard;
+import kr.kth.commons.base.TimeVal;
 import kr.kth.commons.timeperiod.*;
 import kr.kth.commons.timeperiod.timerange.TimeRange;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +61,7 @@ public class TimeTool {
 	}
 
 	public static DateTime TimePart(DateTime dateTime) {
-		return new DateTime(dateTime.getMillis() - dateTime.withTimeAtStartOfDay().getMillis());
+		return new TimeVal(dateTime).datetime();
 	}
 
 	// region << Calendar >>
@@ -109,7 +110,7 @@ public class TimeTool {
 		HalfYearKind halfyear = null;
 
 		addHalfyear(startYear, startHalfyearKind, count, year, halfyear);
-		return new YearAndHalfyear(year.intValue(), halfyear);
+		return new YearAndHalfyear(year, halfyear);
 		//return new YearAndHalfyear(year, halfyear);
 	}
 
