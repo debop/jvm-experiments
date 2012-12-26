@@ -18,8 +18,8 @@
 
 	<properties>
 		<kr.kth.version>1.0.0</kr.kth.version>
-		<scala.version>2.10.0-M7</scala.version>
-		<groovy.version>2.0.5</groovy.version>
+
+		<scala.version>2.10.0</scala.version>
 
 		<springframework.version>3.2.0.RELEASE</springframework.version>
 		<spring.integration.version>2.2.0.RELEASE</spring.integration.version>
@@ -59,17 +59,6 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-idea-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
@@ -81,12 +70,49 @@
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<!--<version>3.1.0</version>-->
 				<executions>
 					<execution>
+						<id>compile</id>
 						<goals>
 							<goal>compile</goal>
+						</goals>
+						<phase>compile</phase>
+						<configuration>
+							<jvmArgs>
+								<jvmArg>-Xms128m</jvmArg>
+								<jvmArg>-Xmx1024m</jvmArg>
+							</jvmArgs>
+							<args>
+								<arg>-unchecked</arg>
+								<arg>-deprecation</arg>
+								<arg>-explaintypes</arg>
+							</args>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>test-compile</id>
+						<goals>
 							<goal>testCompile</goal>
+						</goals>
+						<phase>test-compile</phase>
+						<configuration>
+							<jvmArgs>
+								<jvmArg>-Xms128m</jvmArg>
+								<jvmArg>-Xmx1024m</jvmArg>
+							</jvmArgs>
+							<args>
+								<arg>-unchecked</arg>
+								<arg>-deprecation</arg>
+								<arg>-explaintypes</arg>
+							</args>
+						</configuration>
+					</execution>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>compile</goal>
 						</goals>
 						<configuration>
 							<jvmArgs>
@@ -106,27 +132,16 @@
 				</configuration>
 			</plugin>
 
-			<!--<plugin>-->
-			<!--<groupId>org.scala-tools</groupId>-->
-			<!--<artifactId>maven-scala-plugin</artifactId>-->
-			<!--<version>2.14.2</version>-->
-			<!--<executions>-->
-			<!--<execution>-->
-			<!--<id>compile-scala</id>-->
-			<!--<phase>compile</phase>-->
-			<!--<goals>-->
-			<!--<goal>compile</goal>-->
-			<!--</goals>-->
-			<!--</execution>-->
-			<!--<execution>-->
-			<!--<id>compile-tests-scala</id>-->
-			<!--<phase>compile</phase>-->
-			<!--<goals>-->
-			<!--<goal>testCompile</goal>-->
-			<!--</goals>-->
-			<!--</execution>-->
-			<!--</executions>-->
-			<!--</plugin>-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!--<version>2.5.1</version>-->
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -212,6 +227,12 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.joda</groupId>
+			<artifactId>joda-convert</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

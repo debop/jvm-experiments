@@ -28,11 +28,13 @@ public class TimePeriodCombiner<T extends ITimePeriod> {
 		this.periodMapper = mapper;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ITimePeriodCollection CombinePeriods(ITimePeriod... periods) {
 		TimePeriodCollection collection = new TimePeriodCollection(periods);
 		return new TimeLine(periodClass, collection, periodMapper).combinePeriods();
 	}
 
+	@SuppressWarnings("unchecked")
 	public ITimePeriodCollection combinePeriods(ITimePeriodContainer periods) {
 		return new TimeLine(periodClass, periods, periodMapper).combinePeriods();
 	}

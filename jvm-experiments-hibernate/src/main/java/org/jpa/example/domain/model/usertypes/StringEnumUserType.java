@@ -53,7 +53,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 
 	@Override
 	public int[] sqlTypes() {
-		return new int[] { StandardBasicTypes.STRING.sqlType() };
+		return new int[]{StandardBasicTypes.STRING.sqlType()};
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
 	                        SessionImplementor session) throws HibernateException, SQLException {
 
 		StringType.INSTANCE.nullSafeSet(st,
-		                                (value != null) ? toXMLString(value) : null,
+		                                (value != null) ? value.toString() : null,
 		                                index,
 		                                session);
 	}

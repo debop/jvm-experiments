@@ -7,6 +7,7 @@ import kr.kth.commons.timeperiod.ITimePeriod;
 import kr.kth.commons.timeperiod.TimeCalendar;
 import kr.kth.commons.tools.HashTool;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 25.
  */
+@Slf4j
 public class MonthTimeRange extends CalendarTimeRange {
 
 	private static final long serialVersionUID = 3094586442615608448L;

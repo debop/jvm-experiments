@@ -6,6 +6,7 @@ import kr.kth.commons.timeperiod.ITimeCalendar;
 import kr.kth.commons.timeperiod.ITimeFormatter;
 import kr.kth.commons.timeperiod.TimeCalendar;
 import kr.kth.commons.timeperiod.TimeFormatter;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 25.
  */
+@Slf4j
 public class DayRangeCollection extends DayTimeRange {
 
 	private static final long serialVersionUID = 1881676088684386069L;

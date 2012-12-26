@@ -80,19 +80,19 @@ public class TimeTool {
 		return (monthOfYear >= startMonthOfYear) ? year : year - 1;
 	}
 
-	public static YearAndHalfYear nextHalfyear(HalfYearKind startHalfyear) {
+	public static YearAndHalfyear nextHalfyear(HalfYearKind startHalfyear) {
 		Integer year = 0;
 		HalfYearKind halfyear = HalfYearKind.First;
 
 		nextHalfyear(startHalfyear, year, halfyear);
-		return new YearAndHalfYear(year, halfyear);
+		return new YearAndHalfyear(year, halfyear);
 	}
 
 	public static void nextHalfyear(HalfYearKind startHalfyearKind, Integer year, HalfYearKind halfyearKind) {
 		// TODO: 구현 중
 	}
 
-	public static YearAndHalfYear previousHalfyear(HalfYearKind startHalfyearKind) {
+	public static YearAndHalfyear previousHalfyear(HalfYearKind startHalfyearKind) {
 		return null;
 	}
 
@@ -100,16 +100,17 @@ public class TimeTool {
 		addHalfyear(startHalfyearKind, -1, year, halfyearKind);
 	}
 
-	public static YearAndHalfYear addHalfyear(HalfYearKind startHalfyeearKind, int count) {
+	public static YearAndHalfyear addHalfyear(HalfYearKind startHalfyeearKind, int count) {
 		return addHalfyear(startHalfyeearKind, 0, count);
 	}
 
-	public static YearAndHalfYear addHalfyear(HalfYearKind startHalfyearKind, int startYear, int count) {
+	public static YearAndHalfyear addHalfyear(HalfYearKind startHalfyearKind, int startYear, int count) {
 		Integer year = null;
 		HalfYearKind halfyear = null;
 
 		addHalfyear(startYear, startHalfyearKind, count, year, halfyear);
-		return new YearAndHalfYear(year, halfyear);
+		return new YearAndHalfyear(year.intValue(), halfyear);
+		//return new YearAndHalfyear(year, halfyear);
 	}
 
 	public static void addHalfyear(HalfYearKind startHalfyearKind, int count, Integer year, HalfYearKind halfyearKind) {
@@ -119,7 +120,7 @@ public class TimeTool {
 	public static void addHalfyear(int startYear, HalfYearKind startHalfyearKind, int count,
 	                               Integer year, HalfYearKind halfyearKind) {
 		int offsetYear = Math.abs(count) / TimeSpec.HalfyearsPerYear + 1;
-		int startHalfyearCount = ((startYear + offsetYear) * TimeSpec.HalfyearsPerYear) + (startHalfyearKind.getValue() - 1);
+		int startHalfyearCount = ((startYear + offsetYear) * TimeSpec.HalfyearsPerYear) + (startHalfyearKind.toInt() - 1);
 		int targetHalfyearCount = startHalfyearCount + count;
 
 		year = (targetHalfyearCount / TimeSpec.HalfyearsPerYear) - offsetYear;
@@ -189,8 +190,8 @@ public class TimeTool {
 
 	public static DateTime endTimeOfYear(DateTime moment, int startMonthOfYear) {
 		return startTimeOfYear(moment, startMonthOfYear)
-			.plusYears(1)
-			.minus(TimeSpec.MinTicks);
+			       .plusYears(1)
+			       .minus(TimeSpec.MinTicks);
 	}
 
 	public static DateTime endTimeOfYear(int year) {
@@ -224,8 +225,8 @@ public class TimeTool {
 	}
 
 	public static DateTime startTimeOfHalfyear(DateTime moment, int startMonthOfYear) {
-//		HalfYearKind halfyearKind = getHalfyearOfMonth(startMonthOfYear, moment.getMonthOfYear()).getValue();
-//		int months = (halfyearKind.getValue() - 1) * TimeSpec.MonthsPerHalfyear;
+//		HalfYearKind halfyearKind = getHalfyearOfMonth(startMonthOfYear, moment.getMonthOfYear()).toInt();
+//		int months = (halfyearKind.toInt() - 1) * TimeSpec.MonthsPerHalfyear;
 //
 //		DateTime result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months);
 //
@@ -241,7 +242,7 @@ public class TimeTool {
 	}
 
 	public static DateTime startTimeOfHalfyear(int year, HalfYearKind halfyearKind, int startMonthOfYear) {
-		int month = (halfyearKind.getValue() - 1) * TimeSpec.MonthsPerHalfyear + 1;
+		int month = (halfyearKind.toInt() - 1) * TimeSpec.MonthsPerHalfyear + 1;
 		return startTimeOfHalfyear(new DateTime(year, month, 1, 0, 0),
 		                           startMonthOfYear);
 	}
@@ -262,7 +263,7 @@ public class TimeTool {
 	}
 
 	public static DateTime endTimeOfHalfyear(int year, HalfYearKind halfyearKind, int startMonthOfYear) {
-		int month = (halfyearKind.getValue() - 1) * TimeSpec.MonthsPerHalfyear + 1;
+		int month = (halfyearKind.toInt() - 1) * TimeSpec.MonthsPerHalfyear + 1;
 		return endTimeOfHalfyear(new DateTime(year, month, 1, 0, 0), startMonthOfYear);
 	}
 
@@ -419,7 +420,7 @@ public class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean hasInside = target.compareTo(period.getStart()) >= 0 &&
-			target.compareTo(period.getEnd()) <= 0;
+			                    target.compareTo(period.getEnd()) <= 0;
 
 		if (isDebugEnabled)
 			log.debug("기간[{}]에 대상날짜[{}]가 포함(Inside)되는지 여부를 검사. hasInside=[{}]",
@@ -498,9 +499,9 @@ public class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean isIntersected = hasInside(period, target.getStart()) ||
-			hasInside(period, target.getEnd()) ||
-			(target.getStart().compareTo(period.getStart()) < 0 &&
-				target.getEnd().compareTo(period.getEnd()) > 0);
+			                        hasInside(period, target.getEnd()) ||
+			                        (target.getStart().compareTo(period.getStart()) < 0 &&
+				                         target.getEnd().compareTo(period.getEnd()) > 0);
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]에 교차구간이 있는지 확인합니다. isIntersected=[{}]",
 			          asString(period), asString(target), isIntersected);
@@ -518,10 +519,10 @@ public class TimeTool {
 		PeriodRelation relation = getRelation(period, target);
 
 		boolean isOverlaps = relation != PeriodRelation.After &&
-			relation != PeriodRelation.StartTouching &&
-			relation != PeriodRelation.EndTouching &&
-			relation != PeriodRelation.Before &&
-			relation != PeriodRelation.NoRelation;
+			                     relation != PeriodRelation.StartTouching &&
+			                     relation != PeriodRelation.EndTouching &&
+			                     relation != PeriodRelation.Before &&
+			                     relation != PeriodRelation.NoRelation;
 
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]이 overlap 되는지 확인합니다. isOverlaps=[{}]",
