@@ -4,7 +4,7 @@ import kr.kth.commons.base.ValueObjectBase
 import beans.BeanProperty
 
 /**
- * Year, HalfYear 정보를 가지는 Value Object 입니다.
+ * 년(Year), 반기(HalfYear) 정보를 가지는 Value Object 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */

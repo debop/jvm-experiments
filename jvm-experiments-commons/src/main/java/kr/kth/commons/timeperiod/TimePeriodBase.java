@@ -141,8 +141,8 @@ public abstract class TimePeriodBase extends ValueObjectBase implements ITimePer
 	@Override
 	public void setup(DateTime start, DateTime end) {
 		assertMutable();
-		start = firstNotNull(start, TimeSpec.MinPeriodTime);
-		end = firstNotNull(end, TimeSpec.MaxPeriodTime);
+		this.start = firstNotNull(start, TimeSpec.MinPeriodTime);
+		this.end = firstNotNull(end, TimeSpec.MaxPeriodTime);
 	}
 
 	public ITimePeriod copy() {
