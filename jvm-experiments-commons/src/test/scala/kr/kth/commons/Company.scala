@@ -2,7 +2,6 @@ package kr.kth.commons
 
 import base.ValueObjectBase
 import tools.HashTool
-import com.google.common.base.Objects
 
 /**
  * Company 정보
@@ -15,10 +14,9 @@ class Company(var name: String, var email: String, var address: String) extends 
 		HashTool.compute(name)
 	}
 
-	override def buildStringHelper(): Objects.ToStringHelper = {
+	override def buildStringHelper() =
 		super.buildStringHelper()
 			.add("name", name)
 			.add("email", email)
 			.add("address", address)
-	}
 }
