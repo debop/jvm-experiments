@@ -3,11 +3,11 @@ package springbook.chap02;
 import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.matchers.JUnitMatchers;
 
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -27,19 +27,19 @@ public class JUnitTest2 {
 
 	@Test
 	public void test1() {
-		assertThat(testObjects, not(hasItem(this)));
+		assertThat(testObjects, not(JUnitMatchers.hasItem(this)));
 		testObjects.add(this);
 	}
 
 	@Test
 	public void test2() {
-		assertThat(testObjects, not(hasItem(this)));
+		assertThat(testObjects, not(JUnitMatchers.hasItem(this)));
 		testObjects.add(this);
 	}
 
 	@Test
 	public void test3() {
-		assertThat(testObjects, not(hasItem(this)));
+		assertThat(testObjects, not(JUnitMatchers.hasItem(this)));
 		testObjects.add(this);
 	}
 }

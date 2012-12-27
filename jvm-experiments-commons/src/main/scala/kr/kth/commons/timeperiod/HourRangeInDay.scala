@@ -5,14 +5,14 @@ import kr.kth.commons.tools.HashTool
 import java.util.Objects
 
 /**
- * 1일 (Day) 안의 한시간 단위를 나타내는 HourRange 를 표현합니다.
+ * 1일 (Day) 안의 한시간 단위를 나타내는 HourRange 를 표현합니다. ( 9시 ~ 6시)
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
 class HourRangeInDay extends ValueObjectBase with Comparable[HourRangeInDay] {
 
-	private var start: TimeVal = null
-	private var end: TimeVal = null
+	private var start: TimeVal = _
+	private var end: TimeVal = _
 
 	def this(start: TimeVal, end: TimeVal) {
 		this()
@@ -52,7 +52,9 @@ class HourRangeInDay extends ValueObjectBase with Comparable[HourRangeInDay] {
 	override def hashCode: Int = HashTool.compute(start, end)
 
 	protected override def buildStringHelper = {
-		super.buildStringHelper.add("start", start).add("end", end)
+		super.buildStringHelper
+			.add("start", start)
+			.add("end", end)
 	}
 
 

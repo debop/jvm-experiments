@@ -18,7 +18,7 @@ import java.util.TreeSet;
 @Slf4j
 public class DateTimeSet extends TreeSet<DateTime> implements IDateTimeSet {
 
-	private static final long serialVersionUID = 3251868222462713969L;
+	private static final long serialVersionUID = 6897988915122604105L;
 
 	public DateTimeSet() {}
 

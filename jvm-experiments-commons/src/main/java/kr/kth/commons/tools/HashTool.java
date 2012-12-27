@@ -17,20 +17,13 @@ public final class HashTool {
 	private HashTool() { }
 
 	/**
-	 * 지정한 객체의 Hash Code 를 반환합니다. 객체가 null이면, 0을 반환합니다.
-	 */
-	static int compute(Object x) {
-		return (x != null) ? x.hashCode() : NullValue;
-	}
-
-	/**
 	 * 지정된 객체들의 Hash Code를 조합한 Hash Code를 생성합니다.
 	 *
 	 * @param objs 해쉬코드를 생성할 객체 배열
 	 * @return 조합된 Hash code
 	 */
-	public static int compute(Object o1, Object... objs) {
-		int hash = compute(o1);
+	public static int compute(Object... objs) {
+		int hash = NullValue;
 
 		if (objs == null || objs.length == 0)
 			return hash;

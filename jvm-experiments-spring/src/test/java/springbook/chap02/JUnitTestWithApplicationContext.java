@@ -3,6 +3,7 @@ package springbook.chap02;
 import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.matchers.JUnitMatchers;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +14,6 @@ import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -39,7 +39,7 @@ public class JUnitTestWithApplicationContext {
 
 	@Test
 	public void test1() {
-		assertThat(testObjects, not(hasItems(this)));
+		assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
 		testObjects.add(this);
 
 		assertThat(contextObject == null || contextObject == this.context, is(true));
@@ -48,7 +48,7 @@ public class JUnitTestWithApplicationContext {
 
 	@Test
 	public void test2() {
-		assertThat(testObjects, not(hasItems(this)));
+		assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
 		testObjects.add(this);
 
 		assertThat(contextObject == null || contextObject == this.context, is(true));
@@ -57,7 +57,7 @@ public class JUnitTestWithApplicationContext {
 
 	@Test
 	public void test3() {
-		assertThat(testObjects, not(hasItems(this)));
+		assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
 		testObjects.add(this);
 
 		assertThat(contextObject == null || contextObject == this.context, is(true));

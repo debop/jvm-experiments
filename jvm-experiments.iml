@@ -19,7 +19,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="scala-2.10.0" level="application" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.tukaani:xz:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.2.1" level="project" />
@@ -30,7 +29,6 @@
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore-nio:4.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.ning:async-http-client:1.7.5" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty:3.4.4.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: commons-validator:commons-validator:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.8.3" level="project" />
     <orderEntry type="library" name="Maven: commons-digester:commons-digester:1.8" level="project" />
@@ -71,24 +69,28 @@
     <orderEntry type="library" name="Maven: net.sf.trove4j:trove4j:3.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:0.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:0.5.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.0.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.0.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.0.6" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.9" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.9" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.7" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.7" level="project" />
+    <orderEntry type="library" name="Maven: org.clapper:grizzled-slf4j_2.10:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.0" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0-rc1" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp-spring:0.8.0-rc1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hsqldb:hsqldb:2.2.9" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: mysql:mysql-connector-java:5.1.22" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: mysql:mysql-connector-java:5.1.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: postgresql:postgresql:9.1-901-1.jdbc4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.9.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.carrotsearch:junit-benchmarks:0.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-compiler:2.10.0" level="project" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-reflect:2.10.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.scala-lang:scala-partest:2.10.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.scalatest:scalatest_2.10.0:2.0.M5" level="project" />
   </component>
 </module>
 
