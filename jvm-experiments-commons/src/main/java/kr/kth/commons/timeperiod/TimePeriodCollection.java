@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.any;
@@ -29,6 +30,10 @@ public class TimePeriodCollection extends TimePeriodContainer implements ITimePe
 	}
 
 	public TimePeriodCollection(Iterable<? extends ITimePeriod> periods) {
+		super(periods);
+	}
+
+	public TimePeriodCollection(Collection<? extends ITimePeriod> periods) {
 		super(periods);
 	}
 

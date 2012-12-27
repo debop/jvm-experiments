@@ -159,6 +159,15 @@ public class TimeTool {
 	// endregion
 
 
+	// region << Collection >>
+
+	public static ITimePeriodCollection toTimePeriodCollection(Iterable<? extends ITimePeriod> sequence) {
+		return new TimePeriodCollection(sequence);
+	}
+
+	// endregion
+
+
 	// region << Current >>
 
 
@@ -198,8 +207,8 @@ public class TimeTool {
 
 	public static DateTime endTimeOfYear(DateTime moment, int startMonthOfYear) {
 		return startTimeOfYear(moment, startMonthOfYear)
-			       .plusYears(1)
-			       .minus(TimeSpec.MinTicks);
+			.plusYears(1)
+			.minus(TimeSpec.MinTicks);
 	}
 
 	public static DateTime endTimeOfYear(int year) {
@@ -428,7 +437,7 @@ public class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean hasInside = target.compareTo(period.getStart()) >= 0 &&
-			                    target.compareTo(period.getEnd()) <= 0;
+			target.compareTo(period.getEnd()) <= 0;
 
 		if (isDebugEnabled)
 			log.debug("기간[{}]에 대상날짜[{}]가 포함(Inside)되는지 여부를 검사. hasInside=[{}]",
@@ -507,9 +516,9 @@ public class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean isIntersected = hasInside(period, target.getStart()) ||
-			                        hasInside(period, target.getEnd()) ||
-			                        (target.getStart().compareTo(period.getStart()) < 0 &&
-				                         target.getEnd().compareTo(period.getEnd()) > 0);
+			hasInside(period, target.getEnd()) ||
+			(target.getStart().compareTo(period.getStart()) < 0 &&
+				target.getEnd().compareTo(period.getEnd()) > 0);
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]에 교차구간이 있는지 확인합니다. isIntersected=[{}]",
 			          asString(period), asString(target), isIntersected);
@@ -527,10 +536,10 @@ public class TimeTool {
 		PeriodRelation relation = getRelation(period, target);
 
 		boolean isOverlaps = relation != PeriodRelation.After &&
-			                     relation != PeriodRelation.StartTouching &&
-			                     relation != PeriodRelation.EndTouching &&
-			                     relation != PeriodRelation.Before &&
-			                     relation != PeriodRelation.NoRelation;
+			relation != PeriodRelation.StartTouching &&
+			relation != PeriodRelation.EndTouching &&
+			relation != PeriodRelation.Before &&
+			relation != PeriodRelation.NoRelation;
 
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]이 overlap 되는지 확인합니다. isOverlaps=[{}]",
