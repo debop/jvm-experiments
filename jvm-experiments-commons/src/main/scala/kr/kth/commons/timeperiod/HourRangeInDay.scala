@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod
 
-import kr.kth.commons.base.{Guard, TimeVal, ValueObjectBase}
+import kr.kth.commons.base.{TimeVal, ValueObjectBase}
 import kr.kth.commons.tools.HashTool
 import java.util.Objects
 
@@ -44,10 +44,7 @@ class HourRangeInDay extends ValueObjectBase with Comparable[HourRangeInDay] {
 
 	def hasInside(target: TimeVal): Boolean = (target.compareTo(getStart) >= 0) && (target.compareTo(getEnd) <= 0)
 
-	def compareTo(other: HourRangeInDay): Int = {
-		Guard.shouldNotBeNull(other, "other")
-		start.compareTo(other.start)
-	}
+	def compareTo(other: HourRangeInDay): Int = start compareTo other.start
 
 	override def hashCode: Int = HashTool.compute(start, end)
 

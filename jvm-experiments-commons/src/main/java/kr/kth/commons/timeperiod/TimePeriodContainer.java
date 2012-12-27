@@ -208,8 +208,8 @@ public class TimePeriodContainer implements ITimePeriodContainer {
 	@Override
 	public boolean isSamePeriod(ITimePeriod that) {
 		return (that != null) &&
-			Objects.equals(getStart(), that.getStart()) &&
-			Objects.equals(getEnd(), that.getEnd());
+			       Objects.equals(getStart(), that.getStart()) &&
+			       Objects.equals(getEnd(), that.getEnd());
 	}
 
 	@Override

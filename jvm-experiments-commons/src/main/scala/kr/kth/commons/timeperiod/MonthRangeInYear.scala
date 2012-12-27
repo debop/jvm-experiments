@@ -32,10 +32,7 @@ class MonthRangeInYear extends ValueObjectBase with Comparable[MonthRangeInYear]
 
 	def isSingleMonth = (min == max)
 
-	def compareTo(other: MonthRangeInYear) = {
-		Guard.shouldNotBeNull(other, "other")
-		hashCode() compareTo other.hashCode()
-	}
+	def compareTo(other: MonthRangeInYear) = hashCode() compareTo other.hashCode()
 
 	override def hashCode() = max * 100 + min
 

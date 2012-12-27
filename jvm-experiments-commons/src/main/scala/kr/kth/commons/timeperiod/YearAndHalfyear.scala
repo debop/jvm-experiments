@@ -13,7 +13,7 @@ class YearAndHalfyear(val year: Int, val halfyear: HalfYearKind) extends ValueOb
 
 	def this(year: Int, halfyear: Int = 1) = this(year, HalfYearKind.valueOf(halfyear))
 
-	def compareTo(other: YearAndHalfyear) = hashCode() compareTo other.hashCode()
+	def compareTo(other: YearAndHalfyear) = hashCode compareTo other.hashCode
 
 	override def hashCode: Int = year * 100 + halfyear.toInt
 

@@ -82,6 +82,7 @@ public class EventBusListenerTest {
 
 
 	class MultipleListener {
+
 		@Getter
 		private Integer lastInteger;
 		@Getter

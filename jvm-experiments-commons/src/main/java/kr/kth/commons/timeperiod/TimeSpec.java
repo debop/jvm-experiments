@@ -42,18 +42,18 @@ public final class TimeSpec {
 
 	public static final int FirstWorkingDayOfWeek = Calendar.MONDAY;
 
-	public static final int[] FirstHalfyearMonths = new int[] { 1, 2, 3, 4, 5, 6 };
-	public static final int[] SecondHalfyearMonths = new int[] { 7, 8, 9, 10, 11, 12 };
+	public static final int[] FirstHalfyearMonths = new int[]{1, 2, 3, 4, 5, 6};
+	public static final int[] SecondHalfyearMonths = new int[]{7, 8, 9, 10, 11, 12};
 
 	public static final int FirstQuarterMonth = 1;
 	public static final int SecondQuarterMonth = FirstQuarterMonth + MonthsPerQuarter;
 	public static final int ThirdQuarterMonth = SecondQuarterMonth + MonthsPerQuarter;
 	public static final int FourthQuarterMonth = ThirdQuarterMonth + MonthsPerQuarter;
 
-	public static final int[] FirstQuarterMonths = new int[] { 1, 2, 3 };
-	public static final int[] SecondQuarterMonths = new int[] { 4, 5, 6 };
-	public static final int[] ThirdQuarterMonths = new int[] { 7, 8, 9 };
-	public static final int[] FourthQuarterMonths = new int[] { 10, 11, 12 };
+	public static final int[] FirstQuarterMonths = new int[]{1, 2, 3};
+	public static final int[] SecondQuarterMonths = new int[]{4, 5, 6};
+	public static final int[] ThirdQuarterMonths = new int[]{7, 8, 9};
+	public static final int[] FourthQuarterMonths = new int[]{10, 11, 12};
 
 	public static final long NoDuration = 0L;
 	public static final long EmptyDuration = 0L;

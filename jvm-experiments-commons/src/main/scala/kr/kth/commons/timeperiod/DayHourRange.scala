@@ -16,8 +16,8 @@ class DayHourRange(val dayOfWeek: Int, start: TimeVal, end: TimeVal) extends Hou
 
 	def this(dayOfWeek: Int, hour: Int) = this(dayOfWeek, hour, hour)
 
-	override def hashCode =
-		HashTool.compute((super.hashCode(), dayOfWeek))
+	// 다른 수형을 제공한다.
+	override def hashCode = HashTool.compute((super.hashCode(), dayOfWeek))
 
 	protected override def buildStringHelper =
 		super.buildStringHelper.add("dayOfWeek", dayOfWeek)

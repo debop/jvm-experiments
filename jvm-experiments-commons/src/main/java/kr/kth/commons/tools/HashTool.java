@@ -1,20 +1,19 @@
 package kr.kth.commons.tools;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
- * hashcode 를 생성하는 tool 입니다. {@link com.google.common.base.Objects#hashCode(Object...)} 를 사용하세요.
+ * 설명을 추가하세요.
  * User: sunghyouk.bae@gmail.com
- * Date: 12. 9. 12
+ * Date: 12. 12. 27
  */
-@Slf4j
 public final class HashTool {
 
 	public static final int NullValue = 0;
 	public static final int OneValue = 1;
 	public static final int Factor = 31;
 
-	private HashTool() { }
+	private static int compute(Object x) {
+		return (x != null) ? x.hashCode() : NullValue;
+	}
 
 	/**
 	 * 지정된 객체들의 Hash Code를 조합한 Hash Code를 생성합니다.
@@ -23,11 +22,10 @@ public final class HashTool {
 	 * @return 조합된 Hash code
 	 */
 	public static int compute(Object... objs) {
-		int hash = NullValue;
-
 		if (objs == null || objs.length == 0)
-			return hash;
+			return NullValue;
 
+		int hash = NullValue;
 		for (Object x : objs) {
 			hash = hash * Factor + compute(x);
 		}

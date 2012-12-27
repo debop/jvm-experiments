@@ -35,7 +35,7 @@ class DayRangeInMonth extends ValueObjectBase with Comparable[DayRangeInMonth] {
 
 	def hasInside(day: Int): Boolean = (min <= day && day <= max)
 
-	def compareTo(other: DayRangeInMonth) = this.min compareTo other.min
+	def compareTo(other: DayRangeInMonth): Int = this.min compare other.min
 
 	override def hashCode = HashTool.compute((this.min, this.max))
 

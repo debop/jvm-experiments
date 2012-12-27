@@ -27,10 +27,10 @@ public class SpringTest extends AbstractTest {
 	private static final Object syncLock = new Object();
 
 	private static Class[] compressorClasses =
-		new Class[] { BZip2Compressor.class,
-		              DeflateCompressor.class,
-		              GZipCompressor.class,
-		              XZCompressor.class };
+		new Class[]{BZip2Compressor.class,
+		            DeflateCompressor.class,
+		            GZipCompressor.class,
+		            XZCompressor.class};
 
 	@Override
 	protected void onBefore() {

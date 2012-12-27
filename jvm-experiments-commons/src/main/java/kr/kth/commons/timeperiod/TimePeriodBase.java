@@ -173,8 +173,8 @@ public abstract class TimePeriodBase extends ValueObjectBase implements ITimePer
 	@Override
 	public boolean isSamePeriod(ITimePeriod that) {
 		return (that != null) &&
-			Objects.equal(this.start, that.getStart()) &&
-			Objects.equal(this.end, that.getEnd());
+			       Objects.equal(this.start, that.getStart()) &&
+			       Objects.equal(this.end, that.getEnd());
 
 	}
 

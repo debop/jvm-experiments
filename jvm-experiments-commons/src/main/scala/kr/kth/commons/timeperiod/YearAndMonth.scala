@@ -16,5 +16,5 @@ class YearAndMonth(val year: Int, val month: Int = 1) extends ValueObjectBase wi
 			.add("year", year)
 			.add("month", month)
 
-	def compareTo(other: YearAndMonth) = hashCode() - other.hashCode()
+	def compareTo(other: YearAndMonth): Int = hashCode() compareTo other.hashCode()
 }

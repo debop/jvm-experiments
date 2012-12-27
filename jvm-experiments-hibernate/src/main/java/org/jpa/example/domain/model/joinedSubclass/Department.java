@@ -37,16 +37,15 @@ public class Department extends AnnotatedEntityBase {
 	@JoinColumn(name = "PARENT_DEPT_ID", nullable = true)
 	private Department parent;
 
-	@OneToMany(mappedBy = "parent", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "parent", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@LazyCollection(value = LazyCollectionOption.EXTRA)
 	private Set<Department> children = Sets.newHashSet();
 
 	@Override
 	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+		return isPersisted() ? HashTool.compute(id)
+		                     : HashTool.compute(name, company);
 
-		return HashTool.compute(name, company);
 	}
 
 	@Override

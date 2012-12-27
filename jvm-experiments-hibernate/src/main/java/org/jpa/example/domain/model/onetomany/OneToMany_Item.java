@@ -32,16 +32,14 @@ public class OneToMany_Item extends JpaEntityBase {
 	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@OneToMany(mappedBy = "item", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "item", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@LazyCollection(value = LazyCollectionOption.EXTRA)
 	private Set<OneToMany_Bid> bids = Sets.newHashSet();
 
 	@Override
 	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+		return isPersisted() ? HashTool.compute(id) : HashTool.compute(name);
 
-		return HashTool.compute(name);
 	}
 
 	@Override

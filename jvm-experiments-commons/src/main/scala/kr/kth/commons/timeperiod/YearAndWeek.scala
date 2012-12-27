@@ -1,6 +1,6 @@
 package kr.kth.commons.timeperiod
 
-import kr.kth.commons.base.{Guard, ValueObjectBase}
+import kr.kth.commons.base.ValueObjectBase
 
 /**
  * Year 와 WeekOfYear 를 표현합니다.
@@ -22,10 +22,7 @@ class YearAndWeek(var year: Int = 0, var weekOfYear: Int = 1) extends ValueObjec
 		this.weekOfYear = weekOfYear
 	}
 
-	def compareTo(other: YearAndWeek): Int = {
-		Guard.shouldNotBeNull(other, "other")
-		hashCode() - other.hashCode()
-	}
+	def compareTo(other: YearAndWeek): Int = hashCode() compareTo other.hashCode()
 
 	override def hashCode() = year * 100 + weekOfYear
 

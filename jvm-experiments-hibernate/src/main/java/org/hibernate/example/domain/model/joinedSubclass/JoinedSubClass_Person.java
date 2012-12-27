@@ -21,10 +21,9 @@ public abstract class JoinedSubClass_Person extends EntityBase<Long> {
 
 	@Override
 	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+		return isPersisted() ? super.hashCode()
+		                     : HashTool.compute(name);
 
-		return HashTool.compute(name);
 	}
 
 	@Override

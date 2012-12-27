@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import kr.kth.commons.base.ValueObjectBase;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.HashTool;
-import kr.kth.commons.tools.StringTool;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -72,7 +71,7 @@ public class User extends ValueObjectBase {
 
 		@Override
 		public int hashCode() {
-			return HashTool.compute(street, phone, properties.size(), StringTool.listToString(properties));
+			return HashTool.compute(street, phone);
 		}
 	}
 
