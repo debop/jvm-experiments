@@ -1,10 +1,13 @@
 package kr.kth.commons.timeperiod.timerange;
 
 import com.google.common.base.Objects;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.base.NotImplementedException;
 import kr.kth.commons.timeperiod.ITimeCalendar;
 import kr.kth.commons.timeperiod.ITimePeriod;
 import kr.kth.commons.timeperiod.TimeCalendar;
+import kr.kth.commons.timeperiod.YearAndMonth;
+import kr.kth.commons.timeperiod.tools.Times;
 import kr.kth.commons.tools.HashTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,8 @@ public class MonthTimeRange extends CalendarTimeRange {
 	private static final long serialVersionUID = 3094586442615608448L;
 
 	@Getter private final int monthCount;
+	@Getter private final int endYear;
+	@Getter private final int endMonth;
 
 	protected MonthTimeRange(DateTime moment, int monthCount, ITimeCalendar calendar) {
 		this(calendar.getYear(moment), calendar.getMonth(moment), monthCount, calendar);
@@ -34,23 +39,29 @@ public class MonthTimeRange extends CalendarTimeRange {
 
 	protected MonthTimeRange(int year, int month, int monthCount, ITimeCalendar calendar) {
 		super(getPeriodOf(year, month, monthCount), calendar);
+		Guard.shouldBePositiveNumber(monthCount, "monthCount");
+
 		this.monthCount = monthCount;
+
+		YearAndMonth yearAndMonth = Times.addMonth(year, month, monthCount - 1);
+		this.endYear = yearAndMonth.year();
+		this.endMonth = yearAndMonth.month();
 	}
 
-	public int getStartDayOfWeek() {
-		return getTimeCalendar().getDayOfWeek(getStart());
+	public String getStartMonthName() {
+		return getTimeCalendar().getMonthOfYearName(getStartYear(), getStartMonth());
 	}
 
-	public String getStartDayName() {
-		return getTimeCalendar().getDayName(getStartDayOfWeek());
+	public String getStartMonthOfYearName() {
+		return getTimeCalendar().getMonthOfYearName(getStartYear(), getStartMonth());
 	}
 
-	public int getEndDayOfWeek() {
-		return getTimeCalendar().getDayOfWeek(getEnd());
+	public String getEndMonthName() {
+		return getTimeCalendar().getMonthOfYearName(getEndYear(), getEndMonth());
 	}
 
-	public String getEndDayName() {
-		return getTimeCalendar().getDayName(getEndDayOfWeek());
+	public String getEndMonthOfYearName() {
+		return getTimeCalendar().getMonthOfYearName(getEndYear(), getEndMonth());
 	}
 
 	public List<DayRange> getDays() {
@@ -60,7 +71,7 @@ public class MonthTimeRange extends CalendarTimeRange {
 		throw new NotImplementedException();
 
 //		List<DayRange> days = Lists.newArrayListWithCapacity(monthCount * TimeSpec.MaxDaysPerMonth);
-//		DateTime startMonth = TimeTool.startTimeOfMonth(getStart());
+//		DateTime startMonth = Times.startTimeOfMonth(getStart());
 //
 //		for (int m = 0; m < monthCount; m++) {
 //			DateTime monthStart = startMonth.plusMonths(m);
@@ -81,7 +92,9 @@ public class MonthTimeRange extends CalendarTimeRange {
 	@Override
 	protected Objects.ToStringHelper buildStringHelper() {
 		return super.buildStringHelper()
-		            .add("monthCount", monthCount);
+		            .add("monthCount", monthCount)
+		            .add("endYear", endYear)
+		            .add("endMonth", endMonth);
 	}
 
 	private static ITimePeriod getPeriodOf(int year, int month, int monthCount) {

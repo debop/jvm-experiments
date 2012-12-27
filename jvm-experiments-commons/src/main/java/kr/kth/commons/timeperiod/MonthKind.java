@@ -71,4 +71,8 @@ public enum MonthKind {
 	MonthKind(int month) {
 		this.month = month;
 	}
+
+	public int toInt() {
+		return month;
+	}
 }

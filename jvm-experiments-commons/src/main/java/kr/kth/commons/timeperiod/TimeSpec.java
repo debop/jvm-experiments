@@ -55,6 +55,11 @@ public final class TimeSpec {
 	public static final int[] ThirdQuarterMonths = new int[]{7, 8, 9};
 	public static final int[] FourthQuarterMonths = new int[]{10, 11, 12};
 
+	/**
+	 * 한주의 시작요일 (우리나라, 미국은 일요일이다)
+	 */
+	public static final int FirstOfDayOfWeek = Calendar.getInstance().getFirstDayOfWeek();
+
 	public static final long NoDuration = 0L;
 	public static final long EmptyDuration = 0L;
 	public static final long MinPositiveDuration = 1L;

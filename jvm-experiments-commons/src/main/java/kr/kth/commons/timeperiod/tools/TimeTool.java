@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.util.*;
 
 /**
@@ -25,7 +24,7 @@ public class TimeTool {
 	private static final boolean isDebugEnabled = log.isDebugEnabled();
 
 	private static final String NullStr = "null";
-	private static final Date UnixEpoch = new Date(0);
+	private static final DateTime UnixEpoch = new DateTime().withMillis(0);
 
 
 	public static DateTime getNow() {
@@ -44,13 +43,13 @@ public class TimeTool {
 		return (period == null) ? TimeTool.NullStr : period.getDurationDescription();
 	}
 
-	public static Date toDate(String value) {
+	public static DateTime toDate(String value) {
 		return toDate(value, UnixEpoch);
 	}
 
-	public static Date toDate(String value, Date defaultValue) {
+	public static DateTime toDate(String value, DateTime defaultValue) {
 		try {
-			return DateFormat.getInstance().parse(value);
+			return DateTime.parse(value);
 		} catch (Exception e) {
 			return defaultValue;
 		}
@@ -82,23 +81,11 @@ public class TimeTool {
 	}
 
 	public static YearAndHalfyear nextHalfyear(HalfYearKind startHalfyear) {
-		Integer year = 0;
-		HalfYearKind halfyear = HalfYearKind.First;
-
-		nextHalfyear(startHalfyear, year, halfyear);
-		return new YearAndHalfyear(year, halfyear);
-	}
-
-	public static void nextHalfyear(HalfYearKind startHalfyearKind, Integer year, HalfYearKind halfyearKind) {
-		// TODO: 구현 중
+		return addHalfyear(startHalfyear, 1);
 	}
 
 	public static YearAndHalfyear previousHalfyear(HalfYearKind startHalfyearKind) {
-		return null;
-	}
-
-	public static void PreviousHalfyear(HalfYearKind startHalfyearKind, Integer year, HalfYearKind halfyearKind) {
-		addHalfyear(startHalfyearKind, -1, year, halfyearKind);
+		return addHalfyear(startHalfyearKind, -1);
 	}
 
 	public static YearAndHalfyear addHalfyear(HalfYearKind startHalfyeearKind, int count) {
@@ -106,27 +93,16 @@ public class TimeTool {
 	}
 
 	public static YearAndHalfyear addHalfyear(HalfYearKind startHalfyearKind, int startYear, int count) {
-		Integer year = null;
-		HalfYearKind halfyear = null;
-
-		addHalfyear(startYear, startHalfyearKind, count, year, halfyear);
-		return new YearAndHalfyear(year, halfyear);
-		//return new YearAndHalfyear(year, halfyear);
-	}
-
-	public static void addHalfyear(HalfYearKind startHalfyearKind, int count, Integer year, HalfYearKind halfyearKind) {
-		addHalfyear(0, startHalfyearKind, count, year, halfyearKind);
-	}
-
-	public static void addHalfyear(int startYear, HalfYearKind startHalfyearKind, int count,
-	                               Integer year, HalfYearKind halfyearKind) {
 		int offsetYear = Math.abs(count) / TimeSpec.HalfyearsPerYear + 1;
 		int startHalfyearCount = ((startYear + offsetYear) * TimeSpec.HalfyearsPerYear) + (startHalfyearKind.toInt() - 1);
 		int targetHalfyearCount = startHalfyearCount + count;
 
-		year = (targetHalfyearCount / TimeSpec.HalfyearsPerYear) - offsetYear;
-		halfyearKind = HalfYearKind.valueOf((targetHalfyearCount % TimeSpec.HalfyearsPerYear) + 1);
+		int year = (targetHalfyearCount / TimeSpec.HalfyearsPerYear) - offsetYear;
+		int halfyear = (targetHalfyearCount % TimeSpec.HalfyearsPerYear) + 1;
+
+		return new YearAndHalfyear(year, halfyear);
 	}
+
 
 	public static HalfYearKind getHalfyearOfMonth(int yearMonth) {
 		return getHalfyearOfMonth(TimeSpec.CalendarYearStartMonth, yearMonth);
@@ -146,6 +122,37 @@ public class TimeTool {
 		return (halfyear == HalfYearKind.First)
 		       ? TimeSpec.FirstHalfyearMonths
 		       : TimeSpec.SecondHalfyearMonths;
+	}
+
+	public static YearAndQuarter nextQuarter(QuarterKind startQuarter) {
+		return addQuarter(startQuarter, 1);
+	}
+
+	public static YearAndQuarter previousQuarter(QuarterKind startQuarter) {
+		return addQuarter(startQuarter, -1);
+	}
+
+	public static YearAndQuarter addQuarter(QuarterKind startQuarter, int count) {
+		return addQuarter(startQuarter, 0, count);
+	}
+
+	public static YearAndQuarter addQuarter(QuarterKind startQuarter, int startYear, int count) {
+		int offsetYear = (Math.abs(count) / TimeSpec.QuartersPerYear) + 1;
+		int startQuarterCount = ((startYear + offsetYear) * TimeSpec.QuartersPerYear) + (startQuarter.intValue() - 1);
+		int targetQuarterCount = startQuarterCount + count;
+
+		int year = (targetQuarterCount / TimeSpec.QuartersPerYear) - offsetYear;
+		int quarter = targetQuarterCount % TimeSpec.QuartersPerYear + 1;
+
+		return new YearAndQuarter(year, quarter);
+	}
+
+	public static int getDaysInMonth(int year, int month) {
+		return
+			new DateTime().withDate(year, month, 1)
+			              .plusMonths(1)
+			              .minusDays(1)
+			              .getDayOfMonth();
 	}
 
 

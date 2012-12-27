@@ -43,7 +43,7 @@ class DateVal extends ValueObjectBase with Comparable[DateVal] {
 
 	protected override def buildStringHelper() =
 		super.buildStringHelper()
-			.add("date", date)
+			.add("moment", date)
 }
 
 object DateVal {

@@ -52,7 +52,7 @@ public class Event extends EntityBase<Long> implements IUpdateTimestampedEntity 
 	protected Objects.ToStringHelper buildStringHelper() {
 		return super.buildStringHelper()
 		            .add("title", title)
-		            .add("date", date)
+		            .add("moment", date)
 		            .add("updateTimestamp", updateTimestamp)
 		            .add("categoryId", category.getId());
 	}

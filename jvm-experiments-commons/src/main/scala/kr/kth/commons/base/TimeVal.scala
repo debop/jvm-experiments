@@ -10,7 +10,7 @@ import org.joda.time.{Duration, DateTime}
  */
 class TimeVal extends ValueObjectBase with Comparable[TimeVal] {
 
-	var time: DateTime = _
+	private var time: DateTime = _
 
 	def this(duration: Duration) {
 		this()
