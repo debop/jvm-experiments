@@ -31,7 +31,7 @@ public enum QuarterKind {
 		this.quarter = quarter;
 	}
 
-	public int intValue() {
+	public int toInt() {
 		return quarter;
 	}
 

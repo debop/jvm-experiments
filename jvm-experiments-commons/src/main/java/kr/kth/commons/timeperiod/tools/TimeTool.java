@@ -138,7 +138,7 @@ public class TimeTool {
 
 	public static YearAndQuarter addQuarter(QuarterKind startQuarter, int startYear, int count) {
 		int offsetYear = (Math.abs(count) / TimeSpec.QuartersPerYear) + 1;
-		int startQuarterCount = ((startYear + offsetYear) * TimeSpec.QuartersPerYear) + (startQuarter.intValue() - 1);
+		int startQuarterCount = ((startYear + offsetYear) * TimeSpec.QuartersPerYear) + (startQuarter.toInt() - 1);
 		int targetQuarterCount = startQuarterCount + count;
 
 		int year = (targetQuarterCount / TimeSpec.QuartersPerYear) - offsetYear;
@@ -149,10 +149,10 @@ public class TimeTool {
 
 	public static int getDaysInMonth(int year, int month) {
 		return
-			new DateTime().withDate(year, month, 1)
-			              .plusMonths(1)
-			              .minusDays(1)
-			              .getDayOfMonth();
+		new DateTime().withDate(year, month, 1)
+		              .plusMonths(1)
+		              .minusDays(1)
+		              .getDayOfMonth();
 	}
 
 
@@ -207,8 +207,8 @@ public class TimeTool {
 
 	public static DateTime endTimeOfYear(DateTime moment, int startMonthOfYear) {
 		return startTimeOfYear(moment, startMonthOfYear)
-			.plusYears(1)
-			.minus(TimeSpec.MinTicks);
+		       .plusYears(1)
+		       .minus(TimeSpec.MinTicks);
 	}
 
 	public static DateTime endTimeOfYear(int year) {
@@ -270,9 +270,9 @@ public class TimeTool {
 
 	public static DateTime endTimeOfHalfyear(DateTime moment, int startMonthOfYear) {
 		return
-			startTimeOfHalfyear(moment)
-				.plusMonths(TimeSpec.MonthsPerHalfyear)
-				.minus(TimeSpec.MinPositiveDuration);
+		startTimeOfHalfyear(moment)
+		.plusMonths(TimeSpec.MonthsPerHalfyear)
+		.minus(TimeSpec.MinPositiveDuration);
 	}
 
 	public static DateTime endTimeOfHalfyear(int year, HalfYearKind halfYearKind) {
@@ -437,7 +437,7 @@ public class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean hasInside = target.compareTo(period.getStart()) >= 0 &&
-			target.compareTo(period.getEnd()) <= 0;
+		                    target.compareTo(period.getEnd()) <= 0;
 
 		if (isDebugEnabled)
 			log.debug("기간[{}]에 대상날짜[{}]가 포함(Inside)되는지 여부를 검사. hasInside=[{}]",
@@ -516,9 +516,9 @@ public class TimeTool {
 		Guard.shouldNotBeNull(target, "target");
 
 		boolean isIntersected = hasInside(period, target.getStart()) ||
-			hasInside(period, target.getEnd()) ||
-			(target.getStart().compareTo(period.getStart()) < 0 &&
-				target.getEnd().compareTo(period.getEnd()) > 0);
+		                        hasInside(period, target.getEnd()) ||
+		                        (target.getStart().compareTo(period.getStart()) < 0 &&
+		                         target.getEnd().compareTo(period.getEnd()) > 0);
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]에 교차구간이 있는지 확인합니다. isIntersected=[{}]",
 			          asString(period), asString(target), isIntersected);
@@ -536,10 +536,10 @@ public class TimeTool {
 		PeriodRelation relation = getRelation(period, target);
 
 		boolean isOverlaps = relation != PeriodRelation.After &&
-			relation != PeriodRelation.StartTouching &&
-			relation != PeriodRelation.EndTouching &&
-			relation != PeriodRelation.Before &&
-			relation != PeriodRelation.NoRelation;
+		                     relation != PeriodRelation.StartTouching &&
+		                     relation != PeriodRelation.EndTouching &&
+		                     relation != PeriodRelation.Before &&
+		                     relation != PeriodRelation.NoRelation;
 
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]이 overlap 되는지 확인합니다. isOverlaps=[{}]",

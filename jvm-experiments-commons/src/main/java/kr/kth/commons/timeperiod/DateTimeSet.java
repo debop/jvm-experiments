@@ -30,7 +30,7 @@ public class DateTimeSet extends TreeSet<DateTime> implements IDateTimeSet {
 	 * {@inheritDoc}
 	 */
 	public DateTime get(int index) {
-		Guard.assertTrue(index >= 0 && index < size(), "Index 의 범위가 벗어났습니다. index=%d, size()=%d", index, size());
+		Guard.shouldBeInRange(index, 0, size(), "index");
 
 		if (index == 0)
 			return first();
@@ -88,9 +88,9 @@ public class DateTimeSet extends TreeSet<DateTime> implements IDateTimeSet {
 		DateTime max = getMax();
 
 		return (min != null) &&
-			       (min.getMillis() == TimeSpec.ZeroTick) &&
-			       (max != null) &&
-			       (max.getMillis() == TimeSpec.ZeroTick);
+		       (min.getMillis() == TimeSpec.ZeroTick) &&
+		       (max != null) &&
+		       (max.getMillis() == TimeSpec.ZeroTick);
 	}
 
 	@Override
