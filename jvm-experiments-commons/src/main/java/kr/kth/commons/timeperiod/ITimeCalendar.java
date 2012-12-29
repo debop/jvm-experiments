@@ -1,6 +1,7 @@
 package kr.kth.commons.timeperiod;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import java.util.Locale;
 
@@ -18,12 +19,12 @@ public interface ITimeCalendar extends ITimePeriodMapper {
 	/**
 	 * 시작일 오프셋
 	 */
-	long getStartOffset();
+	Duration getStartOffset();
 
 	/**
 	 * 종료일 오프셋
 	 */
-	long getEndOffset();
+	Duration getEndOffset();
 
 	/**
 	 * 년의 기준 월
@@ -37,7 +38,7 @@ public interface ITimeCalendar extends ITimePeriodMapper {
 	/**
 	 * 한주의 시작 요일 (1: 월요일 ... 6:토요일, 7:일요일)
 	 */
-	int getFirstDayOfWeek();
+	DayOfWeek getFirstDayOfWeek();
 
 	int getYear(DateTime time);
 
@@ -89,6 +90,11 @@ public interface ITimeCalendar extends ITimePeriodMapper {
 	 * 특정년도의 분기를 표현하는 문자열을 반환합니다. (2013년 1사분기)
 	 */
 	String getQuarterOfYearName(int year, QuarterKind quarter);
+
+	/**
+	 * 월을 문자열로
+	 */
+	String getMonthName(int month);
 
 	/**
 	 * 년/월을 문자열로 표현합니다.

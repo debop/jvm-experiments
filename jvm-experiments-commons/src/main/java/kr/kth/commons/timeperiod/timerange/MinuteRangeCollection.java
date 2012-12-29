@@ -22,7 +22,7 @@ public class MinuteRangeCollection extends MinuteTimeRange {
 	private static final long serialVersionUID = 3798232473967314158L;
 
 	public MinuteRangeCollection(DateTime moment, int minuteCount) {
-		this(moment, minuteCount, TimeCalendar.Default);
+		this(moment, minuteCount, TimeCalendar.Default());
 	}
 
 	public MinuteRangeCollection(DateTime moment, int minuteCount, ITimeCalendar calendar) {
@@ -30,7 +30,7 @@ public class MinuteRangeCollection extends MinuteTimeRange {
 	}
 
 	public MinuteRangeCollection(int year, int month, int day, int hour, int minute, int minuteCount) {
-		this(year, month, day, hour, minute, minuteCount, TimeCalendar.Default);
+		this(year, month, day, hour, minute, minuteCount, TimeCalendar.Default());
 	}
 
 	public MinuteRangeCollection(int year, int month, int day, int hour, int minute, int minuteCount, ITimeCalendar calendar) {

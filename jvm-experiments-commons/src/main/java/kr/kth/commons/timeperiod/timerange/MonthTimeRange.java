@@ -30,7 +30,7 @@ public class MonthTimeRange extends CalendarTimeRange {
 	}
 
 	protected MonthTimeRange(int year, int month, int monthCount) {
-		this(year, month, monthCount, TimeCalendar.Default);
+		this(year, month, monthCount, TimeCalendar.Default());
 	}
 
 	protected MonthTimeRange(int year, int month, int monthCount, ITimeCalendar calendar) {
@@ -94,7 +94,7 @@ public class MonthTimeRange extends CalendarTimeRange {
 	}
 
 	private static ITimePeriod getPeriodOf(int year, int month, int monthCount) {
-		DateTime start = new DateTime().withDate(year, month, 1);
+		DateTime start = Times.startTimeOfMonthByYear(year, month);
 		return new TimeRange(start, start.plusMonths(monthCount));
 	}
 }

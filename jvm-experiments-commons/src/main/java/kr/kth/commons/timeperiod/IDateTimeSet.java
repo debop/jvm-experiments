@@ -44,7 +44,7 @@ public interface IDateTimeSet extends Collection<DateTime> {
 	boolean isMoment();
 
 	/**
-	 * 요소가 모든 시각을 나타내는가? 최소값, 최소값 모두 null일 때 any time 입니다.
+	 * 요소가 모든 시각을 나타내는가? 최소값, 최소값 모두 null일 때 any timePart 입니다.
 	 */
 	boolean isAnyTime();
 

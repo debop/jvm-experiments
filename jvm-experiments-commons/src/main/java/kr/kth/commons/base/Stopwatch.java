@@ -54,7 +54,7 @@ public class Stopwatch {
 		elapsedTime = endTime - startTime;
 
 		if (log.isInfoEnabled())
-			log.info("Elapsed time = [{}] msecs", elapsedTime / 1000000.0);
+			log.info("Elapsed timePart = [{}] msecs", elapsedTime / 1000000.0);
 
 		if (this.runGC)
 			cleanUp();
@@ -64,6 +64,6 @@ public class Stopwatch {
 
 	@Override
 	public String toString() {
-		return "Elapsed time = " + elapsedTime / 1000000.0 + " msecs";
+		return "Elapsed timePart = " + elapsedTime / 1000000.0 + " msecs";
 	}
 }

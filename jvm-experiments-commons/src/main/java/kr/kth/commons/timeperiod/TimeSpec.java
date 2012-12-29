@@ -42,30 +42,30 @@ public final class TimeSpec {
 
 	public static final int FirstWorkingDayOfWeek = Calendar.MONDAY;
 
-	public static final int[] FirstHalfyearMonths = new int[]{1, 2, 3, 4, 5, 6};
-	public static final int[] SecondHalfyearMonths = new int[]{7, 8, 9, 10, 11, 12};
+	public static final int[] FirstHalfyearMonths = new int[] { 1, 2, 3, 4, 5, 6 };
+	public static final int[] SecondHalfyearMonths = new int[] { 7, 8, 9, 10, 11, 12 };
 
 	public static final int FirstQuarterMonth = 1;
 	public static final int SecondQuarterMonth = FirstQuarterMonth + MonthsPerQuarter;
 	public static final int ThirdQuarterMonth = SecondQuarterMonth + MonthsPerQuarter;
 	public static final int FourthQuarterMonth = ThirdQuarterMonth + MonthsPerQuarter;
 
-	public static final int[] FirstQuarterMonths = new int[]{1, 2, 3};
-	public static final int[] SecondQuarterMonths = new int[]{4, 5, 6};
-	public static final int[] ThirdQuarterMonths = new int[]{7, 8, 9};
-	public static final int[] FourthQuarterMonths = new int[]{10, 11, 12};
+	public static final int[] FirstQuarterMonths = new int[] { 1, 2, 3 };
+	public static final int[] SecondQuarterMonths = new int[] { 4, 5, 6 };
+	public static final int[] ThirdQuarterMonths = new int[] { 7, 8, 9 };
+	public static final int[] FourthQuarterMonths = new int[] { 10, 11, 12 };
 
 	/**
-	 * 한주의 시작요일 (우리나라, 미국은 일요일이다)
+	 * 한주의 시작요일 (ISO 규정에 따라 월요일이 한주의 시작요일이다)
 	 */
-	public static final int FirstOfDayOfWeek = Calendar.getInstance().getFirstDayOfWeek();
+	public static final DayOfWeek FirstDayOfWeek = DayOfWeek.Monday;
 
 	public static final long NoDuration = 0L;
 	public static final long EmptyDuration = 0L;
 	public static final long MinPositiveDuration = 1L;
 	public static final long MinNegativeDuration = -1L;
 
-	// Number of milliseconds per time unit
+	// Number of milliseconds per timePart unit
 	public static final int MillisPerSecond = 1000;
 	public static final int MillisPerMinute = MillisPerSecond * 60;
 	public static final int MillisPerHour = MillisPerMinute * 60;

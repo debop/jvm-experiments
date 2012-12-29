@@ -1,12 +1,12 @@
 package kr.kth.commons.timeperiod
 
-import org.joda.time.DateTime
+import org.joda.time.{Duration, DateTime}
 import grizzled.slf4j.Logger
-import java.util.{Date, Locale}
+import java.util.{Calendar, Date, Locale}
 import kr.kth.commons.base.{Guard, NotImplementedException}
 import collection.JavaConversions
 import kr.kth.commons.tools.StringTool
-import timerange.TimeRange
+import timerange.{YearRangeCollection, YearRange, TimeRange}
 import tools.TimeTool
 import collection.mutable.ArrayBuffer
 
@@ -17,10 +17,10 @@ import collection.mutable.ArrayBuffer
  */
 object Times {
 
-	lazy val log            = Logger[this.type]
+	lazy val log = Logger[this.type]
 	lazy val isDebugEnabled = log.isDebugEnabled
 
-	val NullStr   = "null"
+	val NullStr = "null"
 	val UnixEpoch = new DateTime withMillis 0
 
 	def getNow: DateTime = DateTime.now
@@ -164,16 +164,13 @@ object Times {
 	}
 
 	def getDaysInMonth(year: Int, month: Int) =
-		new DateTime().withDate(year, month, 1)
-		.plusMonths(1)
-		.minusDays(1)
-		.getDayOfMonth
+		new DateTime().withDate(year, month, 1).plusMonths(1).minusDays(1).getDayOfMonth
 
 
 	/**
 	 * 지정된 시간이 속한 주(Week)의 첫번째 요일을 가져옵니다. (한국/미국은 한주의 시작은 일요일이고, ISO 8601 에서는 월요일이다)
 	 */
-	def getStartOfWeek(moment: DateTime, firstDayOfWeek: Int = TimeSpec.FirstOfDayOfWeek): DateTime = {
+	def getStartOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime = {
 		var currentDay = datePart(moment)
 		while (currentDay.getDayOfWeek != firstDayOfWeek) {
 			currentDay = currentDay.minusDays(1)
@@ -226,7 +223,7 @@ object Times {
 		var weekday = new DateTime().withDate(year, 1, 1).plusDays(weekOfYear * TimeSpec.DaysPerWeek)
 		var current = getWeekOfYear(weekday, locale, weekOfYearRule)
 
-		// end date of week
+		// end datePart of week
 		while (current.weekOfYear != weekOfYear) {
 			weekday = weekday.minusDays(1)
 			current = getWeekOfYear(weekday, locale, weekOfYearRule)
@@ -396,7 +393,10 @@ object Times {
 
 	def currentWeek(): DateTime = currentWeek(Locale.getDefault)
 
-	def currentWeek(locale: Locale): DateTime = startTimeOfWeek(getNow, locale)
+	def currentWeek(locale: Locale): DateTime = {
+		val firstDayOfWeek = Calendar.getInstance(locale).getFirstDayOfWeek
+		startTimeOfWeek(getNow, DayOfWeek.valueOf(firstDayOfWeek))
+	}
 
 	def curerntWeek(firstDayOfWeek: DayOfWeek): DateTime = startTimeOfWeek(getNow, firstDayOfWeek)
 
@@ -414,120 +414,363 @@ object Times {
 	// << Start / End TimeOfYear >>
 	//
 
-	def startTimeOfYear(moment: DateTime): DateTime = {
-		return startTimeOfYear(moment, TimeSpec.CalendarYearStartMonth)
-	}
+	def startTimeOfYear(moment: DateTime): DateTime = startTimeOfYear(moment, TimeSpec.CalendarYearStartMonth)
 
 	def startTimeOfYear(moment: DateTime, startMonthOfYear: Int): DateTime = {
 		val monthOffset: Int = moment.getMonthOfYear - startMonthOfYear
 		val year: Int = if (monthOffset < 0) moment.getYear - 1 else moment.getYear
+
 		val result: DateTime = new DateTime(year, startMonthOfYear, 1, 0, 0)
-		if (log.isDebugEnabled) log.debug("DateTime [{}]이 속한 Year의 시작일은 [{}] 입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear)
-		return result
+
+		if (log.isDebugEnabled)
+			log.debug("DateTime [{}]이 속한 Year의 시작일은 [{}] 입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear)
+
+		result
 	}
 
-	def startTimeOfYear(year: Int): DateTime = {
-		return startTimeOfYear(year, TimeSpec.CalendarYearStartMonth)
-	}
+	def startTimeOfYear(year: Int): DateTime = startTimeOfYear(year, TimeSpec.CalendarYearStartMonth)
 
-	def startTimeOfYear(year: Int, startMonthOfYear: Int): DateTime = {
-		return new DateTime(year, startMonthOfYear, 1, 0, 0)
-	}
+	def startTimeOfYear(year: Int, startMonthOfYear: Int): DateTime = new DateTime(year, startMonthOfYear, 1, 0, 0)
 
-	def endTimeOfYear(moment: DateTime): DateTime = {
-		return endTimeOfYear(moment, TimeSpec.CalendarYearStartMonth)
-	}
+	def endTimeOfYear(moment: DateTime): DateTime = endTimeOfYear(moment, TimeSpec.CalendarYearStartMonth)
 
-	def endTimeOfYear(moment: DateTime, startMonthOfYear: Int): DateTime = {
-		return startTimeOfYear(moment, startMonthOfYear).plusYears(1).minus(TimeSpec.MinTicks)
-	}
+	def endTimeOfYear(moment: DateTime, startMonthOfYear: Int): DateTime =
+		startTimeOfYear(moment, startMonthOfYear).plusYears(1).minus(TimeSpec.MinTicks)
 
-	def endTimeOfYear(year: Int): DateTime = {
-		return endTimeOfYear(year, TimeSpec.CalendarYearStartMonth)
-	}
+	def endTimeOfYear(year: Int): DateTime = endTimeOfYear(year, TimeSpec.CalendarYearStartMonth)
 
-	def endTimeOfYear(year: Int, startMonthOfYear: Int): DateTime = {
-		return endTimeOfYear(startTimeOfYear(year, startMonthOfYear), startMonthOfYear)
-	}
+	def endTimeOfYear(year: Int, startMonthOfYear: Int): DateTime =
+		endTimeOfYear(startTimeOfYear(year, startMonthOfYear), startMonthOfYear)
 
 	/**
 	 * 전년도 시작 시각
 	 */
-	def startTimeOfLastYear(moment: DateTime): DateTime = {
-		return startTimeOfYear(moment.getYear - 1)
-	}
+	def startTimeOfLastYear(moment: DateTime): DateTime = startTimeOfYear(moment.getYear - 1)
 
 	/**
 	 * 전년도 마지막 시각
 	 */
-	def endTimeOfLastYear(moment: DateTime): DateTime = {
-		return endTimeOfYear(moment.getYear - 1)
-	}
+	def endTimeOfLastYear(moment: DateTime): DateTime = endTimeOfYear(moment.getYear - 1)
 
 	//
 	// << Start / End TimeOfHalfyear >>
 	//
 
-	def startTimeOfHalfyear(moment: DateTime): DateTime = startTimeOfHalfyear(moment, TimeSpec.CalendarYearStartMonth)
+	/**
+	 * 지정한 날짜가 속한 반기(Halfyear)의 시작일
+	 */
+	def startTimeOfHalfyear(moment: DateTime, startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
+		val halfyear = getHalfyearOfMonth(startMonthOfYear, moment.getMonthOfYear).toInt
+		val months = (halfyear - 1) * TimeSpec.MonthsPerHalfyear
+		val result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months)
 
-	def startTimeOfHalfyear(moment: DateTime, startMonthOfYear: Int): DateTime = {
-		throw new NotImplementedException()
+		if (log.isDebugEnabled)
+			log.debug("일자[{}]가 속한 반기의 시작일은 [{}]입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear)
+
+		result
 	}
 
-	def startTimeOfHalfyear(year: Int, halfYearKind: HalfYearKind): DateTime =
-		startTimeOfHalfyear(year, halfYearKind, TimeSpec.CalendarYearStartMonth)
-
-	def startTimeOfHalfyear(year: Int, halfyearKind: HalfYearKind, startMonthOfYear: Int): DateTime = {
-		val month: Int = (halfyearKind.toInt - 1) * TimeSpec.MonthsPerHalfyear + 1
-		startTimeOfHalfyear(new DateTime(year, month, 1, 0, 0), startMonthOfYear)
+	/**
+	 * 지정한 년도와 반기(Halfyear)의 시작일
+	 */
+	def startTimeOfHalfyearByYear(year: Int,
+	                              halfyearKind: HalfYearKind,
+	                              startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
+		val month = (halfyearKind.toInt - 1) * TimeSpec.MonthsPerHalfyear + 1
+		startTimeOfHalfyear(new DateTime().withDate(year, month, 1), startMonthOfYear)
 	}
 
-	def endTimeOfHalfyear(moment: DateTime): DateTime = endTimeOfHalfyear(moment, TimeSpec.CalendarYearStartMonth)
-
-	def endTimeOfHalfyear(moment: DateTime, startMonthOfYear: Int): DateTime =
+	/**
+	 * 지정한 날짜가 속한 반기(Halfyear)의 마지막 일
+	 */
+	def endTimeOfHalfyear(moment: DateTime, startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime =
 		startTimeOfHalfyear(moment).plusMonths(TimeSpec.MonthsPerHalfyear).minus(TimeSpec.MinPositiveDuration)
 
-	def endTimeOfHalfyear(year: Int, halfYearKind: HalfYearKind): DateTime =
-		endTimeOfHalfyear(year, halfYearKind, TimeSpec.CalendarYearStartMonth)
-
-	def endTimeOfHalfyear(year: Int, halfyearKind: HalfYearKind, startMonthOfYear: Int): DateTime = {
-		val month: Int = (halfyearKind.toInt - 1) * TimeSpec.MonthsPerHalfyear + 1
-		endTimeOfHalfyear(new DateTime(year, month, 1, 0, 0), startMonthOfYear)
+	/**
+	 * 지정한 년도와 반기(Halfyear)의 마지막 일
+	 */
+	def endTimeOfHalfyearByYear(year: Int,
+	                            halfyearKind: HalfYearKind,
+	                            startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
+		val month = (halfyearKind.toInt - 1) * TimeSpec.MonthsPerHalfyear + 1
+		endTimeOfHalfyear(new DateTime().withDate(year, month, 1), startMonthOfYear)
 	}
+
+	//
+	// startTimeOfQuarter / endTimeOfQuarter
+	//
+
+	def startTimeOfQuarter(moment: DateTime, startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
+		val quarter = getQuarterOfMonth(moment.getMonthOfYear, startMonthOfYear).toInt
+		val months = (quarter - 1) * TimeSpec.MonthsPerQuarter
+
+		val result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months)
+
+		if (log.isDebugEnabled)
+			log.debug("일자 [{}]이 속한 Halfyear의 시작일은 [{}]입니다. startMonthOfYear=[{}]", moment, result, startMonthOfYear)
+
+		result
+	}
+
+	def startTimeOfQuarterByYear(year: Int,
+	                             quarter: QuarterKind,
+	                             yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
+		val months = (quarter.toInt - 1) * TimeSpec.MonthsPerQuarter
+		new DateTime().withDate(year, yearStartMonth, 1).plusMonths(months)
+	}
+
+	def endTimeOfQuarter(moment: DateTime, startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime =
+		startTimeOfQuarter(moment, startMonthOfYear)
+		.plusMonths(TimeSpec.MonthsPerQuarter)
+		.minus(TimeSpec.MinPositiveDuration)
+
+	def endTimeOfQuarterByYear(year: Int,
+	                           quarter: QuarterKind,
+	                           yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
+		startTimeOfQuarterByYear(year, quarter, yearStartMonth)
+		.plusMonths(TimeSpec.MonthsPerQuarter)
+		.minus(TimeSpec.MinPositiveDuration)
+	}
+
+	def startOfLastQuarter(current: DateTime): DateTime =
+		startTimeOfQuarterByYear(current.getYear, lastQuarterOf(current))
+
+	def endOfLastQuarter(current: DateTime): DateTime =
+		endTimeOfQuarterByYear(current.getYear, lastQuarterOf(current))
 
 	//
 	// << startTimeOfMonth / endTimeOfMonth >>
 	//
 
 	/**
-	 * 지정한 일자의 해당월의 시작일
+	 * 지정한 일자의 해당월의 시작일자
 	 */
-
-	def startTimeOfMonth(moment: DateTime): DateTime = moment.withTimeAtStartOfDay().withDayOfMonth(1)
-
-	/**
-	 * 지정한 일자의 해당월의 시작일
-	 */
-	def startTimeOfMonth(year: Int, month: MonthKind): DateTime = new DateTime(year, month.toInt, 1, 0, 0)
+	def startTimeOfMonth(moment: DateTime): DateTime = new DateTime().withDate(moment.getYear, moment.getMonthOfYear, 1)
 
 	/**
 	 * 지정한 년/월의 시작일자
 	 */
-	def startTimeOfMonth(year: Int, monthOfYear: Int): DateTime = new DateTime(year, monthOfYear, 1, 0, 0)
+	def startTimeOfMonthByYear(year: Int, monthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime =
+		new DateTime().withDate(year, monthOfYear, 1)
 
+	/**
+	 * 지정한 일자의 해당월의 종료일자
+	 */
 	def endTimeOfMonth(moment: DateTime): DateTime =
-		startTimeOfMonth(moment).plusMonths(1).minus(TimeSpec.MinPeriodDuration)
+		startTimeOfMonth(moment).plusMonths(1).minus(TimeSpec.MinPositiveDuration)
 
-	def endTimeOfMonth(year: Int, month: MonthKind): DateTime =
-		startTimeOfMonth(year, month).plusMonths(1).minus(TimeSpec.MinPeriodDuration)
+	/**
+	 * 지정한 년/월의 종료일자
+	 */
+	def endTimeOfMonthByYear(year: Int, monthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime =
+		startTimeOfMonthByYear(year, monthOfYear).plusMonths(1).minus(TimeSpec.MinPositiveDuration)
 
-	def endTimeOfMonth(year: Int, month: Int = 1): DateTime =
-		startTimeOfMonth(year, month).plusMonths(1).minus(TimeSpec.MinPeriodDuration)
-
+	/**
+	 * 지정한 일자의 전월의 시작 시각
+	 */
 	def startTimeOfLastMonth(current: DateTime): DateTime = startTimeOfMonth(current.minusMonths(1))
 
+	/**
+	 * 지정한 일자의 전월의 마직막 시각
+	 */
 	def endTimeOfLastMonth(current: DateTime): DateTime = endTimeOfMonth(current.minusMonths(1))
 
+
+	//
+	// startTimeOfWeek / endTimeOfWeek
+	//
+
+	def startTimeOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime = {
+		val currentFirstDay = firstDayOfWeek
+		var day = moment
+		while (day.getDayOfWeek != currentFirstDay)
+			day = day.minusDays(1)
+
+		day.withTimeAtStartOfDay()
+	}
+
+	def startTimeOfWeekByLocale(moment: DateTime, locale: Locale): DateTime =
+		startTimeOfWeek(moment, dayOfWeekByCalendarToJodaTime(locale))
+
+
+	def endTimeOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime =
+		startTimeOfWeek(moment, firstDayOfWeek)
+		.plusDays(TimeSpec.DaysPerWeek)
+		.minus(TimeSpec.MinPositiveDuration)
+
+	def endTimeOfWeekByLocale(moment: DateTime, locale: Locale): DateTime =
+		endTimeOfWeek(moment, dayOfWeekByCalendarToJodaTime(locale))
+
+	/**
+	 * Calendar 요일 상수를 joda time의 요일 상수로 변환합니다. (Calendar는 SUNDAY=1 이고 joda는 ISO 규정에 따라 정에 MONDAY=1 이다 )
+	 */
+	private def dayOfWeekByCalendarToJodaTime(locale: Locale): DayOfWeek = {
+		val dayOfWeek = (Calendar.getInstance(locale).getFirstDayOfWeek + 5) % 7 + 1
+		DayOfWeek.valueOf(dayOfWeek)
+	}
+
+
+	def startTimeOfLastWeek(current: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime =
+		startTimeOfWeek(current, firstDayOfWeek).minusDays(TimeSpec.DaysPerWeek)
+
+	def endTimeOfLastWeek(current: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime =
+		endTimeOfWeek(current, firstDayOfWeek).minusDays(TimeSpec.DaysPerWeek)
+
+
+	//
+	// startTimeOfDay / endTimeOfDay
+	//
+
+	def startTimeOfDay(moment: DateTime): DateTime = moment.withTimeAtStartOfDay()
+
+	def endTimeOfDay(moment: DateTime): DateTime =
+		moment.withTimeAtStartOfDay().plusDays(1).minus(TimeSpec.MinPositiveDuration)
+
+
+	//
+	// startTimeOfHour / endTimeofHour
+	//
+
+	def startTimeOfHour(moment: DateTime): DateTime = trimToMinute(moment)
+
+	def endTimeOfHour(moment: DateTime): DateTime = startTimeOfHour(moment).plusHours(1).minus(1)
+
+	def startTimeOfMinute(moment: DateTime): DateTime = trimToSecond(moment)
+
+	def endTimeOfMinute(moment: DateTime): DateTime = startTimeOfMinute(moment).plusMinutes(1).minus(1)
+
+	def startTimeOfSecond(moment: DateTime): DateTime = trimToMillis(moment)
+
+	def endTimeOfSecond(moment: DateTime): DateTime = startTimeOfSecond(moment).plusSeconds(1).minus(1)
+
+	//
+	// HalfyearKind
+	//
+
+	def halfyearOf(month: Int): HalfYearKind =
+		if (TimeSpec.FirstHalfyearMonths contains month) HalfYearKind.First
+		else HalfYearKind.Second
+
+	def halfyearOf(moment: DateTime): HalfYearKind = halfyearOf(moment.getMonthOfYear)
+
+	def startMonthOfHalfyear(halfyear: HalfYearKind): Int =
+		(halfyear.toInt - 1) * TimeSpec.MonthsPerHalfyear + 1
+
+	def endMonthOfHalfyear(halfyear: HalfYearKind): Int =
+		startMonthOfHalfyear(halfyear) + TimeSpec.MonthsPerHalfyear - 1
+
+	//
+	// QuarterKind
+	//
+	def startMonthOfQuarter(quarter: QuarterKind): Int =
+		(quarter.toInt - 1) * TimeSpec.MonthsPerQuarter + 1
+
+	def endMonthOfQuarter(quarter: QuarterKind): Int =
+		quarter.toInt * TimeSpec.MonthsPerQuarter
+
+	def quarterOf(month: Int): QuarterKind = {
+		val quarter = (month - 1) / TimeSpec.MonthsPerQuarter + 1
+		QuarterKind.valueOf(quarter)
+	}
+
+	def quarterOf(moment: DateTime): QuarterKind = quarterOf(moment.getMonthOfYear)
+
+	/**
+	 * 지정한 일자의 직전 분기를 구한다.
+	 * @param moment
+	 * @return
+	 */
+	def lastQuarterOf(moment: DateTime): QuarterKind =
+		quarterOf(moment.minusMonths(TimeSpec.MonthsPerQuarter).getMonthOfYear)
+
+
+	def nextDayOfWeek(current: DateTime): DateTime = nextDayOfWeek(current, current.getDayOfWeek)
+
+	def nextDayOfWeek(current: DateTime, dayOfWeek: Int): DateTime = {
+		Guard.shouldBeInRange(dayOfWeek, 1, 7, "dayOfWeek")
+		var next = current
+		do {
+			next = next.plusDays(1)
+		} while (next.dayOfWeek() != dayOfWeek)
+
+		next
+	}
+
+	def prevDayOfWeek(current: DateTime, dayOfWeek: Int): DateTime = {
+		Guard.shouldBeInRange(dayOfWeek, 1, 7, "dayOfWeek")
+		var prev = current;
+		do {
+			prev = prev.minusDays(1)
+		} while (prev.dayOfWeek() != dayOfWeek)
+		prev
+	}
+
+
+	def getDatePart(moment: DateTime): DateTime = moment.withTimeAtStartOfDay()
+
+	def hasDatePart(moment: DateTime): Boolean = getDatePart(moment).getMillis > 0
+
+	def setDatePart(moment: DateTime, datePart: DateTime): DateTime =
+		setTimePart(datePart, moment.getMillisOfDay)
+
+	def setDate(moment: DateTime, year: Int, month: Int = 1, day: Int = 1): DateTime =
+		setTimePart(new DateTime().withDate(year, month, day), moment.getMillisOfDay)
+
+	def setYear(moment: DateTime, year: Int): DateTime = moment.withYear(year)
+
+	def setMonth(moment: DateTime, monthOfYear: Int): DateTime =
+		moment.withMonthOfYear(monthOfYear)
+
+	def setDay(moment: DateTime, dayOfMonth: Int): DateTime =
+		moment.withDayOfMonth(dayOfMonth)
+
+	def combineDate(datePart: DateTime, timePart: DateTime): DateTime =
+		setTimePart(datePart, timePart.getMillisOfDay)
+
+	def getTimePart(moment: DateTime): DateTime =
+		new DateTime().withMillisOfDay(moment.getMillisOfDay)
+
+	def hasTimePart(moment: DateTime): Boolean = getTimePart(moment).getMillis > 0
+
+	def setTimePart(moment: DateTime, timePart: Int): DateTime =
+		getDatePart(moment).plusMillis(timePart)
+
+	def setTime(moment: DateTime, hour: Int = 0, minute: Int = 0, second: Int = 0, millis: Int = 0): DateTime =
+		getDatePart(moment).withTime(hour, minute, second, millis)
+
+	def setHour(moment: DateTime, hourOfDay: Int): DateTime = moment.withHourOfDay(hourOfDay)
+
+	def setMinute(moment: DateTime, minuteOfHour: Int): DateTime = moment.withMinuteOfHour(minuteOfHour)
+
+	def setSecond(moment: DateTime, secondOfMinute: Int): DateTime = moment.withSecondOfMinute(secondOfMinute)
+
+	def setMillis(moment: DateTime, millisOfSecond: Int): DateTime = moment.withMillisOfSecond(millisOfSecond)
+
+	//
+	// Fluent Methods
+	//
+
+	/**
+	 * 지정한 일자의 정오
+	 */
+	def noon(moment: DateTime): DateTime = getDatePart(moment).withHourOfDay(12)
+
+	/**
+	 * 지정한 시각에서 duration 이전의 시각 (과거)
+	 */
+	def ago(moment: DateTime, duration: Duration): DateTime = moment.minus(duration)
+
+	/**
+	 * 지정한 시각에서 duration 이후의 시각 (미래)
+	 */
+	def from(moment: DateTime, duration: Duration): DateTime = moment.plus(duration)
+
+	def fromNow(duration: Duration): DateTime = from(getNow, duration)
+
+	/**
+	 * from 메소드와 같다 (지정한 시각에서 duration 이후의 시각 (미래))
+	 */
+	def since(moment: DateTime, duration: Duration): DateTime = from(moment, duration)
 
 	//
 	// << Iterables >>
@@ -557,10 +800,9 @@ object Times {
 				currentTime = currentTime.plusYears(1)
 			}
 			if (currentTime.getMillis < period.getEnd.getMillis)
-				result += getTimeRange(startTimeOfYear(currentTime), period.getEnd))
+				result += getTimeRange(startTimeOfYear(currentTime), period.getEnd)
 		}
 		result
-
 	}
 
 	def assertHasPeriod(period: ITimePeriod) {
@@ -600,7 +842,7 @@ object Times {
 		if (a != null) a else b
 	}
 
-	def adjustPeriod(start: Date, end: Date) {
+	def adjustPeriod(start: Date, end: Date): (Date, Date) = {
 		if (start != null && end != null) {
 			if (start.compareTo(end) > 0) {
 				(end, start)
@@ -609,21 +851,21 @@ object Times {
 		(start, end)
 	}
 
-	def adjustPeriod(start: Date, duration: Long) {
+	def adjustPeriod(start: Date, duration: Long): (Date, Long) = {
 		if (start == null || duration == null)
 			(start, duration)
 
 		if (duration < 0L) (new Date(start.getTime + duration), -duration) else (start, duration)
 	}
 
-	def adjustPeriod(start: DateTime, end: DateTime) = {
+	def adjustPeriod(start: DateTime, end: DateTime): (DateTime, DateTime) = {
 		if (start == null || end == null)
 			(start, end)
 
 		if (start.compareTo(end) > 0) (end, start) else (start, end)
 	}
 
-	def adjustPeriod(start: DateTime, duration: Long) = {
+	def adjustPeriod(start: DateTime, duration: Long): (DateTime, Long) = {
 		if (start == null || duration == null)
 			(start, duration)
 
@@ -639,29 +881,60 @@ object Times {
 		new TimeBlock(start, duration, false)
 	}
 
-	def getTimeBlock(start: DateTime, end: DateTime): TimeBlock = {
+	def getTimeBlock(start: DateTime, duration: Duration): TimeBlock =
+		new TimeBlock(start, duration.getMillis, false)
+
+	def getTimeBlock(start: DateTime, end: DateTime): TimeBlock =
 		new TimeBlock(start, end, false)
-	}
+
 
 	def getTimeRange(start: DateTime, duration: Long): TimeRange = {
 		new TimeRange(start, duration, false)
 	}
 
-	def getTimeRange(start: DateTime, end: DateTime): TimeRange = {
+	def getTimeRange(start: DateTime, duration: Duration): TimeRange =
+		new TimeRange(start, duration.getMillis, false)
+
+	def getTimeRange(start: DateTime, end: DateTime): TimeRange =
 		new TimeRange(start, end, false)
-	}
 
-	def getRelativeYearPeriod(start: DateTime, years: Int): TimeRange = {
+	def getRelativeYearPeriod(start: DateTime, years: Int = 0): TimeRange =
 		new TimeRange(start, start.plusYears(years))
-	}
 
-	def getRelativeMonthPeriod(start: DateTime, months: Int): TimeRange = {
+	def getRelativeMonthPeriod(start: DateTime, months: Int = 0): TimeRange =
 		new TimeRange(start, start.plusMonths(months))
+
+	def getRelativeWeekPeriod(start: DateTime, weeks: Int = 0): TimeRange =
+		new TimeRange(start, start.plusDays(weeks * TimeSpec.DaysPerWeek))
+
+	def getRelativeDayPeriod(start: DateTime, days: Int = 0): TimeRange =
+		new TimeRange(start, start.plusDays(days))
+
+	def getRelativeHourPeriod(start: DateTime, hours: Int = 0): TimeRange =
+		new TimeRange(start, start.plusHours(hours))
+
+	def getRelativeMinutePeriod(start: DateTime, minutes: Int = 0): TimeRange =
+		new TimeRange(start, start.plusMinutes(minutes))
+
+	def getRelativeSecondPeriod(start: DateTime, seconds: Int = 0): TimeRange =
+		new TimeRange(start, start.plusSeconds(seconds))
+
+	def getPeriodOf(moment: DateTime, periodKind: PeriodKind, timeCalendar: ITimeCalendar = TimeCalendar.create()): ITimePeriod = {
+		if (log.isDebugEnabled)
+			log.debug("일자[{}]가 속한 기간종류[{}]의 기간을 구합니다. timeCalendar=[{}]", moment, periodKind, timeCalendar)
+
+		periodKind match {
+			case PeriodKind.Year => getYearRange(moment, timeCalendar)
+		}
 	}
 
-	def getRelativeDayPeriod(start: DateTime, days: Int): TimeRange = {
-		new TimeRange(start, start.plusDays(days))
-	}
+
+	def getYearRange(moment: DateTime, timeCalendar: ITimeCalendar = TimeCalendar.Default): YearRange =
+		new YearRange(moment, timeCalendar)
+
+	def getYearRanges(moment: DateTime, yearCount: Int, timeCalendar: ITimeCalendar = TimeCalendar.Default): YearRangeCollection =
+		new YearRangeCollection(moment, yearCount, timeCalendar)
+
 
 	//
 	// << Relation >>
@@ -718,7 +991,9 @@ object Times {
 			val insideStart: Boolean = hasInside(target, period.getStart)
 			val insideEnd: Boolean = hasInside(target, period.getEnd)
 			if (insideStart && insideEnd) {
-				relation = if ((period.getStart == target.getStart)) PeriodRelation.InsideStartTouching else if (((period.getEnd == target.getEnd))) PeriodRelation.InsideEndTouching else PeriodRelation.Inside
+				relation = if ((period.getStart == target.getStart)) PeriodRelation.InsideStartTouching
+				           else if (((period.getEnd == target.getEnd))) PeriodRelation.InsideEndTouching
+				           else PeriodRelation.Inside
 			}
 			else if (insideStart) {
 				relation = PeriodRelation.StartInside
@@ -766,6 +1041,7 @@ object Times {
 			relation != PeriodRelation.EndTouching &&
 			relation != PeriodRelation.Before &&
 			relation != PeriodRelation.NoRelation
+
 		if (isDebugEnabled)
 			log.debug("period=[{}], target=[{}]이 overlap 되는지 확인합니다. isOverlaps=[{}]",
 			          asString(period), asString(target), isOverlaps)
@@ -821,9 +1097,11 @@ object Times {
 			val end: DateTime = min(period.getEnd, target.getEnd)
 			intersectionRange = new TimeRange(start, end, period.isReadonly)
 		}
-		if (log.isDebugEnabled) log.debug("period=[{}]와 target=[{}]의 교집합 TimeRange=[{}]을 구했습니다.", asString(period),
-		                                  asString(target), asString(intersectionRange))
-		return intersectionRange
+		if (log.isDebugEnabled)
+			log.debug("period=[{}]와 target=[{}]의 교집합 TimeRange=[{}]을 구했습니다.",
+			          asString(period), asString(target), asString(intersectionRange))
+
+		intersectionRange
 	}
 
 	/**
@@ -832,15 +1110,19 @@ object Times {
 	def getUnionRange(period: ITimePeriod, target: ITimePeriod): TimeRange = {
 		Guard.shouldNotBeNull(period, "period")
 		Guard.shouldNotBeNull(target, "target")
+
 		var unionRange: TimeRange = null
 		if (intersectsWith(period, target)) {
 			val start: DateTime = min(period.getStart, target.getStart)
 			val end: DateTime = max(period.getEnd, target.getEnd)
 			unionRange = new TimeRange(start, end, period.isReadonly)
 		}
+
 		if (log.isDebugEnabled)
-			log.debug("period=[{}]와 target=[{}]의 합집합 TimeRange=[{}]을 구했습니다.", asString(period), asString(target), asString(unionRange))
-		return unionRange
+			log.debug("period=[{}]와 target=[{}]의 합집합 TimeRange=[{}]을 구했습니다.",
+			          asString(period), asString(target), asString(unionRange))
+
+		unionRange
 	}
 
 	//

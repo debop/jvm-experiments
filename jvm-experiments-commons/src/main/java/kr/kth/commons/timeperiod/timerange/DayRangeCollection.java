@@ -24,7 +24,7 @@ public class DayRangeCollection extends DayTimeRange {
 	// region << Constructors >>
 
 	public DayRangeCollection(DateTime moment, int hourCount) {
-		this(moment, hourCount, TimeCalendar.Default);
+		this(moment, hourCount, TimeCalendar.Default());
 	}
 
 	public DayRangeCollection(DateTime moment, int hourCount, ITimeCalendar calendar) {
@@ -32,7 +32,7 @@ public class DayRangeCollection extends DayTimeRange {
 	}
 
 	public DayRangeCollection(int year, int month, int day, int dayCount) {
-		this(year, month, day, dayCount, TimeCalendar.Default);
+		this(year, month, day, dayCount, TimeCalendar.Default());
 	}
 
 	public DayRangeCollection(int year, int month, int day, int dayCount, ITimeCalendar calendar) {

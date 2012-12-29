@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import kr.kth.commons.tools.HashTool
 
 /**
- * org.joda.time.DateTime 중에 Date Part 만을 표현합니다.
+ * org.joda.timePart.DateTime 중에 Date Part 만을 표현합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
@@ -43,7 +43,7 @@ class DateVal extends ValueObjectBase with Comparable[DateVal] {
 
 	protected override def buildStringHelper() =
 		super.buildStringHelper()
-			.add("moment", date)
+		.add("moment", date)
 }
 
 object DateVal {

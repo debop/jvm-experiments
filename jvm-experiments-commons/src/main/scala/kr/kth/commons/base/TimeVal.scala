@@ -4,7 +4,7 @@ import kr.kth.commons.tools.HashTool
 import org.joda.time.{Duration, DateTime}
 
 /**
- * org.joda.time.DateTime 중에 Time Part 만을 표현합니다.
+ * org.joda.timePart.DateTime 중에 Time Part 만을 표현합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
@@ -47,7 +47,7 @@ class TimeVal extends ValueObjectBase with Comparable[TimeVal] {
 
 	protected override def buildStringHelper() =
 		super.buildStringHelper()
-			.add("time", time)
+		.add("timePart", time)
 
 	def compareTo(other: TimeVal) = {
 		Guard.shouldNotBeNull(other, "other")

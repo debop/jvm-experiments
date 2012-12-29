@@ -82,7 +82,7 @@ public class LoggingInterceptor extends EmptyInterceptor {
 			            .add("entityId", entityId)
 			            .add("entityName", entityName)
 			            .add("action", action)
-			            .add("time", time);
+			            .add("timePart", time);
 		}
 	}
 }

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 
 /**
- * kr.kth.commons.timeperiod.timerange.YearRange
+ * 1년(Year) 단위의 기간을 표현
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 23.
  */

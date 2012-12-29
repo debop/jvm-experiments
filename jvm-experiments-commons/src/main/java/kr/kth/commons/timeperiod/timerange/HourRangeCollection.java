@@ -21,7 +21,7 @@ public class HourRangeCollection extends HourTimeRange {
 	private static final long serialVersionUID = -7443693337436110826L;
 
 	public HourRangeCollection(DateTime moment, int hourCount) {
-		this(moment, hourCount, TimeCalendar.Default);
+		this(moment, hourCount, TimeCalendar.Default());
 	}
 
 	public HourRangeCollection(DateTime moment, int hourCount, ITimeCalendar calendar) {
@@ -29,7 +29,7 @@ public class HourRangeCollection extends HourTimeRange {
 	}
 
 	public HourRangeCollection(int year, int month, int day, int hour, int hourCount) {
-		this(year, month, day, hour, hourCount, TimeCalendar.Default);
+		this(year, month, day, hour, hourCount, TimeCalendar.Default());
 	}
 
 	public HourRangeCollection(int year, int month, int day, int hour, int hourCount, ITimeCalendar calendar) {
