@@ -45,11 +45,11 @@ object Times {
 	def toDateTime(str: String, valueFactory: () => DateTime): DateTime = {
 		if (StringTool.isEmpty(str)) UnixEpoch
 
-		val factory = if (valueFactory != null) valueFactory else () => Times.UnixEpoch
+		val factory = if (valueFactory != null) valueFactory else (() => Times.UnixEpoch)
 		try {
 			DateTime.parse(str)
 		} catch {
-			case e: Exception => valueFactory.apply()
+			case e: Exception => factory.apply()
 		}
 	}
 
@@ -172,7 +172,7 @@ object Times {
 	 */
 	def getStartOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime = {
 		var currentDay = datePart(moment)
-		while (currentDay.getDayOfWeek != firstDayOfWeek) {
+		while (currentDay.getDayOfWeek != firstDayOfWeek.toInt) {
 			currentDay = currentDay.minusDays(1)
 		}
 		currentDay
@@ -583,7 +583,7 @@ object Times {
 	def startTimeOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime = {
 		val currentFirstDay = firstDayOfWeek
 		var day = moment
-		while (day.getDayOfWeek != currentFirstDay)
+		while (day.getDayOfWeek != currentFirstDay.toInt)
 			day = day.minusDays(1)
 
 		day.withTimeAtStartOfDay()
@@ -677,8 +677,6 @@ object Times {
 
 	/**
 	 * 지정한 일자의 직전 분기를 구한다.
-	 * @param moment
-	 * @return
 	 */
 	def lastQuarterOf(moment: DateTime): QuarterKind =
 		quarterOf(moment.minusMonths(TimeSpec.MonthsPerQuarter).getMonthOfYear)
@@ -698,7 +696,7 @@ object Times {
 
 	def prevDayOfWeek(current: DateTime, dayOfWeek: Int): DateTime = {
 		Guard.shouldBeInRange(dayOfWeek, 1, 7, "dayOfWeek")
-		var prev = current;
+		var prev = current
 		do {
 			prev = prev.minusDays(1)
 		} while (prev.dayOfWeek() != dayOfWeek)
@@ -852,7 +850,7 @@ object Times {
 	}
 
 	def adjustPeriod(start: Date, duration: Long): (Date, Long) = {
-		if (start == null || duration == null)
+		if (start == null || duration == 0)
 			(start, duration)
 
 		if (duration < 0L) (new Date(start.getTime + duration), -duration) else (start, duration)
@@ -866,7 +864,7 @@ object Times {
 	}
 
 	def adjustPeriod(start: DateTime, duration: Long): (DateTime, Long) = {
-		if (start == null || duration == null)
+		if (start == null || duration == 0)
 			(start, duration)
 
 		if (duration < 0) (start.plus(duration), -duration) else (start, duration)
@@ -919,7 +917,7 @@ object Times {
 	def getRelativeSecondPeriod(start: DateTime, seconds: Int = 0): TimeRange =
 		new TimeRange(start, start.plusSeconds(seconds))
 
-	def getPeriodOf(moment: DateTime, periodKind: PeriodKind, timeCalendar: ITimeCalendar = TimeCalendar()): ITimePeriod = {
+	def getPeriodOf(moment: DateTime, periodKind: PeriodKind, timeCalendar: ITimeCalendar = TimeCalendar.Default): ITimePeriod = {
 		if (log.isDebugEnabled)
 			log.debug("일자[{}]가 속한 기간종류[{}]의 기간을 구합니다. timeCalendar=[{}]", moment, periodKind, timeCalendar)
 
@@ -1105,7 +1103,7 @@ object Times {
 	}
 
 	/**
-	 * 두 기간의 합집합을 구하여 {@link TimeRange} 인스턴스를 빌드하여 반환합니다.
+	 * 두 기간의 합집합을 구하여 TimeRange 인스턴스를 빌드하여 반환합니다.
 	 */
 	def getUnionRange(period: ITimePeriod, target: ITimePeriod): TimeRange = {
 		Guard.shouldNotBeNull(period, "period")
@@ -1150,7 +1148,7 @@ object Times {
 	def assertValidPeriod(start: DateTime, end: DateTime) {
 		if (start != null && end != null)
 			Guard.assertTrue(start.getMillis <= end.getMillis,
-			                 "시작 시각이 완료 시각보다 이전 시각이어야 합니다. Start=[%s], End=[%s]", start, end);
+			                 "시작 시각이 완료 시각보다 이전 시각이어야 합니다. Start=[%s], End=[%s]", start, end)
 	}
 
 	def assertMutable(period: ITimePeriod) {

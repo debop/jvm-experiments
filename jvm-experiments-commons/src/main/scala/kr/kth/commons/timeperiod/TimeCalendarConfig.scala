@@ -12,6 +12,7 @@ import kr.kth.commons.tools.HashTool
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 29.
  */
+@SerialVersionUID(939047587024793248L)
 class TimeCalendarConfig(aLocale: Locale = Locale.getDefault,
                          aWeekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601)
 extends ValueObjectBase {
@@ -38,6 +39,5 @@ extends ValueObjectBase {
 }
 
 object TimeCalendarConfig {
-
 	lazy val Default: TimeCalendarConfig = new TimeCalendarConfig()
 }

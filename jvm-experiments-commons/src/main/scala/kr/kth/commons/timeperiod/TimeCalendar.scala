@@ -11,8 +11,8 @@ import com.google.common.base.Objects.ToStringHelper
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 29.
  */
+@SerialVersionUID(4848502849274L)
 class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITimeCalendar {
-
 	{
 		// 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
 		//
@@ -157,9 +157,9 @@ object TimeCalendar {
 	lazy val DefaultStartOffset = new Duration(TimeSpec.NoDuration)
 	lazy val DufaultEndOffset = new Duration(TimeSpec.MinPositiveDuration)
 
-	lazy val Default = apply()
+	lazy val Default = apply
 
-	def apply() = new TimeCalendar(TimeCalendarConfig.Default)
+	def apply = new TimeCalendar(TimeCalendarConfig.Default)
 
 	def apply(locale: Locale) = {
 		val cfg = TimeCalendarConfig.Default
