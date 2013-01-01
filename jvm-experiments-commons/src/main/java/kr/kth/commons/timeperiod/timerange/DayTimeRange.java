@@ -31,7 +31,7 @@ public abstract class DayTimeRange extends CalendarTimeRange {
 	}
 
 	protected DayTimeRange(int year, int month, int day, int dayCount) {
-		this(year, month, day, dayCount, new TimeCalendar());
+		this(year, month, day, dayCount, TimeCalendar.Default());
 	}
 
 	protected DayTimeRange(int year, int month, int day, int dayCount, ITimeCalendar calendar) {

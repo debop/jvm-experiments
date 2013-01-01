@@ -28,7 +28,7 @@ public abstract class MinuteTimeRange extends CalendarTimeRange {
 	}
 
 	protected MinuteTimeRange(int year, int month, int day, int hour, int minute, int minuteCount) {
-		this(year, month, day, hour, minute, minuteCount, new TimeCalendar());
+		this(year, month, day, hour, minute, minuteCount, TimeCalendar.Default());
 	}
 
 	protected MinuteTimeRange(int year, int month, int day, int hour, int minute, int minuteCount, ITimeCalendar calendar) {

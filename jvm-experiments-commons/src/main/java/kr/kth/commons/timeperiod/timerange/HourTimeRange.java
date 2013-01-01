@@ -32,7 +32,7 @@ public abstract class HourTimeRange extends CalendarTimeRange {
 	}
 
 	protected HourTimeRange(int year, int month, int day, int hour, int hourCount) {
-		this(year, month, day, hour, hourCount, new TimeCalendar());
+		this(year, month, day, hour, hourCount, TimeCalendar.Default());
 	}
 
 	protected HourTimeRange(int year, int month, int day, int hour, int hourCount, ITimeCalendar calendar) {

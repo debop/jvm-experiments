@@ -4,25 +4,19 @@ import kr.kth.commons.base.{Guard, ValueObjectBase}
 import org.joda.time.{Duration, DateTime}
 import java.util.Locale
 import kr.kth.commons.tools.HashTools
+import com.google.common.base.Objects.ToStringHelper
 
 /**
  * 문화권에 따른 날짜 표현, 날짜 계산 등을 제공하는 Calendar 입니다. (ISO 8601, Korean 등)
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 29.
  */
-class TimeCalendar extends ValueObjectBase with ITimeCalendar {
+class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITimeCalendar {
 
-	private var locale: Locale = _
-	private var yearKind: YearKind = _
-	private var startOffset: Duration = _
-	private var endOffset: Duration = _
-	private var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
-	private var weekOfYearRule: WeekOfYearRuleKind = _
-	private var calendarWeekRule: CalendarWeekRule = _
-	private var firstDayOfWeek: DayOfWeek = _
+	{
+		// 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
+		//
 
-	def this(config: TimeCalendarConfig = null) {
-		this()
 		val cfg = if (config != null) config else TimeCalendarConfig.Default
 
 		Guard.shouldNotBeNegativeNumber(cfg.getStartOffset.getMillis, "startOffSet")
@@ -34,9 +28,19 @@ class TimeCalendar extends ValueObjectBase with ITimeCalendar {
 		this.endOffset = cfg.getEndOffset
 		this.yearBaseMonth = cfg.getYearBaseMonth
 		this.weekOfYearRule = cfg.getWeekOfYearRule
-		this.calendarWeekRule = cfg.getCalendarWeekRule()
-		this.firstDayOfWeek = cfg.getFirstDayOfWeek()
+		this.calendarWeekRule = cfg.getCalendarWeekRule
+		this.firstDayOfWeek = cfg.getFirstDayOfWeek
 	}
+
+	private var locale: Locale = _
+	private var yearKind: YearKind = _
+	private var startOffset: Duration = _
+	private var endOffset: Duration = _
+	private var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
+	private var weekOfYearRule: WeekOfYearRuleKind = _
+	private var calendarWeekRule: CalendarWeekRule = _
+	private var firstDayOfWeek: DayOfWeek = _
+
 
 	def getLocale: Locale = locale
 
@@ -134,9 +138,9 @@ class TimeCalendar extends ValueObjectBase with ITimeCalendar {
 	def unmapEnd(moment: DateTime) =
 		if (moment.compareTo(TimeSpec.MinPeriodTime) < 0) moment.plus(getEndOffset) else moment
 
-	override def hashCode() = HashTools.compute(locale, startOffset, endOffset, yearBaseMonth, weekOfYearRule)
+	override def hashCode(): Int = HashTools.compute(locale, startOffset, endOffset, yearBaseMonth, weekOfYearRule)
 
-	protected override def buildStringHelper() =
+	protected override def buildStringHelper(): ToStringHelper =
 		super.buildStringHelper()
 		.add("locale", locale)
 		.add("startOffset", startOffset)
@@ -153,25 +157,25 @@ object TimeCalendar {
 	lazy val DefaultStartOffset = new Duration(TimeSpec.NoDuration)
 	lazy val DufaultEndOffset = new Duration(TimeSpec.MinPositiveDuration)
 
-	lazy val Default = create()
+	lazy val Default = apply()
 
-	def create() = new TimeCalendar(TimeCalendarConfig.Default)
+	def apply() = new TimeCalendar(TimeCalendarConfig.Default)
 
-	def create(locale: Locale) = {
+	def apply(locale: Locale) = {
 		val cfg = TimeCalendarConfig.Default
 		cfg.setLocale(locale)
 
 		new TimeCalendar(cfg)
 	}
 
-	def create(yearBaseMonth: Int) = {
+	def apply(yearBaseMonth: Int) = {
 		val cfg = TimeCalendarConfig.Default
 		cfg.setYearBaseMonth(yearBaseMonth)
 
 		new TimeCalendar(cfg)
 	}
 
-	def create(startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
+	def apply(startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
 		val cfg = TimeCalendarConfig.Default
 
 		cfg.setStartOffset(startOffset)
@@ -181,7 +185,7 @@ object TimeCalendar {
 		new TimeCalendar(cfg)
 	}
 
-	def create(locale: Locale, startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
+	def apply(locale: Locale, startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
 		val cfg = TimeCalendarConfig.Default
 
 		cfg.setLocale(locale)
@@ -194,14 +198,14 @@ object TimeCalendar {
 		new TimeCalendar(cfg)
 	}
 
-	def create(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind) = {
+	def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind) = {
 		val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
 		cfg.setYearBaseMonth(yearBaseMonth)
 
 		new TimeCalendar(cfg)
 	}
 
-	def create(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind, startOffset: Duration, endOffset: Duration) = {
+	def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind, startOffset: Duration, endOffset: Duration) = {
 		val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
 		cfg.setYearBaseMonth(yearBaseMonth)
 		if (startOffset != null)
@@ -212,7 +216,7 @@ object TimeCalendar {
 		new TimeCalendar(cfg)
 	}
 
-	def createEmptyOffset(locale: Locale = Locale.getDefault, yearBaseMonth: Int = 1): TimeCalendar = {
+	def apply(locale: Locale, yearBaseMonth: Int): TimeCalendar = {
 		val cfg = new TimeCalendarConfig(locale)
 		cfg.setYearBaseMonth(yearBaseMonth)
 

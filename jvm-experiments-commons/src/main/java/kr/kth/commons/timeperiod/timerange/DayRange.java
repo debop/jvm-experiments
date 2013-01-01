@@ -22,7 +22,7 @@ public class DayRange extends DayTimeRange {
 	// region << Constructors >>
 
 	public DayRange() {
-		this(new TimeCalendar());
+		this(TimeCalendar.Default());
 	}
 
 	public DayRange(ITimeCalendar calendar) {
@@ -30,7 +30,7 @@ public class DayRange extends DayTimeRange {
 	}
 
 	public DayRange(DateTime moment) {
-		this(moment, new TimeCalendar());
+		this(moment, TimeCalendar.Default());
 	}
 
 	public DayRange(DateTime moment, ITimeCalendar calendar) {
@@ -38,7 +38,7 @@ public class DayRange extends DayTimeRange {
 	}
 
 	public DayRange(int year, int month, int day) {
-		this(year, month, day, new TimeCalendar());
+		this(year, month, day, TimeCalendar.Default());
 	}
 
 	public DayRange(int year, int month, int day, ITimeCalendar calendar) {

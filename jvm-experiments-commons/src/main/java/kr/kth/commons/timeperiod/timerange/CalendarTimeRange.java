@@ -23,7 +23,7 @@ public abstract class CalendarTimeRange extends TimeRange implements ICalendarTi
 	private static TimeRange toCalendarTimeRange(ITimePeriod period, ITimePeriodMapper mapper) {
 		shouldNotBeNull(period, "period");
 		if (mapper == null)
-			mapper = new TimeCalendar();
+			mapper = TimeCalendar.Default();
 
 		DateTime mappedStart = mapper.mapStart(period.getStart());
 		DateTime mappedEnd = mapper.mapEnd(period.getEnd());
@@ -42,7 +42,7 @@ public abstract class CalendarTimeRange extends TimeRange implements ICalendarTi
 	// region << constructors >>
 
 	protected CalendarTimeRange(DateTime start, DateTime end) {
-		this(start, end, new TimeCalendar());
+		this(start, end, TimeCalendar.Default());
 	}
 
 	protected CalendarTimeRange(DateTime start, DateTime end, ITimeCalendar timeCalendar) {
@@ -50,7 +50,7 @@ public abstract class CalendarTimeRange extends TimeRange implements ICalendarTi
 	}
 
 	protected CalendarTimeRange(DateTime start, long duration) {
-		this(new TimeRange(start, duration), new TimeCalendar());
+		this(new TimeRange(start, duration), TimeCalendar.Default());
 	}
 
 	protected CalendarTimeRange(DateTime start, long duration, ITimeCalendar timeCalendar) {
@@ -58,7 +58,7 @@ public abstract class CalendarTimeRange extends TimeRange implements ICalendarTi
 	}
 
 	protected CalendarTimeRange(ITimePeriod period) {
-		this(period, new TimeCalendar());
+		this(period, TimeCalendar.Default());
 	}
 
 	protected CalendarTimeRange(ITimePeriod period, ITimeCalendar timeCalendar) {

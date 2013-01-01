@@ -16,7 +16,6 @@ class TimeCalendarConfig(aLocale: Locale = Locale.getDefault,
                          aWeekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601)
 extends ValueObjectBase {
 
-
 	@BeanProperty var locale: Locale = aLocale
 	@BeanProperty var yearKind: YearKind = YearKind.CalendarYear
 	@BeanProperty var startOffset: Duration = Duration.ZERO
@@ -24,9 +23,9 @@ extends ValueObjectBase {
 	@BeanProperty var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
 	@BeanProperty var weekOfYearRule: WeekOfYearRuleKind = aWeekOfYearRule
 
-	def getCalendarWeekRule() = WeekTools.getCalendarWeekRule(locale, weekOfYearRule)
+	def getCalendarWeekRule = WeekTools.getCalendarWeekRule(locale, weekOfYearRule)
 
-	def getFirstDayOfWeek(): DayOfWeek = WeekTools.getFirstDayOfWeek(locale, weekOfYearRule)
+	def getFirstDayOfWeek: DayOfWeek = WeekTools.getFirstDayOfWeek(locale, weekOfYearRule)
 
 	override def hashCode() = HashTool.compute(locale, weekOfYearRule, startOffset, endOffset)
 

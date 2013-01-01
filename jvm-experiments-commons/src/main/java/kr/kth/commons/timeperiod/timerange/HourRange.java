@@ -22,7 +22,7 @@ public class HourRange extends HourTimeRange {
 	// region << Constructors >>
 
 	public HourRange() {
-		this(new TimeCalendar());
+		this(TimeCalendar.Default());
 	}
 
 	public HourRange(ITimeCalendar calendar) {
@@ -30,7 +30,7 @@ public class HourRange extends HourTimeRange {
 	}
 
 	public HourRange(DateTime moment) {
-		this(moment, new TimeCalendar());
+		this(moment, TimeCalendar.Default());
 	}
 
 	public HourRange(DateTime moment, ITimeCalendar calendar) {
@@ -38,7 +38,7 @@ public class HourRange extends HourTimeRange {
 	}
 
 	public HourRange(int year, int month, int day, int hour) {
-		this(year, month, day, hour, new TimeCalendar());
+		this(year, month, day, hour, TimeCalendar.Default());
 	}
 
 	public HourRange(int year, int month, int day, int hour, ITimeCalendar calendar) {

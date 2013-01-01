@@ -19,7 +19,7 @@ public class YearRange extends YearTimeRange {
 	private static final long serialVersionUID = -7756718452396550503L;
 
 	public YearRange() {
-		this(new TimeCalendar());
+		this(TimeCalendar.Default());
 	}
 
 	public YearRange(ITimeCalendar calendar) {
@@ -27,7 +27,7 @@ public class YearRange extends YearTimeRange {
 	}
 
 	public YearRange(DateTime moment) {
-		this(moment, new TimeCalendar());
+		this(moment, TimeCalendar.Default());
 	}
 
 	public YearRange(DateTime moment, ITimeCalendar calendar) {
@@ -35,7 +35,7 @@ public class YearRange extends YearTimeRange {
 	}
 
 	public YearRange(int year) {
-		this(year, new TimeCalendar());
+		this(year, TimeCalendar.Default());
 	}
 
 	public YearRange(int year, ITimeCalendar calendar) {

@@ -70,7 +70,7 @@ object WeekTools {
 	                   locale: Locale = null,
 	                   weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601,
 	                   yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): YearAndWeek = {
-		getYearAndWeek(moment, TimeCalendar.create(locale, yearStartMonth, weekOfYearRule))
+		getYearAndWeek(moment, TimeCalendar(locale, yearStartMonth, weekOfYearRule))
 	}
 
 	def getYearAndWeek(moment: DateTime, timeCalendar: ITimeCalendar): YearAndWeek = {
@@ -79,7 +79,7 @@ object WeekTools {
 	}
 
 	def getEndYearAndWeek(year: Int, locale: Locale, weekOfYearRule: WeekOfYearRuleKind, yearStartMonth: Int): YearAndWeek = {
-		getEndYearAndWeek(year, TimeCalendar.create(locale, yearStartMonth, weekOfYearRule))
+		getEndYearAndWeek(year, TimeCalendar(locale, yearStartMonth, weekOfYearRule))
 	}
 
 	def getEndYearAndWeek(year: Int, timeCalendar: ITimeCalendar): YearAndWeek = {
@@ -104,11 +104,11 @@ object WeekTools {
 	                         locale: Locale = Locale.getDefault,
 	                         weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601,
 	                         yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): WeekRange = {
-		val timeCalendar = TimeCalendar.create(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
+		val timeCalendar = TimeCalendar(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
 		getWeekRange(yearAndWeek, timeCalendar)
 	}
 
-	def getStartWeekRangeOfYear(year: Int, timeCalendar: ITimeCalendar = TimeCalendar.create()) = {
+	def getStartWeekRangeOfYear(year: Int, timeCalendar: ITimeCalendar = TimeCalendar.Default) = {
 		getWeekRange(new YearAndWeek(year, 1), timeCalendar)
 	}
 
@@ -116,12 +116,12 @@ object WeekTools {
 	                                    locale: Locale = Locale.getDefault,
 	                                    weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601,
 	                                    yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): WeekRange = {
-		val timeCalendar = TimeCalendar.create(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
+		val timeCalendar = TimeCalendar(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
 		getStartWeekRangeOfYear(year, timeCalendar)
 	}
 
 
-	def getEndWeekRangeOfYear(year: Int, timeCalendar: ITimeCalendar = TimeCalendar.create()) = {
+	def getEndWeekRangeOfYear(year: Int, timeCalendar: ITimeCalendar = TimeCalendar.Default) = {
 		var endYearAndWeek = getEndYearAndWeek(year, timeCalendar)
 		getWeekRange(endYearAndWeek, timeCalendar)
 	}
@@ -130,7 +130,7 @@ object WeekTools {
 	                                  locale: Locale = Locale.getDefault,
 	                                  weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601,
 	                                  yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): WeekRange = {
-		val timeCalendar = TimeCalendar.create(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
+		val timeCalendar = TimeCalendar(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
 		getEndWeekRangeOfYear(year, timeCalendar)
 	}
 
@@ -147,7 +147,7 @@ object WeekTools {
 	                           locale: Locale = Locale.getDefault,
 	                           weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601,
 	                           yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): YearAndWeek = {
-		val timeCalendar = TimeCalendar.create(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
+		val timeCalendar = TimeCalendar(locale, yearStartMonth, weekOfYearRule, Duration.ZERO, Duration.ZERO)
 		addWeekOfYears(yearAndWeek, weeks, timeCalendar)
 	}
 }

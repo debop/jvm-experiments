@@ -919,7 +919,7 @@ object Times {
 	def getRelativeSecondPeriod(start: DateTime, seconds: Int = 0): TimeRange =
 		new TimeRange(start, start.plusSeconds(seconds))
 
-	def getPeriodOf(moment: DateTime, periodKind: PeriodKind, timeCalendar: ITimeCalendar = TimeCalendar.create()): ITimePeriod = {
+	def getPeriodOf(moment: DateTime, periodKind: PeriodKind, timeCalendar: ITimeCalendar = TimeCalendar()): ITimePeriod = {
 		if (log.isDebugEnabled)
 			log.debug("일자[{}]가 속한 기간종류[{}]의 기간을 구합니다. timeCalendar=[{}]", moment, periodKind, timeCalendar)
 

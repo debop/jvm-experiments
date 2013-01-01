@@ -21,7 +21,7 @@ public class MinuteRange extends MinuteTimeRange {
 	// region << Constructors >>
 
 	public MinuteRange() {
-		this(new TimeCalendar());
+		this(TimeCalendar.Default());
 	}
 
 	public MinuteRange(ITimeCalendar calendar) {
@@ -29,7 +29,7 @@ public class MinuteRange extends MinuteTimeRange {
 	}
 
 	public MinuteRange(DateTime moment) {
-		this(moment, new TimeCalendar());
+		this(moment, TimeCalendar.Default());
 	}
 
 	public MinuteRange(DateTime moment, ITimeCalendar calendar) {
@@ -37,7 +37,7 @@ public class MinuteRange extends MinuteTimeRange {
 	}
 
 	public MinuteRange(int year, int month, int day, int hour, int minute) {
-		this(year, month, day, hour, minute, new TimeCalendar());
+		this(year, month, day, hour, minute, TimeCalendar.Default());
 	}
 
 	public MinuteRange(int year, int month, int day, int hour, int minute, ITimeCalendar calendar) {
