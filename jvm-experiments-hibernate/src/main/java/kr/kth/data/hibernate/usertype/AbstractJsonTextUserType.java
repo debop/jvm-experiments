@@ -33,8 +33,8 @@ public abstract class AbstractJsonTextUserType implements CompositeUserType {
 		if (value == null)
 			return JsonTextObject.Empty;
 
-		Guard.assertTrue(value instanceof JsonTextObject,
-		                 "인스턴스 수형이 JsonTextObject가 아닙니다. value type=" + value.getClass().getName());
+		Guard.shouldBe(value instanceof JsonTextObject,
+		               "인스턴스 수형이 JsonTextObject가 아닙니다. value type=" + value.getClass().getName());
 
 		return new JsonTextObject(value.getClass().getName(),
 		                          getJsonSerializer().serializeToText(value));

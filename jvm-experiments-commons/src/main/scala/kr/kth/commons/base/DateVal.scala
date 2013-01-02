@@ -28,7 +28,7 @@ class DateVal extends ValueObjectBase with Comparable[DateVal] {
 
 	def dayOfMonth = date.getDayOfMonth
 
-	def getDateTime(time: TimeVal): DateTime = this.date.plusMillis(time.millis.toInt)
+	def getDateTime(time: TimeVal): DateTime = if (time != null) this.date.plusMillis(time.millis.toInt) else this.date
 
 	def getDateTime(hourOfDay: Int = 0, minuteOfHour: Int = 0, secondOfMinute: Int = 0, milliOfSecond: Int = 0): DateTime = {
 		this.date.withTime(hourOfDay, minuteOfHour, secondOfMinute, milliOfSecond)
@@ -43,9 +43,9 @@ class DateVal extends ValueObjectBase with Comparable[DateVal] {
 
 	protected override def buildStringHelper() =
 		super.buildStringHelper()
-		.add("moment", date)
+		.add("date", date)
 }
 
 object DateVal {
-	def now: DateVal = new DateVal(DateTime.now())
+	def today: DateVal = new DateVal(DateTime.now())
 }

@@ -49,7 +49,7 @@ public class HibernateUnitOfWorkFactory implements IUnitOfWorkFactory {
 	@Override
 	public Session getCurrentSession() {
 		Session session = (Session) Local.get(CURRENT_HIBERNATE_SESSION);
-		Guard.assertTrue(session != null, "Session이 현 Thread Context에서 생성되지 않았습니다. UnitOfWorks.start() 를 먼저 호출하셔야 합니다.");
+		Guard.shouldBe(session != null, "Session이 현 Thread Context에서 생성되지 않았습니다. UnitOfWorks.start() 를 먼저 호출하셔야 합니다.");
 		return session;
 	}
 

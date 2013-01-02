@@ -59,7 +59,7 @@ public class TimePeriodChain extends TimePeriodContainer implements ITimePeriodC
 
 	@Override
 	public ITimePeriod set(int index, ITimePeriod value) {
-		Guard.assertTrue(index >= 0 && index < size(), "인덱스 범위가 잘못되었습니다. size()=[%d], index=[%d]", size(), index);
+		Guard.shouldBe(index >= 0 && index < size(), "인덱스 범위가 잘못되었습니다. size()=[%d], index=[%d]", size(), index);
 		remove(index);
 		addAll(index, Lists.newArrayList(value));
 		return value;
@@ -208,7 +208,7 @@ public class TimePeriodChain extends TimePeriodContainer implements ITimePeriodC
 			long remaining = moment.getMillis() - TimeSpec.MinPeriodTime.getMillis();
 			hasSpace = (duration <= remaining);
 		}
-		Guard.assertTrue(hasSpace, "duration [%d] 은 범위를 벗어났습니다.", duration);
+		Guard.shouldBe(hasSpace, "duration [%d] 은 범위를 벗어났습니다.", duration);
 	}
 
 	/**
@@ -223,6 +223,6 @@ public class TimePeriodChain extends TimePeriodContainer implements ITimePeriodC
 			long remaining = TimeSpec.MaxPeriodTime.getMillis() - moment.getMillis();
 			hasSpace = duration <= remaining;
 		}
-		Guard.assertTrue(hasSpace, "duration [%d]은 범위를 벗어났습니다.", duration);
+		Guard.shouldBe(hasSpace, "duration [%d]은 범위를 벗어났습니다.", duration);
 	}
 }

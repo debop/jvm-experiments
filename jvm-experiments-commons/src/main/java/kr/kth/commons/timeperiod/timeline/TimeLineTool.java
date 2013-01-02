@@ -40,9 +40,9 @@ public final class TimeLineTool {
 		while (itemIndex < timeLineMoments.size()) {
 			ITimeLineMoment periodStart = timeLineMoments.get(itemIndex);
 
-			Guard.assertTrue(periodStart.getStartCount() != 0,
-			                 "getStartCount() 값은 [0]이 아니여야 합니다. periodStart.getStartCount()=[%s]",
-			                 periodStart.getStartCount());
+			Guard.shouldBe(periodStart.getStartCount() != 0,
+			               "getStartCount() 값은 [0]이 아니여야 합니다. periodStart.getStartCount()=[%s]",
+			               periodStart.getStartCount());
 
 			// search next period end
 			// use balancing to handle overlapping periods
@@ -168,8 +168,8 @@ public final class TimeLineTool {
 		while (itemIndex < timeLineMoments.size()) {
 			ITimeLineMoment moment = timeLineMoments.get(itemIndex);
 
-			Guard.assertTrue(moment.getStartCount() != 0,
-			                 "moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[%s]", moment);
+			Guard.shouldBe(moment.getStartCount() != 0,
+			               "moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[%s]", moment);
 
 			// search next gap start
 			// use balancing to handle overlapping periods

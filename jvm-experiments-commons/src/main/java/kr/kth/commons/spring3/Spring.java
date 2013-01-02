@@ -35,7 +35,7 @@ public final class Spring {
 	public static final String DEFAULT_APPLICATION_CONTEXT_XML = "applicationContext.xml";
 	private static final String LOCAL_SPRING_CONTEXT = "kr.kth.commons.spring3.Spring.globalContext";
 	private static final String NOT_INITIALIZED_MSG =
-		"Spring ApplicationContext가 초기화되지 않았습니다. 사용하기 전에  Spring.init() 을 호출해주기시 바랍니다.";
+	"Spring ApplicationContext가 초기화되지 않았습니다. 사용하기 전에  Spring.init() 을 호출해주기시 바랍니다.";
 
 	private static volatile GenericApplicationContext globalContext;
 	private static ThreadLocal<Stack<GenericApplicationContext>> localContextStack = new ThreadLocal<>();
@@ -50,14 +50,14 @@ public final class Spring {
 	}
 
 	private static synchronized void assertInitialized() {
-		Guard.assertTrue(isInitialized(), NOT_INITIALIZED_MSG);
+		Guard.shouldBe(isInitialized(), NOT_INITIALIZED_MSG);
 	}
 
 	public static synchronized GenericApplicationContext getContext() {
 		GenericApplicationContext context = getLocalContext();
 		if (context == null)
 			context = globalContext;
-		Guard.assertTrue(context != null, NOT_INITIALIZED_MSG);
+		Guard.shouldBe(context != null, NOT_INITIALIZED_MSG);
 		return context;
 	}
 

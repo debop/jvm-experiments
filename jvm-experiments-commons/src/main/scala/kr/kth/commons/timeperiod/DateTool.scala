@@ -11,11 +11,14 @@ object DateTool {
 
 	val UnixEpoch = new DateTime().withDate(1970, 1, 1)
 
-
+	/**
+	 * 지정된 시간의 한 해의 시작일
+	 * @param moment
+	 * @return
+	 */
 	def getStartOfYear(moment: DateTime): DateTime = new DateTime(moment.getYear, 1, 1, 0, 0)
 
 	def getEndOfYear(moment: DateTime): DateTime = getStartOfYear(moment).plusYears(1).minus(1)
-
 
 	def getStartOfCurrentYear: DateTime = getStartOfYear(DateTime.now())
 

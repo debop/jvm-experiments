@@ -26,12 +26,12 @@ public final class Guard {
 		throw new IllegalArgumentException("all parameters is null.");
 	}
 
-	public static void assertTrue(boolean condition) {
+	public static void shouldBe(boolean condition) {
 		if (!condition)
 			throw new IllegalArgumentException();
 	}
 
-	public static void assertTrue(boolean condition, String format, Object... args) {
+	public static void shouldBe(boolean condition, String format, Object... args) {
 		if (!condition)
 			throw new IllegalArgumentException(format(format, args));
 	}
@@ -125,7 +125,7 @@ public final class Guard {
 	}
 
 	public static float shouldNotBePositiveNumber(float arg, final String argName) {
-		if (arg > 0f)
+		if (arg > 0.0f)
 			throw new IllegalArgumentException(format(SR.ShouldNotBePositiveNumber, argName));
 		return arg;
 	}
@@ -149,7 +149,7 @@ public final class Guard {
 	}
 
 	public static float shouldBeNegativeNumber(float arg, final String argName) {
-		if (arg < 0f)
+		if (arg < 0.0f)
 			throw new IllegalArgumentException(format(SR.ShouldBeNegativeNumber, argName));
 		return arg;
 	}
@@ -173,7 +173,7 @@ public final class Guard {
 	}
 
 	public static float shouldNotBeNegativeNumber(float arg, final String argName) {
-		if (arg >= 0f)
+		if (arg >= 0.0f)
 			throw new IllegalArgumentException(format(SR.ShouldNotBeNegativeNumber, argName));
 		return arg;
 	}
@@ -184,35 +184,67 @@ public final class Guard {
 		return arg;
 	}
 
-	public static void shouldBeInRange(int index, int fromInclude, int toExclude, String argName) {
-		if (index >= fromInclude && index < toExclude)
+	public static void shouldBeInRange(int value, int fromInclude, int toExclude, String argName) {
+		if (value >= fromInclude && value < toExclude)
 			return;
 
-		String errMsg = format("%s[%d] 이 범위 [%d, %d)를 벗어났습니다.", argName, index, fromInclude, toExclude);
+		String errMsg = format("%s[%d] 이 범위 [%d, %d)를 벗어났습니다.", argName, value, fromInclude, toExclude);
 		throw new IllegalArgumentException(errMsg);
 	}
 
-	public static void shouldBeInRange(long index, long fromInclude, long toExclude, String argName) {
-		if (index >= fromInclude && index < toExclude)
+	public static void shouldBeInRange(long value, long fromInclude, long toExclude, String argName) {
+		if (value >= fromInclude && value < toExclude)
 			return;
 
-		String errMsg = format("%s[%d] 이 범위 [%d, %d)를 벗어났습니다.", argName, index, fromInclude, toExclude);
+		String errMsg = format("%s[%d] 이 범위 [%d, %d)를 벗어났습니다.", argName, value, fromInclude, toExclude);
 		throw new IllegalArgumentException(errMsg);
 	}
 
-	public static void shouldBeBetween(int index, int fromInclude, int toInclude, String argName) {
-		if (index >= fromInclude && index < toInclude)
+	public static void shouldBeInRange(float value, float fromInclude, float toExclude, String argName) {
+		if (value >= fromInclude && value < toExclude)
 			return;
 
-		String errMsg = format("%s[%d] 이 범위 [%d, %d]를 벗어났습니다.", argName, index, fromInclude, toInclude);
+		String errMsg = format("%s[%f] 이 범위 [%f, %f)를 벗어났습니다.", argName, value, fromInclude, toExclude);
 		throw new IllegalArgumentException(errMsg);
 	}
 
-	public static void shouldBeBetween(long index, long fromInclude, long toInclude, String argName) {
-		if (index >= fromInclude && index < toInclude)
+	public static void shouldBeInRange(double value, double fromInclude, double toExclude, String argName) {
+		if (value >= fromInclude && value < toExclude)
 			return;
 
-		String errMsg = format("%s[%d] 이 범위 [%d, %d]를 벗어났습니다.", argName, index, fromInclude, toInclude);
+		String errMsg = format("%s[%f] 이 범위 [%f, %f)를 벗어났습니다.", argName, value, fromInclude, toExclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeBetween(int value, int fromInclude, int toInclude, String argName) {
+		if (value >= fromInclude && value <= toInclude)
+			return;
+
+		String errMsg = format("%s[%d] 이 범위 [%d, %d]를 벗어났습니다.", argName, value, fromInclude, toInclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeBetween(long value, long fromInclude, long toInclude, String argName) {
+		if (value >= fromInclude && value <= toInclude)
+			return;
+
+		String errMsg = format("%s[%d] 이 범위 [%d, %d]를 벗어났습니다.", argName, value, fromInclude, toInclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeBetween(float value, float fromInclude, float toInclude, String argName) {
+		if (value >= fromInclude && value <= toInclude)
+			return;
+
+		String errMsg = format("%s[%f] 이 범위 [%f, %f]를 벗어났습니다.", argName, value, fromInclude, toInclude);
+		throw new IllegalArgumentException(errMsg);
+	}
+
+	public static void shouldBeBetween(double value, double fromInclude, double toInclude, String argName) {
+		if (value >= fromInclude && value <= toInclude)
+			return;
+
+		String errMsg = format("%s[%f] 이 범위 [%f, %f]를 벗어났습니다.", argName, value, fromInclude, toInclude);
 		throw new IllegalArgumentException(errMsg);
 	}
 }

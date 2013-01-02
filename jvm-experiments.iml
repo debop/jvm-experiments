@@ -74,8 +74,8 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.0.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.0.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.7" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.7" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.9" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.9" level="project" />
     <orderEntry type="library" name="Maven: org.clapper:grizzled-slf4j_2.10:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp:0.8.0-rc1" level="project" />
     <orderEntry type="library" name="Maven: com.jolbox:bonecp-spring:0.8.0-rc1" level="project" />

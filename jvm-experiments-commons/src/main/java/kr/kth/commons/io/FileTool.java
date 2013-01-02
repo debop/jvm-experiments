@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static kr.kth.commons.base.Guard.assertTrue;
+import static kr.kth.commons.base.Guard.shouldBe;
 import static kr.kth.commons.base.Guard.shouldNotBeNull;
 import static kr.kth.commons.tools.StringTool.listToString;
 
@@ -65,13 +65,13 @@ public class FileTool {
 	                                     final Path target,
 	                                     final CopyOption... options) {
 		return
-			AsyncTool.startNew(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					copy(source, target, options);
-					return null;
-				}
-			});
+		AsyncTool.startNew(new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				copy(source, target, options);
+				return null;
+			}
+		});
 	}
 
 	public static void delete(Path path) throws IOException {
@@ -110,13 +110,13 @@ public class FileTool {
 
 	public static Future<Void> deleteDirectoryAsync(final Path directory, final boolean deep) {
 		return
-			AsyncTool.startNew(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					deleteDirectory(directory, deep);
-					return null;
-				}
-			});
+		AsyncTool.startNew(new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				deleteDirectory(directory, deep);
+				return null;
+			}
+		});
 	}
 
 	public static boolean exists(Path path, LinkOption... linkOptions) {
@@ -131,41 +131,41 @@ public class FileTool {
 
 	public static Future<byte[]> readAllBytesAsync(final Path path, final OpenOption... openOptions) {
 		shouldNotBeNull(path, "path");
-		assertTrue(FileTool.exists(path), "File not found. file=[%s]", path);
+		shouldBe(FileTool.exists(path), "File not found. file=[%s]", path);
 
 		if (isDebugEnabled)
 			log.debug("비동기 방식으로 파일 정보를 읽어 byte array로 반환합니다. file=[{}], openOptions=[{}]",
 			          path, listToString(openOptions));
 
 		return
-			AsyncTool.startNew(new Callable<byte[]>() {
-				@Override
-				public byte[] call() throws Exception {
-					ByteBuffer buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE);
-					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		AsyncTool.startNew(new Callable<byte[]>() {
+			@Override
+			public byte[] call() throws Exception {
+				ByteBuffer buffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE);
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-					try (AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(path, openOptions)) {
-						boolean completed = false;
-						do {
-							Future<Integer> readCountFuture = fileChannel.read(buffer, 0);
-							int readCount = readCountFuture.get();
-							completed = readCount == 0;
+				try (AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(path, openOptions)) {
+					boolean completed = false;
+					do {
+						Future<Integer> readCountFuture = fileChannel.read(buffer, 0);
+						int readCount = readCountFuture.get();
+						completed = readCount == 0;
 
-							if (!completed) {
-								outputStream.write(buffer.array(), 0, readCount);
-								buffer.clear();
-							}
-						} while (!completed);
+						if (!completed) {
+							outputStream.write(buffer.array(), 0, readCount);
+							buffer.clear();
+						}
+					} while (!completed);
 
-					} catch (IOException | InterruptedException | ExecutionException e) {
-						if (log.isErrorEnabled())
-							log.error("파일 내용을 읽어오는데 실패했습니다.", e);
-						throw new RuntimeException(e);
-					}
-
-					return outputStream.toByteArray();
+				} catch (IOException | InterruptedException | ExecutionException e) {
+					if (log.isErrorEnabled())
+						log.error("파일 내용을 읽어오는데 실패했습니다.", e);
+					throw new RuntimeException(e);
 				}
-			});
+
+				return outputStream.toByteArray();
+			}
+		});
 	}
 
 	public static List<String> readAllLines(Path path) throws IOException {

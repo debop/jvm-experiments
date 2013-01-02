@@ -689,18 +689,18 @@ public class TimeTool {
 	// region << Validation >>
 
 	public static void assertHasPeriod(ITimePeriod period) {
-		Guard.assertTrue(period != null && period.hasPeriod(), "구체적인 기간이 없습니다. period=[%s]", period);
+		Guard.shouldBe(period != null && period.hasPeriod(), "구체적인 기간이 없습니다. period=[%s]", period);
 	}
 
 	public static void assertValidPeriod(DateTime start, DateTime end) {
 		if (start != null && end != null)
-			Guard.assertTrue(start.compareTo(end) <= 0,
-			                 "시작시각이 완료시각보다 이전 시각이어야 합니다. start=[%s], end=[%s]",
-			                 start, end);
+			Guard.shouldBe(start.compareTo(end) <= 0,
+			               "시작시각이 완료시각보다 이전 시각이어야 합니다. start=[%s], end=[%s]",
+			               start, end);
 	}
 
 	public static void assertMutable(ITimePeriod period) {
-		Guard.assertTrue(!period.isReadonly(), "TimePeriod 가 읽기전용입니다. period=[%s]", period);
+		Guard.shouldBe(!period.isReadonly(), "TimePeriod 가 읽기전용입니다. period=[%s]", period);
 	}
 
 	public static boolean allItemsAreEquals(Collection<? extends ITimePeriod> left,

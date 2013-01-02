@@ -17,10 +17,10 @@ import collection.mutable.ArrayBuffer
  */
 object Times {
 
-	lazy val log = Logger[this.type]
+	lazy val log            = Logger[this.type]
 	lazy val isDebugEnabled = log.isDebugEnabled
 
-	val NullStr = "null"
+	val NullStr   = "null"
 	val UnixEpoch = new DateTime withMillis 0
 
 	def getNow: DateTime = DateTime.now
@@ -804,9 +804,8 @@ object Times {
 	}
 
 	def assertHasPeriod(period: ITimePeriod) {
-		Guard.assertTrue(period.hasPeriod, "명시적인 기간이 설정되지 않았습니다. period=[{}]", period)
+		Guard.shouldBe(period.hasPeriod, "명시적인 기간이 설정되지 않았습니다. period=[{}]", period)
 	}
-
 
 	//
 	// << Math >>
@@ -990,8 +989,8 @@ object Times {
 			val insideEnd: Boolean = hasInside(target, period.getEnd)
 			if (insideStart && insideEnd) {
 				relation = if ((period.getStart == target.getStart)) PeriodRelation.InsideStartTouching
-				           else if (((period.getEnd == target.getEnd))) PeriodRelation.InsideEndTouching
-				           else PeriodRelation.Inside
+				else if (((period.getEnd == target.getEnd))) PeriodRelation.InsideEndTouching
+				else PeriodRelation.Inside
 			}
 			else if (insideStart) {
 				relation = PeriodRelation.StartInside
@@ -1147,12 +1146,12 @@ object Times {
 
 	def assertValidPeriod(start: DateTime, end: DateTime) {
 		if (start != null && end != null)
-			Guard.assertTrue(start.getMillis <= end.getMillis,
-			                 "시작 시각이 완료 시각보다 이전 시각이어야 합니다. Start=[%s], End=[%s]", start, end)
+			Guard.shouldBe(start.getMillis <= end.getMillis,
+			               "시작 시각이 완료 시각보다 이전 시각이어야 합니다. Start=[%s], End=[%s]", start, end)
 	}
 
 	def assertMutable(period: ITimePeriod) {
-		Guard.assertTrue(period.isReadonly == false, "ITimePeriod 가 읽기 전용이면 안됩니다. period=" + period)
+		Guard.shouldBe(period.isReadonly == false, "ITimePeriod 가 읽기 전용이면 안됩니다. period=" + period)
 	}
 
 	def allItemsAreEqual[T <: ITimePeriod](left: Iterable[T], right: Iterable[T]): Boolean = {

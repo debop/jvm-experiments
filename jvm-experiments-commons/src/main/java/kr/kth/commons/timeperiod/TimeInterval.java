@@ -160,8 +160,8 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 	@Override
 	public void setStartInterval(DateTime start) {
 		assertMutable();
-		Guard.assertTrue(start.compareTo(this.end) <= 0,
-		                 "새로운 start=[%s]는 end=[%s] 보다 작거나 같아야 합니다.", start, this.end);
+		Guard.shouldBe(start.compareTo(this.end) <= 0,
+		               "새로운 start=[%s]는 end=[%s] 보다 작거나 같아야 합니다.", start, this.end);
 		this.start = start;
 	}
 
@@ -197,8 +197,8 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
 	@Override
 	public void setEndInterval(DateTime end) {
 		assertMutable();
-		Guard.assertTrue(end.compareTo(this.start) >= 0,
-		                 "새로운 end=[%s]가 start=[{}]보다 크거나 같아야 합니다.", end, this.start);
+		Guard.shouldBe(end.compareTo(this.start) >= 0,
+		               "새로운 end=[%s]가 start=[{}]보다 크거나 같아야 합니다.", end, this.start);
 		this.end = end;
 	}
 

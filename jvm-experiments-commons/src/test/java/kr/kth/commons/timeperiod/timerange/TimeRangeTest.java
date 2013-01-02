@@ -23,7 +23,7 @@ public class TimeRangeTest extends AbstractTest {
 		TimeRange timeRange = new TimeRange(now);
 
 		if (log.isDebugEnabled())
-			log.debug("now=[{}], timeRange=[{}]", now, timeRange);
+			log.debug("today=[{}], timeRange=[{}]", now, timeRange);
 
 		assertNotNull(timeRange);
 		assertEquals(now, timeRange.getStart());
