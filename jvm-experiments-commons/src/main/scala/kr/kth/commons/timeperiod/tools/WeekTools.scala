@@ -1,7 +1,7 @@
 package kr.kth.commons.timeperiod.tools
 
 import grizzled.slf4j.Logger
-import java.util.Locale
+import java.util.{Calendar, Locale}
 import kr.kth.commons.timeperiod._
 import org.joda.time.{Duration, DateTime}
 import timerange.{TimeRange, WeekRange}
@@ -15,16 +15,29 @@ object WeekTools {
 
 	val log = Logger[this.type]
 
+	val DefaultCalendarWeekRuleAndFirstDayOfWeek = (CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+
+	def getCalendarWeekRuleByLocale(locale: Locale = Locale.getDefault): CalendarWeekRule = {
+		val minDays = Calendar.getInstance(locale).getMinimalDaysInFirstWeek
+		if (minDays == 1) {
+			CalendarWeekRule.FirstDay
+		} else if (minDays == 7) {
+			CalendarWeekRule.FirstFullWeek
+		} else {
+			CalendarWeekRule.FirstFourDayWeek
+		}
+	}
+
 	/**
 	 * 주차 결정 종류에 따라 주차결정 및 한주 시작 요일을 반환한다.
 	 */
 	def getCalendarWeekRuleAndFirstDayOfWeek(locale: Locale,
 	                                         weekOfYearRule: WeekOfYearRuleKind): (CalendarWeekRule, DayOfWeek) = {
 		if (weekOfYearRule == WeekOfYearRuleKind.Caleandar) {
-			// TODO: Locale에서 알 수 있어야 한다.
-			(CalendarWeekRule.FirstDay, DayOfWeek.Sunday)
+			val dayOfWeek = DayOfWeek.valueOf(Calendar.getInstance(locale).getFirstDayOfWeek)
+			(getCalendarWeekRuleByLocale(locale), dayOfWeek)
 		} else {
-			(CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+			DefaultCalendarWeekRuleAndFirstDayOfWeek
 		}
 	}
 
@@ -36,7 +49,7 @@ object WeekTools {
 		if (weekOfYearRule == WeekOfYearRuleKind.Iso8601)
 			CalendarWeekRule.FirstFourDayWeek
 		else
-			CalendarWeekRule.FirstDay // TODO: Locale 에서 주의 시작 요일
+			getCalendarWeekRuleByLocale(locale)
 
 
 	/**
@@ -45,11 +58,13 @@ object WeekTools {
 	 * @param weekOfYearRule
 	 * @return
 	 */
-	def getFirstDayOfWeek(locale: Locale, weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Caleandar): DayOfWeek =
+	def getFirstDayOfWeek(locale: Locale = Locale.getDefault,
+	                      weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Caleandar): DayOfWeek = {
 		if (weekOfYearRule == WeekOfYearRuleKind.Iso8601)
 			DayOfWeek.Monday
 		else
-			DayOfWeek.Sunday // TODO: Locale 에서 주의 시작 요일
+			DayOfWeek.valueOf(Calendar.getInstance(locale).getFirstDayOfWeek)
+	}
 
 	/**
 	 * 한해의 첫번째 주차 결정 규칙과 첫번째 요일 규칙을 이용하여, 주처 결정 룰을 반환합니다.
@@ -92,9 +107,9 @@ object WeekTools {
 	 */
 	def getWeekRange(yearAndWeek: YearAndWeek, timeCalendar: ITimeCalendar): WeekRange = {
 		val startTime = Times.getStartOfYearWeek(yearAndWeek.getYear,
-		                                         yearAndWeek.getWeekOfYear,
-		                                         timeCalendar.getLocale,
-		                                         timeCalendar.getWeekOfYearRule)
+			yearAndWeek.getWeekOfYear,
+			timeCalendar.getLocale,
+			timeCalendar.getWeekOfYearRule)
 
 		val endTime = Times.endTimeOfWeek(startTime, timeCalendar.getFirstDayOfWeek)
 		new WeekRange(new TimeRange(startTime, endTime), timeCalendar)
