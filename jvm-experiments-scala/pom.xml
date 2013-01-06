@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>jvm-experiments-parent</artifactId>
+		<groupId>jvm-experiments</groupId>
+		<version>${kr.kth.version}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jvm-experiments-scala</artifactId>
+	<version>${kr.kth.version}</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>jvm-experiments</groupId>
+			<artifactId>jvm-experiments-commons</artifactId>
+			<version>${kr.kth.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.assembla.scala-incubator</groupId>
+			<artifactId>graph-core_2.10</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scalaz</groupId>
+			<artifactId>scalaz-core_2.10.0-M6</artifactId>
+			<version>7.0.0-M2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.sciss</groupId>
+			<artifactId>lucredata_2.10.0-RC5</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.sciss</groupId>
+			<artifactId>lucrestm_2.10.0-RC5</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+	</dependencies>
+</project>

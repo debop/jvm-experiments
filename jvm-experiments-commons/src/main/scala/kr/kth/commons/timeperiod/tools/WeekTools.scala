@@ -1,9 +1,10 @@
 package kr.kth.commons.timeperiod.tools
 
-import grizzled.slf4j.Logger
 import java.util.{Calendar, Locale}
-import kr.kth.commons.timeperiod._
 import org.joda.time.{Duration, DateTime}
+import kr.kth.commons.timeperiod._
+import kr.kth.commons.timeperiod.Times
+import kr.kth.commons.slf4j.Logger
 import timerange.{TimeRange, WeekRange}
 
 /**
@@ -13,7 +14,7 @@ import timerange.{TimeRange, WeekRange}
  */
 object WeekTools {
 
-	val log = Logger[this.type]
+	val log = Logger[WeekTools.type]
 
 	val DefaultCalendarWeekRuleAndFirstDayOfWeek = (CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
 
@@ -107,9 +108,9 @@ object WeekTools {
 	 */
 	def getWeekRange(yearAndWeek: YearAndWeek, timeCalendar: ITimeCalendar): WeekRange = {
 		val startTime = Times.getStartOfYearWeek(yearAndWeek.getYear,
-			yearAndWeek.getWeekOfYear,
-			timeCalendar.getLocale,
-			timeCalendar.getWeekOfYearRule)
+		                                         yearAndWeek.getWeekOfYear,
+		                                         timeCalendar.getLocale,
+		                                         timeCalendar.getWeekOfYearRule)
 
 		val endTime = Times.endTimeOfWeek(startTime, timeCalendar.getFirstDayOfWeek)
 		new WeekRange(new TimeRange(startTime, endTime), timeCalendar)

@@ -19,6 +19,7 @@ class Fraction(var n: Int, var d: Int) {
 }
 
 object Fraction {
+
 	def apply(n: Int, d: Int) = new Fraction(n, d)
 
 	def unapply(input: Fraction) = if (input.d == 0) None else Some((input.n, input.d))

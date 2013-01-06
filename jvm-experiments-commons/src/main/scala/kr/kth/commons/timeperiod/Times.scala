@@ -1,7 +1,6 @@
 package kr.kth.commons.timeperiod
 
 import org.joda.time.{Duration, DateTime}
-import grizzled.slf4j.Logger
 import java.util.{Calendar, Date, Locale}
 import kr.kth.commons.base.{Guard, NotImplementedException}
 import collection.JavaConversions
@@ -9,18 +8,16 @@ import kr.kth.commons.tools.StringTool
 import timerange.{YearRangeCollection, YearRange, TimeRange}
 import tools.TimeTool
 import collection.mutable.ArrayBuffer
+import kr.kth.commons.slf4j.Logging
 
 /**
  * DateTime 관련 Object
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 27
  */
-object Times {
+object Times extends Logging {
 
-	lazy val log            = Logger[this.type]
-	lazy val isDebugEnabled = log.isDebugEnabled
-
-	val NullStr   = "null"
+	val NullStr = "null"
 	val UnixEpoch = new DateTime withMillis 0
 
 	def getNow: DateTime = DateTime.now
@@ -35,6 +32,7 @@ object Times {
 	def asString(period: ITimePeriod) = if (period != null) period.getDurationDescription else NullStr
 
 	def toDateTime(str: String, defaultVal: DateTime = UnixEpoch): DateTime = {
+
 		try {
 			DateTime.parse(str)
 		} catch {
@@ -137,7 +135,7 @@ object Times {
 			case QuarterKind.Third => TimeSpec.ThirdQuarterMonths
 			case QuarterKind.Fouth => TimeSpec.FourthQuarterMonths
 
-			case _ => throw new IllegalArgumentException("quarter")
+			case _ => throw new IllegalArgumentException(quarter.toString)
 		}
 	}
 
@@ -150,7 +148,8 @@ object Times {
 
 	def addMonth(startYear: Int, startMonth: Int, count: Int): YearAndMonth = {
 
-		if (log.isDebugEnabled)
+
+		if (isDebugEnabled)
 			log.debug("월을 추가합니다. year=[{}], month=[{}], count=[{}]", startYear, startMonth, count)
 
 		val offsetYear = (Math.abs(count) / TimeSpec.MonthsPerYear) + 1
@@ -922,6 +921,7 @@ object Times {
 
 		periodKind match {
 			case PeriodKind.Year => getYearRange(moment, timeCalendar)
+			case _ => throw new NotImplementedException("구현이 필요합니다.")
 		}
 	}
 
@@ -989,8 +989,8 @@ object Times {
 			val insideEnd: Boolean = hasInside(target, period.getEnd)
 			if (insideStart && insideEnd) {
 				relation = if ((period.getStart == target.getStart)) PeriodRelation.InsideStartTouching
-				else if (((period.getEnd == target.getEnd))) PeriodRelation.InsideEndTouching
-				else PeriodRelation.Inside
+				           else if (((period.getEnd == target.getEnd))) PeriodRelation.InsideEndTouching
+				           else PeriodRelation.Inside
 			}
 			else if (insideStart) {
 				relation = PeriodRelation.StartInside

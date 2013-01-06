@@ -5,14 +5,17 @@ import org.joda.time.{Duration, DateTime}
 import java.util.Locale
 import kr.kth.commons.tools.HashTools
 import com.google.common.base.Objects.ToStringHelper
+import lombok.extern.slf4j.Slf4j
+import kr.kth.commons.slf4j.Logging
 
 /**
  * 문화권에 따른 날짜 표현, 날짜 계산 등을 제공하는 Calendar 입니다. (ISO 8601, Korean 등)
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 29.
  */
+@Slf4j
 @SerialVersionUID(4848502849274L)
-class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITimeCalendar {
+class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITimeCalendar with Logging {
 	{
 		// 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
 		//
@@ -152,7 +155,7 @@ class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITim
 }
 
 
-object TimeCalendar {
+object TimeCalendar extends Logging {
 
 	lazy val DefaultStartOffset = new Duration(TimeSpec.NoDuration)
 	lazy val DufaultEndOffset = new Duration(TimeSpec.MinPositiveDuration)

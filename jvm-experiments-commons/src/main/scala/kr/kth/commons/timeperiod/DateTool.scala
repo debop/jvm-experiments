@@ -1,6 +1,7 @@
 package kr.kth.commons.timeperiod
 
 import org.joda.time.DateTime
+import kr.kth.commons.slf4j.Logger
 
 /**
  * Date 관련 Object
@@ -8,6 +9,8 @@ import org.joda.time.DateTime
  * Date: 12. 12. 30.
  */
 object DateTool {
+
+	val log = Logger[DateTool.type]
 
 	val UnixEpoch = new DateTime().withDate(1970, 1, 1)
 

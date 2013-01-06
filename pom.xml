@@ -14,6 +14,7 @@
 		<module>jvm-experiments-hibernate</module>
 		<module>jvm-experiments-spring</module>
 		<module>jvm-experiments-springmvc</module>
+		<module>jvm-experiments-scala</module>
 	</modules>
 
 	<properties>
@@ -29,7 +30,7 @@
 		<bonecp.version>0.8.0-rc1</bonecp.version>
 
 
-		<slf4j.version>1.7.1</slf4j.version>
+		<slf4j.version>1.7.2</slf4j.version>
 		<logback.version>1.0.9</logback.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -44,6 +45,11 @@
 			<id>com.springsource.repository.bundles.external</id>
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>oracle.repository</id>
+			<name>Oracle Repository</name>
+			<url>http://download.oracle.com/maven</url>
 		</repository>
 		<repository>
 			<releases>
@@ -411,18 +417,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.clapper</groupId>
-			<artifactId>grizzled-slf4j_2.10</artifactId>
-			<version>1.0.1</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>scala-library</artifactId>
-					<groupId>org.scala-lang</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>com.jolbox</groupId>
 			<artifactId>bonecp</artifactId>
 			<version>${bonecp.version}</version>
@@ -499,7 +493,11 @@
 			<artifactId>scala-library</artifactId>
 			<version>${scala.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-actors</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-partest</artifactId>
@@ -508,13 +506,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.scalatest</groupId>
-			<artifactId>scalatest_2.10.0</artifactId>
-			<version>2.0.M5</version>
-			<scope>test</scope>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-actor_2.10</artifactId>
+			<version>2.1.0</version>
 		</dependency>
+		<!--
+		<dependency>
+			<groupId>com.typesafe</groupId>
+			<artifactId>scalalogging-slf4j_2.10</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		-->
 
 	</dependencies>
-
 
 </project>
