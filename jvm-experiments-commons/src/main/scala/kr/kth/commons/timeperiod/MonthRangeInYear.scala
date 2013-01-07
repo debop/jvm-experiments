@@ -1,43 +1,35 @@
 package kr.kth.commons.timeperiod
 
 import kr.kth.commons.base.{Guard, ValueObjectBase}
+import beans.BeanProperty
 
 /**
  * 한 해 내에서의 월단위의 기간을 표현합니다. ( 1월 ~ 12월, 4월~4월)
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 27
  */
-class MonthRangeInYear extends ValueObjectBase with Comparable[MonthRangeInYear] {
+class MonthRangeInYear(@BeanProperty var min: Int,
+                       @BeanProperty var max: Int) extends ValueObjectBase with Comparable[MonthRangeInYear] {
 
-	private var min: Int = _
-	private var max: Int = _
+  def isSingleMonth = (min == max)
 
-	def this(min: Int = 1, max: Int = 1) {
-		this()
-		Guard.shouldBeBetween(min, 1, TimeSpec.MonthsPerYear, "min")
-		Guard.shouldBeBetween(max, 1, TimeSpec.MonthsPerYear, "min")
+  def compareTo(other: MonthRangeInYear) = hashCode() compareTo other.hashCode()
 
-		if (min < max) {
-			this.min = min
-			this.max = max
-		} else {
-			this.min = max
-			this.max = min
-		}
-	}
+  override def hashCode() = max * 100 + min
 
-	def getMin: Int = min
+  protected override def buildStringHelper() =
+    super.buildStringHelper()
+      .add("min", min)
+      .add("max", max)
+}
 
-	def getMax: Int = max
+object MonthRangeInYear {
 
-	def isSingleMonth = (min == max)
+  def apply(min: Int = 1, max: Int = 1): MonthRangeInYear = {
+    Guard.shouldBeBetween(min, 1, TimeSpec.MonthsPerYear, "min")
+    Guard.shouldBeBetween(max, 1, TimeSpec.MonthsPerYear, "min")
 
-	def compareTo(other: MonthRangeInYear) = hashCode() compareTo other.hashCode()
-
-	override def hashCode() = max * 100 + min
-
-	protected override def buildStringHelper() =
-		super.buildStringHelper()
-			.add("min", min)
-			.add("max", max)
+    if (min < max) new MonthRangeInYear(min, max)
+    else new MonthRangeInYear(max, min)
+  }
 }

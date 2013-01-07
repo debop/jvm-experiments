@@ -1,6 +1,6 @@
 package kr.kth.commons.base
 
-import kr.kth.commons.tools.HashTool
+import kr.kth.commons.tools.ScalaHash
 import org.joda.time.{Duration, DateTime}
 
 /**
@@ -8,54 +8,56 @@ import org.joda.time.{Duration, DateTime}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class TimeVal extends ValueObjectBase with Comparable[TimeVal] {
+class TimeVal(val time: DateTime) extends ValueObjectBase with Comparable[TimeVal] {
 
-	private var time: DateTime = _
+  def datetime: DateTime = this.time
 
-	def this(duration: Duration) {
-		this()
-		this.time = new DateTime().withMillisOfDay(duration.getMillis.toInt)
-	}
+  def hourOfDay: Int = time.getHourOfDay
 
-	def this(moment: DateTime) {
-		this()
-		this.time = new DateTime().withMillis(moment.getMillisOfDay.toLong)
-	}
+  def minuteOfHour: Int = time.getMinuteOfHour
 
-	def this(hourOfDay: Int, minuteOfHour: Int = 0, secondOfMinute: Int = 0, millisOfSecond: Int = 0) {
-		this()
-		time = new DateTime().withTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond)
-	}
+  def secondOfMinute: Int = time.getSecondOfMinute
 
-	def datetime: DateTime = this.time
+  def millisOfSecond: Int = time.getMillisOfSecond
 
-	def hourOfDay: Int = time.getHourOfDay
+  def millis: Long = time.getMillis
 
-	def minuteOfHour: Int = time.getMinuteOfHour
+  def getDateTime(moment: DateTime): DateTime = moment.withTimeAtStartOfDay().plus(millis)
 
-	def secondOfMinute: Int = time.getSecondOfMinute
+  def getDateTime(date: DateVal): DateTime = date.getDateTime(this)
 
-	def millisOfSecond: Int = time.getMillisOfSecond
 
-	def millis: Long = time.getMillis
+  def ==(other: TimeVal) = this.equals(other)
 
-	def getDateTime(moment: DateTime): DateTime = moment.withTimeAtStartOfDay().plus(millis)
+  def <(other: TimeVal) = this.compareTo(other) < 0
 
-	def getDateTime(date: DateVal): DateTime = date.getDateTime(this)
+  def <=(other: TimeVal): Boolean = this.compareTo(other) <= 0
 
-	override def hashCode(): Int = HashTool.compute(time)
+  def >(other: TimeVal) = this.compareTo(other) > 0
 
-	protected override def buildStringHelper() =
-		super.buildStringHelper()
-		.add("timePart", time)
+  def >=(other: TimeVal) = this.compareTo(other) >= 0
 
-	def compareTo(other: TimeVal) = {
-		Guard.shouldNotBeNull(other, "other")
-		time.compareTo(other.time)
-	}
+  override def hashCode(): Int = ScalaHash.compute(time)
+
+  protected override def buildStringHelper() =
+    super.buildStringHelper()
+      .add("timePart", time)
+
+  def compareTo(other: TimeVal) = {
+    Guard.shouldNotBeNull(other, "other")
+    time.compareTo(other.time)
+  }
 }
 
 object TimeVal {
 
-	def now: TimeVal = new TimeVal(DateTime.now())
+  def now: TimeVal = new TimeVal(DateTime.now())
+
+  def apply(duration: Duration) = new TimeVal(new DateTime().withMillisOfDay(duration.getMillis.toInt))
+
+  def apply(moment: DateTime) = new TimeVal(new DateTime().withMillis(moment.getMillisOfDay))
+
+  def apply(hourOfDay: Int, minuteOfHour: Int = 0, secondOfMinute: Int = 0, millisOfSecond: Int = 0) = {
+    new TimeVal(new DateTime().withTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond))
+  }
 }

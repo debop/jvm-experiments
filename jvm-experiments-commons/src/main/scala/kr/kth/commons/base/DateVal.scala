@@ -1,51 +1,57 @@
 package kr.kth.commons.base
 
 import org.joda.time.DateTime
-import kr.kth.commons.tools.HashTool
+import kr.kth.commons.tools.ScalaHash
 
 /**
  * org.joda.timePart.DateTime 중에 Date Part 만을 표현합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class DateVal extends ValueObjectBase with Comparable[DateVal] {
+class DateVal(val date: DateTime) extends ValueObjectBase with Comparable[DateVal] {
 
-	private var date: DateTime = _
+  def year = date.getYear
 
-	def this(moment: DateTime) {
-		this()
-		date = moment.withTimeAtStartOfDay()
-	}
+  def monthOfYear = date.getMonthOfYear
 
-	def this(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1) {
-		this()
-		date = new DateTime().withDate(year, monthOfYear, dayOfMonth)
-	}
+  def dayOfMonth = date.getDayOfMonth
 
-	def year = date.getYear
+  def getDateTime(time: TimeVal): DateTime = if (time != null) this.date.plusMillis(time.millis.toInt) else this.date
 
-	def monthOfYear = date.getMonthOfYear
+  def getDateTime(hourOfDay: Int = 0, minuteOfHour: Int = 0, secondOfMinute: Int = 0, milliOfSecond: Int = 0): DateTime = {
+    this.date.withTime(hourOfDay, minuteOfHour, secondOfMinute, milliOfSecond)
+  }
 
-	def dayOfMonth = date.getDayOfMonth
+  def ==(other: DateVal) = this.equals(other)
 
-	def getDateTime(time: TimeVal): DateTime = if (time != null) this.date.plusMillis(time.millis.toInt) else this.date
+  def <(other: DateVal) = this.compareTo(other) < 0
 
-	def getDateTime(hourOfDay: Int = 0, minuteOfHour: Int = 0, secondOfMinute: Int = 0, milliOfSecond: Int = 0): DateTime = {
-		this.date.withTime(hourOfDay, minuteOfHour, secondOfMinute, milliOfSecond)
-	}
+  def <=(other: DateVal): Boolean = this.compareTo(other) <= 0
 
-	def compareTo(other: DateVal): Int = {
-		Guard.shouldNotBeNull(other, "other")
-		this.date.compareTo(other.date)
-	}
+  def >(other: DateVal) = this.compareTo(other) > 0
 
-	override def hashCode(): Int = HashTool.compute(this.date)
+  def >=(other: DateVal) = this.compareTo(other) >= 0
 
-	protected override def buildStringHelper() =
-		super.buildStringHelper()
-		.add("date", date)
+  def compareTo(other: DateVal): Int = {
+    Guard.shouldNotBeNull(other, "other")
+    this.date.compareTo(other.date)
+  }
+
+  override def hashCode(): Int = ScalaHash.compute(date)
+
+  protected override def buildStringHelper() =
+    super.buildStringHelper()
+      .add("date", date)
 }
 
 object DateVal {
-	def today: DateVal = new DateVal(DateTime.now())
+  def today: DateVal = new DateVal(DateTime.now())
+
+  def apply(date: DateTime) = {
+    new DateVal(date)
+  }
+
+  def apply(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1) = {
+    apply(new DateTime().withDate(year, monthOfYear, dayOfMonth))
+  }
 }

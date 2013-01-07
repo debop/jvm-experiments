@@ -1,7 +1,7 @@
 package kr.kth.commons
 
 import base.ValueObjectBase
-import tools.HashTool
+import tools.ScalaHash
 
 /**
  * Company 정보
@@ -10,13 +10,13 @@ import tools.HashTool
  */
 class Company(var name: String, var email: String, var address: String) extends ValueObjectBase {
 
-	override def hashCode(): Int = {
-		HashTool.compute(name)
-	}
+  override def hashCode(): Int = {
+    ScalaHash.compute(name)
+  }
 
-	override def buildStringHelper() =
-		super.buildStringHelper()
-			.add("name", name)
-			.add("email", email)
-			.add("address", address)
+  override def buildStringHelper() =
+    super.buildStringHelper()
+      .add("name", name)
+      .add("email", email)
+      .add("address", address)
 }

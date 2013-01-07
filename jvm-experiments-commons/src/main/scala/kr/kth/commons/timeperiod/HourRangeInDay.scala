@@ -9,50 +9,39 @@ import java.util.Objects
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class HourRangeInDay extends ValueObjectBase with Comparable[HourRangeInDay] {
+class HourRangeInDay(val start: TimeVal,
+                     val end: TimeVal) extends ValueObjectBase with Comparable[HourRangeInDay] {
 
-	private var start: TimeVal = _
-	private var end: TimeVal = _
+  def isMoment = Objects.equals(start, end)
 
-	def this(start: TimeVal, end: TimeVal) {
-		this()
-		if (start.compareTo(end) <= 0) {
-			this.start = start
-			this.end = end
-		}
-		else {
-			this.start = end
-			this.end = start
-		}
-	}
+  def hasInside(hour: Int): Boolean = hasInside(new TimeVal(hour))
 
-	def this(startHour: Int, endHour: Int) {
-		this(new TimeVal(startHour), new TimeVal(endHour))
-	}
+  def hasInside(target: TimeVal): Boolean = {
+    (target.compareTo(this.start) >= 0) && (target.compareTo(this.end) <= 0)
+  }
 
-	def this(hour: Int) {
-		this(hour, hour)
-	}
+  def compareTo(other: HourRangeInDay): Int = start compareTo other.start
 
-	def getStart = start
+  override def hashCode: Int = HashTool.compute(start, end)
 
-	def getEnd = end
+  protected override def buildStringHelper = {
+    super.buildStringHelper
+      .add("start", start)
+      .add("end", end)
+  }
+}
 
-	def isMoment = Objects.equals(start, end)
+object HourRangeInDay {
 
-	def hasInside(hour: Int): Boolean = hasInside(new TimeVal(hour))
+  def apply(start: TimeVal, end: TimeVal): HourRangeInDay = {
+    if (start <= end) new HourRangeInDay(start, end)
+    else new HourRangeInDay(end, start)
+  }
 
-	def hasInside(target: TimeVal): Boolean = (target.compareTo(getStart) >= 0) && (target.compareTo(getEnd) <= 0)
+  def apply(startHour: Int, endHour: Int): HourRangeInDay = {
+    if (startHour <= endHour) apply(new TimeVal(startHour), new TimeVal(endHour))
+    else apply(new TimeVal(endHour), new TimeVal(endHour))
+  }
 
-	def compareTo(other: HourRangeInDay): Int = start compareTo other.start
-
-	override def hashCode: Int = HashTool.compute(start, end)
-
-	protected override def buildStringHelper = {
-		super.buildStringHelper
-			.add("start", start)
-			.add("end", end)
-	}
-
-
+  def apply(hour: Int): HourRangeInDay = apply(hour, hour)
 }
