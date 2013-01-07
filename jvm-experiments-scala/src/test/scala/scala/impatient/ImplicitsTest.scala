@@ -1,4 +1,4 @@
-package scala.impatient.ch21
+package scala.impatient
 
 import scala.math._
 import org.junit.{Ignore, Assert, Test}
@@ -8,7 +8,7 @@ import java.nio.file.Paths
 import kr.kth.commons.slf4j.Logging
 
 /**
- * scala.impatient.ch21.ImplicitsTest
+ * scala.impatient.ImplicitsTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 6.
  */

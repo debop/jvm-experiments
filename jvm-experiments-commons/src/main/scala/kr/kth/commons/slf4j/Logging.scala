@@ -10,149 +10,110 @@ import annotation.varargs
  */
 trait Logging {
 
-  protected lazy val log: Logger = Logger(getClass)
+	protected lazy val log: Logger = Logger(getClass)
 
-  protected def loggerName = log.name
+	protected def loggerName = log.name
 
-  protected lazy val isTranceEnabled = log.isTraceEnabled
+	protected lazy val isTranceEnabled = log.isTraceEnabled
 
-  protected def trace(msg: String) = log.trace(msg)
+	protected def trace(msg: String, t: Throwable) {
+		log.trace(msg, t)
+	}
 
-  protected def trace(marker: Marker, msg: String) {
-    log.trace(marker, msg)
-  }
+	protected def trace(marker: Marker, msg: String, t: Throwable) {
+		log.trace(marker, msg, t)
+	}
 
-  protected def trace(msg: String, t: Throwable) {
-    log.trace(msg, t)
-  }
+	@varargs
+	protected def trace(format: => Any, arguments: Any*) {
+		log.trace(format, arguments)
+	}
 
-  protected def trace(marker: Marker, msg: String, t: Throwable) {
-    log.trace(marker, msg, t)
-  }
-
-  @varargs
-  protected def trace(format: String, arguments: Any*) {
-    log.trace(format, arguments)
-  }
-
-  @varargs
-  protected def trace(marker: Marker, format: String, arguments: Any*) {
-    log.trace(marker, format, arguments)
-  }
+	@varargs
+	protected def trace(marker: Marker, format: => Any, arguments: Any*) {
+		log.trace(marker, format, arguments)
+	}
 
 
-  protected lazy val isDebugEnabled = log.isDebugEnabled
+	protected lazy val isDebugEnabled = log.isDebugEnabled
 
-  protected def debug(msg: String) {
-    log.debug(msg)
-  }
+	protected def debug(msg: String, t: Throwable) {
+		log.debug(msg, t)
+	}
 
-  protected def debug(marker: Marker, msg: String) {
-    log.debug(marker, msg)
-  }
+	protected def debug(marker: Marker, msg: String, t: Throwable) {
+		log.debug(marker, msg, t)
+	}
 
-  protected def debug(msg: String, t: Throwable) {
-    log.debug(msg, t)
-  }
+	@varargs
+	protected def debug(format: => Any, arguments: Any*) {
+		log.debug(format, arguments)
+	}
 
-  protected def debug(marker: Marker, msg: String, t: Throwable) {
-    log.debug(marker, msg, t)
-  }
-
-  @varargs
-  protected def debug(format: String, arguments: Any*) {
-    log.debug(format, arguments)
-  }
-
-  @varargs
-  protected def debug(marker: Marker, format: String, arguments: Any*) {
-    log.debug(marker, format, arguments)
-  }
+	@varargs
+	protected def debug(marker: Marker, format: => Any, arguments: Any*) {
+		log.debug(marker, format, arguments)
+	}
 
 
-  protected lazy val isInfoEnabled = log.isInfoEnabled
+	protected lazy val isInfoEnabled = log.isInfoEnabled
 
-  protected def info(msg: String) {
-    log.info(msg)
-  }
+	protected def info(msg: String, t: Throwable) {
+		log.info(msg, t)
+	}
 
-  protected def info(marker: Marker, msg: String) {
-    log.info(marker, msg)
-  }
+	protected def info(marker: Marker, msg: String, t: Throwable) {
+		log.info(marker, msg, t)
+	}
 
-  protected def info(msg: String, t: Throwable) {
-    log.info(msg, t)
-  }
+	@varargs
+	protected def info(format: => Any, arguments: Any*) {
+		log.info(format, arguments)
+	}
 
-  protected def info(marker: Marker, msg: String, t: Throwable) {
-    log.info(marker, msg, t)
-  }
-
-  @varargs
-  protected def info(format: String, arguments: Any*) {
-    log.info(format, arguments)
-  }
-
-  @varargs
-  protected def info(marker: Marker, format: String, arguments: Any*) {
-    log.info(marker, format, arguments)
-  }
+	@varargs
+	protected def info(marker: Marker, format: => Any, arguments: Any*) {
+		log.info(marker, format, arguments)
+	}
 
 
-  protected lazy val isWarnEnabled = log.isWarnEnabled
+	protected lazy val isWarnEnabled = log.isWarnEnabled
 
-  protected def warn(msg: String) {
-    log.warn(msg)
-  }
+	protected def warn(msg: String, t: Throwable) {
+		log.warn(msg, t)
+	}
 
-  protected def warn(marker: Marker, msg: String) {
-    log.warn(marker, msg)
-  }
+	protected def warn(marker: Marker, msg: String, t: Throwable) {
+		log.warn(marker, msg, t)
+	}
 
-  protected def warn(msg: String, t: Throwable) {
-    log.warn(msg, t)
-  }
+	@varargs
+	protected def warn(format: => Any, arguments: Any*) {
+		log.warn(format, arguments)
+	}
 
-  protected def warn(marker: Marker, msg: String, t: Throwable) {
-    log.warn(marker, msg, t)
-  }
+	@varargs
+	protected def warn(marker: Marker, format: => Any, arguments: Any*) {
+		log.warn(marker, format, arguments)
+	}
 
-  @varargs
-  protected def warn(format: String, arguments: Any*) {
-    log.warn(format, arguments)
-  }
+	protected lazy val isErrorEnabled = log.isErrorEnabled
 
-  @varargs
-  protected def warn(marker: Marker, format: String, arguments: Any*) {
-    log.warn(marker, format, arguments)
-  }
+	protected def error(msg: String, t: Throwable) {
+		log.error(msg, t)
+	}
 
-  protected lazy val isErrorEnabled = log.isErrorEnabled
+	protected def error(marker: Marker, msg: String, t: Throwable) {
+		log.error(marker, msg, t)
+	}
 
-  protected def error(msg: String) {
-    log.error(msg)
-  }
+	@varargs
+	protected def error(format: => Any, arguments: Any*) {
+		log.error(format, arguments)
+	}
 
-  protected def error(marker: Marker, msg: String) {
-    log.error(marker, msg)
-  }
-
-  protected def error(msg: String, t: Throwable) {
-    log.error(msg, t)
-  }
-
-  protected def error(marker: Marker, msg: String, t: Throwable) {
-    log.error(marker, msg, t)
-  }
-
-  @varargs
-  protected def error(format: String, arguments: Any*) {
-    log.error(format, arguments)
-  }
-
-  @varargs
-  protected def error(marker: Marker, format: String, arguments: Any*) {
-    log.error(marker, format, arguments)
-  }
-
+	@varargs
+	protected def error(marker: Marker, format: => Any, arguments: Any*) {
+		log.error(marker, format, arguments)
+	}
 }
