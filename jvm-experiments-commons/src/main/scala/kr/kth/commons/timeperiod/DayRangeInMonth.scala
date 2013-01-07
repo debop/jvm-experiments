@@ -30,7 +30,7 @@ object DayRangeInMonth {
     Guard.shouldBeBetween(min, 1, TimeSpec.MaxDaysPerMonth, "min")
     Guard.shouldBeBetween(max, 1, TimeSpec.MaxDaysPerMonth, "max")
 
-    if (min <= max) new DayRangeInMonth(min, max)
-    else new DayRangeInMonth(max, min)
+    if (min <= max) DayRangeInMonth(min, max)
+    else DayRangeInMonth(max, min)
   }
 }

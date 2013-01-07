@@ -52,6 +52,6 @@ object DateVal {
   }
 
   def apply(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1) = {
-    apply(new DateTime().withDate(year, monthOfYear, dayOfMonth))
+    new DateVal(new DateTime().withDate(year, monthOfYear, dayOfMonth))
   }
 }

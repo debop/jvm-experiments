@@ -14,7 +14,7 @@ class HourRangeInDay(val start: TimeVal,
 
   def isMoment = Objects.equals(start, end)
 
-  def hasInside(hour: Int): Boolean = hasInside(new TimeVal(hour))
+  def hasInside(hour: Int): Boolean = hasInside(TimeVal(hour))
 
   def hasInside(target: TimeVal): Boolean = {
     (target.compareTo(this.start) >= 0) && (target.compareTo(this.end) <= 0)
@@ -39,8 +39,8 @@ object HourRangeInDay {
   }
 
   def apply(startHour: Int, endHour: Int): HourRangeInDay = {
-    if (startHour <= endHour) apply(new TimeVal(startHour), new TimeVal(endHour))
-    else apply(new TimeVal(endHour), new TimeVal(endHour))
+    if (startHour <= endHour) apply(TimeVal(startHour), TimeVal(endHour))
+    else apply(TimeVal(endHour), TimeVal(startHour))
   }
 
   def apply(hour: Int): HourRangeInDay = apply(hour, hour)

@@ -36,9 +36,9 @@ object DayHourRange {
     Guard.shouldBeInRange(endHour, 0, TimeSpec.HoursPerDay, "endHour")
 
     if (startHour <= endHour)
-      new DayHourRange(dayOfWeek, new TimeVal(startHour), new TimeVal(endHour))
+      new DayHourRange(dayOfWeek, TimeVal(startHour), TimeVal(endHour))
     else
-      new DayHourRange(dayOfWeek, new TimeVal(endHour), new TimeVal(startHour))
+      new DayHourRange(dayOfWeek, TimeVal(endHour), TimeVal(startHour))
   }
 
 }
