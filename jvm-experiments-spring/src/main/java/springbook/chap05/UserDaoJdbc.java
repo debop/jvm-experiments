@@ -63,7 +63,8 @@ public class UserDaoJdbc extends springbook.chap03.UserDao implements springbook
                 public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                     PreparedStatement ps =
                             con.prepareStatement(
-                                    "INSERT INTO Users (id, name, password, level, login, recommend) values(?, ?, ?, ?, ?, ?)");
+                                    "INSERT INTO Users (id, name, password, level, login, recommend) " +
+                                            " values(?, ?, ?, ?, ?, ?)");
                     ps.setString(1, user.getId());
                     ps.setString(2, user.getName());
                     ps.setString(3, user.getPassword());
