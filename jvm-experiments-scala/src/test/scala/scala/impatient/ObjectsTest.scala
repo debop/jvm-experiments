@@ -1,7 +1,6 @@
 package scala.impatient
 
 import org.junit.{Assert, Test}
-import annotation.meta.beanGetter
 import kr.kth.commons.slf4j.Logging
 
 /**
@@ -14,7 +13,7 @@ class ObjectsTest extends Logging {
   class Account {
     val id = Account.newUniqueNumber()
 
-    @beanGetter private var balance = 0.0
+    private var balance = 0.0
 
     def getBalance = balance
 

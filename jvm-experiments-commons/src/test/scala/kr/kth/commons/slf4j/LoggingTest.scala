@@ -7,7 +7,6 @@ import org.junit.Test
  * User: Administrator
  * Date: 13. 1. 8
  * Time: 오전 10:16
- * To change this template use File | Settings | File Templates.
  */
 class LoggingTest extends Logging {
 
