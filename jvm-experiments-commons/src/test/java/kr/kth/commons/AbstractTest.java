@@ -12,17 +12,19 @@ import org.junit.Before;
 @Slf4j
 public abstract class AbstractTest {
 
-	@Before
-	public void before() {
-		onBefore();
-	}
+    @Before
+    public void before() {
+        onBefore();
+    }
 
-	@After
-	public void after() {
-		onAfter();
-	}
+    @After
+    public void after() {
+        onAfter();
+    }
 
-	protected void onBefore() { }
+    protected void onBefore() {
+    }
 
-	protected void onAfter() { }
+    protected void onAfter() {
+    }
 }

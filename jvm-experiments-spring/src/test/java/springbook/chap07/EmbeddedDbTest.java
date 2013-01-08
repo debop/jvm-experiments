@@ -26,41 +26,41 @@ import static org.junit.Assert.assertThat;
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class EmbeddedDbTest {
 
-	EmbeddedDatabase db;
-	JdbcTemplate template;
+    EmbeddedDatabase db;
+    JdbcTemplate template;
 
-	@Before
-	public void setup() {
-		db = new EmbeddedDatabaseBuilder()
-			.setType(EmbeddedDatabaseType.HSQL)
-			.addScript("classpath:/springbook/chap07/embeddeddb/schema.sql")
-			.addScript("classpath:/springbook/chap07/embeddeddb/data.sql")
-			.build();
+    @Before
+    public void setup() {
+        db = new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.HSQL)
+                .addScript("classpath:/springbook/chap07/embeddeddb/schema.sql")
+                .addScript("classpath:/springbook/chap07/embeddeddb/data.sql")
+                .build();
 
-		template = new JdbcTemplate(db);
-	}
+        template = new JdbcTemplate(db);
+    }
 
-	@After
-	public void tearDown() {
-		db.shutdown();
-	}
+    @After
+    public void tearDown() {
+        db.shutdown();
+    }
 
-	@Test
-	public void initData() {
-		assertThat(template.queryForInt("SELECT count(*) FROM sqlmap"), is(2));
+    @Test
+    public void initData() {
+        assertThat(template.queryForInt("SELECT count(*) FROM sqlmap"), is(2));
 
-		List<Map<String, Object>> list =
-			template.queryForList("SELECT * FROM sqlmap order by key_");
+        List<Map<String, Object>> list =
+                template.queryForList("SELECT * FROM sqlmap order by key_");
 
-		assertThat((String) list.get(0).get("key_"), is("KEY1"));
-		assertThat((String) list.get(0).get("sql_"), is("SQL1"));
-		assertThat((String) list.get(1).get("key_"), is("KEY2"));
-		assertThat((String) list.get(1).get("sql_"), is("SQL2"));
-	}
+        assertThat((String) list.get(0).get("key_"), is("KEY1"));
+        assertThat((String) list.get(0).get("sql_"), is("SQL1"));
+        assertThat((String) list.get(1).get("key_"), is("KEY2"));
+        assertThat((String) list.get(1).get("sql_"), is("SQL2"));
+    }
 
-	@Test
-	public void insert() {
-		template.update("INSERT INTO sqlmap(key_, sql_) values(?, ?)", "KEY3", "SQL3");
-		assertThat(template.queryForInt("SELECT count(*) FROM sqlmap"), is(3));
-	}
+    @Test
+    public void insert() {
+        template.update("INSERT INTO sqlmap(key_, sql_) values(?, ?)", "KEY3", "SQL3");
+        assertThat(template.queryForInt("SELECT count(*) FROM sqlmap"), is(3));
+    }
 }

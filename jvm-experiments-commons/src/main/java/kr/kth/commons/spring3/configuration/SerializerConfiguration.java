@@ -16,18 +16,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SerializerConfiguration {
 
-	@Bean(name = "binarySerializer")
-	public BinarySerializer binarySerializer() {
-		return new BinarySerializer();
-	}
+    @Bean(name = "binarySerializer")
+    public BinarySerializer binarySerializer() {
+        return new BinarySerializer();
+    }
 
-	@Bean(name = "gsonSerializer")
-	public GsonSerializer gsonSerializer() {
-		return new GsonSerializer();
-	}
+    @Bean(name = "gsonSerializer")
+    public GsonSerializer gsonSerializer() {
+        return new GsonSerializer();
+    }
 
-	@Bean(name = "jacksonSerializer")
-	public JacksonSerializer jacksonSerializer() {
-		return new JacksonSerializer();
-	}
+    @Bean(name = "jacksonSerializer")
+    public JacksonSerializer jacksonSerializer() {
+        return new JacksonSerializer();
+    }
 }

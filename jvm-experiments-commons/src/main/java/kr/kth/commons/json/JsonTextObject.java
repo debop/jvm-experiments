@@ -14,37 +14,41 @@ import static kr.kth.commons.tools.StringTool.ellipsisChar;
  */
 public class JsonTextObject extends ValueObjectBase {
 
-	private static final long serialVersionUID = 8434059177726276296L;
+    private static final long serialVersionUID = 8434059177726276296L;
 
-	public static final JsonTextObject Empty = new JsonTextObject(null, null);
+    public static final JsonTextObject Empty = new JsonTextObject(null, null);
 
-	@Getter @Setter private String className;
-	@Getter @Setter private String jsonText;
+    @Getter
+    @Setter
+    private String className;
+    @Getter
+    @Setter
+    private String jsonText;
 
-	public JsonTextObject(String className, String jsonText) {
-		this.className = className;
-		this.jsonText = jsonText;
-	}
+    public JsonTextObject(String className, String jsonText) {
+        this.className = className;
+        this.jsonText = jsonText;
+    }
 
-	public JsonTextObject(JsonTextObject src) {
-		if (src == null) {
-			this.className = null;
-			this.jsonText = null;
-		} else {
-			this.className = src.className;
-			this.jsonText = src.jsonText;
-		}
-	}
+    public JsonTextObject(JsonTextObject src) {
+        if (src == null) {
+            this.className = null;
+            this.jsonText = null;
+        } else {
+            this.className = src.className;
+            this.jsonText = src.jsonText;
+        }
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(className, jsonText);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(className, jsonText);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("className", className)
-		            .add("jsonText", ellipsisChar(jsonText, 255));
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("className", className)
+                .add("jsonText", ellipsisChar(jsonText, 255));
+    }
 }

@@ -18,28 +18,28 @@ import java.util.List;
 @Getter
 public class MultiHandlerSubscriber {
 
-	private List<CashPurchaseEvent> cashEvents = Lists.newArrayList();
-	private List<CreditPurchaseEvent> creditEvents = Lists.newArrayList();
-	private List<SimpleEvent> simpleEvents = Lists.newArrayList();
+    private List<CashPurchaseEvent> cashEvents = Lists.newArrayList();
+    private List<CreditPurchaseEvent> creditEvents = Lists.newArrayList();
+    private List<SimpleEvent> simpleEvents = Lists.newArrayList();
 
-	public MultiHandlerSubscriber(EventBus eventBus) {
-		eventBus.register(this);
-	}
+    public MultiHandlerSubscriber(EventBus eventBus) {
+        eventBus.register(this);
+    }
 
-	@Subscribe
-	public void handleCashEvents(CashPurchaseEvent event) {
-		cashEvents.add(event);
-	}
+    @Subscribe
+    public void handleCashEvents(CashPurchaseEvent event) {
+        cashEvents.add(event);
+    }
 
-	@Subscribe
-	public void handleCreditEvents(CreditPurchaseEvent event) {
-		creditEvents.add(event);
-	}
+    @Subscribe
+    public void handleCreditEvents(CreditPurchaseEvent event) {
+        creditEvents.add(event);
+    }
 
-	@Subscribe
-	public void handleCreditEvents(SimpleEvent event) {
-		simpleEvents.add(event);
-	}
+    @Subscribe
+    public void handleCreditEvents(SimpleEvent event) {
+        simpleEvents.add(event);
+    }
 
 
 }

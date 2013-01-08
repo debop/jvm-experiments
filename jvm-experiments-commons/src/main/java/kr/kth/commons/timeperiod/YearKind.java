@@ -6,31 +6,31 @@ package kr.kth.commons.timeperiod;
  * Date: 12. 12. 19.
  */
 public enum YearKind {
-	/**
-	 * 설치된 OS의 문화권에 해당하는 Year
-	 */
-	SystemYear("System"),
-	/**
-	 * 현 ThreadContext에 지정된 {@link java.util.Locale}의 Calendar의 Year
-	 */
-	CalendarYear("Calendar"),
-	/**
-	 * 회계 년 (2월 시작)
-	 */
-	FiscalYear("Fiscal"),
-	/**
-	 * 교육 년 (3월 시작, 9월 시작)
-	 */
-	SchoolYear("School"),
-	/**
-	 * 사용자 정의 Year
-	 */
-	CustomYear("Custom");
+    /**
+     * 설치된 OS의 문화권에 해당하는 Year
+     */
+    SystemYear("System"),
+    /**
+     * 현 ThreadContext에 지정된 {@link java.util.Locale}의 Calendar의 Year
+     */
+    CalendarYear("Calendar"),
+    /**
+     * 회계 년 (2월 시작)
+     */
+    FiscalYear("Fiscal"),
+    /**
+     * 교육 년 (3월 시작, 9월 시작)
+     */
+    SchoolYear("School"),
+    /**
+     * 사용자 정의 Year
+     */
+    CustomYear("Custom");
 
 
-	private final String year;
+    private final String year;
 
-	YearKind(String year) {
-		this.year = year;
-	}
+    YearKind(String year) {
+        this.year = year;
+    }
 }

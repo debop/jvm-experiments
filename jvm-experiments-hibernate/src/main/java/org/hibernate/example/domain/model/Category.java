@@ -13,52 +13,56 @@ import java.util.List;
 
 public class Category extends EntityBase<Long> implements IUpdateTimestampedEntity {
 
-	private static final long serialVersionUID = 7583780980623927361L;
+    private static final long serialVersionUID = 7583780980623927361L;
 
-	protected Category() {}
+    protected Category() {
+    }
 
-	public Category(String name) {
-		this.name = name;
-	}
+    public Category(String name) {
+        this.name = name;
+    }
 
-	@Getter @Setter private String name;
+    @Getter
+    @Setter
+    private String name;
 
-	// @Getter private Date lastUpdated = new Date();
-	@Getter private Timestamp updateTimestamp;
+    // @Getter private Date lastUpdated = new Date();
+    @Getter
+    private Timestamp updateTimestamp;
 
-	public void updateUpdateTimestamp() {
-		updateTimestamp = TimeTool.getNowTimestamp();
-	}
+    public void updateUpdateTimestamp() {
+        updateTimestamp = TimeTool.getNowTimestamp();
+    }
 
-	@Getter
-	private final List<Event> events = new ArrayList<>();
+    @Getter
+    private final List<Event> events = new ArrayList<>();
 
-	public void addEvents(Event... ets) {
-		for (Event e : ets) {
-			events.add(e);
-			e.setCategory(this);
-		}
-	}
+    public void addEvents(Event... ets) {
+        for (Event e : ets) {
+            events.add(e);
+            e.setCategory(this);
+        }
+    }
 
-	public void removeEvents(Event... ets) {
-		for (Event e : ets) {
-			events.remove(e);
-			e.setCategory(null);
-		}
-	}
+    public void removeEvents(Event... ets) {
+        for (Event e : ets) {
+            events.remove(e);
+            e.setCategory(null);
+        }
+    }
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return Objects.hashCode(name);
-	}
+        return Objects.hashCode(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name)
-		            .add("updateTimestamp", updateTimestamp);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name)
+                .add("updateTimestamp", updateTimestamp);
+    }
 }

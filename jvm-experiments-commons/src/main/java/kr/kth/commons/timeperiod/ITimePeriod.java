@@ -11,49 +11,49 @@ import java.io.Serializable;
  */
 public interface ITimePeriod extends Comparable<ITimePeriod>, Serializable {
 
-	DateTime getStart();
+    DateTime getStart();
 
-	DateTime getEnd();
+    DateTime getEnd();
 
-	Long getDuration();
+    Long getDuration();
 
-	String getDurationDescription();
+    String getDurationDescription();
 
-	boolean hasStart();
+    boolean hasStart();
 
-	boolean hasEnd();
+    boolean hasEnd();
 
-	boolean hasPeriod();
+    boolean hasPeriod();
 
-	boolean isMoment();
+    boolean isMoment();
 
-	boolean isAnyTime();
+    boolean isAnyTime();
 
-	boolean isReadonly();
+    boolean isReadonly();
 
-	void setup(DateTime start, DateTime end);
+    void setup(DateTime start, DateTime end);
 
-	ITimePeriod copy(long offset);
+    ITimePeriod copy(long offset);
 
-	void move(long offset);
+    void move(long offset);
 
-	boolean isSamePeriod(ITimePeriod that);
+    boolean isSamePeriod(ITimePeriod that);
 
-	boolean hasInside(DateTime moment);
+    boolean hasInside(DateTime moment);
 
-	boolean hasInside(ITimePeriod that);
+    boolean hasInside(ITimePeriod that);
 
-	boolean intersectsWith(ITimePeriod that);
+    boolean intersectsWith(ITimePeriod that);
 
-	boolean overlapsWith(ITimePeriod that);
+    boolean overlapsWith(ITimePeriod that);
 
-	void reset();
+    void reset();
 
-	PeriodRelation getRelation(ITimePeriod that);
+    PeriodRelation getRelation(ITimePeriod that);
 
-	String getDescription(ITimeFormatter formatter);
+    String getDescription(ITimeFormatter formatter);
 
-	ITimePeriod getIntersection(ITimePeriod that);
+    ITimePeriod getIntersection(ITimePeriod that);
 
-	ITimePeriod getUnion(ITimePeriod that);
+    ITimePeriod getUnion(ITimePeriod that);
 }

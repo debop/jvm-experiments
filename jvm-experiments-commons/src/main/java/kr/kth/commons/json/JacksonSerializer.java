@@ -16,80 +16,82 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JacksonSerializer implements IJsonSerializer {
 
-	@Getter @Setter private ObjectMapper mapper;
+    @Getter
+    @Setter
+    private ObjectMapper mapper;
 
-	public JacksonSerializer() {
-		this(new ObjectMapper());
-	}
+    public JacksonSerializer() {
+        this(new ObjectMapper());
+    }
 
-	public JacksonSerializer(ObjectMapper mapper) {
-		this.mapper = Guard.firstNotNull(mapper, new ObjectMapper());
-	}
+    public JacksonSerializer(ObjectMapper mapper) {
+        this.mapper = Guard.firstNotNull(mapper, new ObjectMapper());
+    }
 
-	@Override
-	public byte[] serialize(Object graph) {
-		if (graph == null)
-			return ArrayTool.EmptyByteArray;
+    @Override
+    public byte[] serialize(Object graph) {
+        if (graph == null)
+            return ArrayTool.EmptyByteArray;
 
-		if (log.isDebugEnabled())
-			log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
+        if (log.isDebugEnabled())
+            log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
 
-		try {
-			return getMapper().writeValueAsBytes(graph);
-		} catch (Exception e) {
-			if (log.isErrorEnabled())
-				log.error("객체를 Json 직렬화하는데 실패했습니다.", e);
-			throw new RuntimeException(e);
-		}
-	}
+        try {
+            return getMapper().writeValueAsBytes(graph);
+        } catch (Exception e) {
+            if (log.isErrorEnabled())
+                log.error("객체를 Json 직렬화하는데 실패했습니다.", e);
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public String serializeToText(Object graph) {
-		if (graph == null)
-			return "";
+    @Override
+    public String serializeToText(Object graph) {
+        if (graph == null)
+            return "";
 
-		if (log.isDebugEnabled())
-			log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
-		try {
-			return getMapper().writeValueAsString(graph);
-		} catch (Exception e) {
-			if (log.isErrorEnabled())
-				log.error("객체를 Json 직렬화하는데 실패했습니다.", e);
-			throw new RuntimeException(e);
-		}
-	}
+        if (log.isDebugEnabled())
+            log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
+        try {
+            return getMapper().writeValueAsString(graph);
+        } catch (Exception e) {
+            if (log.isErrorEnabled())
+                log.error("객체를 Json 직렬화하는데 실패했습니다.", e);
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public <T> T deserializeFromText(String jsonText, Class<T> targetType) {
-		if (StringTool.isWhiteSpace(jsonText))
-			return (T) null;
+    @Override
+    public <T> T deserializeFromText(String jsonText, Class<T> targetType) {
+        if (StringTool.isWhiteSpace(jsonText))
+            return (T) null;
 
-		if (log.isDebugEnabled())
-			log.debug("JSON 역직렬화를 수행합니다. valueType=[{}]", targetType.getName());
+        if (log.isDebugEnabled())
+            log.debug("JSON 역직렬화를 수행합니다. valueType=[{}]", targetType.getName());
 
-		try {
-			return getMapper().readValue(jsonText, targetType);
-		} catch (Exception e) {
-			if (log.isErrorEnabled())
-				log.error("Json 역직렬화하는데 실패했습니다.", e);
-			throw new RuntimeException(e);
-		}
-	}
+        try {
+            return getMapper().readValue(jsonText, targetType);
+        } catch (Exception e) {
+            if (log.isErrorEnabled())
+                log.error("Json 역직렬화하는데 실패했습니다.", e);
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public <T> T deserialize(byte[] bytes, Class<T> targetType) {
-		if (ArrayTool.isEmpty(bytes))
-			return (T) null;
+    @Override
+    public <T> T deserialize(byte[] bytes, Class<T> targetType) {
+        if (ArrayTool.isEmpty(bytes))
+            return (T) null;
 
-		if (log.isDebugEnabled())
-			log.debug("JSON 역직렬화를 수행합니다. targetType=[{}]", targetType.getName());
+        if (log.isDebugEnabled())
+            log.debug("JSON 역직렬화를 수행합니다. targetType=[{}]", targetType.getName());
 
-		try {
-			return getMapper().readValue(bytes, targetType);
-		} catch (Exception e) {
-			if (log.isErrorEnabled())
-				log.error("Json 역직렬화하는데 실패했습니다.", e);
-			throw new RuntimeException(e);
-		}
-	}
+        try {
+            return getMapper().readValue(bytes, targetType);
+        } catch (Exception e) {
+            if (log.isErrorEnabled())
+                log.error("Json 역직렬화하는데 실패했습니다.", e);
+            throw new RuntimeException(e);
+        }
+    }
 }

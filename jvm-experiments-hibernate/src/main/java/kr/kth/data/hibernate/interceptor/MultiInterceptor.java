@@ -23,235 +23,237 @@ import java.util.concurrent.FutureTask;
 @Slf4j
 public class MultiInterceptor extends EmptyInterceptor {
 
-	private static final long serialVersionUID = 4354823013240170534L;
+    private static final long serialVersionUID = 4354823013240170534L;
 
-	@Getter @Setter
-	private List<Interceptor> interceptors;
+    @Getter
+    @Setter
+    private List<Interceptor> interceptors;
 
-	public MultiInterceptor() {}
+    public MultiInterceptor() {
+    }
 
-	public MultiInterceptor(List<Interceptor> interceptors) {
-		this.interceptors = interceptors;
-	}
+    public MultiInterceptor(List<Interceptor> interceptors) {
+        this.interceptors = interceptors;
+    }
 
-	@Override
-	public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+    @Override
+    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
 
-		if (interceptors == null || interceptors.size() == 0)
-			return;
+        if (interceptors == null || interceptors.size() == 0)
+            return;
 
-		final Object entity1 = entity;
-		final Serializable id1 = id;
-		final Object[] state1 = state;
-		final String[] propertyNames1 = propertyNames;
-		final Type[] types1 = types;
+        final Object entity1 = entity;
+        final Serializable id1 = id;
+        final Object[] state1 = state;
+        final String[] propertyNames1 = propertyNames;
+        final Type[] types1 = types;
 
-		List<FutureTask<Void>> tasks = Lists.newLinkedList();
+        List<FutureTask<Void>> tasks = Lists.newLinkedList();
 
-		for (final Interceptor interceptor : interceptors) {
+        for (final Interceptor interceptor : interceptors) {
 
-			if (log.isDebugEnabled())
-				log.debug("인터셉터의 onDelete메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
+            if (log.isDebugEnabled())
+                log.debug("인터셉터의 onDelete메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					interceptor.onDelete(entity1, id1, state1, propertyNames1, types1);
-					return null;
-				}
-			});
-			tasks.add(task);
-		}
+            FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    interceptor.onDelete(entity1, id1, state1, propertyNames1, types1);
+                    return null;
+                }
+            });
+            tasks.add(task);
+        }
 
-		try {
-			AsyncTool.getAll(tasks);
-		} catch (Exception ex) {
-			log.error("Interceptor.onDelete 작업 시 예외가 발생했습니다.", ex);
-		}
-	}
+        try {
+            AsyncTool.getAll(tasks);
+        } catch (Exception ex) {
+            log.error("Interceptor.onDelete 작업 시 예외가 발생했습니다.", ex);
+        }
+    }
 
-	@Override
-	public boolean onFlushDirty(Object entity,
-	                            Serializable id,
-	                            Object[] currentState,
-	                            Object[] previousState,
-	                            String[] propertyNames,
-	                            Type[] types) {
-		if (interceptors == null || interceptors.size() == 0)
-			return false;
+    @Override
+    public boolean onFlushDirty(Object entity,
+                                Serializable id,
+                                Object[] currentState,
+                                Object[] previousState,
+                                String[] propertyNames,
+                                Type[] types) {
+        if (interceptors == null || interceptors.size() == 0)
+            return false;
 
-		final Object entity1 = entity;
-		final Serializable id1 = id;
-		final Object[] currentState1 = currentState;
-		final Object[] previousState1 = previousState;
-		final String[] propertyNames1 = propertyNames;
-		final Type[] types1 = types;
+        final Object entity1 = entity;
+        final Serializable id1 = id;
+        final Object[] currentState1 = currentState;
+        final Object[] previousState1 = previousState;
+        final String[] propertyNames1 = propertyNames;
+        final Type[] types1 = types;
 
-		List<FutureTask<Boolean>> tasks = Lists.newLinkedList();
+        List<FutureTask<Boolean>> tasks = Lists.newLinkedList();
 
-		for (final Interceptor interceptor : interceptors) {
+        for (final Interceptor interceptor : interceptors) {
 
-			if (log.isDebugEnabled())
-				log.debug("인터셉터의 onFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
+            if (log.isDebugEnabled())
+                log.debug("인터셉터의 onFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
-				@Override
-				public Boolean call() throws Exception {
-					return interceptor.onFlushDirty(entity1,
-					                                id1,
-					                                currentState1,
-					                                previousState1,
-					                                propertyNames1,
-					                                types1);
-				}
-			});
-			tasks.add(task);
-		}
+            FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return interceptor.onFlushDirty(entity1,
+                            id1,
+                            currentState1,
+                            previousState1,
+                            propertyNames1,
+                            types1);
+                }
+            });
+            tasks.add(task);
+        }
 
-		try {
-			List<Boolean> results = AsyncTool.getAll(tasks);
-			return !(results.contains(Boolean.FALSE));
-		} catch (Exception ex) {
-			if (log.isDebugEnabled())
-				log.error("Interceptor.onFlush 작업 시 예외가 발생했습니다.", ex);
-		}
-		return false;
-	}
+        try {
+            List<Boolean> results = AsyncTool.getAll(tasks);
+            return !(results.contains(Boolean.FALSE));
+        } catch (Exception ex) {
+            if (log.isDebugEnabled())
+                log.error("Interceptor.onFlush 작업 시 예외가 발생했습니다.", ex);
+        }
+        return false;
+    }
 
-	@Override
-	public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		if (interceptors == null || interceptors.size() == 0)
-			return false;
+    @Override
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        if (interceptors == null || interceptors.size() == 0)
+            return false;
 
-		final Object entity1 = entity;
-		final Serializable id1 = id;
-		final Object[] state1 = state;
-		final String[] propertyNames1 = propertyNames;
-		final Type[] types1 = types;
+        final Object entity1 = entity;
+        final Serializable id1 = id;
+        final Object[] state1 = state;
+        final String[] propertyNames1 = propertyNames;
+        final Type[] types1 = types;
 
-		List<FutureTask<Boolean>> tasks = Lists.newLinkedList();
+        List<FutureTask<Boolean>> tasks = Lists.newLinkedList();
 
-		for (final Interceptor interceptor : interceptors) {
+        for (final Interceptor interceptor : interceptors) {
 
-			if (log.isDebugEnabled())
-				log.debug("인터셉터의 onLoad 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
+            if (log.isDebugEnabled())
+                log.debug("인터셉터의 onLoad 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
-				@Override
-				public Boolean call() throws Exception {
-					return interceptor.onLoad(entity1, id1, state1, propertyNames1, types1);
-				}
-			});
-			tasks.add(task);
-		}
+            FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return interceptor.onLoad(entity1, id1, state1, propertyNames1, types1);
+                }
+            });
+            tasks.add(task);
+        }
 
-		try {
-			List<Boolean> results = AsyncTool.getAll(tasks);
-			return !(results.contains(Boolean.FALSE));
-		} catch (Exception ex) {
-			log.error("Interceptor.onLoad 작업 시 예외가 발생했습니다.", ex);
-		}
-		return false;
-	}
+        try {
+            List<Boolean> results = AsyncTool.getAll(tasks);
+            return !(results.contains(Boolean.FALSE));
+        } catch (Exception ex) {
+            log.error("Interceptor.onLoad 작업 시 예외가 발생했습니다.", ex);
+        }
+        return false;
+    }
 
-	@Override
-	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		if (interceptors == null || interceptors.size() == 0)
-			return false;
+    @Override
+    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        if (interceptors == null || interceptors.size() == 0)
+            return false;
 
-		final Object entity1 = entity;
-		final Serializable id1 = id;
-		final Object[] state1 = state;
-		final String[] propertyNames1 = propertyNames;
-		final Type[] types1 = types;
+        final Object entity1 = entity;
+        final Serializable id1 = id;
+        final Object[] state1 = state;
+        final String[] propertyNames1 = propertyNames;
+        final Type[] types1 = types;
 
-		List<FutureTask<Boolean>> tasks = Lists.newLinkedList();
+        List<FutureTask<Boolean>> tasks = Lists.newLinkedList();
 
-		for (final Interceptor interceptor : interceptors) {
+        for (final Interceptor interceptor : interceptors) {
 
-			if (log.isDebugEnabled())
-				log.debug("인터셉터의 onSave 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
+            if (log.isDebugEnabled())
+                log.debug("인터셉터의 onSave 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
-				@Override
-				public Boolean call() throws Exception {
-					return interceptor.onSave(entity1, id1, state1, propertyNames1, types1);
-				}
-			});
-			tasks.add(task);
-		}
+            FutureTask<Boolean> task = AsyncTool.newTask(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return interceptor.onSave(entity1, id1, state1, propertyNames1, types1);
+                }
+            });
+            tasks.add(task);
+        }
 
-		try {
-			List<Boolean> results = AsyncTool.getAll(tasks);
-			return !(results.contains(Boolean.FALSE));
-		} catch (Exception ex) {
-			if (log.isErrorEnabled())
-				log.error("Interceptor.onSave 작업 시 예외가 발생했습니다.", ex);
-		}
-		return false;
-	}
+        try {
+            List<Boolean> results = AsyncTool.getAll(tasks);
+            return !(results.contains(Boolean.FALSE));
+        } catch (Exception ex) {
+            if (log.isErrorEnabled())
+                log.error("Interceptor.onSave 작업 시 예외가 발생했습니다.", ex);
+        }
+        return false;
+    }
 
-	@Override
-	public void postFlush(Iterator entities) {
-		if (interceptors == null || interceptors.size() == 0)
-			return;
+    @Override
+    public void postFlush(Iterator entities) {
+        if (interceptors == null || interceptors.size() == 0)
+            return;
 
-		final Iterator entities1 = entities;
+        final Iterator entities1 = entities;
 
-		List<FutureTask<Void>> tasks = Lists.newLinkedList();
+        List<FutureTask<Void>> tasks = Lists.newLinkedList();
 
-		for (final Interceptor interceptor : interceptors) {
+        for (final Interceptor interceptor : interceptors) {
 
-			if (log.isDebugEnabled())
-				log.debug("인터셉터의 postFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
+            if (log.isDebugEnabled())
+                log.debug("인터셉터의 postFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					interceptor.postFlush(entities1);
-					return null;
-				}
-			});
-			tasks.add(task);
-		}
+            FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    interceptor.postFlush(entities1);
+                    return null;
+                }
+            });
+            tasks.add(task);
+        }
 
-		try {
-			AsyncTool.getAll(tasks);
-		} catch (Exception ex) {
-			if (log.isErrorEnabled())
-				log.error("Interceptor.postFlush 작업 시 예외가 발생했습니다.", ex);
-		}
-	}
+        try {
+            AsyncTool.getAll(tasks);
+        } catch (Exception ex) {
+            if (log.isErrorEnabled())
+                log.error("Interceptor.postFlush 작업 시 예외가 발생했습니다.", ex);
+        }
+    }
 
-	@Override
-	public void preFlush(Iterator entities) {
-		if (interceptors == null || interceptors.size() == 0)
-			return;
+    @Override
+    public void preFlush(Iterator entities) {
+        if (interceptors == null || interceptors.size() == 0)
+            return;
 
-		final Iterator entities1 = entities;
+        final Iterator entities1 = entities;
 
-		List<FutureTask<Void>> tasks = Lists.newLinkedList();
+        List<FutureTask<Void>> tasks = Lists.newLinkedList();
 
-		for (final Interceptor interceptor : interceptors) {
+        for (final Interceptor interceptor : interceptors) {
 
-			if (log.isDebugEnabled())
-				log.debug("인터셉터의 preFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
+            if (log.isDebugEnabled())
+                log.debug("인터셉터의 preFlush 메소드를 멀티캐스트로 수행합니다. interceptor=[{}]", interceptor);
 
-			FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
-				@Override
-				public Void call() throws Exception {
-					interceptor.preFlush(entities1);
-					return null;
-				}
-			});
-			tasks.add(task);
-		}
+            FutureTask<Void> task = AsyncTool.newTask(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    interceptor.preFlush(entities1);
+                    return null;
+                }
+            });
+            tasks.add(task);
+        }
 
-		try {
-			AsyncTool.getAll(tasks);
-		} catch (Exception ex) {
-			if (log.isErrorEnabled())
-				log.error("Interceptor.preFlush 작업 시 예외가 발생했습니다.", ex);
-		}
-	}
+        try {
+            AsyncTool.getAll(tasks);
+        } catch (Exception ex) {
+            if (log.isErrorEnabled())
+                log.error("Interceptor.preFlush 작업 시 예외가 발생했습니다.", ex);
+        }
+    }
 }

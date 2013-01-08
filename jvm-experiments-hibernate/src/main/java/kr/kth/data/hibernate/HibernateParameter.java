@@ -11,23 +11,23 @@ import lombok.Getter;
  */
 public class HibernateParameter extends NamedParameterBase {
 
-	private static final long serialVersionUID = -6291985997768450558L;
+    private static final long serialVersionUID = -6291985997768450558L;
 
-	@Getter
-	private org.hibernate.type.Type type;
+    @Getter
+    private org.hibernate.type.Type type;
 
-	public HibernateParameter(String name, Object value) {
-		super(name, value);
-	}
+    public HibernateParameter(String name, Object value) {
+        super(name, value);
+    }
 
-	public HibernateParameter(String name, Object value, org.hibernate.type.Type type) {
-		super(name, value);
-		this.type = type;
-	}
+    public HibernateParameter(String name, Object value, org.hibernate.type.Type type) {
+        super(name, value);
+        this.type = type;
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("type", type);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("type", type);
+    }
 }

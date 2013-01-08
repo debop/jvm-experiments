@@ -10,12 +10,12 @@ import kr.kth.commons.guava.eventbus.events.PurchaseEvent;
  */
 public class PurchaseEventSubscriber extends EventSubscriber<PurchaseEvent> {
 
-	public PurchaseEventSubscriber(EventBus eventBus) {
-		super(eventBus);
-	}
+    public PurchaseEventSubscriber(EventBus eventBus) {
+        super(eventBus);
+    }
 
-	@Override
-	public void handleEvent(PurchaseEvent event) {
-		events.add(event);
-	}
+    @Override
+    public void handleEvent(PurchaseEvent event) {
+        events.add(event);
+    }
 }

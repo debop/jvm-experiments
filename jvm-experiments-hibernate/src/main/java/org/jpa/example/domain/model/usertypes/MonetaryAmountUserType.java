@@ -22,73 +22,73 @@ import java.util.Objects;
  */
 public class MonetaryAmountUserType implements UserType {
 
-	@Override
-	public int[] sqlTypes() {
-		return new int[] { StandardBasicTypes.BIG_DECIMAL.sqlType() };
-	}
+    @Override
+    public int[] sqlTypes() {
+        return new int[]{StandardBasicTypes.BIG_DECIMAL.sqlType()};
+    }
 
-	@Override
-	public Class returnedClass() {
-		return MonetaryAmount.class;
-	}
+    @Override
+    public Class returnedClass() {
+        return MonetaryAmount.class;
+    }
 
-	@Override
-	public boolean equals(Object x, Object y) throws HibernateException {
-		return Objects.equals(x, y);
-	}
+    @Override
+    public boolean equals(Object x, Object y) throws HibernateException {
+        return Objects.equals(x, y);
+    }
 
-	@Override
-	public int hashCode(Object x) throws HibernateException {
-		return HashTool.compute(x);
-	}
+    @Override
+    public int hashCode(Object x) throws HibernateException {
+        return HashTool.compute(x);
+    }
 
-	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
-		throws HibernateException, SQLException {
+    @Override
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+            throws HibernateException, SQLException {
 
-		BigDecimal valueInUSD = rs.getBigDecimal(names[0]);
-		if (rs.wasNull())
-			return null;
+        BigDecimal valueInUSD = rs.getBigDecimal(names[0]);
+        if (rs.wasNull())
+            return null;
 
-		Currency userCurrency = Currency.getInstance(Locale.getDefault());
-		MonetaryAmount amount = new MonetaryAmount(valueInUSD, Currency.getInstance("USD"));
-		return amount.convertTo(userCurrency);
-	}
+        Currency userCurrency = Currency.getInstance(Locale.getDefault());
+        MonetaryAmount amount = new MonetaryAmount(valueInUSD, Currency.getInstance("USD"));
+        return amount.convertTo(userCurrency);
+    }
 
-	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
-		throws HibernateException, SQLException {
-		if (value == null) {
-			st.setNull(index, sqlTypes()[0]);
-		} else {
-			MonetaryAmount anyCurrency = (MonetaryAmount) value;
-			MonetaryAmount amountUSD = anyCurrency.convertTo(Currency.getInstance("USD"));
-			st.setBigDecimal(index, amountUSD.getAmount());
-		}
-	}
+    @Override
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+            throws HibernateException, SQLException {
+        if (value == null) {
+            st.setNull(index, sqlTypes()[0]);
+        } else {
+            MonetaryAmount anyCurrency = (MonetaryAmount) value;
+            MonetaryAmount amountUSD = anyCurrency.convertTo(Currency.getInstance("USD"));
+            st.setBigDecimal(index, amountUSD.getAmount());
+        }
+    }
 
-	@Override
-	public Object deepCopy(Object value) throws HibernateException {
-		return value;
-	}
+    @Override
+    public Object deepCopy(Object value) throws HibernateException {
+        return value;
+    }
 
-	@Override
-	public boolean isMutable() {
-		return false;
-	}
+    @Override
+    public boolean isMutable() {
+        return false;
+    }
 
-	@Override
-	public Serializable disassemble(Object value) throws HibernateException {
-		return (Serializable) deepCopy(value);
-	}
+    @Override
+    public Serializable disassemble(Object value) throws HibernateException {
+        return (Serializable) deepCopy(value);
+    }
 
-	@Override
-	public Object assemble(Serializable cached, Object owner) throws HibernateException {
-		return deepCopy(cached);
-	}
+    @Override
+    public Object assemble(Serializable cached, Object owner) throws HibernateException {
+        return deepCopy(cached);
+    }
 
-	@Override
-	public Object replace(Object original, Object target, Object owner) throws HibernateException {
-		return deepCopy(original);
-	}
+    @Override
+    public Object replace(Object original, Object target, Object owner) throws HibernateException {
+        return deepCopy(original);
+    }
 }

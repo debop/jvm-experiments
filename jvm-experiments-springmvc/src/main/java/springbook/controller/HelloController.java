@@ -16,16 +16,16 @@ import java.util.Map;
 @Controller
 public class HelloController {
 
-	@RequestMapping(value = { "/hello.do", "/view/hello" })
-	public ModelAndView hello(String name) {
-		String message = String.format("안녕하세요? %s! Spring 3.1<br/><br/>멀티 라인을 제대로 표현해야지요^^", name);
-		return new ModelAndView("hello", "message", message);
-	}
+    @RequestMapping(value = {"/hello.do", "/view/hello"})
+    public ModelAndView hello(String name) {
+        String message = String.format("안녕하세요? %s! Spring 3.1<br/><br/>멀티 라인을 제대로 표현해야지요^^", name);
+        return new ModelAndView("hello", "message", message);
+    }
 
-	@RequestMapping("/complex")
-	public String complex(@RequestParam Map<String, String> params, ModelMap model) {
-		model.put("info", params);
-		model.put("message", "abc");
-		return "complex";
-	}
+    @RequestMapping("/complex")
+    public String complex(@RequestParam Map<String, String> params, ModelMap model) {
+        model.put("info", params);
+        model.put("message", "abc");
+        return "complex";
+    }
 }

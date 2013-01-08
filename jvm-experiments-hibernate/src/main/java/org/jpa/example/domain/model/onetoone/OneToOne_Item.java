@@ -20,36 +20,36 @@ import java.math.BigDecimal;
 @Setter
 public class OneToOne_Item extends JpaEntityBase {
 
-	private static final long serialVersionUID = -7262024786572110211L;
+    private static final long serialVersionUID = -7262024786572110211L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "ITEM_ID")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "ITEM_ID")
+    private Long id;
 
-	@Column(name = "ITEM_NAME")
-	private String name;
+    @Column(name = "ITEM_NAME")
+    private String name;
 
-	@Column(name = "ITEM_DESC")
-	private String description;
+    @Column(name = "ITEM_DESC")
+    private String description;
 
-	@Column(name = "ITEM_INIT_PRICE")
-	private BigDecimal initialPrice;
+    @Column(name = "ITEM_INIT_PRICE")
+    private BigDecimal initialPrice;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return HashTool.compute(id);
 
-		return HashTool.compute(name);
-	}
+        return HashTool.compute(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id)
-		            .add("name", name)
-		            .add("description", description)
-		            .add("initialPrice", initialPrice);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id)
+                .add("name", name)
+                .add("description", description)
+                .add("initialPrice", initialPrice);
+    }
 }

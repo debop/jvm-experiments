@@ -12,17 +12,17 @@ import java.io.Serializable;
  */
 public interface ITimeLineMoment extends Serializable {
 
-	/**
-	 * 기준 시각
-	 */
-	DateTime getMoment();
+    /**
+     * 기준 시각
+     */
+    DateTime getMoment();
 
-	/**
-	 * 기간의 컬렉션을 반환합니다.
-	 */
-	ITimePeriodCollection getPeriods();
+    /**
+     * 기간의 컬렉션을 반환합니다.
+     */
+    ITimePeriodCollection getPeriods();
 
-	int getStartCount();
+    int getStartCount();
 
-	int getEndCount();
+    int getEndCount();
 }

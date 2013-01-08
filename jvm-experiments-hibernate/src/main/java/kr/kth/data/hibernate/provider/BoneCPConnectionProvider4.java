@@ -26,128 +26,128 @@ import java.util.Properties;
 @Slf4j
 public class BoneCPConnectionProvider4 implements ConnectionProvider {
 
-	private static final long serialVersionUID = -6671785386423003789L;
+    private static final long serialVersionUID = -6671785386423003789L;
 
-	/**
-	 * Config key.
-	 */
-	protected static final String CONFIG_CONNECTION_DRIVER_CLASS_ALTERNATE = "javax.persistence.jdbc.driver";
-	/**
-	 * Config key.
-	 */
-	protected static final String CONFIG_CONNECTION_PASSWORD_ALTERNATE = "javax.persistence.jdbc.password";
-	/**
-	 * Config key.
-	 */
-	protected static final String CONFIG_CONNECTION_USERNAME_ALTERNATE = "javax.persistence.jdbc.user";
-	/**
-	 * Config key.
-	 */
-	protected static final String CONFIG_CONNECTION_URL_ALTERNATE = "javax.persistence.jdbc.url";
+    /**
+     * Config key.
+     */
+    protected static final String CONFIG_CONNECTION_DRIVER_CLASS_ALTERNATE = "javax.persistence.jdbc.driver";
+    /**
+     * Config key.
+     */
+    protected static final String CONFIG_CONNECTION_PASSWORD_ALTERNATE = "javax.persistence.jdbc.password";
+    /**
+     * Config key.
+     */
+    protected static final String CONFIG_CONNECTION_USERNAME_ALTERNATE = "javax.persistence.jdbc.user";
+    /**
+     * Config key.
+     */
+    protected static final String CONFIG_CONNECTION_URL_ALTERNATE = "javax.persistence.jdbc.url";
 
-	private BoneCP pool;
-	private BoneCPConfig config;
-	private Integer isolation;
-	private boolean autocommit;
+    private BoneCP pool;
+    private BoneCPConfig config;
+    private Integer isolation;
+    private boolean autocommit;
 
-	@Getter
-	@Setter
-	private ClassLoader classLoader;
+    @Getter
+    @Setter
+    private ClassLoader classLoader;
 
-	@Override
-	public Connection getConnection() throws SQLException {
-		if (pool == null)
-			throw new RuntimeException("configure을 먼저 수행하여 BonCP 인스턴스를 생성해야 합니다.");
+    @Override
+    public Connection getConnection() throws SQLException {
+        if (pool == null)
+            throw new RuntimeException("configure을 먼저 수행하여 BonCP 인스턴스를 생성해야 합니다.");
 
-		@Cleanup
-		Connection connection = pool.getConnection();
+        @Cleanup
+        Connection connection = pool.getConnection();
 
-		if (isolation != null && connection.getTransactionIsolation() != isolation) {
-			connection.setTransactionIsolation(isolation);
-		}
-		if (connection.getAutoCommit() != autocommit) {
-			connection.setAutoCommit(autocommit);
-		}
-		return connection;
+        if (isolation != null && connection.getTransactionIsolation() != isolation) {
+            connection.setTransactionIsolation(isolation);
+        }
+        if (connection.getAutoCommit() != autocommit) {
+            connection.setAutoCommit(autocommit);
+        }
+        return connection;
 
-	}
+    }
 
-	@Override
-	public void closeConnection(Connection conn) throws SQLException {
-		if (conn != null)
-			conn.close();
-	}
+    @Override
+    public void closeConnection(Connection conn) throws SQLException {
+        if (conn != null)
+            conn.close();
+    }
 
-	@Override
-	public boolean supportsAggressiveRelease() {
-		return false;
-	}
+    @Override
+    public boolean supportsAggressiveRelease() {
+        return false;
+    }
 
-	@Override
-	public boolean isUnwrappableAs(Class unwrapType) {
-		return false;
-	}
+    @Override
+    public boolean isUnwrappableAs(Class unwrapType) {
+        return false;
+    }
 
-	@Override
-	public <T> T unwrap(Class<T> unwrapType) {
-		return null;
-	}
+    @Override
+    public <T> T unwrap(Class<T> unwrapType) {
+        return null;
+    }
 
-	public void configure(Properties props) throws HibernateException {
-		try {
-			config = new BoneCPConfig(props);
-
-
-			String url = Objects.firstNonNull(props.getProperty(AvailableSettings.URL),
-			                                  props.getProperty(CONFIG_CONNECTION_URL_ALTERNATE));
-			String username = Objects.firstNonNull(props.getProperty(AvailableSettings.USER),
-			                                       props.getProperty(CONFIG_CONNECTION_USERNAME_ALTERNATE));
-			String password = Objects.firstNonNull(props.getProperty(AvailableSettings.PASS),
-			                                       props.getProperty(CONFIG_CONNECTION_PASSWORD_ALTERNATE));
-			String driver = Objects.firstNonNull(props.getProperty(AvailableSettings.DRIVER),
-			                                     props.getProperty(CONFIG_CONNECTION_DRIVER_CLASS_ALTERNATE));
-
-			if (url != null)
-				config.setJdbcUrl(url);
-			if (username != null)
-				config.setUsername(username);
-			if (password != null)
-				config.setPassword(password);
+    public void configure(Properties props) throws HibernateException {
+        try {
+            config = new BoneCPConfig(props);
 
 
-			isolation = Integer.parseInt(props.getProperty(Environment.ISOLATION));
-			autocommit = Boolean.parseBoolean(props.getProperty(Environment.AUTOCOMMIT));
+            String url = Objects.firstNonNull(props.getProperty(AvailableSettings.URL),
+                    props.getProperty(CONFIG_CONNECTION_URL_ALTERNATE));
+            String username = Objects.firstNonNull(props.getProperty(AvailableSettings.USER),
+                    props.getProperty(CONFIG_CONNECTION_USERNAME_ALTERNATE));
+            String password = Objects.firstNonNull(props.getProperty(AvailableSettings.PASS),
+                    props.getProperty(CONFIG_CONNECTION_PASSWORD_ALTERNATE));
+            String driver = Objects.firstNonNull(props.getProperty(AvailableSettings.DRIVER),
+                    props.getProperty(CONFIG_CONNECTION_DRIVER_CLASS_ALTERNATE));
 
-			if (!Strings.isNullOrEmpty(driver))
-				loadClass(driver);
+            if (url != null)
+                config.setJdbcUrl(url);
+            if (username != null)
+                config.setUsername(username);
+            if (password != null)
+                config.setPassword(password);
 
-			if (config.getConnectionHookClassName() != null) {
-				Object hookClass = loadClass(config.getConnectionHookClassName()).newInstance();
-				config.setConnectionHook((ConnectionHook) hookClass);
-			}
-			pool = createPool(config);
-		} catch (Exception e) {
-			throw new HibernateException(e);
-		}
-	}
 
-	protected BoneCP createPool(BoneCPConfig config) {
-		try {
-			return new BoneCP(config);
-		} catch (SQLException e) {
-			throw new HibernateException(e);
-		}
-	}
+            isolation = Integer.parseInt(props.getProperty(Environment.ISOLATION));
+            autocommit = Boolean.parseBoolean(props.getProperty(Environment.AUTOCOMMIT));
 
-	protected Class<?> loadClass(String clazz) throws ClassNotFoundException {
-		if (this.classLoader == null) {
-			return Class.forName(clazz);
-		}
+            if (!Strings.isNullOrEmpty(driver))
+                loadClass(driver);
 
-		return Class.forName(clazz, true, classLoader);
-	}
+            if (config.getConnectionHookClassName() != null) {
+                Object hookClass = loadClass(config.getConnectionHookClassName()).newInstance();
+                config.setConnectionHook((ConnectionHook) hookClass);
+            }
+            pool = createPool(config);
+        } catch (Exception e) {
+            throw new HibernateException(e);
+        }
+    }
 
-	protected BoneCPConfig getConfig() {
-		return config;
-	}
+    protected BoneCP createPool(BoneCPConfig config) {
+        try {
+            return new BoneCP(config);
+        } catch (SQLException e) {
+            throw new HibernateException(e);
+        }
+    }
+
+    protected Class<?> loadClass(String clazz) throws ClassNotFoundException {
+        if (this.classLoader == null) {
+            return Class.forName(clazz);
+        }
+
+        return Class.forName(clazz, true, classLoader);
+    }
+
+    protected BoneCPConfig getConfig() {
+        return config;
+    }
 }

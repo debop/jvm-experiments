@@ -7,48 +7,48 @@ package kr.kth.commons.timeperiod;
  */
 public enum QuarterKind {
 
-	/**
-	 * 1분기
-	 */
-	First(1),
-	/**
-	 * 2분기
-	 */
-	Second(2),
-	/**
-	 * 3분기
-	 */
-	Third(3),
-	/**
-	 * 4분기
-	 */
-	Fouth(4);
+    /**
+     * 1분기
+     */
+    First(1),
+    /**
+     * 2분기
+     */
+    Second(2),
+    /**
+     * 3분기
+     */
+    Third(3),
+    /**
+     * 4분기
+     */
+    Fouth(4);
 
 
-	private final int quarter;
+    private final int quarter;
 
-	QuarterKind(int quarter) {
-		this.quarter = quarter;
-	}
+    QuarterKind(int quarter) {
+        this.quarter = quarter;
+    }
 
-	public int toInt() {
-		return quarter;
-	}
+    public int toInt() {
+        return quarter;
+    }
 
-	public static QuarterKind valueOf(Integer quarter) {
-		if (quarter == null)
-			return null;
-		switch (quarter) {
-			case 1:
-				return QuarterKind.First;
-			case 2:
-				return QuarterKind.Second;
-			case 3:
-				return QuarterKind.Third;
-			case 4:
-				return QuarterKind.Fouth;
-			default:
-				throw new RuntimeException("지원히지 않는 값입니다. quarter=" + quarter);
-		}
-	}
+    public static QuarterKind valueOf(Integer quarter) {
+        if (quarter == null)
+            return null;
+        switch (quarter) {
+            case 1:
+                return QuarterKind.First;
+            case 2:
+                return QuarterKind.Second;
+            case 3:
+                return QuarterKind.Third;
+            case 4:
+                return QuarterKind.Fouth;
+            default:
+                throw new RuntimeException("지원히지 않는 값입니다. quarter=" + quarter);
+        }
+    }
 }

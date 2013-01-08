@@ -13,22 +13,22 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ReenterantLockSample {
 
-	private List<String> list = Lists.newArrayList();
-	private static final int MAX_SIZE = 10;
+    private List<String> list = Lists.newArrayList();
+    private static final int MAX_SIZE = 10;
 
 
-	private ReentrantLock rLock = new ReentrantLock();
-	private Condition listAtCapacity = rLock.newCondition();
+    private ReentrantLock rLock = new ReentrantLock();
+    private Condition listAtCapacity = rLock.newCondition();
 
-	public void addList(String item) throws InterruptedException {
-		rLock.lock();
-		try {
-			while (list.size() == MAX_SIZE) {
-				listAtCapacity.await();
-			}
-			list.add(item);
-		} finally {
-			rLock.unlock();
-		}
-	}
+    public void addList(String item) throws InterruptedException {
+        rLock.lock();
+        try {
+            while (list.size() == MAX_SIZE) {
+                listAtCapacity.await();
+            }
+            list.add(item);
+        } finally {
+            rLock.unlock();
+        }
+    }
 }

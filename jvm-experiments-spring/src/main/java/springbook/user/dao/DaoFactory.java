@@ -11,15 +11,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DaoFactory {
 
-	@Bean
-	public UserDao userDao() {
-		UserDao dao = new UserDao();
-		dao.setConnectionMaker(connectionMaker());
-		return dao;
-	}
+    @Bean
+    public UserDao userDao() {
+        UserDao dao = new UserDao();
+        dao.setConnectionMaker(connectionMaker());
+        return dao;
+    }
 
-	@Bean
-	public IConnectionMaker connectionMaker() {
-		return new SimpleConnectionMaker();
-	}
+    @Bean
+    public IConnectionMaker connectionMaker() {
+        return new SimpleConnectionMaker();
+    }
 }

@@ -12,32 +12,32 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @Slf4j
 public abstract class UnitOfWorkAdapterBase implements IUnitOfWorkImplementor {
 
-	/**
-	 * 지정된 TransactionDefinition 에 따른 Transaction 하에서 현 Session 정보를 flush 합니다.
-	 *
-	 * @param transactionDefinition
-	 */
-	public void transactionalFlush(TransactionDefinition transactionDefinition) {
-		if (transactionDefinition == null)
-			transactionDefinition = new DefaultTransactionDefinition();
+    /**
+     * 지정된 TransactionDefinition 에 따른 Transaction 하에서 현 Session 정보를 flush 합니다.
+     *
+     * @param transactionDefinition
+     */
+    public void transactionalFlush(TransactionDefinition transactionDefinition) {
+        if (transactionDefinition == null)
+            transactionDefinition = new DefaultTransactionDefinition();
 
-		IUnitOfWorkTransaction tx = UnitOfWorks.getCurrent().beginTransaction(transactionDefinition);
+        IUnitOfWorkTransaction tx = UnitOfWorks.getCurrent().beginTransaction(transactionDefinition);
 
-		try {
-			// forces a flush of the current IUnitOfWork
-			tx.commit();
+        try {
+            // forces a flush of the current IUnitOfWork
+            tx.commit();
 
-		} catch (Exception e) {
-			if (log.isErrorEnabled())
-				log.error("Transactional Flush failed!!! transaction rollback", e);
+        } catch (Exception e) {
+            if (log.isErrorEnabled())
+                log.error("Transactional Flush failed!!! transaction rollback", e);
 
-			tx.rollback();
-			throw new RuntimeException(e);
-		}
-	}
+            tx.rollback();
+            throw new RuntimeException(e);
+        }
+    }
 
 
-	public void transactionalFlush() {
-		transactionalFlush(new DefaultTransactionDefinition());
-	}
+    public void transactionalFlush() {
+        transactionalFlush(new DefaultTransactionDefinition());
+    }
 }

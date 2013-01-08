@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.hibernate.example.domain.model" default-access="field">
 
-	<class name="Event" table="Event" dynamic-insert="true" dynamic-update="true">
+    <class name="Event" table="Event" dynamic-insert="true" dynamic-update="true">
 
-		<id name="id" column="EventId" type="long" unsaved-value="0">
-			<generator class="native"/>
-		</id>
+        <id name="id" column="EventId" type="long" unsaved-value="0">
+            <generator class="native"/>
+        </id>
 
-		<natural-id>
-			<property name="title" column="EventTitle" length="255" not-null="true"/>
-			<property name="date" type="timestamp" column="EventDate"/>
-		</natural-id>
+        <natural-id>
+            <property name="title" column="EventTitle" length="255" not-null="true"/>
+            <property name="date" type="timestamp" column="EventDate"/>
+        </natural-id>
 
-		<property name="updateTimestamp" column="UpdateTimestamp" type="timestamp"/>
+        <property name="updateTimestamp" column="UpdateTimestamp" type="timestamp"/>
 
-		<many-to-one name="category" class="Category" column="CategoryId" lazy="proxy"/>
-	</class>
+        <many-to-one name="category" class="Category" column="CategoryId" lazy="proxy"/>
+    </class>
 
 </hibernate-mapping>

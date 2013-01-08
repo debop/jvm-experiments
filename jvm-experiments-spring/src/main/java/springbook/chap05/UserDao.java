@@ -7,5 +7,5 @@ package springbook.chap05;
  */
 public interface UserDao {
 
-	void add(final User user);
+    void add(final User user);
 }

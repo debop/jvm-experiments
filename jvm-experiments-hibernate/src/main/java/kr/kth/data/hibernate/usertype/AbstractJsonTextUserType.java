@@ -27,164 +27,164 @@ import static kr.kth.commons.tools.StringTool.ellipsisChar;
 @Slf4j
 public abstract class AbstractJsonTextUserType implements CompositeUserType {
 
-	abstract public IJsonSerializer getJsonSerializer();
+    abstract public IJsonSerializer getJsonSerializer();
 
-	public JsonTextObject serialize(Object value) {
-		if (value == null)
-			return JsonTextObject.Empty;
+    public JsonTextObject serialize(Object value) {
+        if (value == null)
+            return JsonTextObject.Empty;
 
-		Guard.shouldBe(value instanceof JsonTextObject,
-		               "인스턴스 수형이 JsonTextObject가 아닙니다. value type=" + value.getClass().getName());
+        Guard.shouldBe(value instanceof JsonTextObject,
+                "인스턴스 수형이 JsonTextObject가 아닙니다. value type=" + value.getClass().getName());
 
-		return new JsonTextObject(value.getClass().getName(),
-		                          getJsonSerializer().serializeToText(value));
-	}
+        return new JsonTextObject(value.getClass().getName(),
+                getJsonSerializer().serializeToText(value));
+    }
 
-	@SuppressWarnings("unchecked")
-	public Object deserialize(JsonTextObject jto) throws HibernateException {
+    @SuppressWarnings("unchecked")
+    public Object deserialize(JsonTextObject jto) throws HibernateException {
 
-		if (jto == null || jto == JsonTextObject.Empty)
-			return null;
+        if (jto == null || jto == JsonTextObject.Empty)
+            return null;
 
-		if (log.isDebugEnabled())
-			log.debug("JsonTextObject를 역직렬화 합니다. jto=[{}]", jto);
+        if (log.isDebugEnabled())
+            log.debug("JsonTextObject를 역직렬화 합니다. jto=[{}]", jto);
 
-		try {
-			Class clazz = Class.forName(jto.getClassName());
-			return getJsonSerializer().deserializeFromText(jto.getJsonText(), clazz);
-		} catch (ClassNotFoundException e) {
-			return new HibernateException(e);
-		}
-	}
+        try {
+            Class clazz = Class.forName(jto.getClassName());
+            return getJsonSerializer().deserializeFromText(jto.getJsonText(), clazz);
+        } catch (ClassNotFoundException e) {
+            return new HibernateException(e);
+        }
+    }
 
-	public JsonTextObject asJsonTextObject(Object value) {
-		if (value == null)
-			return JsonTextObject.Empty;
+    public JsonTextObject asJsonTextObject(Object value) {
+        if (value == null)
+            return JsonTextObject.Empty;
 
-		return (JsonTextObject) value;
-	}
+        return (JsonTextObject) value;
+    }
 
-	@Override
-	public String[] getPropertyNames() {
-		return new String[]{"className", "jsonText"};
-	}
+    @Override
+    public String[] getPropertyNames() {
+        return new String[]{"className", "jsonText"};
+    }
 
-	@Override
-	public Type[] getPropertyTypes() {
-		return new Type[]{StringType.INSTANCE, StringType.INSTANCE};
-	}
+    @Override
+    public Type[] getPropertyTypes() {
+        return new Type[]{StringType.INSTANCE, StringType.INSTANCE};
+    }
 
-	@Override
-	public Object getPropertyValue(Object component, int property) throws HibernateException {
-		if (component == null)
-			return null;
+    @Override
+    public Object getPropertyValue(Object component, int property) throws HibernateException {
+        if (component == null)
+            return null;
 
-		JsonTextObject jto = asJsonTextObject(component);
-		if (property == 0)
-			return jto.getClassName();
-		else if (property == 1)
-			return jto.getJsonText();
-		else
-			throw new HibernateException("복합수형의 속성 인덱스가 범위를 벗어났습니다. 0, 1만 가능합니다. property=" + property);
-	}
+        JsonTextObject jto = asJsonTextObject(component);
+        if (property == 0)
+            return jto.getClassName();
+        else if (property == 1)
+            return jto.getJsonText();
+        else
+            throw new HibernateException("복합수형의 속성 인덱스가 범위를 벗어났습니다. 0, 1만 가능합니다. property=" + property);
+    }
 
-	@Override
-	public void setPropertyValue(Object component, int property, Object value) throws HibernateException {
-		Guard.shouldNotBeNull(component, "compnent");
+    @Override
+    public void setPropertyValue(Object component, int property, Object value) throws HibernateException {
+        Guard.shouldNotBeNull(component, "compnent");
 
-		JsonTextObject jto = asJsonTextObject(component);
-		if (property == 0)
-			jto.setClassName((String) value);
-		else if (property == 1)
-			jto.setJsonText((String) value);
-		else
-			throw new HibernateException("복합수형의 속성 인덱스가 범위를 벗어났습니다. 0, 1만 가능합니다. property=" + property);
-	}
+        JsonTextObject jto = asJsonTextObject(component);
+        if (property == 0)
+            jto.setClassName((String) value);
+        else if (property == 1)
+            jto.setJsonText((String) value);
+        else
+            throw new HibernateException("복합수형의 속성 인덱스가 범위를 벗어났습니다. 0, 1만 가능합니다. property=" + property);
+    }
 
-	@Override
-	public Class returnedClass() {
-		return JsonTextObject.class;
-	}
+    @Override
+    public Class returnedClass() {
+        return JsonTextObject.class;
+    }
 
-	@Override
-	public boolean equals(Object x, Object y) throws HibernateException {
-		return Objects.equal(x, y);
-	}
+    @Override
+    public boolean equals(Object x, Object y) throws HibernateException {
+        return Objects.equal(x, y);
+    }
 
-	@Override
-	public int hashCode(Object x) throws HibernateException {
-		return Objects.hashCode(x);
-	}
+    @Override
+    public int hashCode(Object x) throws HibernateException {
+        return Objects.hashCode(x);
+    }
 
-	@Override
-	public Object nullSafeGet(ResultSet rs,
-	                          String[] names,
-	                          SessionImplementor session,
-	                          Object owner) throws HibernateException,
-	                                               SQLException {
-		String className = StringType.INSTANCE.nullSafeGet(rs, names[0], session);
-		String jsonText = StringType.INSTANCE.nullSafeGet(rs, names[1], session);
+    @Override
+    public Object nullSafeGet(ResultSet rs,
+                              String[] names,
+                              SessionImplementor session,
+                              Object owner) throws HibernateException,
+            SQLException {
+        String className = StringType.INSTANCE.nullSafeGet(rs, names[0], session);
+        String jsonText = StringType.INSTANCE.nullSafeGet(rs, names[1], session);
 
-		if (log.isDebugEnabled())
-			log.debug("JsonText 정보를 로드했습니다. className=[{}], jsonText=[{}]",
-			          className, ellipsisChar(jsonText, 80));
+        if (log.isDebugEnabled())
+            log.debug("JsonText 정보를 로드했습니다. className=[{}], jsonText=[{}]",
+                    className, ellipsisChar(jsonText, 80));
 
-		return deserialize(new JsonTextObject(className, jsonText));
-	}
+        return deserialize(new JsonTextObject(className, jsonText));
+    }
 
-	@Override
-	public void nullSafeSet(PreparedStatement st,
-	                        Object value,
-	                        int index,
-	                        SessionImplementor session) throws HibernateException,
-	                                                           SQLException {
-		if (value == null) {
-			StringType.INSTANCE.nullSafeSet(st, null, index, session);
-			StringType.INSTANCE.nullSafeSet(st, null, index + 1, session);
+    @Override
+    public void nullSafeSet(PreparedStatement st,
+                            Object value,
+                            int index,
+                            SessionImplementor session) throws HibernateException,
+            SQLException {
+        if (value == null) {
+            StringType.INSTANCE.nullSafeSet(st, null, index, session);
+            StringType.INSTANCE.nullSafeSet(st, null, index + 1, session);
 
-		} else {
-			JsonTextObject jto = serialize(value);
+        } else {
+            JsonTextObject jto = serialize(value);
 
-			if (log.isDebugEnabled())
-				log.debug("객체를 Json 정보로 직렬화하여 저장합니다. jto=[{}]", jto.toString());
+            if (log.isDebugEnabled())
+                log.debug("객체를 Json 정보로 직렬화하여 저장합니다. jto=[{}]", jto.toString());
 
-			StringType.INSTANCE.nullSafeSet(st, jto.getClassName(), index, session);
-			StringType.INSTANCE.nullSafeSet(st, jto.getJsonText(), index + 1, session);
-		}
-	}
+            StringType.INSTANCE.nullSafeSet(st, jto.getClassName(), index, session);
+            StringType.INSTANCE.nullSafeSet(st, jto.getJsonText(), index + 1, session);
+        }
+    }
 
-	@Override
-	public Object deepCopy(Object value) throws HibernateException {
-		if (value == null)
-			return null;
+    @Override
+    public Object deepCopy(Object value) throws HibernateException {
+        if (value == null)
+            return null;
 
-		JsonTextObject jto = asJsonTextObject(value);
-		return new JsonTextObject(jto);
-	}
+        JsonTextObject jto = asJsonTextObject(value);
+        return new JsonTextObject(jto);
+    }
 
-	@Override
-	public boolean isMutable() {
-		return true;
-	}
+    @Override
+    public boolean isMutable() {
+        return true;
+    }
 
-	@Override
-	public Serializable disassemble(Object value,
-	                                SessionImplementor session) throws HibernateException {
-		return (Serializable) deepCopy(value);
-	}
+    @Override
+    public Serializable disassemble(Object value,
+                                    SessionImplementor session) throws HibernateException {
+        return (Serializable) deepCopy(value);
+    }
 
-	@Override
-	public Object assemble(Serializable cached,
-	                       SessionImplementor session,
-	                       Object owner) throws HibernateException {
-		return deepCopy(cached);
-	}
+    @Override
+    public Object assemble(Serializable cached,
+                           SessionImplementor session,
+                           Object owner) throws HibernateException {
+        return deepCopy(cached);
+    }
 
-	@Override
-	public Object replace(Object original,
-	                      Object target,
-	                      SessionImplementor session,
-	                      Object owner) throws HibernateException {
-		return deepCopy(original);
-	}
+    @Override
+    public Object replace(Object original,
+                          Object target,
+                          SessionImplementor session,
+                          Object owner) throws HibernateException {
+        return deepCopy(original);
+    }
 }

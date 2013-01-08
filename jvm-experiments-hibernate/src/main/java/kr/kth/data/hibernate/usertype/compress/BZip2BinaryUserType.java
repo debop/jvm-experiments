@@ -10,10 +10,10 @@ import kr.kth.commons.compress.ICompressor;
  */
 public class BZip2BinaryUserType extends AbstractCompressedBinaryUserType {
 
-	private static final ICompressor compressor = new BZip2Compressor();
+    private static final ICompressor compressor = new BZip2Compressor();
 
-	@Override
-	public ICompressor getCompressor() {
-		return compressor;
-	}
+    @Override
+    public ICompressor getCompressor() {
+        return compressor;
+    }
 }

@@ -11,13 +11,13 @@ import kr.kth.commons.guava.eventbus.events.CreditPurchaseEvent;
  */
 public class CreditPurchaseEventSubscriber extends EventSubscriber<CreditPurchaseEvent> {
 
-	public CreditPurchaseEventSubscriber(EventBus eventBus) {
-		super(eventBus);
-	}
+    public CreditPurchaseEventSubscriber(EventBus eventBus) {
+        super(eventBus);
+    }
 
-	@Override
-	@Subscribe
-	public void handleEvent(CreditPurchaseEvent event) {
-		events.add(event);
-	}
+    @Override
+    @Subscribe
+    public void handleEvent(CreditPurchaseEvent event) {
+        events.add(event);
+    }
 }

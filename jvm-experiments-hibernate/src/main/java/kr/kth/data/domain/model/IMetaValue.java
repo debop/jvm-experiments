@@ -9,19 +9,19 @@ import kr.kth.commons.base.IValueObject;
  */
 public interface IMetaValue extends IValueObject {
 
-	String getValue();
+    String getValue();
 
-	void setValue(String value);
+    void setValue(String value);
 
-	String getLabel();
+    String getLabel();
 
-	void setLabel(String label);
+    void setLabel(String label);
 
-	String getDescription();
+    String getDescription();
 
-	void setDescription(String description);
+    void setDescription(String description);
 
-	String getExAttr();
+    String getExAttr();
 
-	void setExAttr(String exAttr);
+    void setExAttr(String exAttr);
 }

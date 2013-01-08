@@ -18,66 +18,66 @@ import static org.junit.Assert.assertThat;
  */
 public class DynamicProxyTest {
 
-	@Test
-	public void proxyFactoryBean() {
-		ProxyFactoryBean pfb = new ProxyFactoryBean();
-		pfb.setTarget(new HelloTarget());
-		pfb.addAdvice(new UppercaseAdvice());
+    @Test
+    public void proxyFactoryBean() {
+        ProxyFactoryBean pfb = new ProxyFactoryBean();
+        pfb.setTarget(new HelloTarget());
+        pfb.addAdvice(new UppercaseAdvice());
 
-		Hello helloProxy = (Hello) pfb.getObject();
-		assertThat(helloProxy.sayHello("Toby"), is("HELLO TOBY"));
-		assertThat(helloProxy.sayHi("Toby"), is("HI TOBY"));
-		assertThat(helloProxy.sayThankYou("Toby"), is("THANK YOU TOBY"));
-	}
+        Hello helloProxy = (Hello) pfb.getObject();
+        assertThat(helloProxy.sayHello("Toby"), is("HELLO TOBY"));
+        assertThat(helloProxy.sayHi("Toby"), is("HI TOBY"));
+        assertThat(helloProxy.sayThankYou("Toby"), is("THANK YOU TOBY"));
+    }
 
-	@Test
-	public void pointcutAdvisor() {
-		ProxyFactoryBean pfb = new ProxyFactoryBean();
-		pfb.setTarget(new HelloTarget());
-		NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
-		pointcut.setMappedName("sayH*");
+    @Test
+    public void pointcutAdvisor() {
+        ProxyFactoryBean pfb = new ProxyFactoryBean();
+        pfb.setTarget(new HelloTarget());
+        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+        pointcut.setMappedName("sayH*");
 
-		pfb.addAdvisor(new DefaultPointcutAdvisor(pointcut, new UppercaseAdvice()));
+        pfb.addAdvisor(new DefaultPointcutAdvisor(pointcut, new UppercaseAdvice()));
 
-		Hello helloProxy = (Hello) pfb.getObject();
-		assertThat(helloProxy.sayHello("Toby"), is("HELLO TOBY"));
-		assertThat(helloProxy.sayHi("Toby"), is("HI TOBY"));
-		assertThat(helloProxy.sayThankYou("Toby"), is("Thank you Toby"));
-	}
+        Hello helloProxy = (Hello) pfb.getObject();
+        assertThat(helloProxy.sayHello("Toby"), is("HELLO TOBY"));
+        assertThat(helloProxy.sayHi("Toby"), is("HI TOBY"));
+        assertThat(helloProxy.sayThankYou("Toby"), is("Thank you Toby"));
+    }
 
-	static class UppercaseAdvice implements MethodInterceptor {
+    static class UppercaseAdvice implements MethodInterceptor {
 
-		@Override
-		public Object invoke(MethodInvocation invocation) throws Throwable {
-			String ret = (String) invocation.proceed();
-			return ret.toUpperCase();
-		}
-	}
+        @Override
+        public Object invoke(MethodInvocation invocation) throws Throwable {
+            String ret = (String) invocation.proceed();
+            return ret.toUpperCase();
+        }
+    }
 
-	static interface Hello {
+    static interface Hello {
 
-		String sayHello(String name);
+        String sayHello(String name);
 
-		String sayHi(String name);
+        String sayHi(String name);
 
-		String sayThankYou(String name);
-	}
+        String sayThankYou(String name);
+    }
 
-	static class HelloTarget implements Hello {
+    static class HelloTarget implements Hello {
 
-		@Override
-		public String sayHello(String name) {
-			return "Hello " + name;
-		}
+        @Override
+        public String sayHello(String name) {
+            return "Hello " + name;
+        }
 
-		@Override
-		public String sayHi(String name) {
-			return "Hi " + name;
-		}
+        @Override
+        public String sayHi(String name) {
+            return "Hi " + name;
+        }
 
-		@Override
-		public String sayThankYou(String name) {
-			return "Thank you " + name;
-		}
-	}
+        @Override
+        public String sayThankYou(String name) {
+            return "Thank you " + name;
+        }
+    }
 }

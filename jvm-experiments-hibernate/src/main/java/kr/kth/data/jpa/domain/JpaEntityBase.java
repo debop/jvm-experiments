@@ -12,16 +12,16 @@ import javax.persistence.PostPersist;
  */
 public abstract class JpaEntityBase extends StatefulEntityBase {
 
-	private static final long serialVersionUID = 8224137297852297901L;
+    private static final long serialVersionUID = 8224137297852297901L;
 
 
-	@PostPersist
-	private void postPersist() {
-		onSave();
-	}
+    @PostPersist
+    private void postPersist() {
+        onSave();
+    }
 
-	@PostLoad
-	private void postLoad() {
-		onLoad();
-	}
+    @PostLoad
+    private void postLoad() {
+        onLoad();
+    }
 }

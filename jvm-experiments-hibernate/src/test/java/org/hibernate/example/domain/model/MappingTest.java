@@ -30,117 +30,117 @@ import static org.junit.Assert.assertNotNull;
 public class MappingTest extends AbstractHibernateTest {
 
 
-	@Test
-	public void entityMappingTest() {
-		try {
-			log.info("querying all the managed entities...");
-			final Map<String, ClassMetadata> metadataMap = session.getSessionFactory().getAllClassMetadata();
-			for (Object key : metadataMap.keySet()) {
-				final ClassMetadata classMetadata = metadataMap.get(key);
-				final String entityName = classMetadata.getEntityName();
-				final Query query = session.createQuery("from " + entityName);
-				query.setCacheable(true);
+    @Test
+    public void entityMappingTest() {
+        try {
+            log.info("querying all the managed entities...");
+            final Map<String, ClassMetadata> metadataMap = session.getSessionFactory().getAllClassMetadata();
+            for (Object key : metadataMap.keySet()) {
+                final ClassMetadata classMetadata = metadataMap.get(key);
+                final String entityName = classMetadata.getEntityName();
+                final Query query = session.createQuery("from " + entityName);
+                query.setCacheable(true);
 
-				log.info("executing hql= " + query.getQueryString());
+                log.info("executing hql= " + query.getQueryString());
 
-				for (Object o : query.list()) {
-					log.info("IEntity=  " + o);
-				}
-			}
-		} finally {
-			session.flush();
-		}
-		log.info("성공했습니다.");
-	}
+                for (Object o : query.list()) {
+                    log.info("IEntity=  " + o);
+                }
+            }
+        } finally {
+            session.flush();
+        }
+        log.info("성공했습니다.");
+    }
 
 
-	@Test
-	public void categoryAndEvent() {
+    @Test
+    public void categoryAndEvent() {
 
-		session.createQuery("delete from Event").executeUpdate();
-		session.createQuery("delete from Category").executeUpdate();
-		session.flush();
+        session.createQuery("delete from Event").executeUpdate();
+        session.createQuery("delete from Category").executeUpdate();
+        session.flush();
 
-		Category category = new Category("category1");
+        Category category = new Category("category1");
 
-		Event event1 = new Event("event1", new Date());
-		Event event2 = new Event("event2", new Date());
-		category.getEvents().add(event1);
-		event1.setCategory(category);
+        Event event1 = new Event("event1", new Date());
+        Event event2 = new Event("event2", new Date());
+        category.getEvents().add(event1);
+        event1.setCategory(category);
 
-		category.getEvents().add(event2);
-		event2.setCategory(category);
+        category.getEvents().add(event2);
+        event2.setCategory(category);
 
-		session.saveOrUpdate(category);
-		session.flush();
+        session.saveOrUpdate(category);
+        session.flush();
 
-		session.clear();
+        session.clear();
 
-		@SuppressWarnings("unchecked")
-		final List<Category> categories = (List<Category>) session.createCriteria(Category.class).list();
-		assertEquals(1, categories.size());
-		assertEquals(2, categories.get(0).getEvents().size());
+        @SuppressWarnings("unchecked")
+        final List<Category> categories = (List<Category>) session.createCriteria(Category.class).list();
+        assertEquals(1, categories.size());
+        assertEquals(2, categories.get(0).getEvents().size());
 
-		if (log.isDebugEnabled())
-			log.debug("Category=[{}]", categories.get(0));
-	}
+        if (log.isDebugEnabled())
+            log.debug("Category=[{}]", categories.get(0));
+    }
 
-	@Test
-	public void stateEntityImplSave() {
+    @Test
+    public void stateEntityImplSave() {
 
-		session.createQuery("delete from StatefulEntityImpl").executeUpdate();
-		session.flush();
+        session.createQuery("delete from StatefulEntityImpl").executeUpdate();
+        session.flush();
 
-		StatefulEntityImpl stateEntity = new StatefulEntityImpl("abc");
-		session.persist(stateEntity);
-		session.flush();
+        StatefulEntityImpl stateEntity = new StatefulEntityImpl("abc");
+        session.persist(stateEntity);
+        session.flush();
 
-		StatefulEntityImpl stateEntity2 = new StatefulEntityImpl("가나다");
-		session.persist(stateEntity2);
-		session.flush();
+        StatefulEntityImpl stateEntity2 = new StatefulEntityImpl("가나다");
+        session.persist(stateEntity2);
+        session.flush();
 
-		if (log.isDebugEnabled())
-			log.debug("엔티티를 저장했습니다. entity=" + stateEntity);
+        if (log.isDebugEnabled())
+            log.debug("엔티티를 저장했습니다. entity=" + stateEntity);
 
-		session.clear();
+        session.clear();
 
-		@SuppressWarnings("unchecked")
-		final List<StatefulEntityImpl> loaded =
-			(List<StatefulEntityImpl>) session.createQuery("from " + StatefulEntityImpl.class.getName()).list();
+        @SuppressWarnings("unchecked")
+        final List<StatefulEntityImpl> loaded =
+                (List<StatefulEntityImpl>) session.createQuery("from " + StatefulEntityImpl.class.getName()).list();
 
-		assertEquals(2, loaded.size());
+        assertEquals(2, loaded.size());
 
-		StatefulEntityImpl entity = loaded.get(0);
-		assertNotNull(entity);
-		assertEquals("abc", entity.getName());
+        StatefulEntityImpl entity = loaded.get(0);
+        assertNotNull(entity);
+        assertEquals("abc", entity.getName());
 
-		entity.setName("modified");
-		session.saveOrUpdate(entity);
-		session.flush();
+        entity.setName("modified");
+        session.saveOrUpdate(entity);
+        session.flush();
 
-		log.debug("엔티티를 로드했습니다. entity=" + entity);
-	}
+        log.debug("엔티티를 로드했습니다. entity=" + entity);
+    }
 
-	@Test
-	public void joinEntityTest() {
-		Join_Customer customer =
-			new Join_Customer("debop", "debop@kthcorp.com");
+    @Test
+    public void joinEntityTest() {
+        Join_Customer customer =
+                new Join_Customer("debop", "debop@kthcorp.com");
 
-		customer.getAddress().setCity("Seoul");
-		customer.getAddress().setZipcode("131-101");
+        customer.getAddress().setCity("Seoul");
+        customer.getAddress().setZipcode("131-101");
 
-		session.saveOrUpdate(customer);
-		session.flush();
-		session.clear();
+        session.saveOrUpdate(customer);
+        session.flush();
+        session.clear();
 
-		Join_Customer loaded =
-			(Join_Customer) session.createCriteria(Join_Customer.class)
-			                       .add(Restrictions.eq("name", customer.getName()))
-			                       .setMaxResults(1)
-			                       .uniqueResult();
+        Join_Customer loaded =
+                (Join_Customer) session.createCriteria(Join_Customer.class)
+                        .add(Restrictions.eq("name", customer.getName()))
+                        .setMaxResults(1)
+                        .uniqueResult();
 
-		Assert.assertNotNull(loaded);
-		Assert.assertEquals(customer.getName(), loaded.getName());
-		Assert.assertEquals(customer.getEmail(), loaded.getEmail());
-	}
+        Assert.assertNotNull(loaded);
+        Assert.assertEquals(customer.getName(), loaded.getName());
+        Assert.assertEquals(customer.getEmail(), loaded.getEmail());
+    }
 }

@@ -7,11 +7,11 @@ package org.jpa.example.domain.model.usertypes;
  */
 public enum Rating {
 
-	Bad,
+    Bad,
 
-	Normal,
+    Normal,
 
-	Good,
+    Good,
 
-	Excellent
+    Excellent
 }

@@ -19,26 +19,26 @@ import java.util.Set;
 @Setter
 public class Item extends EntityBase<Long> {
 
-	private static final long serialVersionUID = -8817292400220149595L;
+    private static final long serialVersionUID = -8817292400220149595L;
 
-	private String name;
-	private String description;
-	private BigDecimal initialPrice;
-	private BigDecimal reservePrice;
-	private Date startDate;
-	private Date endDate;
+    private String name;
+    private String description;
+    private BigDecimal initialPrice;
+    private BigDecimal reservePrice;
+    private Date startDate;
+    private Date endDate;
 
-	private ItemState state;
+    private ItemState state;
 
-	private Date approvalDate;
+    private Date approvalDate;
 
-	private Set<Image> images = new HashSet<Image>();
+    private Set<Image> images = new HashSet<Image>();
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return HashTool.compute(name);
-	}
+        return HashTool.compute(name);
+    }
 }

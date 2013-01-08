@@ -19,52 +19,55 @@ import java.util.List;
 @Slf4j
 public class MonthTimeRange extends CalendarTimeRange {
 
-	private static final long serialVersionUID = 3094586442615608448L;
+    private static final long serialVersionUID = 3094586442615608448L;
 
-	@Getter private final int monthCount;
-	@Getter private final int endYear;
-	@Getter private final int endMonth;
+    @Getter
+    private final int monthCount;
+    @Getter
+    private final int endYear;
+    @Getter
+    private final int endMonth;
 
-	protected MonthTimeRange(DateTime moment, int monthCount, ITimeCalendar calendar) {
-		this(calendar.getYear(moment), calendar.getMonth(moment), monthCount, calendar);
-	}
+    protected MonthTimeRange(DateTime moment, int monthCount, ITimeCalendar calendar) {
+        this(calendar.getYear(moment), calendar.getMonth(moment), monthCount, calendar);
+    }
 
-	protected MonthTimeRange(int year, int month, int monthCount) {
-		this(year, month, monthCount, TimeCalendar.Default());
-	}
+    protected MonthTimeRange(int year, int month, int monthCount) {
+        this(year, month, monthCount, TimeCalendar.Default());
+    }
 
-	protected MonthTimeRange(int year, int month, int monthCount, ITimeCalendar calendar) {
-		super(getPeriodOf(year, month, monthCount), calendar);
-		Guard.shouldBePositiveNumber(monthCount, "monthCount");
+    protected MonthTimeRange(int year, int month, int monthCount, ITimeCalendar calendar) {
+        super(getPeriodOf(year, month, monthCount), calendar);
+        Guard.shouldBePositiveNumber(monthCount, "monthCount");
 
-		this.monthCount = monthCount;
+        this.monthCount = monthCount;
 
-		YearAndMonth yearAndMonth = Times.addMonth(year, month, monthCount - 1);
-		this.endYear = yearAndMonth.year();
-		this.endMonth = yearAndMonth.month();
-	}
+        YearAndMonth yearAndMonth = Times.addMonth(year, month, monthCount - 1);
+        this.endYear = yearAndMonth.year();
+        this.endMonth = yearAndMonth.month();
+    }
 
-	public String getStartMonthName() {
-		return getTimeCalendar().getMonthOfYearName(getStartYear(), getStartMonth());
-	}
+    public String getStartMonthName() {
+        return getTimeCalendar().getMonthOfYearName(getStartYear(), getStartMonth());
+    }
 
-	public String getStartMonthOfYearName() {
-		return getTimeCalendar().getMonthOfYearName(getStartYear(), getStartMonth());
-	}
+    public String getStartMonthOfYearName() {
+        return getTimeCalendar().getMonthOfYearName(getStartYear(), getStartMonth());
+    }
 
-	public String getEndMonthName() {
-		return getTimeCalendar().getMonthOfYearName(getEndYear(), getEndMonth());
-	}
+    public String getEndMonthName() {
+        return getTimeCalendar().getMonthOfYearName(getEndYear(), getEndMonth());
+    }
 
-	public String getEndMonthOfYearName() {
-		return getTimeCalendar().getMonthOfYearName(getEndYear(), getEndMonth());
-	}
+    public String getEndMonthOfYearName() {
+        return getTimeCalendar().getMonthOfYearName(getEndYear(), getEndMonth());
+    }
 
-	public List<DayRange> getDays() {
-		if (log.isDebugEnabled())
-			log.debug("DayRange 컬렉션을 빌드합니다. monthCount=[{}]", monthCount);
+    public List<DayRange> getDays() {
+        if (log.isDebugEnabled())
+            log.debug("DayRange 컬렉션을 빌드합니다. monthCount=[{}]", monthCount);
 
-		throw new NotImplementedException();
+        throw new NotImplementedException();
 
 //		List<DayRange> days = Lists.newArrayListWithCapacity(monthCount * TimeSpec.MaxDaysPerMonth);
 //		DateTime startMonth = Times.startTimeOfMonth(getStart());
@@ -78,23 +81,23 @@ public class MonthTimeRange extends CalendarTimeRange {
 //			}
 //		}
 //		return days;
-	}
+    }
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(super.hashCode(), this.monthCount);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(super.hashCode(), this.monthCount);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("monthCount", monthCount)
-		            .add("endYear", endYear)
-		            .add("endMonth", endMonth);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("monthCount", monthCount)
+                .add("endYear", endYear)
+                .add("endMonth", endMonth);
+    }
 
-	private static ITimePeriod getPeriodOf(int year, int month, int monthCount) {
-		DateTime start = Times.startTimeOfMonthByYear(year, month);
-		return new TimeRange(start, start.plusMonths(monthCount));
-	}
+    private static ITimePeriod getPeriodOf(int year, int month, int monthCount) {
+        DateTime start = Times.startTimeOfMonthByYear(year, month);
+        return new TimeRange(start, start.plusMonths(monthCount));
+    }
 }

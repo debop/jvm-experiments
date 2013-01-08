@@ -12,5 +12,7 @@ import org.springframework.stereotype.Component;
 @Component // @Component("annotatedHello") 와 같다. (Bean 이름을 지정하면 된다)
 public class AnnotatedHello {
 
-	@Autowired @Setter Printer printer;
+    @Autowired
+    @Setter
+    Printer printer;
 }

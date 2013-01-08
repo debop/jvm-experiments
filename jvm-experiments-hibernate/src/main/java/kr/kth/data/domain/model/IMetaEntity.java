@@ -9,13 +9,13 @@ import java.util.Set;
  */
 public interface IMetaEntity extends IStatefulEntity {
 
-	IMetaValue getMetaValue(String key);
+    IMetaValue getMetaValue(String key);
 
-	Set<String> getMetaKeys();
+    Set<String> getMetaKeys();
 
-	void addMetaValue(String metaKey, IMetaValue metaValue);
+    void addMetaValue(String metaKey, IMetaValue metaValue);
 
-	void addMetaValue(String metaKey, Object value);
+    void addMetaValue(String metaKey, Object value);
 
-	void removeMetaValue(String metaKey);
+    void removeMetaValue(String metaKey);
 }

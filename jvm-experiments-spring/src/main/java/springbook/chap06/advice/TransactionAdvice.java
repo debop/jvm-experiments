@@ -14,20 +14,20 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  */
 public class TransactionAdvice implements MethodInterceptor {
 
-	@Setter
-	PlatformTransactionManager transactionManager;
+    @Setter
+    PlatformTransactionManager transactionManager;
 
-	@Override
-	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-		TransactionStatus status =
-			transactionManager.getTransaction(new DefaultTransactionDefinition());
-		try {
-			Object result = methodInvocation.proceed();
-			transactionManager.commit(status);
-			return result;
-		} catch (RuntimeException e) {
-			transactionManager.rollback(status);
-			throw e;
-		}
-	}
+    @Override
+    public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+        TransactionStatus status =
+                transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            Object result = methodInvocation.proceed();
+            transactionManager.commit(status);
+            return result;
+        } catch (RuntimeException e) {
+            transactionManager.rollback(status);
+            throw e;
+        }
+    }
 }

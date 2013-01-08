@@ -16,16 +16,17 @@ import static ch.lambdaj.Lambda.minFrom;
  */
 public final class ListTool {
 
-	private ListTool() {}
+    private ListTool() {
+    }
 
-	/**
-	 * 컬렉션에서 최소값을 가지는 요소를 구합니다.
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T min(Collection<? extends Comparable<T>> collection) {
-		if (collection == null) return null;
+    /**
+     * 컬렉션에서 최소값을 가지는 요소를 구합니다.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T min(Collection<? extends Comparable<T>> collection) {
+        if (collection == null) return null;
 
-		return (T) minFrom(collection);
+        return (T) minFrom(collection);
 //		T min = null;
 //		for (Comparable<T> item : collection) {
 //			if (item == null) continue;
@@ -33,21 +34,21 @@ public final class ListTool {
 //			if (item.compareTo(min) < 0) min = (T) item;
 //		}
 //		return min;
-	}
+    }
 
-	public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
-		if (coll == null) return null;
-		return Collections.max(coll, comp);
-	}
+    public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
+        if (coll == null) return null;
+        return Collections.max(coll, comp);
+    }
 
-	/**
-	 * 컬렉션에서 최대값을 가지는 요소를 구합니다.
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T max(Collection<? extends Comparable<T>> collection) {
-		if (collection == null) return null;
+    /**
+     * 컬렉션에서 최대값을 가지는 요소를 구합니다.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T max(Collection<? extends Comparable<T>> collection) {
+        if (collection == null) return null;
 
-		return (T) maxFrom(collection);
+        return (T) maxFrom(collection);
 
 //		T max = null;
 //		for (Comparable<T> item : collection) {
@@ -56,15 +57,15 @@ public final class ListTool {
 //			if (item.compareTo(max) > 0) max = (T) item;
 //		}
 //		return max;
-	}
+    }
 
-	/**
-	 * 컬렉션에서 최대값을 구합니다.
-	 */
-	public static <T> T max(Collection<? extends T> coll, Comparator<? super T> comp) {
-		Guard.shouldNotBeNull(comp, "comp");
-		if (coll == null) return null;
+    /**
+     * 컬렉션에서 최대값을 구합니다.
+     */
+    public static <T> T max(Collection<? extends T> coll, Comparator<? super T> comp) {
+        Guard.shouldNotBeNull(comp, "comp");
+        if (coll == null) return null;
 
-		return Collections.max(coll, comp);
-	}
+        return Collections.max(coll, comp);
+    }
 }

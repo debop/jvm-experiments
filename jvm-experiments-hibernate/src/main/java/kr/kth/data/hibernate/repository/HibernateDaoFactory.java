@@ -15,31 +15,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class HibernateDaoFactory {
 
-	private static final String HIBERNATE_DAO_KEY = "kr.kth.data.hibernate.repository.IHibernateDao";
+    private static final String HIBERNATE_DAO_KEY = "kr.kth.data.hibernate.repository.IHibernateDao";
 
-	public <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass) {
-		Guard.shouldNotBeNull(entityClass, "entityClass");
-		return getOrCreateHibernateDaoInternal(entityClass);
-	}
+    public <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass) {
+        Guard.shouldNotBeNull(entityClass, "entityClass");
+        return getOrCreateHibernateDaoInternal(entityClass);
+    }
 
-	@SuppressWarnings("unchecked")
-	protected synchronized <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDaoInternal(Class<E> entityClass) {
+    @SuppressWarnings("unchecked")
+    protected synchronized <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDaoInternal(Class<E> entityClass) {
 
-		String daoKey = getHibernateDaoKey(entityClass);
-		HibernateDaoImpl<E> dao = (HibernateDaoImpl<E>) Local.get(daoKey);
+        String daoKey = getHibernateDaoKey(entityClass);
+        HibernateDaoImpl<E> dao = (HibernateDaoImpl<E>) Local.get(daoKey);
 
-		if (dao == null) {
-			if (log.isDebugEnabled())
-				log.debug("IHibernateDao<{}> 인스턴스를 생성합니다.", entityClass.getName());
+        if (dao == null) {
+            if (log.isDebugEnabled())
+                log.debug("IHibernateDao<{}> 인스턴스를 생성합니다.", entityClass.getName());
 
-			dao = new HibernateDaoImpl<E>(entityClass);
-			Local.put(daoKey, dao);
-		}
+            dao = new HibernateDaoImpl<E>(entityClass);
+            Local.put(daoKey, dao);
+        }
 
-		return dao;
-	}
+        return dao;
+    }
 
-	protected String getHibernateDaoKey(Class<?> entityClass) {
-		return HIBERNATE_DAO_KEY + "." + entityClass.getName();
-	}
+    protected String getHibernateDaoKey(Class<?> entityClass) {
+        return HIBERNATE_DAO_KEY + "." + entityClass.getName();
+    }
 }

@@ -16,20 +16,21 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-	@Setter private UserDao userDao;
+    @Setter
+    private UserDao userDao;
 
-	@Override
-	public void add(User user) {
-		userDao.add(user);
-	}
+    @Override
+    public void add(User user) {
+        userDao.add(user);
+    }
 
-	@Override
-	public void upgradeLevels() {
-		userDao.upgradeLevels();
-	}
+    @Override
+    public void upgradeLevels() {
+        userDao.upgradeLevels();
+    }
 
-	@Override
-	public List<User> getAll() {
-		return userDao.getAll();
-	}
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
+    }
 }

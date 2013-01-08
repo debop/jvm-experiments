@@ -10,10 +10,10 @@ import kr.kth.commons.json.IJsonSerializer;
  */
 public class GsonTextUserType extends AbstractJsonTextUserType {
 
-	private static final IJsonSerializer serializer = new GsonSerializer();
+    private static final IJsonSerializer serializer = new GsonSerializer();
 
-	@Override
-	public IJsonSerializer getJsonSerializer() {
-		return serializer;
-	}
+    @Override
+    public IJsonSerializer getJsonSerializer() {
+        return serializer;
+    }
 }

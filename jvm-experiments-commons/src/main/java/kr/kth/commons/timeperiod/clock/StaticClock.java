@@ -9,9 +9,9 @@ import org.joda.time.DateTime;
  */
 public class StaticClock extends ClockBase {
 
-	private static final long serialVersionUID = -3634515685313254258L;
+    private static final long serialVersionUID = -3634515685313254258L;
 
-	public StaticClock(DateTime now) {
-		super(now);
-	}
+    public StaticClock(DateTime now) {
+        super(now);
+    }
 }

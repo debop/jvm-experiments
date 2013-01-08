@@ -21,27 +21,27 @@ import javax.persistence.*;
 @DynamicUpdate
 public class Subclass_BillingDetails extends JpaEntityBase {
 
-	private static final long serialVersionUID = -972548475181911220L;
+    private static final long serialVersionUID = -972548475181911220L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "BILLING_DETAILS_ID")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "BILLING_DETAILS_ID")
+    private Long id;
 
-	@Column(name = "OWNER", nullable = false)
-	private String owner;
+    @Column(name = "OWNER", nullable = false)
+    private String owner;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
-		return HashTool.compute(owner);
-	}
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return HashTool.compute(id);
+        return HashTool.compute(owner);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id)
-		            .add("owner", owner);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id)
+                .add("owner", owner);
+    }
 }

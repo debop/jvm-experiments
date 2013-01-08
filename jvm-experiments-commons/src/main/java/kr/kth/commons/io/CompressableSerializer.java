@@ -14,25 +14,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CompressableSerializer extends SerializerDecorator {
 
-	private final ICompressor compressor;
+    private final ICompressor compressor;
 
-	public CompressableSerializer(ISerializer serializer) {
-		this(serializer, new GZipCompressor());
-	}
+    public CompressableSerializer(ISerializer serializer) {
+        this(serializer, new GZipCompressor());
+    }
 
-	public CompressableSerializer(ISerializer serializer, ICompressor compressor) {
-		super(serializer);
-		Guard.shouldNotBeNull(compressor, "compressor");
-		this.compressor = compressor;
-	}
+    public CompressableSerializer(ISerializer serializer, ICompressor compressor) {
+        super(serializer);
+        Guard.shouldNotBeNull(compressor, "compressor");
+        this.compressor = compressor;
+    }
 
-	@Override
-	public byte[] serialize(Object graph) {
-		return compressor.compress(super.serialize(graph));
-	}
+    @Override
+    public byte[] serialize(Object graph) {
+        return compressor.compress(super.serialize(graph));
+    }
 
-	@Override
-	public <T> T deserialize(byte[] bytes, Class<T> clazz) {
-		return super.deserialize(compressor.decompress(bytes), clazz);
-	}
+    @Override
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
+        return super.deserialize(compressor.decompress(bytes), clazz);
+    }
 }

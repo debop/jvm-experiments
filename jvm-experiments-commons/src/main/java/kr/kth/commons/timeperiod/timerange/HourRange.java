@@ -17,72 +17,72 @@ import org.joda.time.DateTime;
 @Slf4j
 public class HourRange extends HourTimeRange {
 
-	private static final long serialVersionUID = 28929008453229484L;
+    private static final long serialVersionUID = 28929008453229484L;
 
-	// region << Constructors >>
+    // region << Constructors >>
 
-	public HourRange() {
-		this(TimeCalendar.Default());
-	}
+    public HourRange() {
+        this(TimeCalendar.Default());
+    }
 
-	public HourRange(ITimeCalendar calendar) {
-		this(ClockProxy.getClock().now(), calendar);
-	}
+    public HourRange(ITimeCalendar calendar) {
+        this(ClockProxy.getClock().now(), calendar);
+    }
 
-	public HourRange(DateTime moment) {
-		this(moment, TimeCalendar.Default());
-	}
+    public HourRange(DateTime moment) {
+        this(moment, TimeCalendar.Default());
+    }
 
-	public HourRange(DateTime moment, ITimeCalendar calendar) {
-		super(moment, 1, calendar);
-	}
+    public HourRange(DateTime moment, ITimeCalendar calendar) {
+        super(moment, 1, calendar);
+    }
 
-	public HourRange(int year, int month, int day, int hour) {
-		this(year, month, day, hour, TimeCalendar.Default());
-	}
+    public HourRange(int year, int month, int day, int hour) {
+        this(year, month, day, hour, TimeCalendar.Default());
+    }
 
-	public HourRange(int year, int month, int day, int hour, ITimeCalendar calendar) {
-		super(year, month, day, hour, 1, calendar);
-	}
+    public HourRange(int year, int month, int day, int hour, ITimeCalendar calendar) {
+        super(year, month, day, hour, 1, calendar);
+    }
 
-	// endregion
+    // endregion
 
-	public int getYear() {
-		return getStartYear();
-	}
+    public int getYear() {
+        return getStartYear();
+    }
 
-	public int getMonth() {
-		return getStartMonth();
-	}
+    public int getMonth() {
+        return getStartMonth();
+    }
 
-	public int getDay() {
-		return getStartDay();
-	}
+    public int getDay() {
+        return getStartDay();
+    }
 
-	public int getHour() {
-		return getStartHour();
-	}
+    public int getHour() {
+        return getStartHour();
+    }
 
-	public HourRange getPreviousHour() {
-		return addHours(-1);
-	}
+    public HourRange getPreviousHour() {
+        return addHours(-1);
+    }
 
-	public HourRange getNextHour() {
-		return addHours(1);
-	}
+    public HourRange getNextHour() {
+        return addHours(1);
+    }
 
-	public HourRange addHours(int hours) {
-		DateTime start = getStart().withTime(getStartHour(), 0, 0, 0);
-		return new HourRange(start.plusHours(hours), getTimeCalendar());
-	}
+    public HourRange addHours(int hours) {
+        DateTime start = getStart().withTime(getStartHour(), 0, 0, 0);
+        return new HourRange(start.plusHours(hours), getTimeCalendar());
+    }
 
-	@Override
-	protected String format(ITimeFormatter formatter) {
-		ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
+    @Override
+    protected String format(ITimeFormatter formatter) {
+        ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
 
-		return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
-		                             fmt.getShortTime(getStart()),
-		                             fmt.getShortTime(getEnd()),
-		                             getDuration());
-	}
+        return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
+                fmt.getShortTime(getStart()),
+                fmt.getShortTime(getEnd()),
+                getDuration());
+    }
 }

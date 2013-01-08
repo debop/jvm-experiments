@@ -16,22 +16,22 @@ import lombok.Setter;
 @Setter
 public class User extends ValueObjectBase {
 
-	private static final long serialVersionUID = -1375942267796202939L;
+    private static final long serialVersionUID = -1375942267796202939L;
 
-	private String name;
-	private String employeeNumber;
-	private String address;
+    private String name;
+    private String employeeNumber;
+    private String address;
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(name, employeeNumber);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(name, employeeNumber);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name)
-		            .add("employeeNumber", employeeNumber)
-		            .add("address", address);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name)
+                .add("employeeNumber", employeeNumber)
+                .add("address", address);
+    }
 }

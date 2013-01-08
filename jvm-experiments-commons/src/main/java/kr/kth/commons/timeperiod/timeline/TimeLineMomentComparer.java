@@ -11,8 +11,8 @@ import java.util.Comparator;
  */
 public class TimeLineMomentComparer implements Comparator<ITimeLineMoment> {
 
-	@Override
-	public int compare(ITimeLineMoment o1, ITimeLineMoment o2) {
-		return o1.getMoment().compareTo(o2.getMoment());
-	}
+    @Override
+    public int compare(ITimeLineMoment o1, ITimeLineMoment o2) {
+        return o1.getMoment().compareTo(o2.getMoment());
+    }
 }

@@ -19,28 +19,28 @@ import java.util.List;
 @Slf4j
 public class EncryptorTest {
 
-	private static final String PLAIN_TEXT = "동해물과 백두산이 마르고 닳도록~ Hello World! 1234567890";
+    private static final String PLAIN_TEXT = "동해물과 백두산이 마르고 닳도록~ Hello World! 1234567890";
 
-	@BeforeClass
-	public static void beforeClass() {
-		if (Spring.isNotInitialized())
-			Spring.initByAnnotatedClasses(EncryptorConfiguration.class);
-	}
+    @BeforeClass
+    public static void beforeClass() {
+        if (Spring.isNotInitialized())
+            Spring.initByAnnotatedClasses(EncryptorConfiguration.class);
+    }
 
-	@Test
-	public void byteEncryptorTest() {
-		List<ISymmetricByteEncryptor> byteEncryptors = Spring.getBeansByType(ISymmetricByteEncryptor.class);
+    @Test
+    public void byteEncryptorTest() {
+        List<ISymmetricByteEncryptor> byteEncryptors = Spring.getBeansByType(ISymmetricByteEncryptor.class);
 
-		for (ISymmetricByteEncryptor encryptor : byteEncryptors) {
-			if (log.isDebugEnabled())
-				log.debug("Encryptor=[{}] 를 테스트합니다.", encryptor.getClass().getSimpleName());
+        for (ISymmetricByteEncryptor encryptor : byteEncryptors) {
+            if (log.isDebugEnabled())
+                log.debug("Encryptor=[{}] 를 테스트합니다.", encryptor.getClass().getSimpleName());
 
-			encryptor.setPassword("debop");
+            encryptor.setPassword("debop");
 
-			byte[] encryptedBytes = encryptor.encrypt(StringTool.getUtf8Bytes(PLAIN_TEXT));
-			byte[] decryptedBytes = encryptor.decrypt(encryptedBytes);
+            byte[] encryptedBytes = encryptor.encrypt(StringTool.getUtf8Bytes(PLAIN_TEXT));
+            byte[] decryptedBytes = encryptor.decrypt(encryptedBytes);
 
-			Assert.assertEquals(PLAIN_TEXT, StringTool.getUtf8String(decryptedBytes));
-		}
-	}
+            Assert.assertEquals(PLAIN_TEXT, StringTool.getUtf8String(decryptedBytes));
+        }
+    }
 }

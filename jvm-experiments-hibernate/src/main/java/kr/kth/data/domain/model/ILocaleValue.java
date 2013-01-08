@@ -7,5 +7,6 @@ import kr.kth.commons.base.IValueObject;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 18.
  */
-public interface ILocaleValue extends IValueObject {}
+public interface ILocaleValue extends IValueObject {
+}
 

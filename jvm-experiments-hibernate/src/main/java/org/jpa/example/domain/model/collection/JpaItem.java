@@ -24,49 +24,49 @@ import java.util.Set;
 @Setter
 public class JpaItem extends JpaEntityBase {
 
-	private static final long serialVersionUID = -4178978313674407260L;
+    private static final long serialVersionUID = -4178978313674407260L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ITEM_ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ITEM_ID")
+    private Long id;
 
-	private String name;
-	private String description;
-	private BigDecimal initialPrice;
-	private BigDecimal reservePrice;
-	private Date startDate;
-	private Date endDate;
+    private String name;
+    private String description;
+    private BigDecimal initialPrice;
+    private BigDecimal reservePrice;
+    private Date startDate;
+    private Date endDate;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "ITEM_STATE", nullable = false, length = 128)
-	private ItemState state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ITEM_STATE", nullable = false, length = 128)
+    private ItemState state;
 
-	private Date approvalDate;
+    private Date approvalDate;
 
-	@CollectionTable(name = "JPA_COL_ITEM_IMGS", joinColumns = @JoinColumn(name = "ITEM_ID"))
-	@ElementCollection(targetClass = JpaImage.class)
-	private Set<JpaImage> images = new HashSet<>();
+    @CollectionTable(name = "JPA_COL_ITEM_IMGS", joinColumns = @JoinColumn(name = "ITEM_ID"))
+    @ElementCollection(targetClass = JpaImage.class)
+    private Set<JpaImage> images = new HashSet<>();
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return HashTool.compute(id);
 
-		return HashTool.compute(name);
-	}
+        return HashTool.compute(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id)
-		            .add("name", name)
-		            .add("description", description)
-		            .add("initialPrice", initialPrice)
-		            .add("reservePrice", reservePrice)
-		            .add("startDate", startDate)
-		            .add("endDate", endDate)
-		            .add("state", state)
-		            .add("approvalDate", approvalDate);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id)
+                .add("name", name)
+                .add("description", description)
+                .add("initialPrice", initialPrice)
+                .add("reservePrice", reservePrice)
+                .add("startDate", startDate)
+                .add("endDate", endDate)
+                .add("state", state)
+                .add("approvalDate", approvalDate);
+    }
 }

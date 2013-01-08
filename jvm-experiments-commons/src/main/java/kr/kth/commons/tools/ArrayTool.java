@@ -18,88 +18,89 @@ import java.util.Set;
 @Slf4j
 public final class ArrayTool {
 
-	private ArrayTool() {}
+    private ArrayTool() {
+    }
 
-	public static final byte[] EmptyByteArray = new byte[0];
+    public static final byte[] EmptyByteArray = new byte[0];
 
-	/**
-	 * 지졍된 배열이 null 이거나 빈 배열이면 true를 반환한다.
-	 */
-	public static <T> boolean isEmpty(T[] array) {
-		return ((array == null) || (array.length == 0));
-	}
+    /**
+     * 지졍된 배열이 null 이거나 빈 배열이면 true를 반환한다.
+     */
+    public static <T> boolean isEmpty(T[] array) {
+        return ((array == null) || (array.length == 0));
+    }
 
-	public static <T> boolean isEmpty(Iterable<T> iterable) {
-		return (iterable == null) || (!iterable.iterator().hasNext());
-	}
+    public static <T> boolean isEmpty(Iterable<T> iterable) {
+        return (iterable == null) || (!iterable.iterator().hasNext());
+    }
 
-	public static boolean isEmpty(byte[] array) {
-		return ((array == null) || (array.length == 0));
-	}
+    public static boolean isEmpty(byte[] array) {
+        return ((array == null) || (array.length == 0));
+    }
 
-	public static boolean isEmpty(char[] array) {
-		return ((array == null) || (array.length == 0));
-	}
+    public static boolean isEmpty(char[] array) {
+        return ((array == null) || (array.length == 0));
+    }
 
-	public static boolean isEmpty(int[] array) {
-		return ((array == null) || (array.length == 0));
-	}
+    public static boolean isEmpty(int[] array) {
+        return ((array == null) || (array.length == 0));
+    }
 
-	public static boolean isEmpty(long[] array) {
-		return ((array == null) || (array.length == 0));
-	}
+    public static boolean isEmpty(long[] array) {
+        return ((array == null) || (array.length == 0));
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> T[] asArray(Collection<T> collection) {
-		Guard.shouldNotBeNull(collection, "collection");
+    @SuppressWarnings("unchecked")
+    public static <T> T[] asArray(Collection<T> collection) {
+        Guard.shouldNotBeNull(collection, "collection");
 
-		T[] result = (T[]) java.lang.reflect.Array
-		                                    .newInstance(ReflectTool.getGenericParameterType(collection),
-		                                                 collection.size());
-		return (T[]) collection.toArray(result);
-	}
+        T[] result = (T[]) java.lang.reflect.Array
+                .newInstance(ReflectTool.getGenericParameterType(collection),
+                        collection.size());
+        return (T[]) collection.toArray(result);
+    }
 
-	public static <T> String asString(Iterable<T> iterable) {
-		return StringTool.join(iterable);
-	}
+    public static <T> String asString(Iterable<T> iterable) {
+        return StringTool.join(iterable);
+    }
 
-	public static byte[] getRandomBytes(int size) {
-		return CryptoTool.getRandomBytes(size);
-	}
+    public static byte[] getRandomBytes(int size) {
+        return CryptoTool.getRandomBytes(size);
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> List<T> toList(Object[] array) {
-		List<T> results = Lists.newArrayList();
-		for (Object item : array) {
-			results.add((T) item);
-		}
-		return results;
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> List<T> toList(Object[] array) {
+        List<T> results = Lists.newArrayList();
+        for (Object item : array) {
+            results.add((T) item);
+        }
+        return results;
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> List<T> toList(Collection<?> collection) {
-		List<T> results = Lists.newArrayList();
-		for (Object item : collection) {
-			results.add((T) item);
-		}
-		return results;
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> List<T> toList(Collection<?> collection) {
+        List<T> results = Lists.newArrayList();
+        for (Object item : collection) {
+            results.add((T) item);
+        }
+        return results;
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> Set<T> toSet(Object[] array) {
-		Set<T> results = Sets.newHashSet();
-		for (Object item : array) {
-			results.add((T) item);
-		}
-		return results;
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> Set<T> toSet(Object[] array) {
+        Set<T> results = Sets.newHashSet();
+        for (Object item : array) {
+            results.add((T) item);
+        }
+        return results;
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> Set<T> toSet(Collection<?> collection) {
-		Set<T> results = Sets.newHashSet();
-		for (Object item : collection) {
-			results.add((T) item);
-		}
-		return results;
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> Set<T> toSet(Collection<?> collection) {
+        Set<T> results = Sets.newHashSet();
+        for (Object item : collection) {
+            results.add((T) item);
+        }
+        return results;
+    }
 }

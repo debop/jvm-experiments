@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SHA1StringDigester extends StringDigesterBase {
 
-	@Override
-	public final String getAlgorithm() {
-		return "SHA-1";
-	}
+    @Override
+    public final String getAlgorithm() {
+        return "SHA-1";
+    }
 }

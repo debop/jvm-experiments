@@ -25,72 +25,72 @@ import javax.persistence.*;
 @Setter
 public class JpaUser extends JpaEntityBase {
 
-	private static final long serialVersionUID = -4278711858304883834L;
+    private static final long serialVersionUID = -4278711858304883834L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "USER_ID")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "USER_ID")
+    private Long id;
 
-	@Column(name = "FIRST_NAME")
-	private String firstname;
+    @Column(name = "FIRST_NAME")
+    private String firstname;
 
-	@Column(name = "LAST_NAME")
-	private String lastname;
+    @Column(name = "LAST_NAME")
+    private String lastname;
 
-	@Column(name = "USER_NAME", length = 128, nullable = false)
-	@Index(name = "IX_USER_USER_NAME")
-	private String username;
+    @Column(name = "USER_NAME", length = 128, nullable = false)
+    @Index(name = "IX_USER_USER_NAME")
+    private String username;
 
-	@Column(name = "USER_PWD", length = 64, nullable = false)
-	@Index(name = "IX_USER_USER_NAME")
-	private String password;
+    @Column(name = "USER_PWD", length = 64, nullable = false)
+    @Index(name = "IX_USER_USER_NAME")
+    private String password;
 
-	@Column(name = "USER_EMAIL")
-	@Index(name = "IX_USER_EMAIL")
-	private String email;
+    @Column(name = "USER_EMAIL")
+    @Index(name = "IX_USER_EMAIL")
+    private String email;
 
-	@Column(name = "IS_ACTIVE", nullable = false)
-	@Basic(fetch = FetchType.LAZY)
-	private String exAttrs;
+    @Column(name = "IS_ACTIVE", nullable = false)
+    @Basic(fetch = FetchType.LAZY)
+    private String exAttrs;
 
-	@Embedded
-	@AttributeOverrides(
-		{
-			@AttributeOverride(name = "street", column = @Column(name = "HOME_STREET", length = 128)),
-			@AttributeOverride(name = "zipcode", column = @Column(name = "HOME_ZIPCODE", length = 24)),
-			@AttributeOverride(name = "city", column = @Column(name = "HOME_CITY", length = 128)),
-		}
-	)
-	private JpaAddress homeAddress = new JpaAddress();
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "street", column = @Column(name = "HOME_STREET", length = 128)),
+                    @AttributeOverride(name = "zipcode", column = @Column(name = "HOME_ZIPCODE", length = 24)),
+                    @AttributeOverride(name = "city", column = @Column(name = "HOME_CITY", length = 128)),
+            }
+    )
+    private JpaAddress homeAddress = new JpaAddress();
 
-	@Embedded
-	@AttributeOverrides(
-		{
-			@AttributeOverride(name = "street", column = @Column(name = "OFFICE_STREET", length = 128)),
-			@AttributeOverride(name = "zipcode", column = @Column(name = "OFFICE_ZIPCODE", length = 24)),
-			@AttributeOverride(name = "city", column = @Column(name = "OFFICE_CITY", length = 128)),
-		}
-	)
-	private JpaAddress officeAddress = new JpaAddress();
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "street", column = @Column(name = "OFFICE_STREET", length = 128)),
+                    @AttributeOverride(name = "zipcode", column = @Column(name = "OFFICE_ZIPCODE", length = 24)),
+                    @AttributeOverride(name = "city", column = @Column(name = "OFFICE_CITY", length = 128)),
+            }
+    )
+    private JpaAddress officeAddress = new JpaAddress();
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return Objects.hashCode(id);
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return Objects.hashCode(id);
 
-		return Objects.hashCode(username, password);
-	}
+        return Objects.hashCode(username, password);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("firstname", firstname)
-		            .add("lastname", lastname)
-		            .add("username", username)
-		            .add("userpwd", password)
-		            .add("userEmail", email)
-		            .add("homeAddress", homeAddress)
-		            .add("officeAddress", officeAddress);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("firstname", firstname)
+                .add("lastname", lastname)
+                .add("username", username)
+                .add("userpwd", password)
+                .add("userEmail", email)
+                .add("homeAddress", homeAddress)
+                .add("officeAddress", officeAddress);
+    }
 }

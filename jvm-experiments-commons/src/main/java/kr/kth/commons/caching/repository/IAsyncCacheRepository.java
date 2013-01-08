@@ -10,15 +10,15 @@ import java.util.concurrent.Future;
  */
 public interface IAsyncCacheRepository {
 
-	Future<Object> getAsync(final String key);
+    Future<Object> getAsync(final String key);
 
-	Future<Map> getsAsync(String... key);
+    Future<Map> getsAsync(String... key);
 
-	Future<Void> setAsync(final String key, Object value, long validFor);
+    Future<Void> setAsync(final String key, Object value, long validFor);
 
-	Future<Void> removeAsync(final String key);
+    Future<Void> removeAsync(final String key);
 
-	Future<Void> removesAsync(String... keys);
+    Future<Void> removesAsync(String... keys);
 
-	Future<Void> clearAsync();
+    Future<Void> clearAsync();
 }

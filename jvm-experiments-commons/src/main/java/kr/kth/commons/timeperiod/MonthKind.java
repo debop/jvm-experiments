@@ -6,73 +6,73 @@ package kr.kth.commons.timeperiod;
  * Date: 12. 12. 19.
  */
 public enum MonthKind {
-	/**
-	 * 1월
-	 */
-	January(1),
+    /**
+     * 1월
+     */
+    January(1),
 
-	/**
-	 * 2월
-	 */
-	Feburary(2),
+    /**
+     * 2월
+     */
+    Feburary(2),
 
-	/**
-	 * 3월
-	 */
-	March(3),
+    /**
+     * 3월
+     */
+    March(3),
 
-	/**
-	 * 4월
-	 */
-	April(4),
+    /**
+     * 4월
+     */
+    April(4),
 
-	/**
-	 * 5월
-	 */
-	May(5),
+    /**
+     * 5월
+     */
+    May(5),
 
-	/**
-	 * 6월
-	 */
-	June(6),
+    /**
+     * 6월
+     */
+    June(6),
 
-	/**
-	 * 7월
-	 */
-	July(7),
+    /**
+     * 7월
+     */
+    July(7),
 
-	/**
-	 * 8월
-	 */
-	August(8),
+    /**
+     * 8월
+     */
+    August(8),
 
-	/**
-	 * 9월
-	 */
-	September(9),
+    /**
+     * 9월
+     */
+    September(9),
 
-	/**
-	 * 10월
-	 */
-	October(10),
+    /**
+     * 10월
+     */
+    October(10),
 
-	/**
-	 * 11월
-	 */
-	November(11),
+    /**
+     * 11월
+     */
+    November(11),
 
-	/**
-	 * 12월
-	 */
-	December(12);
+    /**
+     * 12월
+     */
+    December(12);
 
-	private final int month;
+    private final int month;
 
-	MonthKind(int month) {
-		this.month = month;
-	}
+    MonthKind(int month) {
+        this.month = month;
+    }
 
-	public int toInt() {
-		return month;
-	}
+    public int toInt() {
+        return month;
+    }
 }

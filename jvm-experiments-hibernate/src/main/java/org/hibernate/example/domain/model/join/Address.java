@@ -14,24 +14,24 @@ import lombok.Setter;
 @Setter
 public class Address extends ValueObjectBase {
 
-	private static final long serialVersionUID = 4556469620637965297L;
+    private static final long serialVersionUID = 4556469620637965297L;
 
-	private String street;
+    private String street;
 
-	private String zipcode;
+    private String zipcode;
 
-	private String city;
+    private String city;
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(street, zipcode, city);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(street, zipcode, city);
+    }
 
-	@Override
-	public Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("street", street)
-		            .add("zipcode", zipcode)
-		            .add("city", city);
-	}
+    @Override
+    public Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("street", street)
+                .add("zipcode", zipcode)
+                .add("city", city);
+    }
 }

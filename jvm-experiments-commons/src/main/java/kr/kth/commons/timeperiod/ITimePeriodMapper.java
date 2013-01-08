@@ -11,23 +11,23 @@ import java.io.Serializable;
  */
 public interface ITimePeriodMapper extends Serializable {
 
-	/**
-	 * 지정된 Date를 StartOffset을 적용하여 매핑합니다.
-	 */
-	DateTime mapStart(DateTime moment);
+    /**
+     * 지정된 Date를 StartOffset을 적용하여 매핑합니다.
+     */
+    DateTime mapStart(DateTime moment);
 
-	/**
-	 * 지정된 Date를 EndOffset을 적용하여 매핑합니다.
-	 */
-	DateTime mapEnd(DateTime moment);
+    /**
+     * 지정된 Date를 EndOffset을 적용하여 매핑합니다.
+     */
+    DateTime mapEnd(DateTime moment);
 
-	/**
-	 * 지정된 Date를 StartOffset 적용을 해제합니다.
-	 */
-	DateTime unmapStart(DateTime moment);
+    /**
+     * 지정된 Date를 StartOffset 적용을 해제합니다.
+     */
+    DateTime unmapStart(DateTime moment);
 
-	/**
-	 * 지정된 Date를 EndOffset 적용을 해제합니다.
-	 */
-	DateTime unmapEnd(DateTime moment);
+    /**
+     * 지정된 Date를 EndOffset 적용을 해제합니다.
+     */
+    DateTime unmapEnd(DateTime moment);
 }

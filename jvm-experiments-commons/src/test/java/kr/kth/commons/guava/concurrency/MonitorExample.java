@@ -11,60 +11,61 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class MonitorExample {
 
-	private final Monitor monitor = new Monitor();
-	private volatile boolean condition = true;
-	private int taskDoneCounter;
-	private AtomicInteger taskSkippedCounter = new AtomicInteger(0);
-	private int stopTaskCount;
+    private final Monitor monitor = new Monitor();
+    private volatile boolean condition = true;
+    private int taskDoneCounter;
+    private AtomicInteger taskSkippedCounter = new AtomicInteger(0);
+    private int stopTaskCount;
 
-	private Monitor.Guard conditionGuard = new Monitor.Guard(monitor) {
-		@Override
-		public boolean isSatisfied() {
-			return condition;
-		}
-	};
+    private Monitor.Guard conditionGuard = new Monitor.Guard(monitor) {
+        @Override
+        public boolean isSatisfied() {
+            return condition;
+        }
+    };
 
-	public void demoTryEnterIf() throws InterruptedException {
-		if (monitor.tryEnterIf(conditionGuard)) {
-			try {
-				simulatedWork();
-				taskDoneCounter++;
-			} finally {
-				monitor.leave();
-			}
-		} else {
-			taskSkippedCounter.incrementAndGet();
-		}
-	}
+    public void demoTryEnterIf() throws InterruptedException {
+        if (monitor.tryEnterIf(conditionGuard)) {
+            try {
+                simulatedWork();
+                taskDoneCounter++;
+            } finally {
+                monitor.leave();
+            }
+        } else {
+            taskSkippedCounter.incrementAndGet();
+        }
+    }
 
 
-	private void simulatedWork() throws InterruptedException {
-		Thread.sleep(250);
-	}
+    private void simulatedWork() throws InterruptedException {
+        Thread.sleep(250);
+    }
 
-	public void reEvaluateGuardCondition() {
-		try {
-			monitor.enterWhen(conditionGuard);
-		} catch (InterruptedException ignored) {}
-	}
+    public void reEvaluateGuardCondition() {
+        try {
+            monitor.enterWhen(conditionGuard);
+        } catch (InterruptedException ignored) {
+        }
+    }
 
-	public int getStopTaskCount() {
-		return stopTaskCount;
-	}
+    public int getStopTaskCount() {
+        return stopTaskCount;
+    }
 
-	public void setStopTaskCount(int stopTaskCount) {
-		this.stopTaskCount = stopTaskCount;
-	}
+    public void setStopTaskCount(int stopTaskCount) {
+        this.stopTaskCount = stopTaskCount;
+    }
 
-	public void setCondition(boolean condition) {
-		this.condition = condition;
-	}
+    public void setCondition(boolean condition) {
+        this.condition = condition;
+    }
 
-	public int getTaskSkippedCounter() {
-		return taskSkippedCounter.get();
-	}
+    public int getTaskSkippedCounter() {
+        return taskSkippedCounter.get();
+    }
 
-	public int getTaskDoneCounter() {
-		return taskDoneCounter;
-	}
+    public int getTaskDoneCounter() {
+        return taskDoneCounter;
+    }
 }

@@ -24,126 +24,126 @@ import static org.junit.Assert.*;
 @Slf4j
 public class SpringTest extends AbstractTest {
 
-	private static final Object syncLock = new Object();
+    private static final Object syncLock = new Object();
 
-	private static Class[] compressorClasses =
-		new Class[]{BZip2Compressor.class,
-		            DeflateCompressor.class,
-		            GZipCompressor.class,
-		            XZCompressor.class};
+    private static Class[] compressorClasses =
+            new Class[]{BZip2Compressor.class,
+                    DeflateCompressor.class,
+                    GZipCompressor.class,
+                    XZCompressor.class};
 
-	@Override
-	protected void onBefore() {
-		if (Spring.isNotInitialized())
-			Spring.init(new GenericApplicationContext());
-	}
+    @Override
+    protected void onBefore() {
+        if (Spring.isNotInitialized())
+            Spring.init(new GenericApplicationContext());
+    }
 
-	@Override
-	protected void onAfter() {
-		Spring.reset();
-	}
+    @Override
+    protected void onAfter() {
+        Spring.reset();
+    }
 
-	@Test
-	public void localContainerOverrideGlobalOne() {
-		synchronized (syncLock) {
+    @Test
+    public void localContainerOverrideGlobalOne() {
+        synchronized (syncLock) {
 
-			Spring.reset();
-			GenericApplicationContext context = new GenericApplicationContext();
+            Spring.reset();
+            GenericApplicationContext context = new GenericApplicationContext();
 
-			Spring.init(context);
+            Spring.init(context);
 
-			assertSame(context, Spring.getContext());
+            assertSame(context, Spring.getContext());
 
-			GenericApplicationContext localContext = new GenericApplicationContext();
+            GenericApplicationContext localContext = new GenericApplicationContext();
 
-			try (AutoCloseableAction action = Spring.useLocalContext(localContext)) {
-				assertSame(localContext, Spring.getContext());
-			} catch (Exception ex) {
-				fail(ex.getMessage());
-			}
+            try (AutoCloseableAction action = Spring.useLocalContext(localContext)) {
+                assertSame(localContext, Spring.getContext());
+            } catch (Exception ex) {
+                fail(ex.getMessage());
+            }
 
-			assertSame(context, Spring.getContext());
-		}
-		Spring.reset();
-	}
+            assertSame(context, Spring.getContext());
+        }
+        Spring.reset();
+    }
 
-	@Test
-	public void getBeanIfNoRegisteredBean() {
+    @Test
+    public void getBeanIfNoRegisteredBean() {
 
-		try {
-			Integer bean = Spring.getBean(Integer.class);
-			assertNull(bean);
-		} catch (Exception e) {
-		}
+        try {
+            Integer bean = Spring.getBean(Integer.class);
+            assertNull(bean);
+        } catch (Exception e) {
+        }
 
-		Long longBean = Spring.tryGetBean(Long.class);
-		assertNull(longBean);
-	}
+        Long longBean = Spring.tryGetBean(Long.class);
+        assertNull(longBean);
+    }
 
-	@Test
-	public void getOrRegisterBean_NotRegisteredBean() {
+    @Test
+    public void getOrRegisterBean_NotRegisteredBean() {
 
-		ArrayList arrayList = getOrRegisterBean(ArrayList.class);
-		assertNotNull(arrayList);
-	}
+        ArrayList arrayList = getOrRegisterBean(ArrayList.class);
+        assertNotNull(arrayList);
+    }
 
-	@Test
-	public void getOrRegisterBean_NotRegisteredBean_WithScope() {
+    @Test
+    public void getOrRegisterBean_NotRegisteredBean_WithScope() {
 
-		Object compressor = getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
-		assertNotNull(compressor);
-		assertTrue(compressor instanceof GZipCompressor);
+        Object compressor = getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
+        assertNotNull(compressor);
+        assertTrue(compressor instanceof GZipCompressor);
 
-		Spring.removeBean(GZipCompressor.class);
+        Spring.removeBean(GZipCompressor.class);
 
-		compressor = Spring.tryGetBean(GZipCompressor.class);
-		assertNull(compressor);
+        compressor = Spring.tryGetBean(GZipCompressor.class);
+        assertNull(compressor);
 
-		ICompressor deflator = getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
-		assertNotNull(deflator);
-		assertTrue(deflator instanceof DeflateCompressor);
-	}
+        ICompressor deflator = getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+        assertNotNull(deflator);
+        assertTrue(deflator instanceof DeflateCompressor);
+    }
 
-	@Test
-	@SuppressWarnings("unchecked")
-	public void getAllTypes() {
+    @Test
+    @SuppressWarnings("unchecked")
+    public void getAllTypes() {
 
-		for (Class clazz : compressorClasses) {
-			ICompressor bean = (ICompressor) getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
-			assertNotNull(bean);
-		}
+        for (Class clazz : compressorClasses) {
+            ICompressor bean = (ICompressor) getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+            assertNotNull(bean);
+        }
 
-		Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class, true, true);
-		assertTrue(compressorMap.size() > 0);
-		assertEquals(compressorClasses.length, compressorMap.size());
+        Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class, true, true);
+        assertTrue(compressorMap.size() > 0);
+        assertEquals(compressorClasses.length, compressorMap.size());
 
-		ICompressor gzip = Spring.getBean(GZipCompressor.class);
-		assertNotNull(gzip);
-		assertTrue(gzip instanceof GZipCompressor);
-	}
+        ICompressor gzip = Spring.getBean(GZipCompressor.class);
+        assertNotNull(gzip);
+        assertTrue(gzip instanceof GZipCompressor);
+    }
 
-	@Test
-	@SuppressWarnings("unchecked")
-	public void getBeansByTypeTest() {
+    @Test
+    @SuppressWarnings("unchecked")
+    public void getBeansByTypeTest() {
 
-		for (Class clazz : compressorClasses) {
-			ICompressor bean = (ICompressor) getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
-			assertNotNull(bean);
-		}
+        for (Class clazz : compressorClasses) {
+            ICompressor bean = (ICompressor) getOrRegisterBean(clazz, BeanDefinition.SCOPE_PROTOTYPE);
+            assertNotNull(bean);
+        }
 
-		List<ICompressor> compressors = Spring.getBeansByType(ICompressor.class);
-		assertTrue(compressors.size() > 0);
-		for (ICompressor compressor : compressors)
-			assertNotNull(compressor);
-	}
+        List<ICompressor> compressors = Spring.getBeansByType(ICompressor.class);
+        assertTrue(compressors.size() > 0);
+        for (ICompressor compressor : compressors)
+            assertNotNull(compressor);
+    }
 
-	@Test
-	public void getAllTypesInMultiThread() {
-		TestTool.runTasks(5, new Runnable() {
-			@Override
-			public void run() {
-				getAllTypes();
-			}
-		});
-	}
+    @Test
+    public void getAllTypesInMultiThread() {
+        TestTool.runTasks(5, new Runnable() {
+            @Override
+            public void run() {
+                getAllTypes();
+            }
+        });
+    }
 }

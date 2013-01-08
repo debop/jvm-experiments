@@ -10,17 +10,17 @@ import lombok.Getter;
  */
 public class PurchaseEvent {
 
-	@Getter
-	protected long amount;
+    @Getter
+    protected long amount;
 
-	public PurchaseEvent(long amount) {
-		this.amount = amount;
-	}
+    public PurchaseEvent(long amount) {
+        this.amount = amount;
+    }
 
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("amount", amount)
-		              .toString();
-	}
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("amount", amount)
+                .toString();
+    }
 }

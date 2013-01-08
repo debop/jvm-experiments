@@ -7,5 +7,5 @@ package kr.kth.commons.base;
  */
 public interface Action2<T1, T2> {
 
-	public void perform(T1 arg1, T2 arg2);
+    public void perform(T1 arg1, T2 arg2);
 }

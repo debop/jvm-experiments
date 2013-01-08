@@ -9,5 +9,6 @@ import lombok.Getter;
  */
 public class NoSubscriberEvent {
 
-	@Getter String message = "I'm lost";
+    @Getter
+    String message = "I'm lost";
 }

@@ -24,49 +24,50 @@ import java.util.List;
  * Date: 12. 11. 19.
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/repository-config.xml" })
+@ContextConfiguration(locations = {"/repository-config.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 public class CustomerRepositoryTest {
 
-	@Configuration
-	static class ContextConfiguration {
+    @Configuration
+    static class ContextConfiguration {
 
-		@Bean
-		public CustomerRepository customerRepository() {
-			return new CustomerRepositoryImpl();
-		}
-	}
+        @Bean
+        public CustomerRepository customerRepository() {
+            return new CustomerRepositoryImpl();
+        }
+    }
 
-	@PersistenceContext
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	@Autowired
-	private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
-	//@Before
-	@Transactional
-	public void onSetupInTransaction() {
-		Customer c = new Customer();
-		c.setName("Test");
-		c.setCustomerSince(new Date());
-		em.persist(c);
-	}
+    //@Before
+    @Transactional
+    public void onSetupInTransaction() {
+        Customer c = new Customer();
+        c.setName("Test");
+        c.setCustomerSince(new Date());
+        em.persist(c);
+    }
 }
 
 interface CustomerRepository {
 
-	List<Customer> findAll();
+    List<Customer> findAll();
 }
 
 class CustomerRepositoryImpl implements CustomerRepository {
 
-	@Autowired SessionFactory sessionFactory;
+    @Autowired
+    SessionFactory sessionFactory;
 
-	@SuppressWarnings("unchecked")
-	public List<Customer> findAll() {
-		return (List<Customer>) sessionFactory.getCurrentSession().createQuery("from Join_Customer").list();
-	}
+    @SuppressWarnings("unchecked")
+    public List<Customer> findAll() {
+        return (List<Customer>) sessionFactory.getCurrentSession().createQuery("from Join_Customer").list();
+    }
 }
 
 @Getter
@@ -74,16 +75,16 @@ class CustomerRepositoryImpl implements CustomerRepository {
 @ToString
 class Customer extends EntityBase<Long> {
 
-	private static final long serialVersionUID = -2287305093400486879L;
+    private static final long serialVersionUID = -2287305093400486879L;
 
-	private String name;
-	private Date customerSince;
+    private String name;
+    private Date customerSince;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return Objects.hashCode(name, customerSince);
-	}
+        return Objects.hashCode(name, customerSince);
+    }
 }

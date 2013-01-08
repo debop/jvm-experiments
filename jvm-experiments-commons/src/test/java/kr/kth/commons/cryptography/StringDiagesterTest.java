@@ -18,23 +18,23 @@ import java.util.List;
 @Slf4j
 public class StringDiagesterTest {
 
-	private static final String MESSAGE = "kth1234!";
+    private static final String MESSAGE = "kth1234!";
 
-	@BeforeClass
-	public static void beforeClass() {
-		if (Spring.isNotInitialized())
-			Spring.initByAnnotatedClasses(EncryptorConfiguration.class);
-	}
+    @BeforeClass
+    public static void beforeClass() {
+        if (Spring.isNotInitialized())
+            Spring.initByAnnotatedClasses(EncryptorConfiguration.class);
+    }
 
-	@Test
-	public void stringDigesterTest() {
-		List<IStringDigester> diagesters = Spring.getBeansByType(IStringDigester.class);
+    @Test
+    public void stringDigesterTest() {
+        List<IStringDigester> diagesters = Spring.getBeansByType(IStringDigester.class);
 
-		for (IStringDigester digester : diagesters) {
-			if (log.isDebugEnabled())
-				log.debug("Digest message by [{}]", digester.getAlgorithm());
-			String digest = digester.digest(MESSAGE);
-			Assert.assertTrue(digester.matches(MESSAGE, digest));
-		}
-	}
+        for (IStringDigester digester : diagesters) {
+            if (log.isDebugEnabled())
+                log.debug("Digest message by [{}]", digester.getAlgorithm());
+            String digest = digester.digest(MESSAGE);
+            Assert.assertTrue(digester.matches(MESSAGE, digest));
+        }
+    }
 }

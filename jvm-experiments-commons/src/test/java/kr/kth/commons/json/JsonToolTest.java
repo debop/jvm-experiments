@@ -17,35 +17,35 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class JsonToolTest extends AbstractTest {
 
-	@Test
-	public void serializeToBytes() {
+    @Test
+    public void serializeToBytes() {
 
-		User user = User.getUser(999);
+        User user = User.getUser(999);
 
-		byte[] serializedBytes = JsonTool.serializeAsBytes(user);
-		User deserialized = JsonTool.deserializeFromBytes(serializedBytes, User.class);
+        byte[] serializedBytes = JsonTool.serializeAsBytes(user);
+        User deserialized = JsonTool.deserializeFromBytes(serializedBytes, User.class);
 
-		assertEquals(user, deserialized);
-		assertEquals(user.getHomeAddress(), deserialized.getHomeAddress());
-		assertEquals(user.getOfficeAddress(), deserialized.getOfficeAddress());
-		assertEquals(listToString(user.getFavoriteMovies()), listToString(deserialized.getFavoriteMovies()));
+        assertEquals(user, deserialized);
+        assertEquals(user.getHomeAddress(), deserialized.getHomeAddress());
+        assertEquals(user.getOfficeAddress(), deserialized.getOfficeAddress());
+        assertEquals(listToString(user.getFavoriteMovies()), listToString(deserialized.getFavoriteMovies()));
 
-		assertArrayEquals(user.getByteArray(), deserialized.getByteArray());
-	}
+        assertArrayEquals(user.getByteArray(), deserialized.getByteArray());
+    }
 
-	@Test
-	public void serializeToText() {
+    @Test
+    public void serializeToText() {
 
-		User user = User.getUser(999);
+        User user = User.getUser(999);
 
-		String serializedText = JsonTool.serializeAsText(user);
-		User deserialized = JsonTool.deserializeFromText(serializedText, User.class);
+        String serializedText = JsonTool.serializeAsText(user);
+        User deserialized = JsonTool.deserializeFromText(serializedText, User.class);
 
-		assertEquals(user, deserialized);
-		assertEquals(user.getHomeAddress(), deserialized.getHomeAddress());
-		assertEquals(user.getOfficeAddress(), deserialized.getOfficeAddress());
-		assertEquals(listToString(user.getFavoriteMovies()), listToString(deserialized.getFavoriteMovies()));
+        assertEquals(user, deserialized);
+        assertEquals(user.getHomeAddress(), deserialized.getHomeAddress());
+        assertEquals(user.getOfficeAddress(), deserialized.getOfficeAddress());
+        assertEquals(listToString(user.getFavoriteMovies()), listToString(deserialized.getFavoriteMovies()));
 
-		assertArrayEquals(user.getByteArray(), deserialized.getByteArray());
-	}
+        assertArrayEquals(user.getByteArray(), deserialized.getByteArray());
+    }
 }

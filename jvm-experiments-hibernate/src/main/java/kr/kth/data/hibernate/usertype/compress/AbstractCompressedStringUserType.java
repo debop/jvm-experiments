@@ -20,62 +20,62 @@ import java.sql.SQLException;
 @Slf4j
 public abstract class AbstractCompressedStringUserType extends AbstractCompressedUserType {
 
-	protected byte[] compress(String value) throws Exception {
-		if (StringTool.isEmpty(value))
-			return null;
+    protected byte[] compress(String value) throws Exception {
+        if (StringTool.isEmpty(value))
+            return null;
 
-		return getCompressor().compress(StringTool.getUtf8Bytes(value));
-	}
+        return getCompressor().compress(StringTool.getUtf8Bytes(value));
+    }
 
-	protected String decompress(byte[] value) throws Exception {
-		if (ArrayTool.isEmpty(value))
-			return StringTool.EMPTY_STR;
+    protected String decompress(byte[] value) throws Exception {
+        if (ArrayTool.isEmpty(value))
+            return StringTool.EMPTY_STR;
 
-		return StringTool.getUtf8String(getCompressor().decompress(value));
-	}
+        return StringTool.getUtf8String(getCompressor().decompress(value));
+    }
 
-	@Override
-	public Class returnedClass() {
-		return String.class;
-	}
+    @Override
+    public Class returnedClass() {
+        return String.class;
+    }
 
-	@Override
-	public Object nullSafeGet(ResultSet resultSet,
-	                          String[] strings,
-	                          SessionImplementor sessionImplementor,
-	                          Object o) throws
-	                                    HibernateException,
-	                                    SQLException {
-		try {
-			byte[] value = BinaryType.INSTANCE.nullSafeGet(resultSet, strings[0], sessionImplementor);
-			return decompress(value);
-		} catch (Exception ex) {
-			log.error("column=" + strings[0] + " 정보를 읽어 압축 복원하는데 실패했습니다.", ex);
-			throw new HibernateException("압축된 정보를 복원하는데 실패했습니다.", ex);
-		}
-	}
+    @Override
+    public Object nullSafeGet(ResultSet resultSet,
+                              String[] strings,
+                              SessionImplementor sessionImplementor,
+                              Object o) throws
+            HibernateException,
+            SQLException {
+        try {
+            byte[] value = BinaryType.INSTANCE.nullSafeGet(resultSet, strings[0], sessionImplementor);
+            return decompress(value);
+        } catch (Exception ex) {
+            log.error("column=" + strings[0] + " 정보를 읽어 압축 복원하는데 실패했습니다.", ex);
+            throw new HibernateException("압축된 정보를 복원하는데 실패했습니다.", ex);
+        }
+    }
 
-	@Override
-	public void nullSafeSet(PreparedStatement preparedStatement,
-	                        Object o,
-	                        int i,
-	                        SessionImplementor sessionImplementor) throws
-	                                                               HibernateException,
-	                                                               SQLException {
-		try {
-			byte[] value = compress((String) o);
-			BinaryType.INSTANCE.nullSafeSet(preparedStatement, value, i, sessionImplementor);
-		} catch (Exception ex) {
-			log
-				.error(
-					"Statement=" + preparedStatement + ", index=" + i + " 에 해당하는 값을 압축하는데 실패했습니다.",
-					ex);
-			throw new HibernateException("압축된 정보를 복원하는데 실패했습니다.", ex);
-		}
-	}
+    @Override
+    public void nullSafeSet(PreparedStatement preparedStatement,
+                            Object o,
+                            int i,
+                            SessionImplementor sessionImplementor) throws
+            HibernateException,
+            SQLException {
+        try {
+            byte[] value = compress((String) o);
+            BinaryType.INSTANCE.nullSafeSet(preparedStatement, value, i, sessionImplementor);
+        } catch (Exception ex) {
+            log
+                    .error(
+                            "Statement=" + preparedStatement + ", index=" + i + " 에 해당하는 값을 압축하는데 실패했습니다.",
+                            ex);
+            throw new HibernateException("압축된 정보를 복원하는데 실패했습니다.", ex);
+        }
+    }
 
-	@Override
-	public boolean isMutable() {
-		return StringType.INSTANCE.isMutable();
-	}
+    @Override
+    public boolean isMutable() {
+        return StringType.INSTANCE.isMutable();
+    }
 }

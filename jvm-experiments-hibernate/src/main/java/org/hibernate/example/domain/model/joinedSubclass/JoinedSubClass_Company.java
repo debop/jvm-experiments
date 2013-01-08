@@ -13,22 +13,24 @@ import lombok.Setter;
  */
 public class JoinedSubClass_Company extends EntityBase<Long> {
 
-	private static final long serialVersionUID = 8028783232908962980L;
+    private static final long serialVersionUID = 8028783232908962980L;
 
-	@Getter @Setter private String name;
+    @Getter
+    @Setter
+    private String name;
 
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return HashTool.compute(name);
-	}
+        return HashTool.compute(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name);
+    }
 }

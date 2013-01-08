@@ -10,5 +10,5 @@ import java.sql.SQLException;
  */
 public interface IConnectionMaker {
 
-	Connection makeConnection() throws ClassNotFoundException, SQLException;
+    Connection makeConnection() throws ClassNotFoundException, SQLException;
 }

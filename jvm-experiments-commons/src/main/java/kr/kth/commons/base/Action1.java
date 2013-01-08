@@ -7,6 +7,6 @@ package kr.kth.commons.base;
  */
 public interface Action1<T> {
 
-	void perform(T arg);
+    void perform(T arg);
 }
 

@@ -18,42 +18,42 @@ import java.util.List;
  */
 public class HourRangeCollection extends HourTimeRange {
 
-	private static final long serialVersionUID = -7443693337436110826L;
+    private static final long serialVersionUID = -7443693337436110826L;
 
-	public HourRangeCollection(DateTime moment, int hourCount) {
-		this(moment, hourCount, TimeCalendar.Default());
-	}
+    public HourRangeCollection(DateTime moment, int hourCount) {
+        this(moment, hourCount, TimeCalendar.Default());
+    }
 
-	public HourRangeCollection(DateTime moment, int hourCount, ITimeCalendar calendar) {
-		super(moment, hourCount, calendar);
-	}
+    public HourRangeCollection(DateTime moment, int hourCount, ITimeCalendar calendar) {
+        super(moment, hourCount, calendar);
+    }
 
-	public HourRangeCollection(int year, int month, int day, int hour, int hourCount) {
-		this(year, month, day, hour, hourCount, TimeCalendar.Default());
-	}
+    public HourRangeCollection(int year, int month, int day, int hour, int hourCount) {
+        this(year, month, day, hour, hourCount, TimeCalendar.Default());
+    }
 
-	public HourRangeCollection(int year, int month, int day, int hour, int hourCount, ITimeCalendar calendar) {
-		super(year, month, day, hour, hourCount, calendar);
-	}
+    public HourRangeCollection(int year, int month, int day, int hour, int hourCount, ITimeCalendar calendar) {
+        super(year, month, day, hour, hourCount, calendar);
+    }
 
-	public List<HourRange> getHours() {
-		DateTime startHour = TimeTool.trimToHour(getStart(), getStartHour());
-		List<HourRange> hourRanges = Lists.newArrayListWithCapacity(getHourCount());
+    public List<HourRange> getHours() {
+        DateTime startHour = TimeTool.trimToHour(getStart(), getStartHour());
+        List<HourRange> hourRanges = Lists.newArrayListWithCapacity(getHourCount());
 
-		for (int i = 0; i < getHourCount(); i++) {
-			hourRanges.add(new HourRange(startHour.plusHours(i), getTimeCalendar()));
-		}
+        for (int i = 0; i < getHourCount(); i++) {
+            hourRanges.add(new HourRange(startHour.plusHours(i), getTimeCalendar()));
+        }
 
-		return hourRanges;
-	}
+        return hourRanges;
+    }
 
-	@Override
-	protected String format(ITimeFormatter formatter) {
-		ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
-		return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
-		                             fmt.getShortDate(getEnd()),
-		                             fmt.getShortTime(getStart()),
-		                             fmt.getShortTime(getEnd()),
-		                             getDuration());
-	}
+    @Override
+    protected String format(ITimeFormatter formatter) {
+        ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
+        return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
+                fmt.getShortDate(getEnd()),
+                fmt.getShortTime(getStart()),
+                fmt.getShortTime(getEnd()),
+                getDuration());
+    }
 }

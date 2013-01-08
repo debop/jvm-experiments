@@ -11,59 +11,59 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Stopwatch {
 
-	private long startTime;
-	private long endTime;
-	@Getter
-	private long elapsedTime;
+    private long startTime;
+    private long endTime;
+    @Getter
+    private long elapsedTime;
 
-	private boolean runGC = false;
+    private boolean runGC = false;
 
-	public Stopwatch() {
-		this(false);
-	}
+    public Stopwatch() {
+        this(false);
+    }
 
-	public Stopwatch(boolean runGC) {
-		this.runGC = runGC;
-	}
+    public Stopwatch(boolean runGC) {
+        this.runGC = runGC;
+    }
 
-	private void cleanUp() {
-		System.gc();
-	}
+    private void cleanUp() {
+        System.gc();
+    }
 
-	public void reset() {
-		startTime = 0;
-		endTime = 0;
-		elapsedTime = 0;
-	}
+    public void reset() {
+        startTime = 0;
+        endTime = 0;
+        elapsedTime = 0;
+    }
 
-	public void start() {
-		if (startTime != 0)
-			reset();
+    public void start() {
+        if (startTime != 0)
+            reset();
 
-		if (this.runGC)
-			cleanUp();
+        if (this.runGC)
+            cleanUp();
 
-		startTime = System.nanoTime();
-	}
+        startTime = System.nanoTime();
+    }
 
-	public double end() throws IllegalStateException {
-		if (startTime == 0)
-			throw new IllegalStateException("call start() method at first.");
+    public double end() throws IllegalStateException {
+        if (startTime == 0)
+            throw new IllegalStateException("call start() method at first.");
 
-		endTime = System.nanoTime();
-		elapsedTime = endTime - startTime;
+        endTime = System.nanoTime();
+        elapsedTime = endTime - startTime;
 
-		if (log.isInfoEnabled())
-			log.info("Elapsed timePart = [{}] msecs", elapsedTime / 1000000.0);
+        if (log.isInfoEnabled())
+            log.info("Elapsed timePart = [{}] msecs", elapsedTime / 1000000.0);
 
-		if (this.runGC)
-			cleanUp();
+        if (this.runGC)
+            cleanUp();
 
-		return elapsedTime / 1000000.0;
-	}
+        return elapsedTime / 1000000.0;
+    }
 
-	@Override
-	public String toString() {
-		return "Elapsed timePart = " + elapsedTime / 1000000.0 + " msecs";
-	}
+    @Override
+    public String toString() {
+        return "Elapsed timePart = " + elapsedTime / 1000000.0 + " msecs";
+    }
 }

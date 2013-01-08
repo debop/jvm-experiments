@@ -10,5 +10,5 @@ import kr.kth.commons.timeperiod.ITimeRange;
  */
 public interface ICalendarTimeRange extends ITimeRange {
 
-	ITimeCalendar getTimeCalendar();
+    ITimeCalendar getTimeCalendar();
 }

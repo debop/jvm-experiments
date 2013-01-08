@@ -7,26 +7,26 @@ package kr.kth.data;
  */
 public enum DatabaseEngine {
 
-	H2("h2"),
+    H2("h2"),
 
-	HSqlDb("hsqldb"),
+    HSqlDb("hsqldb"),
 
-	HSqlDbByFile("hsqhdbbyfile"),
+    HSqlDbByFile("hsqhdbbyfile"),
 
-	MySql("mysql"),
+    MySql("mysql"),
 
-	PostgreSql("postgresql"),
+    PostgreSql("postgresql"),
 
-	Oracle("oracle");
+    Oracle("oracle");
 
-	private String engineName;
+    private String engineName;
 
-	DatabaseEngine(String engineName) {
-		this.engineName = engineName.toLowerCase();
-	}
+    DatabaseEngine(String engineName) {
+        this.engineName = engineName.toLowerCase();
+    }
 
-	@Override
-	public String toString() {
-		return engineName;
-	}
+    @Override
+    public String toString() {
+        return engineName;
+    }
 }

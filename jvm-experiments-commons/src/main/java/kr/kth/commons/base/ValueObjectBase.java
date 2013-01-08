@@ -9,30 +9,30 @@ import com.google.common.base.Objects;
  */
 public abstract class ValueObjectBase implements IValueObject {
 
-	//private static final long serialVersionUID = 5546630455380910528L;
+    //private static final long serialVersionUID = 5546630455380910528L;
 
-	@Override
-	public boolean equals(Object obj) {
-		return obj == this ||
-			       (obj != null &&
-				        getClass() == obj.getClass() &&
-				        hashCode() == obj.hashCode());
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return obj == this ||
+                (obj != null &&
+                        getClass() == obj.getClass() &&
+                        hashCode() == obj.hashCode());
+    }
 
-	@Override
-	public int hashCode() {
-		return System.identityHashCode(this);
-	}
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
 
-	@Override
-	public String toString() {
-		return this.buildStringHelper().toString();
-	}
+    @Override
+    public String toString() {
+        return this.buildStringHelper().toString();
+    }
 
-	/**
-	 * {@link ValueObjectBase#toString()}을 재정의하지 말고, buildStringHelper를 재정의 하세요.
-	 */
-	protected Objects.ToStringHelper buildStringHelper() {
-		return Objects.toStringHelper(this);
-	}
+    /**
+     * {@link ValueObjectBase#toString()}을 재정의하지 말고, buildStringHelper를 재정의 하세요.
+     */
+    protected Objects.ToStringHelper buildStringHelper() {
+        return Objects.toStringHelper(this);
+    }
 }

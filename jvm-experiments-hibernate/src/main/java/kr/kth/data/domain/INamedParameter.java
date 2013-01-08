@@ -9,27 +9,27 @@ import java.io.Serializable;
  */
 public interface INamedParameter extends Serializable {
 
-	/**
-	 * 인자 명
-	 */
-	String getName();
+    /**
+     * 인자 명
+     */
+    String getName();
 
-	/**
-	 * 인자 명을 설정합니다.
-	 *
-	 * @param name 설정할 인자 명
-	 */
-	void setName(String name);
+    /**
+     * 인자 명을 설정합니다.
+     *
+     * @param name 설정할 인자 명
+     */
+    void setName(String name);
 
-	/**
-	 * 인자 값
-	 */
-	Object getValue();
+    /**
+     * 인자 값
+     */
+    Object getValue();
 
-	/**
-	 * 인자 값을 설정합니다.
-	 *
-	 * @param value 설정할 인자 값
-	 */
-	void setValue(Object value);
+    /**
+     * 인자 값을 설정합니다.
+     *
+     * @param value 설정할 인자 값
+     */
+    void setValue(Object value);
 }

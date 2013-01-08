@@ -13,20 +13,20 @@ import java.util.Set;
  * Date: 12. 9. 19
  */
 public abstract class LocaleMetaTreeEntityBase<T extends IEntity<TId> & ITreeEntity<T>,
-	                                              TId extends Serializable,
-	                                              TLocaleValue extends ILocaleValue>
-	extends LocaleMetaEntityBase<TId, TLocaleValue> implements ITreeEntity<T> {
+        TId extends Serializable,
+        TLocaleValue extends ILocaleValue>
+        extends LocaleMetaEntityBase<TId, TLocaleValue> implements ITreeEntity<T> {
 
-	private static final long serialVersionUID = -4521048731750418059L;
+    private static final long serialVersionUID = -4521048731750418059L;
 
-	@Getter
-	@Setter
-	private T parent;
+    @Getter
+    @Setter
+    private T parent;
 
-	@Getter
-	private Set<T> children = Sets.newLinkedHashSet();
+    @Getter
+    private Set<T> children = Sets.newLinkedHashSet();
 
-	@Getter
-	@Setter
-	private TreeNodePosition nodePosition = new TreeNodePosition();
+    @Getter
+    @Setter
+    private TreeNodePosition nodePosition = new TreeNodePosition();
 }

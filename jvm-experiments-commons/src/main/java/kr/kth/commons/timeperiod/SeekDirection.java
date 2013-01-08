@@ -7,13 +7,13 @@ package kr.kth.commons.timeperiod;
  */
 public enum SeekDirection {
 
-	/**
-	 * 시간 값을 증가시키는 방향 (미래로)
-	 */
-	Forward,
+    /**
+     * 시간 값을 증가시키는 방향 (미래로)
+     */
+    Forward,
 
-	/**
-	 * 시간 값을 감소시키는 방향 (과거로)
-	 */
-	Backward
+    /**
+     * 시간 값을 감소시키는 방향 (과거로)
+     */
+    Backward
 }

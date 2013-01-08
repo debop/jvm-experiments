@@ -17,37 +17,37 @@ import java.util.zip.InflaterInputStream;
 @Slf4j
 public class DeflateCompressor extends CompressorBase {
 
-	@Override
-	public String getAlgorithm() {
-		return "Deflate";
-	}
+    @Override
+    public String getAlgorithm() {
+        return "Deflate";
+    }
 
-	@Override
-	protected byte[] doCompress(byte[] plain) throws IOException {
+    @Override
+    protected byte[] doCompress(byte[] plain) throws IOException {
 
-		@Cleanup ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		@Cleanup DeflaterOutputStream deflater = new DeflaterOutputStream(bos);
+        @Cleanup ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        @Cleanup DeflaterOutputStream deflater = new DeflaterOutputStream(bos);
 
-		deflater.write(plain);
-		deflater.close();
+        deflater.write(plain);
+        deflater.close();
 
-		return bos.toByteArray();
-	}
+        return bos.toByteArray();
+    }
 
-	@Override
-	protected byte[] doDecompress(byte[] compressed) throws IOException {
+    @Override
+    protected byte[] doDecompress(byte[] compressed) throws IOException {
 
-		@Cleanup ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		@Cleanup ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
-		@Cleanup InflaterInputStream inflater = new InflaterInputStream(bis);
+        @Cleanup ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        @Cleanup ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
+        @Cleanup InflaterInputStream inflater = new InflaterInputStream(bis);
 
-		byte[] buff = new byte[BUFFER_SIZE];
-		int n;
+        byte[] buff = new byte[BUFFER_SIZE];
+        int n;
 
-		while ((n = inflater.read(buff, 0, BUFFER_SIZE)) > 0) {
-			bos.write(buff, 0, n);
-		}
-		return bos.toByteArray();
+        while ((n = inflater.read(buff, 0, BUFFER_SIZE)) > 0) {
+            bos.write(buff, 0, n);
+        }
+        return bos.toByteArray();
 
-	}
+    }
 }

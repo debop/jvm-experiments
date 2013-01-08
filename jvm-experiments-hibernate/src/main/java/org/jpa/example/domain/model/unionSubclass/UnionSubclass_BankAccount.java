@@ -24,29 +24,29 @@ import javax.persistence.Table;
 @Setter
 public class UnionSubclass_BankAccount extends UnionSubclass_BillingDetails {
 
-	private static final long serialVersionUID = 6159765179966313199L;
+    private static final long serialVersionUID = 6159765179966313199L;
 
-	@Column(name = "BANK_ACCOUNT", nullable = false)
-	private String account;
+    @Column(name = "BANK_ACCOUNT", nullable = false)
+    private String account;
 
-	@Column(name = "BANK_NAME", nullable = false)
-	private String bankname;
+    @Column(name = "BANK_NAME", nullable = false)
+    private String bankname;
 
-	@Column(name = "BANK_SWIFT")
-	private String swift;
+    @Column(name = "BANK_SWIFT")
+    private String swift;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
-		return HashTool.compute(super.hashCode(), account, bankname);
-	}
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
+        return HashTool.compute(super.hashCode(), account, bankname);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("account", account)
-		            .add("bankname", bankname)
-		            .add("swift", swift);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("account", account)
+                .add("bankname", bankname)
+                .add("swift", swift);
+    }
 }

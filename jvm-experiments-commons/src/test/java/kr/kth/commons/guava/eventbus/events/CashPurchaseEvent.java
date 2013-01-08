@@ -12,19 +12,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CashPurchaseEvent extends PurchaseEvent {
 
-	@Getter
-	private String item;
+    @Getter
+    private String item;
 
-	public CashPurchaseEvent(long amount, String item) {
-		super(amount);
-		this.item = item;
-	}
+    public CashPurchaseEvent(long amount, String item) {
+        super(amount);
+        this.item = item;
+    }
 
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("amount", amount)
-		              .add("item", item)
-		              .toString();
-	}
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("amount", amount)
+                .add("item", item)
+                .toString();
+    }
 }

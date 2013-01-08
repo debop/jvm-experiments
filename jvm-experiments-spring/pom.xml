@@ -2,43 +2,43 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<artifactId>jvm-experiments-parent</artifactId>
-		<groupId>jvm-experiments</groupId>
-		<version>${kr.kth.version}</version>
-	</parent>
-	<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>jvm-experiments-parent</artifactId>
+        <groupId>jvm-experiments</groupId>
+        <version>${kr.kth.version}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>jvm-experiments-spring</artifactId>
-	<version>${kr.kth.version}</version>
+    <artifactId>jvm-experiments-spring</artifactId>
+    <version>${kr.kth.version}</version>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>jvm-experiments</groupId>
-			<artifactId>jvm-experiments-commons</artifactId>
-			<version>${kr.kth.version}</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>jvm-experiments</groupId>
+            <artifactId>jvm-experiments-commons</artifactId>
+            <version>${kr.kth.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>com.springsource.javax.activation</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>com.springsource.javax.mail</artifactId>
-			<version>1.4.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aopalliance</groupId>
-			<artifactId>com.springsource.org.aopalliance</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>com.springsource.javax.activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>com.springsource.javax.mail</artifactId>
+            <version>1.4.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aopalliance</groupId>
+            <artifactId>com.springsource.org.aopalliance</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 </project>

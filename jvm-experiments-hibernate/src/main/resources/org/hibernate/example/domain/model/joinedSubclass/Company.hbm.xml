@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.hibernate.example.domain.model.joinedSubclass" default-access="field">
 
-	<class name="org.hibernate.example.domain.model.joinedSubclass.JoinedSubClass_Company" table="JoinedSubclass_Company"
-	       dynamic-insert="true" dynamic-update="true">
+    <class name="org.hibernate.example.domain.model.joinedSubclass.JoinedSubClass_Company"
+           table="JoinedSubclass_Company"
+           dynamic-insert="true" dynamic-update="true">
 
-		<id name="id" column="CompanyId" type="long" unsaved-value="0">
-			<generator class="native"/>
-		</id>
+        <id name="id" column="CompanyId" type="long" unsaved-value="0">
+            <generator class="native"/>
+        </id>
 
-		<property name="name" column="CompanyName" not-null="true"/>
+        <property name="name" column="CompanyName" not-null="true"/>
 
-	</class>
+    </class>
 
 </hibernate-mapping>

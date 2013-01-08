@@ -16,15 +16,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class HelloAutowired {
 
-	public HelloAutowired() {
-		if (log.isDebugEnabled())
-			log.debug("HelloAutowiterd created...");
-	}
+    public HelloAutowired() {
+        if (log.isDebugEnabled())
+            log.debug("HelloAutowiterd created...");
+    }
 
-	@Autowired
-	@Qualifier("dummyPrinter")
-	@Getter
-	private Printer printer;
+    @Autowired
+    @Qualifier("dummyPrinter")
+    @Getter
+    private Printer printer;
 
 }
 
@@ -33,13 +33,13 @@ public class HelloAutowired {
 @Slf4j
 class DummyPrinter implements Printer {
 
-	public DummyPrinter() {
-		if (log.isDebugEnabled())
-			log.debug("DummyPrinter created...");
-	}
+    public DummyPrinter() {
+        if (log.isDebugEnabled())
+            log.debug("DummyPrinter created...");
+    }
 
-	@Override
-	public void print(String message) {
-		//
-	}
+    @Override
+    public void print(String message) {
+        //
+    }
 }

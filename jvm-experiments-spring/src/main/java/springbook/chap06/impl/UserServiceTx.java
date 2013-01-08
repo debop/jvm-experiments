@@ -18,34 +18,36 @@ import java.util.List;
 @Slf4j
 public class UserServiceTx implements UserService {
 
-	@Setter private UserService userService;
-	@Setter private PlatformTransactionManager transactionManager;
+    @Setter
+    private UserService userService;
+    @Setter
+    private PlatformTransactionManager transactionManager;
 
-	@Override
-	public void add(User user) {
-		userService.add(user);
-	}
+    @Override
+    public void add(User user) {
+        userService.add(user);
+    }
 
-	@Override
-	public void upgradeLevels() {
+    @Override
+    public void upgradeLevels() {
 
-		TransactionStatus txStatus =
-			transactionManager.getTransaction(new DefaultTransactionDefinition());
-		try {
+        TransactionStatus txStatus =
+                transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
 
-			userService.upgradeLevels();
+            userService.upgradeLevels();
 
-			this.transactionManager.commit(txStatus);
-		} catch (RuntimeException e) {
-			if (log.isErrorEnabled())
-				log.error("error in upgradeLevels... ", e);
-			this.transactionManager.rollback(txStatus);
-			throw e;
-		}
-	}
+            this.transactionManager.commit(txStatus);
+        } catch (RuntimeException e) {
+            if (log.isErrorEnabled())
+                log.error("error in upgradeLevels... ", e);
+            this.transactionManager.rollback(txStatus);
+            throw e;
+        }
+    }
 
-	@Override
-	public List<User> getAll() {
-		return userService.getAll();
-	}
+    @Override
+    public List<User> getAll() {
+        return userService.getAll();
+    }
 }

@@ -10,10 +10,10 @@ import kr.kth.commons.compress.XZCompressor;
  */
 public class XZStringUserType extends AbstractCompressedStringUserType {
 
-	private static final ICompressor compressor = new XZCompressor();
+    private static final ICompressor compressor = new XZCompressor();
 
-	@Override
-	public ICompressor getCompressor() {
-		return compressor;
-	}
+    @Override
+    public ICompressor getCompressor() {
+        return compressor;
+    }
 }

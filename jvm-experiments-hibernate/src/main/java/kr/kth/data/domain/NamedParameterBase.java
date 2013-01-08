@@ -16,27 +16,27 @@ import static kr.kth.commons.base.Guard.shouldNotBeEmpty;
 @Setter
 public abstract class NamedParameterBase extends ValueObjectBase implements INamedParameter {
 
-	private static final long serialVersionUID = -5298525421726000937L;
+    private static final long serialVersionUID = -5298525421726000937L;
 
-	private String name;
-	private Object value;
+    private String name;
+    private Object value;
 
-	protected NamedParameterBase(String name, Object value) {
-		shouldNotBeEmpty(name, "name");
+    protected NamedParameterBase(String name, Object value) {
+        shouldNotBeEmpty(name, "name");
 
-		this.name = name;
-		this.value = value;
-	}
+        this.name = name;
+        this.value = value;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(name);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name)
-		            .add("value", value);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name)
+                .add("value", value);
+    }
 }

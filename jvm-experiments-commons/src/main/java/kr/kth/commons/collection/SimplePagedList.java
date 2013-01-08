@@ -14,20 +14,20 @@ import static kr.kth.commons.base.Guard.*;
 @Getter
 public class SimplePagedList<E> implements IPagedList<E> {
 
-	private static final long serialVersionUID = -5027718652421583413L;
+    private static final long serialVersionUID = -5027718652421583413L;
 
-	private final List<E> list;
-	private final int pageNo;
-	private final int pageSize;
-	private final long itemCount;
-	private final long pageCount;
+    private final List<E> list;
+    private final int pageNo;
+    private final int pageSize;
+    private final long itemCount;
+    private final long pageCount;
 
-	public SimplePagedList(List<E> list, int pageNo, int pageSize, long itemCount) {
-		this.list = shouldNotBeNull(list, "list");
-		this.pageNo = shouldBePositiveNumber(pageNo, "pageNo");
-		this.pageSize = shouldBePositiveNumber(pageSize, "pageSize");
-		this.itemCount = shouldNotBeNegativeNumber(itemCount, "itemCount");
+    public SimplePagedList(List<E> list, int pageNo, int pageSize, long itemCount) {
+        this.list = shouldNotBeNull(list, "list");
+        this.pageNo = shouldBePositiveNumber(pageNo, "pageNo");
+        this.pageSize = shouldBePositiveNumber(pageSize, "pageSize");
+        this.itemCount = shouldNotBeNegativeNumber(itemCount, "itemCount");
 
-		this.pageCount = (long) (itemCount / pageSize) + ((itemCount % pageSize) > 0 ? 1 : 0);
-	}
+        this.pageCount = (long) (itemCount / pageSize) + ((itemCount % pageSize) > 0 ? 1 : 0);
+    }
 }

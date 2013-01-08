@@ -14,48 +14,48 @@ import java.util.concurrent.ForkJoinPool;
 @Slf4j
 public class FibonacciTest {
 
-	private static final int N = 32;
+    private static final int N = 32;
 
-	@Test
-	public void sillyWorkerTest() {
+    @Test
+    public void sillyWorkerTest() {
 
-		Stopwatch stopwatch = new Stopwatch();
-		stopwatch.start();
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.start();
 
-		FibonacciProblem bigProblem = new FibonacciProblem(N);
-		long result = bigProblem.solve();
+        FibonacciProblem bigProblem = new FibonacciProblem(N);
+        long result = bigProblem.solve();
 
-		stopwatch.stop();
+        stopwatch.stop();
 
-		if (FibonacciTest.log.isDebugEnabled()) {
-			FibonacciTest.log.debug("Computing Fibonacci number=[{}]", N);
-			FibonacciTest.log.debug("Computed Result=[{}]", result);
-			FibonacciTest.log.debug(stopwatch.toString());
-		}
-	}
+        if (FibonacciTest.log.isDebugEnabled()) {
+            FibonacciTest.log.debug("Computing Fibonacci number=[{}]", N);
+            FibonacciTest.log.debug("Computed Result=[{}]", result);
+            FibonacciTest.log.debug(stopwatch.toString());
+        }
+    }
 
-	@Test
-	public void forkJoinWorkerTest() {
-		int processors = Runtime.getRuntime().availableProcessors();
+    @Test
+    public void forkJoinWorkerTest() {
+        int processors = Runtime.getRuntime().availableProcessors();
 
-		if (FibonacciTest.log.isDebugEnabled())
-			FibonacciTest.log.debug("process count=[{}]", processors);
+        if (FibonacciTest.log.isDebugEnabled())
+            FibonacciTest.log.debug("process count=[{}]", processors);
 
-		Stopwatch stopwatch = new Stopwatch();
-		stopwatch.start();
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.start();
 
-		FibonacciProblem bigProblem = new FibonacciProblem(N);
-		FibonacciTask task = new FibonacciTask(bigProblem);
-		ForkJoinPool pool = new ForkJoinPool(processors);
+        FibonacciProblem bigProblem = new FibonacciProblem(N);
+        FibonacciTask task = new FibonacciTask(bigProblem);
+        ForkJoinPool pool = new ForkJoinPool(processors);
 
-		pool.invoke(task);
+        pool.invoke(task);
 
-		long result = task.getResult();
+        long result = task.getResult();
 
-		stopwatch.stop();
-		if (FibonacciTest.log.isDebugEnabled()) {
-			FibonacciTest.log.debug("Computed result=[{}]", result);
-			FibonacciTest.log.debug(stopwatch.toString());
-		}
-	}
+        stopwatch.stop();
+        if (FibonacciTest.log.isDebugEnabled()) {
+            FibonacciTest.log.debug("Computed result=[{}]", result);
+            FibonacciTest.log.debug(stopwatch.toString());
+        }
+    }
 }

@@ -22,14 +22,15 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "/springbook/chap06/applicationContext.xml")
 public class ProxyFactoryBeanByXmlTest {
 
-	@Autowired ApplicationContext context;
+    @Autowired
+    ApplicationContext context;
 
-	@Test
-	public void loadProxyFactoryBean() {
-		ProxyFactoryBean pfb = context.getBean("&proxyFactoryBean.userService", ProxyFactoryBean.class);
+    @Test
+    public void loadProxyFactoryBean() {
+        ProxyFactoryBean pfb = context.getBean("&proxyFactoryBean.userService", ProxyFactoryBean.class);
 
-		assertNotNull(pfb);
-		assertEquals(UserServiceImpl.class, pfb.getTargetClass());
-		assertTrue(pfb.getObject() instanceof UserService);
-	}
+        assertNotNull(pfb);
+        assertEquals(UserServiceImpl.class, pfb.getTargetClass());
+        assertTrue(pfb.getObject() instanceof UserService);
+    }
 }

@@ -15,29 +15,30 @@ import java.util.concurrent.CountDownLatch;
  */
 public class LongProcessSubscriber {
 
-	private CountDownLatch doneSignal;
+    private CountDownLatch doneSignal;
 
-	public LongProcessSubscriber(AsyncEventBus asyncEventBus, CountDownLatch doneSignal) {
-		asyncEventBus.register(this);
-		this.doneSignal = doneSignal;
-	}
+    public LongProcessSubscriber(AsyncEventBus asyncEventBus, CountDownLatch doneSignal) {
+        asyncEventBus.register(this);
+        this.doneSignal = doneSignal;
+    }
 
-	@Subscribe
-	@AllowConcurrentEvents
-	public void handleEventConcurrent(CreditPurchaseEvent event) {
-		pause(300L);
-		doneSignal.countDown();
-	}
+    @Subscribe
+    @AllowConcurrentEvents
+    public void handleEventConcurrent(CreditPurchaseEvent event) {
+        pause(300L);
+        doneSignal.countDown();
+    }
 
-	@Subscribe
-	public void handleEventConcurrent(CashPurchaseEvent event) {
-		pause(300L);
-		doneSignal.countDown();
-	}
+    @Subscribe
+    public void handleEventConcurrent(CashPurchaseEvent event) {
+        pause(300L);
+        doneSignal.countDown();
+    }
 
-	private void pause(long time) {
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException ignored) {}
-	}
+    private void pause(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException ignored) {
+        }
+    }
 }

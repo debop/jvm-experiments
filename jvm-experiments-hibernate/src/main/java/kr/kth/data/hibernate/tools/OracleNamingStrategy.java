@@ -12,25 +12,25 @@ import static org.hibernate.internal.util.StringHelper.unqualify;
  */
 public class OracleNamingStrategy extends ImprovedNamingStrategy {
 
-	private static final long serialVersionUID = -5499015346115407402L;
+    private static final long serialVersionUID = -5499015346115407402L;
 
-	public String classToTableName(String className) {
-		return toUpperCase(unqualify(className));
-	}
+    public String classToTableName(String className) {
+        return toUpperCase(unqualify(className));
+    }
 
-	public String propertyToColumnName(String propertyName) {
-		return toUpperCase(propertyName);
-	}
+    public String propertyToColumnName(String propertyName) {
+        return toUpperCase(propertyName);
+    }
 
-	public String tableName(String tableName) {
-		return toUpperCase(tableName);
-	}
+    public String tableName(String tableName) {
+        return toUpperCase(tableName);
+    }
 
-	public String columnName(String columnName) {
-		return toUpperCase(columnName);
-	}
+    public String columnName(String columnName) {
+        return toUpperCase(columnName);
+    }
 
-	public String propertyToTableName(String className, String propertyName) {
-		return classToTableName(className) + '_' + propertyToColumnName(propertyName);
-	}
+    public String propertyToTableName(String className, String propertyName) {
+        return classToTableName(className) + '_' + propertyToColumnName(propertyName);
+    }
 }

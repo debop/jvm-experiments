@@ -10,23 +10,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FibonacciProblem {
 
-	public int n;
+    public int n;
 
-	public FibonacciProblem(int n) {
-		this.n = n;
-	}
+    public FibonacciProblem(int n) {
+        this.n = n;
+    }
 
-	public long solve() {
-		return fibonacci(n);
-	}
+    public long solve() {
+        return fibonacci(n);
+    }
 
-	private long fibonacci(int n) {
-		if (log.isTraceEnabled())
-			log.trace("Fibonacci calculates... n=[{}]", n);
+    private long fibonacci(int n) {
+        if (log.isTraceEnabled())
+            log.trace("Fibonacci calculates... n=[{}]", n);
 
-		if (n <= 1)
-			return n;
-		else
-			return fibonacci(n - 1) + fibonacci(n - 2);
-	}
+        if (n <= 1)
+            return n;
+        else
+            return fibonacci(n - 1) + fibonacci(n - 2);
+    }
 }

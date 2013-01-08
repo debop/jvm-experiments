@@ -13,11 +13,11 @@ import java.util.List;
  */
 public interface IJdbcRepository {
 
-	void execute(String query, MapSqlParameterSource parameterSource);
+    void execute(String query, MapSqlParameterSource parameterSource);
 
-	<T> List<T> executeEntities(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType);
+    <T> List<T> executeEntities(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType);
 
-	<T> T executeScala(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType);
+    <T> T executeScala(String query, MapSqlParameterSource parameterSource, Class<? extends T> returnType);
 
-	<T> List<T> query(String sql, SqlParameterSource parameterSource, RowMapper<T> rowMapper);
+    <T> List<T> query(String sql, SqlParameterSource parameterSource, RowMapper<T> rowMapper);
 }

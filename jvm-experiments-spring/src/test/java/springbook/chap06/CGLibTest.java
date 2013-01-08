@@ -17,55 +17,55 @@ import static org.junit.Assert.assertThat;
  */
 public class CGLibTest {
 
-	@Test
-	public void basicProxyCreate() {
-		Enhancer enhancer = new Enhancer();
+    @Test
+    public void basicProxyCreate() {
+        Enhancer enhancer = new Enhancer();
 
-		enhancer.setSuperclass(HelloTarget.class);
-		enhancer.setCallback(new UppercaseInterceptor());
+        enhancer.setSuperclass(HelloTarget.class);
+        enhancer.setCallback(new UppercaseInterceptor());
 
-		// create proxy
-		Object proxy = enhancer.create();
+        // create proxy
+        Object proxy = enhancer.create();
 
-		Hello hello = (Hello) proxy;
+        Hello hello = (Hello) proxy;
 
-		assertThat(hello.sayHello("debop"), is("HELLO DEBOP"));
+        assertThat(hello.sayHello("debop"), is("HELLO DEBOP"));
 
-	}
+    }
 
-	static class UppercaseInterceptor implements MethodInterceptor {
+    static class UppercaseInterceptor implements MethodInterceptor {
 
-		@Override
-		public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-			String result = (String) methodProxy.invokeSuper(o, objects);
-			return result.toUpperCase();
-		}
-	}
+        @Override
+        public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+            String result = (String) methodProxy.invokeSuper(o, objects);
+            return result.toUpperCase();
+        }
+    }
 
-	static interface Hello {
+    static interface Hello {
 
-		String sayHello(String name);
+        String sayHello(String name);
 
-		String sayHi(String name);
+        String sayHi(String name);
 
-		String sayThankYou(String name);
-	}
+        String sayThankYou(String name);
+    }
 
-	static class HelloTarget implements Hello {
+    static class HelloTarget implements Hello {
 
-		@Override
-		public String sayHello(String name) {
-			return "Hello " + name;
-		}
+        @Override
+        public String sayHello(String name) {
+            return "Hello " + name;
+        }
 
-		@Override
-		public String sayHi(String name) {
-			return "Hi " + name;
-		}
+        @Override
+        public String sayHi(String name) {
+            return "Hi " + name;
+        }
 
-		@Override
-		public String sayThankYou(String name) {
-			return "Thank you " + name;
-		}
-	}
+        @Override
+        public String sayThankYou(String name) {
+            return "Thank you " + name;
+        }
+    }
 }

@@ -7,13 +7,13 @@ package kr.kth.commons.base;
  */
 public enum BinaryStringFormat {
 
-	/**
-	 * Base64 인코딩 방식으로 문자열로 표현
-	 */
-	Base64,
+    /**
+     * Base64 인코딩 방식으로 문자열로 표현
+     */
+    Base64,
 
-	/**
-	 * 16진수 방식으로 문자열로 표현
-	 */
-	HexDecimal
+    /**
+     * 16진수 방식으로 문자열로 표현
+     */
+    HexDecimal
 }

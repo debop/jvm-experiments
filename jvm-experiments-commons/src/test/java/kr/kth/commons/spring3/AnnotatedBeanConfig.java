@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AnnotatedBeanConfig {
 
-	@Bean
-	public ICompressor defaultCompressor() {
-		return new GZipCompressor();
-	}
+    @Bean
+    public ICompressor defaultCompressor() {
+        return new GZipCompressor();
+    }
 
-	@Bean
-	public ICompressor deflateCompressor() {
-		return new DeflateCompressor();
-	}
+    @Bean
+    public ICompressor deflateCompressor() {
+        return new DeflateCompressor();
+    }
 }

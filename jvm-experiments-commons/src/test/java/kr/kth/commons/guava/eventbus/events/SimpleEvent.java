@@ -9,9 +9,10 @@ import lombok.Getter;
  */
 public class SimpleEvent {
 
-	@Getter private String name;
+    @Getter
+    private String name;
 
-	public SimpleEvent(String name) {
-		this.name = name;
-	}
+    public SimpleEvent(String name) {
+        this.name = name;
+    }
 }

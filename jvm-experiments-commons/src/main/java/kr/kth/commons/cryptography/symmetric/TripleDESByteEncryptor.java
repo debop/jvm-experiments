@@ -7,8 +7,8 @@ package kr.kth.commons.cryptography.symmetric;
  */
 public class TripleDESByteEncryptor extends SymmetricByteEncryptorBase {
 
-	@Override
-	public String getAlgorithm() {
-		return "PBEwithSHA1andDESEDE";
-	}
+    @Override
+    public String getAlgorithm() {
+        return "PBEwithSHA1andDESEDE";
+    }
 }

@@ -25,97 +25,97 @@ import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
 @SuppressWarnings("unchecked")
 public class HashMapCacheRepository extends CacheRepositoryBase {
 
-	private final Cache cache;
+    private final Cache cache;
 
-	public HashMapCacheRepository(Cache<String, Object> cache) {
-		this.cache = shouldNotBeNull(cache, "cache");
-	}
+    public HashMapCacheRepository(Cache<String, Object> cache) {
+        this.cache = shouldNotBeNull(cache, "cache");
+    }
 
-	public HashMapCacheRepository(long validFor) {
-		if (validFor > 0)
-			setExpiry(validFor);
+    public HashMapCacheRepository(long validFor) {
+        if (validFor > 0)
+            setExpiry(validFor);
 
-		CacheBuilder builder = CacheBuilder.newBuilder();
+        CacheBuilder builder = CacheBuilder.newBuilder();
 
-		if (validFor > 0)
-			builder.expireAfterAccess(validFor, TimeUnit.MINUTES);
+        if (validFor > 0)
+            builder.expireAfterAccess(validFor, TimeUnit.MINUTES);
 
-		cache = builder.build();
-	}
+        cache = builder.build();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public ConcurrentMap getCache() {
-		return this.cache.asMap();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public ConcurrentMap getCache() {
+        return this.cache.asMap();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object get(final String key) {
-		shouldNotBeWhiteSpace(key, "key");
-		return cache.getIfPresent(key);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object get(final String key) {
+        shouldNotBeWhiteSpace(key, "key");
+        return cache.getIfPresent(key);
+    }
 
-	public Object get(final String key, Callable<?> valueLoader) throws ExecutionException {
-		shouldNotBeWhiteSpace(key, "key");
-		return cache.get(key, valueLoader);
-	}
+    public Object get(final String key, Callable<?> valueLoader) throws ExecutionException {
+        shouldNotBeWhiteSpace(key, "key");
+        return cache.get(key, valueLoader);
+    }
 
-	public ImmutableMap getAllPresent(Iterable<?> keys) {
-		return cache.getAllPresent(keys);
-	}
+    public ImmutableMap getAllPresent(Iterable<?> keys) {
+        return cache.getAllPresent(keys);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(final String key, final Object value, final long validFor) {
-		shouldNotBeWhiteSpace(key, "key");
-		cache.put(key, value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(final String key, final Object value, final long validFor) {
+        shouldNotBeWhiteSpace(key, "key");
+        cache.put(key, value);
+    }
 
-	public void setAll(Map m) {
-		cache.putAll(m);
-	}
+    public void setAll(Map m) {
+        cache.putAll(m);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void remove(final String key) {
-		shouldNotBeWhiteSpace(key, "key");
-		cache.invalidate(key);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(final String key) {
+        shouldNotBeWhiteSpace(key, "key");
+        cache.invalidate(key);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void removes(String... keys) {
-		cache.invalidateAll(Arrays.asList(keys));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removes(String... keys) {
+        cache.invalidateAll(Arrays.asList(keys));
+    }
 
-	public void removes(Iterable<?> keys) {
-		cache.invalidateAll(keys);
-	}
+    public void removes(Iterable<?> keys) {
+        cache.invalidateAll(keys);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean exists(final String key) {
-		shouldNotBeWhiteSpace(key, "key");
-		return cache.getIfPresent(key) != null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean exists(final String key) {
+        shouldNotBeWhiteSpace(key, "key");
+        return cache.getIfPresent(key) != null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void clear() {
-		cache.invalidateAll();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clear() {
+        cache.invalidateAll();
+    }
 }

@@ -14,15 +14,15 @@ import java.sql.SQLException;
 @Slf4j
 public class SimpleConnectionMaker implements IConnectionMaker {
 
-	public Connection makeConnection() throws ClassNotFoundException, SQLException {
+    public Connection makeConnection() throws ClassNotFoundException, SQLException {
 
-		if (log.isDebugEnabled())
-			log.debug("Driver=[{}], ConnectionUrl=[{}], UserName=[{}], Password=[{}]",
-			          Connections.DriverName_PostgreSQL, Connections.ConnetionUrl, Connections.UserName, Connections.Password);
+        if (log.isDebugEnabled())
+            log.debug("Driver=[{}], ConnectionUrl=[{}], UserName=[{}], Password=[{}]",
+                    Connections.DriverName_PostgreSQL, Connections.ConnetionUrl, Connections.UserName, Connections.Password);
 
-		Class.forName(Connections.DriverName_PostgreSQL);
-		return DriverManager.getConnection(Connections.ConnetionUrl,
-		                                   Connections.UserName,
-		                                   Connections.Password);
-	}
+        Class.forName(Connections.DriverName_PostgreSQL);
+        return DriverManager.getConnection(Connections.ConnetionUrl,
+                Connections.UserName,
+                Connections.Password);
+    }
 }

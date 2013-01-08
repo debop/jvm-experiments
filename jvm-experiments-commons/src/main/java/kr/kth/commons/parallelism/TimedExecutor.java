@@ -16,45 +16,47 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 public class TimedExecutor {
 
-	private final long timeout;
-	private final long checkMilliSeconds;
+    private final long timeout;
+    private final long checkMilliSeconds;
 
-	private TimedExecutor(long timeout) {
-		this(timeout, 1000);
-	}
+    private TimedExecutor(long timeout) {
+        this(timeout, 1000);
+    }
 
-	private TimedExecutor(long timeout, long checkMilliSeconds) {
-		if (log.isDebugEnabled())
-			log.debug("TimedExecutor 생성. timeout=[{}], checkMilliSeconds=[{}]", timeout, checkMilliSeconds);
+    private TimedExecutor(long timeout, long checkMilliSeconds) {
+        if (log.isDebugEnabled())
+            log.debug("TimedExecutor 생성. timeout=[{}], checkMilliSeconds=[{}]", timeout, checkMilliSeconds);
 
-		this.timeout = timeout;
-		this.checkMilliSeconds = checkMilliSeconds;
-	}
+        this.timeout = timeout;
+        this.checkMilliSeconds = checkMilliSeconds;
+    }
 
-	public void execute(Executable executable) throws TimeoutException {
-		Guard.shouldNotBeNull(executable, "executable");
+    public void execute(Executable executable) throws TimeoutException {
+        Guard.shouldNotBeNull(executable, "executable");
 
-		if (log.isDebugEnabled())
-			log.debug("제한된 시간[{}] (sec)에 Executable 인스턴스를 수행합니다.", TimeUnit.SECONDS.toSeconds(timeout));
+        if (log.isDebugEnabled())
+            log.debug("제한된 시간[{}] (sec)에 Executable 인스턴스를 수행합니다.", TimeUnit.SECONDS.toSeconds(timeout));
 
-		final ExecutableAdapter adapter = new ExecutableAdapter(executable);
-		final Thread separateThread = new Thread(adapter);
-		separateThread.start();
+        final ExecutableAdapter adapter = new ExecutableAdapter(executable);
+        final Thread separateThread = new Thread(adapter);
+        separateThread.start();
 
-		long runningTime = 0L;
-		do {
-			if (runningTime > timeout) {
-				try {
-					executable.timedOut();
-				} catch (Exception ignored) {}
-				throw new TimeoutException();
-			}
-			try {
-				Thread.sleep(checkMilliSeconds);
-				runningTime += checkMilliSeconds;
-			} catch (InterruptedException ignored) {}
-		} while (!adapter.isDone());
+        long runningTime = 0L;
+        do {
+            if (runningTime > timeout) {
+                try {
+                    executable.timedOut();
+                } catch (Exception ignored) {
+                }
+                throw new TimeoutException();
+            }
+            try {
+                Thread.sleep(checkMilliSeconds);
+                runningTime += checkMilliSeconds;
+            } catch (InterruptedException ignored) {
+            }
+        } while (!adapter.isDone());
 
-		adapter.reThrowAnyErrrors();
-	}
+        adapter.reThrowAnyErrrors();
+    }
 }

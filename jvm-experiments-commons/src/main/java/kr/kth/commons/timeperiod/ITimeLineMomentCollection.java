@@ -12,23 +12,23 @@ import java.io.Serializable;
  */
 public interface ITimeLineMomentCollection extends Iterable<ITimeLineMoment>, Serializable {
 
-	int size();
+    int size();
 
-	boolean isEmpty();
+    boolean isEmpty();
 
-	ITimeLineMoment getMin();
+    ITimeLineMoment getMin();
 
-	ITimeLineMoment getMax();
+    ITimeLineMoment getMax();
 
-	ITimeLineMoment get(int index);
+    ITimeLineMoment get(int index);
 
-	void add(ITimePeriod period);
+    void add(ITimePeriod period);
 
-	void addAll(Iterable<? extends ITimePeriod> periods);
+    void addAll(Iterable<? extends ITimePeriod> periods);
 
-	void remove(ITimePeriod period);
+    void remove(ITimePeriod period);
 
-	ITimeLineMoment find(DateTime moment);
+    ITimeLineMoment find(DateTime moment);
 
-	boolean contains(DateTime moment);
+    boolean contains(DateTime moment);
 }

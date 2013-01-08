@@ -25,42 +25,43 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(locations = "/springbook/chap02/junit.xml")
 public class JUnitTestWithApplicationContext {
 
-	@Autowired ApplicationContext context;
+    @Autowired
+    ApplicationContext context;
 
-	private Set<JUnitTestWithApplicationContext> testObjects;
-	private ApplicationContext contextObject;
+    private Set<JUnitTestWithApplicationContext> testObjects;
+    private ApplicationContext contextObject;
 
 
-	@Before
-	public void before() {
-		testObjects = Sets.newHashSet();
-		contextObject = null;
-	}
+    @Before
+    public void before() {
+        testObjects = Sets.newHashSet();
+        contextObject = null;
+    }
 
-	@Test
-	public void test1() {
-		assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
-		testObjects.add(this);
+    @Test
+    public void test1() {
+        assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
+        testObjects.add(this);
 
-		assertThat(contextObject == null || contextObject == this.context, is(true));
-		contextObject = this.context;
-	}
+        assertThat(contextObject == null || contextObject == this.context, is(true));
+        contextObject = this.context;
+    }
 
-	@Test
-	public void test2() {
-		assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
-		testObjects.add(this);
+    @Test
+    public void test2() {
+        assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
+        testObjects.add(this);
 
-		assertThat(contextObject == null || contextObject == this.context, is(true));
-		contextObject = this.context;
-	}
+        assertThat(contextObject == null || contextObject == this.context, is(true));
+        contextObject = this.context;
+    }
 
-	@Test
-	public void test3() {
-		assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
-		testObjects.add(this);
+    @Test
+    public void test3() {
+        assertThat(testObjects, not(JUnitMatchers.hasItems(this)));
+        testObjects.add(this);
 
-		assertThat(contextObject == null || contextObject == this.context, is(true));
-		contextObject = this.context;
-	}
+        assertThat(contextObject == null || contextObject == this.context, is(true));
+        contextObject = this.context;
+    }
 }

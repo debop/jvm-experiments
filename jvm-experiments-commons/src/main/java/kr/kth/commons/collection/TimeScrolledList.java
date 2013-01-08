@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class TimeScrolledList<E> extends ScrolledListBase<E, Date> {
 
-	private static final long serialVersionUID = 8043558335662744201L;
+    private static final long serialVersionUID = 8043558335662744201L;
 
-	public TimeScrolledList(List<E> list, Date lowerBound, Date upperBound) {
-		super(list, lowerBound, upperBound);
-	}
+    public TimeScrolledList(List<E> list, Date lowerBound, Date upperBound) {
+        super(list, lowerBound, upperBound);
+    }
 }

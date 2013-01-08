@@ -20,84 +20,84 @@ import java.util.List;
 @Setter
 public class User extends ValueObjectBase {
 
-	private static final long serialVersionUID = 4195391816802258792L;
+    private static final long serialVersionUID = 4195391816802258792L;
 
-	private String firstName;
-	private String lastName;
-	private String addressStr;
-	private String city;
-	private String state;
-	private String zipcode;
-	private String email;
-	private String username;
-	private String password;
+    private String firstName;
+    private String lastName;
+    private String addressStr;
+    private String city;
+    private String state;
+    private String zipcode;
+    private String email;
+    private String username;
+    private String password;
 
-	private Double age;
-	private Date updateTime;
+    private Double age;
+    private Date updateTime;
 
-	private byte[] byteArray = ArrayTool.getRandomBytes(1024);
+    private byte[] byteArray = ArrayTool.getRandomBytes(1024);
 
-	private String Description;
+    private String Description;
 
-	private Address homeAddress = new Address();
-	private Address officeAddress = new Address();
+    private Address homeAddress = new Address();
+    private Address officeAddress = new Address();
 
-	List<String> favoriteMovies = Lists.newArrayList();
+    List<String> favoriteMovies = Lists.newArrayList();
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(username, password, firstName, lastName, city, state, age);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(username, password, firstName, lastName, city, state, age);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("firstName", firstName)
-		            .add("lastName", lastName)
-		            .add("username", username)
-		            .add("password", password);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("firstName", firstName)
+                .add("lastName", lastName)
+                .add("username", username)
+                .add("password", password);
+    }
 
-	@Getter
-	@Setter
-	public static class Address extends ValueObjectBase {
+    @Getter
+    @Setter
+    public static class Address extends ValueObjectBase {
 
-		private static final long serialVersionUID = 5004748205792679032L;
+        private static final long serialVersionUID = 5004748205792679032L;
 
-		private String street;
-		private String phone;
+        private String street;
+        private String phone;
 
-		private List<String> properties = Lists.newArrayList();
+        private List<String> properties = Lists.newArrayList();
 
-		@Override
-		public int hashCode() {
-			return HashTool.compute(street, phone);
-		}
-	}
+        @Override
+        public int hashCode() {
+            return HashTool.compute(street, phone);
+        }
+    }
 
-	public static User getUser(int favoriteMovieSize) {
+    public static User getUser(int favoriteMovieSize) {
 
-		User user = new User();
-		user.setFirstName("성혁");
-		user.setLastName("배");
-		user.setAddressStr("정릉1동 현대홈타운 107동 301호");
-		user.setCity("서울");
-		user.setState("서울");
-		user.setEmail("sunghyouk.bae@gmail.com");
-		user.setUsername("debop");
-		user.setPassword("debop");
+        User user = new User();
+        user.setFirstName("성혁");
+        user.setLastName("배");
+        user.setAddressStr("정릉1동 현대홈타운 107동 301호");
+        user.setCity("서울");
+        user.setState("서울");
+        user.setEmail("sunghyouk.bae@gmail.com");
+        user.setUsername("debop");
+        user.setPassword("debop");
 
-		user.getHomeAddress().setPhone("999-9999");
-		user.getHomeAddress().setStreet("정릉1동 현대홈타운 107동 301호");
-		user.getHomeAddress().getProperties().addAll(Lists.newArrayList("home", "addr"));
+        user.getHomeAddress().setPhone("999-9999");
+        user.getHomeAddress().setStreet("정릉1동 현대홈타운 107동 301호");
+        user.getHomeAddress().getProperties().addAll(Lists.newArrayList("home", "addr"));
 
-		user.getOfficeAddress().setPhone("555-5555");
-		user.getOfficeAddress().setStreet("동작동 삼성옴니타워 4층");
-		user.getOfficeAddress().getProperties().addAll(Lists.newArrayList("office", "addr"));
+        user.getOfficeAddress().setPhone("555-5555");
+        user.getOfficeAddress().setStreet("동작동 삼성옴니타워 4층");
+        user.getOfficeAddress().getProperties().addAll(Lists.newArrayList("office", "addr"));
 
-		for (int i = 0; i < favoriteMovieSize; i++)
-			user.getFavoriteMovies().add("Favorite Movie Number-" + i);
+        for (int i = 0; i < favoriteMovieSize; i++)
+            user.getFavoriteMovies().add("Favorite Movie Number-" + i);
 
-		return user;
-	}
+        return user;
+    }
 }

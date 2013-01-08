@@ -20,42 +20,43 @@ import java.util.Date;
 @Setter
 public class Join_Customer extends EntityBase<Long> implements IUpdateTimestampedEntity {
 
-	private static final long serialVersionUID = 9221823986414874215L;
+    private static final long serialVersionUID = 9221823986414874215L;
 
-	protected Join_Customer() {}
+    protected Join_Customer() {
+    }
 
-	public Join_Customer(String name, String email) {
-		this.name = name;
-		this.email = email;
-	}
+    public Join_Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 
-	private String name;
-	private String email;
-	private Date created;
+    private String name;
+    private String email;
+    private Date created;
 
-	private Address address = new Address();
+    private Address address = new Address();
 
-	@Setter(value = AccessLevel.PRIVATE)
-	private Timestamp updateTimestamp;
+    @Setter(value = AccessLevel.PRIVATE)
+    private Timestamp updateTimestamp;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return Objects.hashCode(name, email);
-	}
+        return Objects.hashCode(name, email);
+    }
 
-	@Override
-	public Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name)
-		            .add("email", email)
-		            .add("created", created);
-	}
+    @Override
+    public Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name)
+                .add("email", email)
+                .add("created", created);
+    }
 
-	@Override
-	public void updateUpdateTimestamp() {
-		this.updateTimestamp = TimeTool.getNowTimestamp();
-	}
+    @Override
+    public void updateUpdateTimestamp() {
+        this.updateTimestamp = TimeTool.getNowTimestamp();
+    }
 }

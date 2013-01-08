@@ -22,76 +22,76 @@ import java.util.List;
 @Slf4j
 public class SerializerTest {
 
-	static List<ICompressor> compressors;
-	static List<ISerializer> serializers;
-	static List<ISymmetricByteEncryptor> encryptors;
+    static List<ICompressor> compressors;
+    static List<ISerializer> serializers;
+    static List<ISymmetricByteEncryptor> encryptors;
 
-	@BeforeClass
-	public static void beforeClass() {
-		if (Spring.isNotInitialized())
-			Spring.initByAnnotatedClasses(CompressorConfiguration.class,
-			                              EncryptorConfiguration.class,
-			                              SerializerConfiguration.class);
+    @BeforeClass
+    public static void beforeClass() {
+        if (Spring.isNotInitialized())
+            Spring.initByAnnotatedClasses(CompressorConfiguration.class,
+                    EncryptorConfiguration.class,
+                    SerializerConfiguration.class);
 
-		compressors = Spring.getBeansByType(ICompressor.class);
-		serializers = Spring.getBeansByType(ISerializer.class);
-		encryptors = Spring.getBeansByType(ISymmetricByteEncryptor.class);
-	}
+        compressors = Spring.getBeansByType(ICompressor.class);
+        serializers = Spring.getBeansByType(ISerializer.class);
+        encryptors = Spring.getBeansByType(ISymmetricByteEncryptor.class);
+    }
 
-	private static final Company company;
+    private static final Company company;
 
-	static {
-		company = new Company();
-		company.setCode("KTH");
-		company.setName("KT Hitel");
-		company.setAmount(10000L);
-		company.setDescription("한국통신 하이텔");
+    static {
+        company = new Company();
+        company.setCode("KTH");
+        company.setName("KT Hitel");
+        company.setAmount(10000L);
+        company.setDescription("한국통신 하이텔");
 
-		for (int i = 0; i < 100; i++) {
-			User user = new User();
-			user.setName("USER_" + i);
-			user.setEmployeeNumber("EMPNO_" + i);
-			user.setAddress("ADDR_" + i);
-			company.getUsers().add(user);
-		}
-	}
+        for (int i = 0; i < 100; i++) {
+            User user = new User();
+            user.setName("USER_" + i);
+            user.setEmployeeNumber("EMPNO_" + i);
+            user.setAddress("ADDR_" + i);
+            company.getUsers().add(user);
+        }
+    }
 
 
-	@Test
-	public void compressableSerializeTest() {
-		for (ICompressor compressor : compressors) {
-			for (ISerializer serializer : serializers) {
-				ISerializer cs = new CompressableSerializer(serializer, compressor);
+    @Test
+    public void compressableSerializeTest() {
+        for (ICompressor compressor : compressors) {
+            for (ISerializer serializer : serializers) {
+                ISerializer cs = new CompressableSerializer(serializer, compressor);
 
-				if (log.isDebugEnabled())
-					log.debug("compressor=[{}], serializer=[{}]", compressor.getClass(), serializer.getClass());
+                if (log.isDebugEnabled())
+                    log.debug("compressor=[{}], serializer=[{}]", compressor.getClass(), serializer.getClass());
 
-				byte[] bytes = cs.serialize(company);
-				Company deserialized = cs.deserialize(bytes, Company.class);
+                byte[] bytes = cs.serialize(company);
+                Company deserialized = cs.deserialize(bytes, Company.class);
 
-				Assert.assertNotNull(deserialized);
-				Assert.assertEquals(deserialized.getCode(), company.getCode());
-				Assert.assertEquals(deserialized.getUsers().size(), company.getUsers().size());
-			}
-		}
-	}
+                Assert.assertNotNull(deserialized);
+                Assert.assertEquals(deserialized.getCode(), company.getCode());
+                Assert.assertEquals(deserialized.getUsers().size(), company.getUsers().size());
+            }
+        }
+    }
 
-	@Test
-	public void encryptableSerializeTest() {
-		for (ISymmetricByteEncryptor encryptor : encryptors) {
-			for (ISerializer serializer : serializers) {
-				ISerializer cs = new EncryptableSerializer(serializer, encryptor);
+    @Test
+    public void encryptableSerializeTest() {
+        for (ISymmetricByteEncryptor encryptor : encryptors) {
+            for (ISerializer serializer : serializers) {
+                ISerializer cs = new EncryptableSerializer(serializer, encryptor);
 
-				if (log.isDebugEnabled())
-					log.debug("encryptor=[{}], serializer=[{}]", encryptor.getClass(), serializer.getClass());
+                if (log.isDebugEnabled())
+                    log.debug("encryptor=[{}], serializer=[{}]", encryptor.getClass(), serializer.getClass());
 
-				byte[] bytes = cs.serialize(company);
-				Company deserialized = cs.deserialize(bytes, Company.class);
+                byte[] bytes = cs.serialize(company);
+                Company deserialized = cs.deserialize(bytes, Company.class);
 
-				Assert.assertNotNull(deserialized);
-				Assert.assertEquals(deserialized.getCode(), company.getCode());
-				Assert.assertEquals(deserialized.getUsers().size(), company.getUsers().size());
-			}
-		}
-	}
+                Assert.assertNotNull(deserialized);
+                Assert.assertEquals(deserialized.getCode(), company.getCode());
+                Assert.assertEquals(deserialized.getUsers().size(), company.getUsers().size());
+            }
+        }
+    }
 }

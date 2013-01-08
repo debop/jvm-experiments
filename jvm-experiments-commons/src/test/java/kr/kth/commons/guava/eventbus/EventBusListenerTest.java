@@ -19,97 +19,97 @@ import static org.junit.Assert.*;
 @Slf4j
 public class EventBusListenerTest {
 
-	@Test
-	public void shouldReceiveEvent() throws Exception {
-		EventBus eventBus = new EventBus("test");
-		EventListener listener = new EventListener();
+    @Test
+    public void shouldReceiveEvent() throws Exception {
+        EventBus eventBus = new EventBus("test");
+        EventListener listener = new EventListener();
 
-		// register listener / subscriber
-		eventBus.register(listener);
+        // register listener / subscriber
+        eventBus.register(listener);
 
-		// publish event
-		eventBus.post(new OurTestEvent(200));
+        // publish event
+        eventBus.post(new OurTestEvent(200));
 
-		assertThat(listener.getLastMessage(), is(200));
-	}
+        assertThat(listener.getLastMessage(), is(200));
+    }
 
-	@Test
-	public void shouldReceiveMultipleEvents() throws Exception {
-		EventBus eventBus = new EventBus("multiple");
-		MultipleListener listener = new MultipleListener();
+    @Test
+    public void shouldReceiveMultipleEvents() throws Exception {
+        EventBus eventBus = new EventBus("multiple");
+        MultipleListener listener = new MultipleListener();
 
-		eventBus.register(listener);
-		eventBus.post(100);
-		eventBus.post(800L);
+        eventBus.register(listener);
+        eventBus.post(100);
+        eventBus.post(800L);
 
-		assertEquals(100, listener.getLastInteger().intValue());
-		assertEquals(800L, listener.getLastLong().longValue());
-	}
+        assertEquals(100, listener.getLastInteger().intValue());
+        assertEquals(800L, listener.getLastLong().longValue());
+    }
 
-	@Test
-	public void shouldDetectEventWithoutListeners() throws Exception {
-		EventBus eventBus = new EventBus("dead");
+    @Test
+    public void shouldDetectEventWithoutListeners() throws Exception {
+        EventBus eventBus = new EventBus("dead");
 
-		DeadEventListner deadEventListner = new DeadEventListner();
-		eventBus.register(deadEventListner);
+        DeadEventListner deadEventListner = new DeadEventListner();
+        eventBus.register(deadEventListner);
 
-		eventBus.post(new OurTestEvent(200));
+        eventBus.post(new OurTestEvent(200));
 
-		assertTrue(deadEventListner.isNotDelivered());
-	}
-
-
-	class EventListener {
-
-		@Getter
-		private int lastMessage = 0;
-
-		@Subscribe
-		public void listen(OurTestEvent event) {
-			lastMessage = event.getMessage();
-		}
-	}
-
-	class OurTestEvent {
-
-		@Getter
-		private final int message;
-
-		public OurTestEvent(int message) {
-			this.message = message;
-		}
-	}
+        assertTrue(deadEventListner.isNotDelivered());
+    }
 
 
-	class MultipleListener {
+    class EventListener {
 
-		@Getter
-		private Integer lastInteger;
-		@Getter
-		private Long lastLong;
+        @Getter
+        private int lastMessage = 0;
 
-		@Subscribe
-		public void listenInteger(Integer event) {
-			lastInteger = event;
-		}
+        @Subscribe
+        public void listen(OurTestEvent event) {
+            lastMessage = event.getMessage();
+        }
+    }
 
-		@Subscribe
-		public void listenLong(Long event) {
-			lastLong = event;
-		}
-	}
+    class OurTestEvent {
 
-	class DeadEventListner {
+        @Getter
+        private final int message;
 
-		@Getter
-		boolean notDelivered = false;
+        public OurTestEvent(int message) {
+            this.message = message;
+        }
+    }
 
-		// DeadEvent 는 모든 Event 발행 시 Subscriber가 받을 수 있다. Publish 한 내용보다, Publish 했다는 사실이 중요할 때 사용한다.
-		@Subscribe
-		public void listen(DeadEvent event) {
-			notDelivered = true;
-		}
-	}
+
+    class MultipleListener {
+
+        @Getter
+        private Integer lastInteger;
+        @Getter
+        private Long lastLong;
+
+        @Subscribe
+        public void listenInteger(Integer event) {
+            lastInteger = event;
+        }
+
+        @Subscribe
+        public void listenLong(Long event) {
+            lastLong = event;
+        }
+    }
+
+    class DeadEventListner {
+
+        @Getter
+        boolean notDelivered = false;
+
+        // DeadEvent 는 모든 Event 발행 시 Subscriber가 받을 수 있다. Publish 한 내용보다, Publish 했다는 사실이 중요할 때 사용한다.
+        @Subscribe
+        public void listen(DeadEvent event) {
+            notDelivered = true;
+        }
+    }
 }
 
 

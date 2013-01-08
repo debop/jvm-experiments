@@ -10,10 +10,10 @@ import kr.kth.commons.cryptography.symmetric.ISymmetricByteEncryptor;
  */
 public class DESEncryptorUserType extends AbstractSymmetricEncryptStringUserType {
 
-	private static final ISymmetricByteEncryptor encryptor = new DESByteEncryptor();
+    private static final ISymmetricByteEncryptor encryptor = new DESByteEncryptor();
 
-	@Override
-	public ISymmetricByteEncryptor getEncryptor() {
-		return encryptor;
-	}
+    @Override
+    public ISymmetricByteEncryptor getEncryptor() {
+        return encryptor;
+    }
 }

@@ -9,18 +9,18 @@ import org.joda.time.DateTime;
  */
 public interface IClock {
 
-	/**
-	 * 현재 시각
-	 */
-	DateTime now();
+    /**
+     * 현재 시각
+     */
+    DateTime now();
 
-	/**
-	 * 오늘 (현재 시각의 날짜부분만)
-	 */
-	DateTime today();
+    /**
+     * 오늘 (현재 시각의 날짜부분만)
+     */
+    DateTime today();
 
-	/**
-	 * 현재 시각의 시간 부분만
-	 */
-	long timeOfDay();
+    /**
+     * 현재 시각의 시간 부분만
+     */
+    long timeOfDay();
 }

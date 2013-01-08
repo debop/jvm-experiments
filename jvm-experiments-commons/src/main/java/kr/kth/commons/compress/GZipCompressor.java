@@ -17,39 +17,39 @@ import java.util.zip.GZIPOutputStream;
 @Slf4j
 public class GZipCompressor extends CompressorBase {
 
-	@Override
-	public String getAlgorithm() {
-		return "GZip";
-	}
+    @Override
+    public String getAlgorithm() {
+        return "GZip";
+    }
 
-	@Override
-	protected byte[] doCompress(byte[] plain) throws IOException {
+    @Override
+    protected byte[] doCompress(byte[] plain) throws IOException {
 
-		@Cleanup ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		@Cleanup GZIPOutputStream gzip = new GZIPOutputStream(bos);
+        @Cleanup ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        @Cleanup GZIPOutputStream gzip = new GZIPOutputStream(bos);
 
-		gzip.write(plain);
-		gzip.close();
+        gzip.write(plain);
+        gzip.close();
 
-		return bos.toByteArray();
+        return bos.toByteArray();
 
-	}
+    }
 
-	@Override
-	protected byte[] doDecompress(byte[] compressed) throws IOException {
+    @Override
+    protected byte[] doDecompress(byte[] compressed) throws IOException {
 
-		@Cleanup
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		@Cleanup
-		ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
-		@Cleanup
-		GZIPInputStream gzip = new GZIPInputStream(bis);
+        @Cleanup
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        @Cleanup
+        ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
+        @Cleanup
+        GZIPInputStream gzip = new GZIPInputStream(bis);
 
-		byte[] buff = new byte[BUFFER_SIZE];
-		int n;
-		while ((n = gzip.read(buff, 0, BUFFER_SIZE)) > 0) {
-			bos.write(buff, 0, n);
-		}
-		return bos.toByteArray();
-	}
+        byte[] buff = new byte[BUFFER_SIZE];
+        int n;
+        while ((n = gzip.read(buff, 0, BUFFER_SIZE)) > 0) {
+            bos.write(buff, 0, n);
+        }
+        return bos.toByteArray();
+    }
 }

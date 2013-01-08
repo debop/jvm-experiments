@@ -18,27 +18,31 @@ import java.sql.Driver;
 @Configuration
 public class ServiceConfig {
 
-	@Value("org.postgresql.Driver") Class<? extends Driver> driverClass;
-	@Value("jdbc://postgresql://localhost/testdb") private String url;
-	@Value("root") private String username;
-	@Value("root") private String password;
+    @Value("org.postgresql.Driver")
+    Class<? extends Driver> driverClass;
+    @Value("jdbc://postgresql://localhost/testdb")
+    private String url;
+    @Value("root")
+    private String username;
+    @Value("root")
+    private String password;
 
-	@Bean
-	public DataSource dataSource() {
+    @Bean
+    public DataSource dataSource() {
 
-		if (log.isInfoEnabled())
-			log.info("create DataSource. url=[{}], username=[{}], password=[{}]",
-			         url, username, password);
+        if (log.isInfoEnabled())
+            log.info("create DataSource. url=[{}], username=[{}], password=[{}]",
+                    url, username, password);
 
-		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 
-		dataSource.setDriverClass(driverClass); //(org.postgresql.Driver.class);
-		dataSource.setUrl(url);
-		dataSource.setUsername(username);
-		dataSource.setPassword(password);
+        dataSource.setDriverClass(driverClass); //(org.postgresql.Driver.class);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
 
-		return dataSource;
-	}
+        return dataSource;
+    }
 
 
 }

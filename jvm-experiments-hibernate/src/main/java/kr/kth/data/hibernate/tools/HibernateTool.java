@@ -36,191 +36,192 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public class HibernateTool {
 
-	private HibernateTool() {}
+    private HibernateTool() {
+    }
 
-	private static final boolean isDebugEnabled = log.isDebugEnabled();
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
 
-	public static HibernateDaoFactory getHibernateDaoFactory() {
-		return Spring.getBean(HibernateDaoFactory.class);
-	}
+    public static HibernateDaoFactory getHibernateDaoFactory() {
+        return Spring.getBean(HibernateDaoFactory.class);
+    }
 
-	public static <E extends IStatefulEntity> IHibernateDao getHibernateDao(Class<E> entityClass) {
-		return getHibernateDaoFactory().getOrCreateHibernateDao(entityClass);
-	}
+    public static <E extends IStatefulEntity> IHibernateDao getHibernateDao(Class<E> entityClass) {
+        return getHibernateDaoFactory().getOrCreateHibernateDao(entityClass);
+    }
 
-	public static void registerUpdateTimestampEventListener(SessionFactory sessionFactory) {
+    public static void registerUpdateTimestampEventListener(SessionFactory sessionFactory) {
 
-		if (log.isInfoEnabled())
-			log.info("지정된 SessionFactory에 UpdateTimestampedEventListener를 등록합니다.");
+        if (log.isInfoEnabled())
+            log.info("지정된 SessionFactory에 UpdateTimestampedEventListener를 등록합니다.");
 
-		EventListenerRegistry registry =
-			((SessionFactoryImpl) sessionFactory)
-				.getServiceRegistry()
-				.getService(EventListenerRegistry.class);
+        EventListenerRegistry registry =
+                ((SessionFactoryImpl) sessionFactory)
+                        .getServiceRegistry()
+                        .getService(EventListenerRegistry.class);
 
-		UpdateTimestampedEventListener listener = new UpdateTimestampedEventListener();
-		registry.getEventListenerGroup(EventType.PRE_INSERT).appendListener(listener);
-		registry.getEventListenerGroup(EventType.PRE_UPDATE).appendListener(listener);
-	}
+        UpdateTimestampedEventListener listener = new UpdateTimestampedEventListener();
+        registry.getEventListenerGroup(EventType.PRE_INSERT).appendListener(listener);
+        registry.getEventListenerGroup(EventType.PRE_UPDATE).appendListener(listener);
+    }
 
-	public static Map<String, Object> toMap(HibernateParameter... parameters) {
-		Map<String, Object> map = Maps.newHashMap();
-		for (HibernateParameter parameter : parameters) {
-			map.put(parameter.getName(), parameter.getValue());
-		}
-		return map;
-	}
+    public static Map<String, Object> toMap(HibernateParameter... parameters) {
+        Map<String, Object> map = Maps.newHashMap();
+        for (HibernateParameter parameter : parameters) {
+            map.put(parameter.getName(), parameter.getValue());
+        }
+        return map;
+    }
 
 
-	public static <T extends IStatefulEntity> DetachedCriteria createDetachedCriteria(Class<T> clazz) {
-		return DetachedCriteria.forClass(clazz);
-	}
+    public static <T extends IStatefulEntity> DetachedCriteria createDetachedCriteria(Class<T> clazz) {
+        return DetachedCriteria.forClass(clazz);
+    }
 
-	public static Criteria createCriteria(Class entityClass, Session session, Order[] orders, Criterion... criterions) {
-		if (log.isDebugEnabled())
-			log.debug("엔티티 [{}] 에 대한 Criteria를 생성합니다...", entityClass.getName());
+    public static Criteria createCriteria(Class entityClass, Session session, Order[] orders, Criterion... criterions) {
+        if (log.isDebugEnabled())
+            log.debug("엔티티 [{}] 에 대한 Criteria를 생성합니다...", entityClass.getName());
 
-		Criteria criteria = session.createCriteria(entityClass);
-		addOrders(criteria, orders);
-		return addCriterions(criteria, criterions);
-	}
+        Criteria criteria = session.createCriteria(entityClass);
+        addOrders(criteria, orders);
+        return addCriterions(criteria, criterions);
+    }
 
-	/**
-	 * {@link DetachedCriteria} 를 복사합니다.
-	 */
-	public static DetachedCriteria copyDetachedCriteria(DetachedCriteria dc) {
-		shouldNotBeNull(dc, "dc");
-		return (DetachedCriteria) SerializeTool.copyObject(dc);
-	}
+    /**
+     * {@link DetachedCriteria} 를 복사합니다.
+     */
+    public static DetachedCriteria copyDetachedCriteria(DetachedCriteria dc) {
+        shouldNotBeNull(dc, "dc");
+        return (DetachedCriteria) SerializeTool.copyObject(dc);
+    }
 
-	public static Criteria copyCriteria(Criteria criteria) {
-		shouldNotBeNull(criteria, "criteria");
-		return (Criteria) SerializeTool.copyObject((CriteriaImpl) criteria);
-	}
+    public static Criteria copyCriteria(Criteria criteria) {
+        shouldNotBeNull(criteria, "criteria");
+        return (Criteria) SerializeTool.copyObject((CriteriaImpl) criteria);
+    }
 
-	/**
-	 * {@link DetachedCriteria} 를 현 {@link Session} 에서 사용할 {@link Criteria} 로 변환합니다.
-	 */
-	public static Criteria getExecutableCriteria(Session session, DetachedCriteria dc) {
-		return dc.getExecutableCriteria(session);
-	}
+    /**
+     * {@link DetachedCriteria} 를 현 {@link Session} 에서 사용할 {@link Criteria} 로 변환합니다.
+     */
+    public static Criteria getExecutableCriteria(Session session, DetachedCriteria dc) {
+        return dc.getExecutableCriteria(session);
+    }
 
-	/**
-	 * {@link org.hibernate.criterion.DetachedCriteria} 를 가지고 {@link org.hibernate.Criteria} 를 빌드합니다.
-	 */
-	public static Criteria getExecutableCriteria(DetachedCriteria dc, Session session, Order... orders) {
-		Guard.shouldNotBeNull(dc, "dc");
-		Guard.shouldNotBeNull(session, "session");
+    /**
+     * {@link org.hibernate.criterion.DetachedCriteria} 를 가지고 {@link org.hibernate.Criteria} 를 빌드합니다.
+     */
+    public static Criteria getExecutableCriteria(DetachedCriteria dc, Session session, Order... orders) {
+        Guard.shouldNotBeNull(dc, "dc");
+        Guard.shouldNotBeNull(session, "session");
 
-		if (log.isDebugEnabled())
-			log.debug("DetachedCriteria를 가지고 Criteria를 빌드합니다.");
+        if (log.isDebugEnabled())
+            log.debug("DetachedCriteria를 가지고 Criteria를 빌드합니다.");
 
-		Criteria criteria = dc.getExecutableCriteria(session);
+        Criteria criteria = dc.getExecutableCriteria(session);
 
-		for (Order order : orders) {
-			criteria.addOrder(order);
-		}
-		return criteria;
-	}
+        for (Order order : orders) {
+            criteria.addOrder(order);
+        }
+        return criteria;
+    }
 
-	public static DetachedCriteria addOrders(DetachedCriteria dc, Order... orders) {
-		shouldNotBeNull(dc, "dc");
+    public static DetachedCriteria addOrders(DetachedCriteria dc, Order... orders) {
+        shouldNotBeNull(dc, "dc");
 
-		for (Order order : orders) {
-			dc.addOrder(order);
-		}
-		return dc;
-	}
+        for (Order order : orders) {
+            dc.addOrder(order);
+        }
+        return dc;
+    }
 
-	public static DetachedCriteria addOrders(DetachedCriteria dc, Iterable<Order> orders) {
-		shouldNotBeNull(dc, "dc");
+    public static DetachedCriteria addOrders(DetachedCriteria dc, Iterable<Order> orders) {
+        shouldNotBeNull(dc, "dc");
 
-		for (Order order : orders)
-			dc.addOrder(order);
+        for (Order order : orders)
+            dc.addOrder(order);
 
-		return dc;
-	}
+        return dc;
+    }
 
-	public static Criteria addOrders(Criteria criteria, Order... orders) {
-		shouldNotBeNull(criteria, "criteria");
+    public static Criteria addOrders(Criteria criteria, Order... orders) {
+        shouldNotBeNull(criteria, "criteria");
 
-		for (Order order : orders) {
-			criteria.addOrder(order);
-		}
-		return criteria;
-	}
+        for (Order order : orders) {
+            criteria.addOrder(order);
+        }
+        return criteria;
+    }
 
-	public static Criteria addOrders(Criteria criteria, Iterable<Order> orders) {
-		shouldNotBeNull(criteria, "criteria");
+    public static Criteria addOrders(Criteria criteria, Iterable<Order> orders) {
+        shouldNotBeNull(criteria, "criteria");
 
-		for (Order order : orders) {
-			criteria.addOrder(order);
-		}
-		return criteria;
-	}
+        for (Order order : orders) {
+            criteria.addOrder(order);
+        }
+        return criteria;
+    }
 
-	/**
-	 * {@link Criteria} 에 {@link Criterion} 들을 AND 로 추가합니다.
-	 */
-	public static Criteria addCriterions(Criteria criteria, Criterion... criterions) {
-		shouldNotBeNull(criteria, "criteria");
+    /**
+     * {@link Criteria} 에 {@link Criterion} 들을 AND 로 추가합니다.
+     */
+    public static Criteria addCriterions(Criteria criteria, Criterion... criterions) {
+        shouldNotBeNull(criteria, "criteria");
 
-		for (Criterion criterion : criterions) {
-			criteria.add(criterion);
-		}
-		return criteria;
-	}
+        for (Criterion criterion : criterions) {
+            criteria.add(criterion);
+        }
+        return criteria;
+    }
 
-	/**
-	 * {@link Query} 의 인자에 값을 설정합니다.
-	 */
-	public static Query setParameters(Query query, HibernateParameter... params) {
-		Guard.shouldNotBeNull(query, "query");
+    /**
+     * {@link Query} 의 인자에 값을 설정합니다.
+     */
+    public static Query setParameters(Query query, HibernateParameter... params) {
+        Guard.shouldNotBeNull(query, "query");
 
-		for (HibernateParameter param : params) {
-			if (isDebugEnabled)
-				log.debug("쿼리문의 인자값을 설정합니다. param=[{}]", param);
+        for (HibernateParameter param : params) {
+            if (isDebugEnabled)
+                log.debug("쿼리문의 인자값을 설정합니다. param=[{}]", param);
 
-			query.setParameter(param.getName(),
-			                   param.getValue(),
-			                   firstNotNull(param.getType(), ObjectType.INSTANCE));
-		}
-		return query;
-	}
+            query.setParameter(param.getName(),
+                    param.getValue(),
+                    firstNotNull(param.getType(), ObjectType.INSTANCE));
+        }
+        return query;
+    }
 
-	/**
-	 * {@link Criteria} 에 조회 범위를 지정합니다.
-	 */
-	public static Criteria setPaging(Criteria criteria, Integer firstResult, Integer maxResults) {
-		Guard.shouldNotBeNull(criteria, "criteria");
+    /**
+     * {@link Criteria} 에 조회 범위를 지정합니다.
+     */
+    public static Criteria setPaging(Criteria criteria, Integer firstResult, Integer maxResults) {
+        Guard.shouldNotBeNull(criteria, "criteria");
 
-		if (isDebugEnabled)
-			log.debug("criteria에 fetch range를 지정합니다. firstResult=[{}], maxResults=[{}]", firstResult, maxResults);
+        if (isDebugEnabled)
+            log.debug("criteria에 fetch range를 지정합니다. firstResult=[{}], maxResults=[{}]", firstResult, maxResults);
 
-		if (firstResult != null && firstResult >= 0)
-			criteria.setFirstResult(firstResult);
+        if (firstResult != null && firstResult >= 0)
+            criteria.setFirstResult(firstResult);
 
-		if (maxResults != null && maxResults > 0)
-			criteria.setMaxResults(maxResults);
+        if (maxResults != null && maxResults > 0)
+            criteria.setMaxResults(maxResults);
 
-		return criteria;
-	}
+        return criteria;
+    }
 
-	/**
-	 * {@link Query} 에 조회 범위를 지정합니다.
-	 */
-	public static Query setPaging(Query query, Integer firstResult, Integer maxResults) {
-		Guard.shouldNotBeNull(query, "query");
+    /**
+     * {@link Query} 에 조회 범위를 지정합니다.
+     */
+    public static Query setPaging(Query query, Integer firstResult, Integer maxResults) {
+        Guard.shouldNotBeNull(query, "query");
 
-		if (isDebugEnabled)
-			log.debug("query에 fetch range를 지정합니다. firstResult=[{}], maxResults=[{}]", firstResult, maxResults);
+        if (isDebugEnabled)
+            log.debug("query에 fetch range를 지정합니다. firstResult=[{}], maxResults=[{}]", firstResult, maxResults);
 
-		if (firstResult != null && firstResult >= 0)
-			query.setFirstResult(firstResult);
+        if (firstResult != null && firstResult >= 0)
+            query.setFirstResult(firstResult);
 
-		if (maxResults != null && maxResults > 0)
-			query.setMaxResults(maxResults);
+        if (maxResults != null && maxResults > 0)
+            query.setMaxResults(maxResults);
 
-		return query;
-	}
+        return query;
+    }
 }

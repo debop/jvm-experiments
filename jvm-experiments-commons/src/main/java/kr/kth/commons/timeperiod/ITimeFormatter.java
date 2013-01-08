@@ -11,60 +11,60 @@ import java.util.Locale;
  */
 public interface ITimeFormatter {
 
-	Locale getLocale();
+    Locale getLocale();
 
-	String getListSeparator();
+    String getListSeparator();
 
-	String getContextSeparator();
+    String getContextSeparator();
 
-	String getStartEndSeparator();
+    String getStartEndSeparator();
 
-	String getDurationSeparator();
+    String getDurationSeparator();
 
-	String getDateFormat();
+    String getDateFormat();
 
-	String getShortDateFormat();
+    String getShortDateFormat();
 
-	String getLongDateFormat();
+    String getLongDateFormat();
 
-	String getShortTimeFormat();
+    String getShortTimeFormat();
 
-	String getLongTimeFormat();
+    String getLongTimeFormat();
 
-	DurationFormatKind getDurationKind();
+    DurationFormatKind getDurationKind();
 
-	boolean isUseDurationSeconds();
+    boolean isUseDurationSeconds();
 
-	String getCollection(int count);
+    String getCollection(int count);
 
-	String getCollectionPeriod(int count, DateTime start, DateTime end, long duration);
+    String getCollectionPeriod(int count, DateTime start, DateTime end, long duration);
 
-	String getDate(DateTime date);
+    String getDate(DateTime date);
 
-	String getShortDate(DateTime date);
+    String getShortDate(DateTime date);
 
-	String getLongDate(DateTime date);
+    String getLongDate(DateTime date);
 
-	String getTime(DateTime date);
+    String getTime(DateTime date);
 
-	String getShortTime(DateTime date);
+    String getShortTime(DateTime date);
 
-	String getLongTime(DateTime date);
+    String getLongTime(DateTime date);
 
-	String getDuration(long duration);
+    String getDuration(long duration);
 
-	String getDuration(long duration, DurationFormatKind durationFormatKind);
+    String getDuration(long duration, DurationFormatKind durationFormatKind);
 
-	String getPeriod(DateTime start, DateTime end, long duration);
+    String getPeriod(DateTime start, DateTime end, long duration);
 
 
-	String getInterval(DateTime start, DateTime end, IntervalEdge startEdge, IntervalEdge endEdge, long duration);
+    String getInterval(DateTime start, DateTime end, IntervalEdge startEdge, IntervalEdge endEdge, long duration);
 
-	String getCalendarPeriod(String start, String end, long duration);
+    String getCalendarPeriod(String start, String end, long duration);
 
-	String getCalendarPeriod(String context, String start, String end, long duration);
+    String getCalendarPeriod(String context, String start, String end, long duration);
 
-	String getCalendarPeriod(String startContext, String endContext, String start, String end, long duration);
+    String getCalendarPeriod(String startContext, String endContext, String start, String end, long duration);
 
 
 }

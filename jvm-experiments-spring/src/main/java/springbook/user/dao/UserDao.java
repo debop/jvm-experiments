@@ -18,77 +18,78 @@ import java.sql.SQLException;
 @Slf4j
 public class UserDao {
 
-	@Setter private IConnectionMaker connectionMaker;
+    @Setter
+    private IConnectionMaker connectionMaker;
 
-	public UserDao() {
-		this(new SimpleConnectionMaker());
-	}
+    public UserDao() {
+        this(new SimpleConnectionMaker());
+    }
 
-	public UserDao(IConnectionMaker connectionMaker) {
-		this.connectionMaker = connectionMaker;
-	}
+    public UserDao(IConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
 
-	public void add(User user) throws ClassNotFoundException, SQLException {
-		@Cleanup
-		Connection conn = connectionMaker.makeConnection();
-		@Cleanup
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO Users(id, name, password) values(?, ?, ?)");
+    public void add(User user) throws ClassNotFoundException, SQLException {
+        @Cleanup
+        Connection conn = connectionMaker.makeConnection();
+        @Cleanup
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO Users(id, name, password) values(?, ?, ?)");
 
-		ps.setString(1, user.getId());
-		ps.setString(2, user.getName());
-		ps.setString(3, user.getPassword());
+        ps.setString(1, user.getId());
+        ps.setString(2, user.getName());
+        ps.setString(3, user.getPassword());
 
-		ps.executeUpdate();
-	}
+        ps.executeUpdate();
+    }
 
-	public User get(String id) throws ClassNotFoundException, SQLException {
+    public User get(String id) throws ClassNotFoundException, SQLException {
 
-		User user = null;
+        User user = null;
 
-		@Cleanup Connection conn = connectionMaker.makeConnection();
-		@Cleanup PreparedStatement ps = conn.prepareStatement("SELECT * FROM Users WHERE id=?");
-		ps.setString(1, id);
+        @Cleanup Connection conn = connectionMaker.makeConnection();
+        @Cleanup PreparedStatement ps = conn.prepareStatement("SELECT * FROM Users WHERE id=?");
+        ps.setString(1, id);
 
-		@Cleanup
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			user = new User();
-			user.setId(rs.getString("id"));
-			user.setName(rs.getString("name"));
-			user.setPassword(rs.getString("password"));
-		}
+        @Cleanup
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            user = new User();
+            user.setId(rs.getString("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
+        }
 
-		return user;
-	}
+        return user;
+    }
 
-	public void delete(String id) throws ClassNotFoundException, SQLException {
-		@Cleanup Connection conn = connectionMaker.makeConnection();
-		@Cleanup PreparedStatement ps =
-			conn.prepareStatement("DELETE FROM Users WHERE id=?");
-		ps.setString(1, id);
+    public void delete(String id) throws ClassNotFoundException, SQLException {
+        @Cleanup Connection conn = connectionMaker.makeConnection();
+        @Cleanup PreparedStatement ps =
+                conn.prepareStatement("DELETE FROM Users WHERE id=?");
+        ps.setString(1, id);
 
-		ps.executeUpdate();
-	}
+        ps.executeUpdate();
+    }
 
 
-	public static void main(String[] args) throws Exception {
-		UserDao dao = new UserDao();
+    public static void main(String[] args) throws Exception {
+        UserDao dao = new UserDao();
 
-		User user = new User();
-		user.setId("debop");
-		user.setName("배성혁");
-		user.setPassword("real21");
+        User user = new User();
+        user.setId("debop");
+        user.setName("배성혁");
+        user.setPassword("real21");
 
-		dao.delete(user.getId());
+        dao.delete(user.getId());
 
-		dao.add(user);
+        dao.add(user);
 
-		if (log.isDebugEnabled())
-			log.debug("User=[{}] 등록 성공", user);
+        if (log.isDebugEnabled())
+            log.debug("User=[{}] 등록 성공", user);
 
-		User user2 = dao.get(user.getId());
+        User user2 = dao.get(user.getId());
 
-		if (log.isDebugEnabled())
-			log.debug("User=[{}] retrive success", user2);
-	}
+        if (log.isDebugEnabled())
+            log.debug("User=[{}] retrive success", user2);
+    }
 }

@@ -24,77 +24,77 @@ import java.util.concurrent.Future;
 @Slf4j
 public class FutureWebCacheRepository extends CacheRepositoryBase {
 
-	private final LoadingCache<String, String> cache;
+    private final LoadingCache<String, String> cache;
 
-	public FutureWebCacheRepository() {
-		if (log.isDebugEnabled())
-			log.debug("FutureWebCacheRepository 인스턴스를 생성합니다.");
+    public FutureWebCacheRepository() {
+        if (log.isDebugEnabled())
+            log.debug("FutureWebCacheRepository 인스턴스를 생성합니다.");
 
-		cache = CacheBuilder.newBuilder().build(getCacheLoader());
-	}
+        cache = CacheBuilder.newBuilder().build(getCacheLoader());
+    }
 
-	@Override
-	public Object get(String key) {
-		try {
-			return cache.get(key);
-		} catch (ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public Object get(String key) {
+        try {
+            return cache.get(key);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public void set(String key, Object value, long validFor) {
-		String str = (value != null) ? value.toString() : "";
-		cache.put(key, str);
-	}
+    @Override
+    public void set(String key, Object value, long validFor) {
+        String str = (value != null) ? value.toString() : "";
+        cache.put(key, str);
+    }
 
-	@Override
-	public void remove(String key) {
-		cache.invalidate(key);
-	}
+    @Override
+    public void remove(String key) {
+        cache.invalidate(key);
+    }
 
-	@Override
-	public void removes(String... keys) {
-		cache.invalidateAll(Arrays.asList(keys));
-	}
+    @Override
+    public void removes(String... keys) {
+        cache.invalidateAll(Arrays.asList(keys));
+    }
 
-	@Override
-	public boolean exists(String key) {
-		return cache.getIfPresent(key) != null;
-	}
+    @Override
+    public boolean exists(String key) {
+        return cache.getIfPresent(key) != null;
+    }
 
-	@Override
-	public void clear() {
-		cache.cleanUp();
-	}
+    @Override
+    public void clear() {
+        cache.cleanUp();
+    }
 
-	private static CacheLoader<String, String> getCacheLoader() {
-		return
-			new CacheLoader<String, String>() {
-				@Override
-				public String load(String key) throws Exception {
+    private static CacheLoader<String, String> getCacheLoader() {
+        return
+                new CacheLoader<String, String>() {
+                    @Override
+                    public String load(String key) throws Exception {
 
-					if (log.isDebugEnabled())
-						log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", key);
+                        if (log.isDebugEnabled())
+                            log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", key);
 
-					String responseStr = "";
-					HttpAsyncClient httpClient = new DefaultHttpAsyncClient();
-					try {
-						httpClient.start();
-						HttpGet request = new HttpGet(key);
-						Future<HttpResponse> future = httpClient.execute(request, null);
+                        String responseStr = "";
+                        HttpAsyncClient httpClient = new DefaultHttpAsyncClient();
+                        try {
+                            httpClient.start();
+                            HttpGet request = new HttpGet(key);
+                            Future<HttpResponse> future = httpClient.execute(request, null);
 
-						HttpResponse response = future.get();
-						responseStr = EntityUtils.toString(response.getEntity(), Charset.forName("UTF-8"));
+                            HttpResponse response = future.get();
+                            responseStr = EntityUtils.toString(response.getEntity(), Charset.forName("UTF-8"));
 
-						if (log.isDebugEnabled())
-							log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
-							          key, StringTool.ellipsisChar(responseStr, 255));
-					} finally {
-						httpClient.shutdown();
-					}
-					return responseStr;
-				}
-			};
-	}
+                            if (log.isDebugEnabled())
+                                log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
+                                        key, StringTool.ellipsisChar(responseStr, 255));
+                        } finally {
+                            httpClient.shutdown();
+                        }
+                        return responseStr;
+                    }
+                };
+    }
 }

@@ -24,73 +24,73 @@ import java.util.List;
 @Slf4j
 public class HibernateDaoTest {
 
-	HibernateDaoFactory hibernateDaofactory;
-	HibernateTransactionManager transactionManager;
-	IUnitOfWork unitOfWork;
+    HibernateDaoFactory hibernateDaofactory;
+    HibernateTransactionManager transactionManager;
+    IUnitOfWork unitOfWork;
 
-	@BeforeClass
-	public static void beforeClass() {
-		if (Spring.isNotInitialized())
-			Spring.init("applicationContext.xml");
-	}
+    @BeforeClass
+    public static void beforeClass() {
+        if (Spring.isNotInitialized())
+            Spring.init("applicationContext.xml");
+    }
 
-	@Before
-	public void before() {
-		hibernateDaofactory = Spring.getBean(HibernateDaoFactory.class);
-		transactionManager = Spring.getBean(HibernateTransactionManager.class);
+    @Before
+    public void before() {
+        hibernateDaofactory = Spring.getBean(HibernateDaoFactory.class);
+        transactionManager = Spring.getBean(HibernateTransactionManager.class);
 
-		unitOfWork = UnitOfWorks.start();
-	}
+        unitOfWork = UnitOfWorks.start();
+    }
 
-	@After
-	public void after() throws Exception {
-		if (unitOfWork != null)
-			unitOfWork.close();
-	}
+    @After
+    public void after() throws Exception {
+        if (unitOfWork != null)
+            unitOfWork.close();
+    }
 
-	@AfterClass
-	public static void afterClass() {
-		if (Spring.isInitialized())
-			Spring.reset();
-	}
+    @AfterClass
+    public static void afterClass() {
+        if (Spring.isInitialized())
+            Spring.reset();
+    }
 
-	@Test
-	public void createHibernateDao() {
+    @Test
+    public void createHibernateDao() {
 
-		Assert.assertNotNull(hibernateDaofactory);
+        Assert.assertNotNull(hibernateDaofactory);
 
-		TransactionStatus txstatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
-		try {
-			IHibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.getOrCreateHibernateDao(JpaUser.class);
-			List<JpaUser> users = jpaUserDao.getAll();
+        TransactionStatus txstatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            IHibernateDao<JpaUser> jpaUserDao = hibernateDaofactory.getOrCreateHibernateDao(JpaUser.class);
+            List<JpaUser> users = jpaUserDao.getAll();
 
-			Assert.assertEquals(0, users.size());
+            Assert.assertEquals(0, users.size());
 
-			transactionManager.commit(txstatus);
-		} catch (Exception e) {
-			transactionManager.rollback(txstatus);
-			log.error("예외가 발생했습니다.", e);
-			Assert.fail();
-		}
-	}
+            transactionManager.commit(txstatus);
+        } catch (Exception e) {
+            transactionManager.rollback(txstatus);
+            log.error("예외가 발생했습니다.", e);
+            Assert.fail();
+        }
+    }
 
-	@Test
-	public void createCategoryHiberateDao() {
-		IHibernateDao<Category> categoryDao = hibernateDaofactory.getOrCreateHibernateDao(Category.class);
-		List<Category> categories = categoryDao.getAll();
-		Assert.assertEquals(0, categories.size());
-	}
+    @Test
+    public void createCategoryHiberateDao() {
+        IHibernateDao<Category> categoryDao = hibernateDaofactory.getOrCreateHibernateDao(Category.class);
+        List<Category> categories = categoryDao.getAll();
+        Assert.assertEquals(0, categories.size());
+    }
 
-	@Test
-	@SuppressWarnings("unchecked")
-	public void loadSessionFactory() {
-		SessionFactory sessionFactory = Spring.getBean(SessionFactory.class);
-		Assert.assertNotNull(sessionFactory);
+    @Test
+    @SuppressWarnings("unchecked")
+    public void loadSessionFactory() {
+        SessionFactory sessionFactory = Spring.getBean(SessionFactory.class);
+        Assert.assertNotNull(sessionFactory);
 
-		Session session = sessionFactory.openSession();
-		Assert.assertNotNull(session);
-		List<Event> events = session.createCriteria(Event.class).list();
+        Session session = sessionFactory.openSession();
+        Assert.assertNotNull(session);
+        List<Event> events = session.createCriteria(Event.class).list();
 
-		session.close();
-	}
+        session.close();
+    }
 }

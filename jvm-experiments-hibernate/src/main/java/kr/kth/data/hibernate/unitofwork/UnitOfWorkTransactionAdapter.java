@@ -12,33 +12,33 @@ import org.hibernate.Transaction;
 @Slf4j
 public class UnitOfWorkTransactionAdapter implements IUnitOfWorkTransaction {
 
-	private final Transaction transaction;
+    private final Transaction transaction;
 
-	public UnitOfWorkTransactionAdapter(Transaction transaction) {
-		this.transaction = transaction;
-	}
+    public UnitOfWorkTransactionAdapter(Transaction transaction) {
+        this.transaction = transaction;
+    }
 
 
-	@Override
-	public void commit() {
-		if (log.isDebugEnabled())
-			log.debug("현 Transaction의 Commit 작업을 시작합니다.");
+    @Override
+    public void commit() {
+        if (log.isDebugEnabled())
+            log.debug("현 Transaction의 Commit 작업을 시작합니다.");
 
-		transaction.commit();
+        transaction.commit();
 
-		if (log.isDebugEnabled())
-			log.debug("현 Transaction의 Commit 작업이 성공했습니다.");
-	}
+        if (log.isDebugEnabled())
+            log.debug("현 Transaction의 Commit 작업이 성공했습니다.");
+    }
 
-	@Override
-	public void rollback() {
+    @Override
+    public void rollback() {
 
-		if (log.isDebugEnabled())
-			log.debug("현 Transaction에 예외가 발생하여 rollback 합니다.");
+        if (log.isDebugEnabled())
+            log.debug("현 Transaction에 예외가 발생하여 rollback 합니다.");
 
-		transaction.rollback();
+        transaction.rollback();
 
-		if (log.isDebugEnabled())
-			log.debug("현 Transaction rollback 작업을 완료했습니다.");
-	}
+        if (log.isDebugEnabled())
+            log.debug("현 Transaction rollback 작업을 완료했습니다.");
+    }
 }

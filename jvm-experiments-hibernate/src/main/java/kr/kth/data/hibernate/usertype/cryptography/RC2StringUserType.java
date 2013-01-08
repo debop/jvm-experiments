@@ -10,10 +10,10 @@ import kr.kth.commons.cryptography.symmetric.RC2ByteEncryptor;
  */
 public class RC2StringUserType extends AbstractSymmetricEncryptStringUserType {
 
-	private static final ISymmetricByteEncryptor encryptor = new RC2ByteEncryptor();
+    private static final ISymmetricByteEncryptor encryptor = new RC2ByteEncryptor();
 
-	@Override
-	public ISymmetricByteEncryptor getEncryptor() {
-		return encryptor;
-	}
+    @Override
+    public ISymmetricByteEncryptor getEncryptor() {
+        return encryptor;
+    }
 }

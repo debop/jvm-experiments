@@ -13,19 +13,19 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class AnnotatedHelloConfig {
 
-	@Bean
-	//@Scope(value = "prototype")
-	public AnnotatedHello annotatedHello(Printer printer) {
-		if (log.isDebugEnabled())
-			log.debug("annotatedHello instance creating...");
+    @Bean
+    //@Scope(value = "prototype")
+    public AnnotatedHello annotatedHello(Printer printer) {
+        if (log.isDebugEnabled())
+            log.debug("annotatedHello instance creating...");
 
-		AnnotatedHello hello = new AnnotatedHello();
-		hello.setPrinter(printer);
-		return hello;
-	}
+        AnnotatedHello hello = new AnnotatedHello();
+        hello.setPrinter(printer);
+        return hello;
+    }
 
-	@Bean
-	public Printer printer() {
-		return new StringPrinter();
-	}
+    @Bean
+    public Printer printer() {
+        return new StringPrinter();
+    }
 }

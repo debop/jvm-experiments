@@ -18,116 +18,117 @@ import java.util.TreeSet;
 @Slf4j
 public class DateTimeSet extends TreeSet<DateTime> implements IDateTimeSet {
 
-	private static final long serialVersionUID = 6897988915122604105L;
+    private static final long serialVersionUID = 6897988915122604105L;
 
-	public DateTimeSet() {}
+    public DateTimeSet() {
+    }
 
-	public DateTimeSet(Collection<? extends DateTime> moments) {
-		super(moments);
-	}
+    public DateTimeSet(Collection<? extends DateTime> moments) {
+        super(moments);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DateTime get(int index) {
-		Guard.shouldBeInRange(index, 0, size(), "index");
+    /**
+     * {@inheritDoc}
+     */
+    public DateTime get(int index) {
+        Guard.shouldBeInRange(index, 0, size(), "index");
 
-		if (index == 0)
-			return first();
-		if (index == size() - 1)
-			return last();
+        if (index == 0)
+            return first();
+        if (index == size() - 1)
+            return last();
 
-		return Iterators.get(iterator(), index);
-	}
+        return Iterators.get(iterator(), index);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DateTime getMin() {
-		return (isEmpty() ? null : first());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DateTime getMin() {
+        return (isEmpty() ? null : first());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DateTime getMax() {
-		return (isEmpty() ? null : last());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DateTime getMax() {
+        return (isEmpty() ? null : last());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Long getDuration() {
-		if (isEmpty())
-			return null;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long getDuration() {
+        if (isEmpty())
+            return null;
 
-		DateTime min = getMin();
-		DateTime max = getMax();
+        DateTime min = getMin();
+        DateTime max = getMax();
 
-		return (min != null && max != null) ? (max.getMillis() - min.getMillis()) : null;
-	}
+        return (min != null && max != null) ? (max.getMillis() - min.getMillis()) : null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isMoment() {
-		Long duration = getDuration();
-		return (duration != null) && (duration == TimeSpec.ZeroTick);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isMoment() {
+        Long duration = getDuration();
+        return (duration != null) && (duration == TimeSpec.ZeroTick);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isAnyTime() {
-		DateTime min = getMin();
-		DateTime max = getMax();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAnyTime() {
+        DateTime min = getMin();
+        DateTime max = getMax();
 
-		return (min != null) &&
-		       (min.getMillis() == TimeSpec.ZeroTick) &&
-		       (max != null) &&
-		       (max.getMillis() == TimeSpec.ZeroTick);
-	}
+        return (min != null) &&
+                (min.getMillis() == TimeSpec.ZeroTick) &&
+                (max != null) &&
+                (max.getMillis() == TimeSpec.ZeroTick);
+    }
 
-	@Override
-	public boolean addAll(Iterable<? extends DateTime> moments) {
-		for (DateTime moment : moments)
-			super.add(moment);
-		return true;
-	}
+    @Override
+    public boolean addAll(Iterable<? extends DateTime> moments) {
+        for (DateTime moment : moments)
+            super.add(moment);
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<Long> getDurations(int startIndex, int count) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Long> getDurations(int startIndex, int count) {
 
-		int endIndex = Math.min(startIndex + count, size() - 1);
-		List<Long> durations = Lists.newArrayList();
+        int endIndex = Math.min(startIndex + count, size() - 1);
+        List<Long> durations = Lists.newArrayList();
 
-		for (int i = startIndex; i < endIndex; i++) {
-			durations.add(get(i + 1).getMillis() - get(i).getMillis());
-		}
-		return durations;
-	}
+        for (int i = startIndex; i < endIndex; i++) {
+            durations.add(get(i + 1).getMillis() - get(i).getMillis());
+        }
+        return durations;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DateTime findPrevious(DateTime moment) {
-		return super.headSet(moment, false).higher(moment);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DateTime findPrevious(DateTime moment) {
+        return super.headSet(moment, false).higher(moment);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DateTime findNext(DateTime moment) {
-		return tailSet(moment, false).lower(moment);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DateTime findNext(DateTime moment) {
+        return tailSet(moment, false).lower(moment);
+    }
 }

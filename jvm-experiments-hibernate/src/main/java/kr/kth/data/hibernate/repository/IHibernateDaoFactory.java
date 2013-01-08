@@ -9,5 +9,5 @@ import kr.kth.data.domain.model.IStatefulEntity;
  */
 public interface IHibernateDaoFactory {
 
-	<E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass);
+    <E extends IStatefulEntity> IHibernateDao<E> getOrCreateHibernateDao(Class<E> entityClass);
 }

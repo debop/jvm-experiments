@@ -14,23 +14,23 @@ import java.util.Iterator;
 @Slf4j
 public class UpdateTimestampedInterceptor extends EmptyInterceptor {
 
-	private static final long serialVersionUID = 7231248402093351095L;
+    private static final long serialVersionUID = 7231248402093351095L;
 
-	public UpdateTimestampedInterceptor() {
-		super();
-		if (log.isDebugEnabled())
-			log.debug("UpdateTimestampedInterceptor 생성");
-	}
+    public UpdateTimestampedInterceptor() {
+        super();
+        if (log.isDebugEnabled())
+            log.debug("UpdateTimestampedInterceptor 생성");
+    }
 
-	public void preFlush(Iterator entities) {
-		while (entities.hasNext()) {
-			Object entity = entities.next();
-			if (entity instanceof IUpdateTimestampedEntity) {
-				((IUpdateTimestampedEntity) entity).updateUpdateTimestamp();
+    public void preFlush(Iterator entities) {
+        while (entities.hasNext()) {
+            Object entity = entities.next();
+            if (entity instanceof IUpdateTimestampedEntity) {
+                ((IUpdateTimestampedEntity) entity).updateUpdateTimestamp();
 
-				if (log.isDebugEnabled())
-					log.debug("updateTimestamp 값을 현재 시각으로 갱신했습니다. entity=[{}]", entity);
-			}
-		}
-	}
+                if (log.isDebugEnabled())
+                    log.debug("updateTimestamp 값을 현재 시각으로 갱신했습니다. entity=[{}]", entity);
+            }
+        }
+    }
 }

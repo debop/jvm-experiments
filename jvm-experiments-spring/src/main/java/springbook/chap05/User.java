@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
 
-	String id;
-	String name;
-	String password;
+    String id;
+    String name;
+    String password;
 
-	Level level;
-	int login;
-	int recommend;
+    Level level;
+    int login;
+    int recommend;
 
 }

@@ -10,10 +10,10 @@ import kr.kth.commons.cryptography.symmetric.TripleDESByteEncryptor;
  */
 public class TripleDESStringUserType extends AbstractSymmetricEncryptStringUserType {
 
-	private static final ISymmetricByteEncryptor encryptor = new TripleDESByteEncryptor();
+    private static final ISymmetricByteEncryptor encryptor = new TripleDESByteEncryptor();
 
-	@Override
-	public ISymmetricByteEncryptor getEncryptor() {
-		return encryptor;
-	}
+    @Override
+    public ISymmetricByteEncryptor getEncryptor() {
+        return encryptor;
+    }
 }

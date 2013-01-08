@@ -14,8 +14,8 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class TimeSpecTest extends AbstractTest {
 
-	@Test
-	public void testTimeSpec() {
-		assertEquals(0, TimeSpec.ZeroTick);
-	}
+    @Test
+    public void testTimeSpec() {
+        assertEquals(0, TimeSpec.ZeroTick);
+    }
 }

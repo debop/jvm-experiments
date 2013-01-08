@@ -16,28 +16,28 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public abstract class ScrolledListBase<E, N extends Comparable<N>> implements IScrolledList<E, N> {
 
-	private static final long serialVersionUID = -5077876937253068976L;
+    private static final long serialVersionUID = -5077876937253068976L;
 
-	@Getter
-	private final List<E> list;
+    @Getter
+    private final List<E> list;
 
-	@Getter
-	private final N lowerBound;
+    @Getter
+    private final N lowerBound;
 
-	@Getter
-	private final N upperBound;
+    @Getter
+    private final N upperBound;
 
-	public ScrolledListBase(List<E> list, N lowerBound, N upperBound) {
-		this.list = shouldNotBeNull(list, "list");
-		this.lowerBound = lowerBound;
-		this.upperBound = upperBound;
-	}
+    public ScrolledListBase(List<E> list, N lowerBound, N upperBound) {
+        this.list = shouldNotBeNull(list, "list");
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+    }
 
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("lowerBound", lowerBound)
-		              .add("upperBound", upperBound)
-		              .add("list", list)
-		              .toString();
-	}
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("lowerBound", lowerBound)
+                .add("upperBound", upperBound)
+                .add("list", list)
+                .toString();
+    }
 }

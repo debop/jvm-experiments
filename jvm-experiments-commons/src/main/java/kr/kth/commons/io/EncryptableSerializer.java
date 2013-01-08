@@ -12,26 +12,26 @@ import kr.kth.commons.cryptography.symmetric.RC2ByteEncryptor;
  */
 public class EncryptableSerializer extends SerializerDecorator {
 
-	private final ISymmetricByteEncryptor encryptor;
+    private final ISymmetricByteEncryptor encryptor;
 
-	public EncryptableSerializer(ISerializer serializer) {
-		this(serializer, new RC2ByteEncryptor());
-	}
+    public EncryptableSerializer(ISerializer serializer) {
+        this(serializer, new RC2ByteEncryptor());
+    }
 
-	public EncryptableSerializer(ISerializer serializer, ISymmetricByteEncryptor encryptor) {
-		super(serializer);
+    public EncryptableSerializer(ISerializer serializer, ISymmetricByteEncryptor encryptor) {
+        super(serializer);
 
-		Guard.shouldNotBeNull(encryptor, "encryptor");
-		this.encryptor = encryptor;
-	}
+        Guard.shouldNotBeNull(encryptor, "encryptor");
+        this.encryptor = encryptor;
+    }
 
-	@Override
-	public byte[] serialize(Object graph) {
-		return encryptor.encrypt(super.serialize(graph));
-	}
+    @Override
+    public byte[] serialize(Object graph) {
+        return encryptor.encrypt(super.serialize(graph));
+    }
 
-	@Override
-	public <T> T deserialize(byte[] bytes, Class<T> clazz) {
-		return super.deserialize(encryptor.decrypt(bytes), clazz);
-	}
+    @Override
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
+        return super.deserialize(encryptor.decrypt(bytes), clazz);
+    }
 }

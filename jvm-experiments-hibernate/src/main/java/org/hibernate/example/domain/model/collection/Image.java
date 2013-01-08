@@ -15,29 +15,29 @@ import lombok.Setter;
 @Setter
 public class Image extends ValueObjectBase {
 
-	private static final long serialVersionUID = 7513180521707042792L;
+    private static final long serialVersionUID = 7513180521707042792L;
 
-	private Item item;
+    private Item item;
 
-	private String name;
+    private String name;
 
-	private String filename;
+    private String filename;
 
-	private Integer sizeX;
+    private Integer sizeX;
 
-	private Integer sizeY;
+    private Integer sizeY;
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(name, filename, sizeX, sizeY);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(name, filename, sizeX, sizeY);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name)
-		            .add("filename", filename)
-		            .add("sizeX", sizeX)
-		            .add("sizeY", sizeY);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name)
+                .add("filename", filename)
+                .add("sizeX", sizeX)
+                .add("sizeY", sizeY);
+    }
 }

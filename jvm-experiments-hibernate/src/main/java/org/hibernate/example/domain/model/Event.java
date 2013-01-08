@@ -16,45 +16,46 @@ import java.util.Date;
 @Setter
 public class Event extends EntityBase<Long> implements IUpdateTimestampedEntity {
 
-	private static final long serialVersionUID = 930773110476290116L;
+    private static final long serialVersionUID = 930773110476290116L;
 
-	public Event() {}
+    public Event() {
+    }
 
-	public Event(String title, Date date) {
+    public Event(String title, Date date) {
 
-		assert !Strings.isNullOrEmpty(title);
+        assert !Strings.isNullOrEmpty(title);
 
-		this.title = title;
-		this.date = date;
-	}
+        this.title = title;
+        this.date = date;
+    }
 
-	private Date date;
-	private String title;
-	private Category category;
+    private Date date;
+    private String title;
+    private Category category;
 
-	@Setter(value = AccessLevel.PROTECTED)
-	private Timestamp updateTimestamp;
+    @Setter(value = AccessLevel.PROTECTED)
+    private Timestamp updateTimestamp;
 
-	public void updateUpdateTimestamp() {
-		updateTimestamp = TimeTool.getNowTimestamp();
-	}
+    public void updateUpdateTimestamp() {
+        updateTimestamp = TimeTool.getNowTimestamp();
+    }
 
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return Objects.hashCode(title, date);
-	}
+        return Objects.hashCode(title, date);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("title", title)
-		            .add("moment", date)
-		            .add("updateTimestamp", updateTimestamp)
-		            .add("categoryId", category.getId());
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("title", title)
+                .add("moment", date)
+                .add("updateTimestamp", updateTimestamp)
+                .add("categoryId", category.getId());
+    }
 }
 

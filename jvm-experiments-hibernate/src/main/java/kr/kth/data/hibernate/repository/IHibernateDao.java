@@ -19,157 +19,157 @@ import java.util.List;
  */
 public interface IHibernateDao<E extends IStatefulEntity> {
 
-	Class<E> getEntityClass();
+    Class<E> getEntityClass();
 
-	E load(Serializable id);
+    E load(Serializable id);
 
-	E load(Serializable id, LockOptions lockOptions);
+    E load(Serializable id, LockOptions lockOptions);
 
-	E get(Serializable id);
+    E get(Serializable id);
 
-	E get(Serializable id, LockOptions lockOptions);
+    E get(Serializable id, LockOptions lockOptions);
 
-	List<E> getIn(Collection ids);
+    List<E> getIn(Collection ids);
 
-	List<E> getIn(Object[] ids);
+    List<E> getIn(Object[] ids);
 
-	List<E> getAll();
+    List<E> getAll();
 
-	List<E> find(DetachedCriteria dc);
+    List<E> find(DetachedCriteria dc);
 
-	List<E> find(DetachedCriteria dc, int firstResult, int maxResults, Order... orders);
+    List<E> find(DetachedCriteria dc, int firstResult, int maxResults, Order... orders);
 
-	List<E> findByCriteria(Criterion... criterions);
+    List<E> findByCriteria(Criterion... criterions);
 
-	List<E> findByCriteria(Criterion[] criterions, int firstResult, int maxResults, Order... orders);
+    List<E> findByCriteria(Criterion[] criterions, int firstResult, int maxResults, Order... orders);
 
-	List<E> findByExample(Example example);
+    List<E> findByExample(Example example);
 
-	List<E> findByQuery(Query query, HibernateParameter... parameters);
+    List<E> findByQuery(Query query, HibernateParameter... parameters);
 
-	List<E> findByQuery(Query query, int firstResult, int maxResults, HibernateParameter... parameters);
+    List<E> findByQuery(Query query, int firstResult, int maxResults, HibernateParameter... parameters);
 
-	List<E> findByQueryString(String queryString, HibernateParameter... parameters);
+    List<E> findByQueryString(String queryString, HibernateParameter... parameters);
 
-	List<E> findByQueryString(String queryString, int firstResult, int maxResults, HibernateParameter... parameters);
+    List<E> findByQueryString(String queryString, int firstResult, int maxResults, HibernateParameter... parameters);
 
-	List<E> findByNamedQuery(String queryName, HibernateParameter... parameters);
+    List<E> findByNamedQuery(String queryName, HibernateParameter... parameters);
 
-	List<E> findByNamedQuery(String queryName, int firstResult, int maxResults, HibernateParameter... parameters);
+    List<E> findByNamedQuery(String queryName, int firstResult, int maxResults, HibernateParameter... parameters);
 
 
-	IPagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
+    IPagedList<E> getPage(DetachedCriteria dc, int pageNo, int pageSize, Order... orders);
 
-	IPagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters);
+    IPagedList<E> getPageByQuery(Query query, int pageNo, int pageSize, HibernateParameter... parameters);
 
-	IPagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters);
+    IPagedList<E> getPageByQueryString(String queryString, int pageNo, int pageSize, HibernateParameter... parameters);
 
-	IPagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters);
+    IPagedList<E> getPageByNamedQuery(String queryName, int pageNo, int pageSize, HibernateParameter... parameters);
 
 
-	E findOne(DetachedCriteria dc);
+    E findOne(DetachedCriteria dc);
 
-	E findOneByCriteria(Criterion... criterions);
+    E findOneByCriteria(Criterion... criterions);
 
-	E findOneByQuery(Query query, HibernateParameter... parameters);
+    E findOneByQuery(Query query, HibernateParameter... parameters);
 
-	E findOneByQueryString(String queryString, HibernateParameter... parameters);
+    E findOneByQueryString(String queryString, HibernateParameter... parameters);
 
-	E findOneByNamedQuery(String queryName, HibernateParameter... parameters);
+    E findOneByNamedQuery(String queryName, HibernateParameter... parameters);
 
 
-	E findFirst(DetachedCriteria dc);
+    E findFirst(DetachedCriteria dc);
 
-	E findFirstByCriteria(Criterion... criterions);
+    E findFirstByCriteria(Criterion... criterions);
 
-	E findFirstByQuery(Query query, HibernateParameter... parameters);
+    E findFirstByQuery(Query query, HibernateParameter... parameters);
 
-	E findFirstByQueryString(String queryString, HibernateParameter... parameters);
+    E findFirstByQueryString(String queryString, HibernateParameter... parameters);
 
-	E findFirstByNamedQuery(String queryName, HibernateParameter... parameters);
+    E findFirstByNamedQuery(String queryName, HibernateParameter... parameters);
 
-	boolean exists();
+    boolean exists();
 
-	boolean exists(DetachedCriteria dc);
+    boolean exists(DetachedCriteria dc);
 
-	boolean existsByCriteria(Criterion... criterions);
+    boolean existsByCriteria(Criterion... criterions);
 
-	boolean existsByQuery(Query query, HibernateParameter... parameters);
+    boolean existsByQuery(Query query, HibernateParameter... parameters);
 
-	boolean existsByQueryString(String queryString, HibernateParameter... parameters);
+    boolean existsByQueryString(String queryString, HibernateParameter... parameters);
 
-	boolean existsByNamedQuery(String queryName, HibernateParameter... parameters);
+    boolean existsByNamedQuery(String queryName, HibernateParameter... parameters);
 
-	long count();
+    long count();
 
-	long count(DetachedCriteria dc);
+    long count(DetachedCriteria dc);
 
-	long countByCriteria(Criterion... criterions);
+    long countByCriteria(Criterion... criterions);
 
 
-	void merge(E entity);
+    void merge(E entity);
 
-	void persist(E entity);
+    void persist(E entity);
 
-	void save(E entity);
+    void save(E entity);
 
-	void saveOrUpdate(E entity);
+    void saveOrUpdate(E entity);
 
-	void update(E entity);
+    void update(E entity);
 
-	void delete(E entity);
+    void delete(E entity);
 
-	void deleteEntities(Collection<E> entities);
+    void deleteEntities(Collection<E> entities);
 
-	void delete(DetachedCriteria dc);
+    void delete(DetachedCriteria dc);
 
-	void deleteById(Serializable id);
+    void deleteById(Serializable id);
 
-	int deleteAllWithoutCascade();
+    int deleteAllWithoutCascade();
 
-	int executeUpdateByQueryString(String queryString, HibernateParameter... parameters);
+    int executeUpdateByQueryString(String queryString, HibernateParameter... parameters);
 
-	int executeUpdateByNamedQuery(String queryName, HibernateParameter... parameters);
+    int executeUpdateByNamedQuery(String queryName, HibernateParameter... parameters);
 
 
-	<TProject> TProject reportOne(Class<TProject> projectClass,
-	                              ProjectionList projectionList,
-	                              DetachedCriteria dc);
+    <TProject> TProject reportOne(Class<TProject> projectClass,
+                                  ProjectionList projectionList,
+                                  DetachedCriteria dc);
 
-	<TProject> TProject reportOne(Class<TProject> projectClass,
-	                              ProjectionList projectionList,
-	                              Criteria criteria);
+    <TProject> TProject reportOne(Class<TProject> projectClass,
+                                  ProjectionList projectionList,
+                                  Criteria criteria);
 
-	<TProject> List<TProject> reportList(Class<TProject> projectClass,
-	                                     ProjectionList projectionList,
-	                                     DetachedCriteria dc);
+    <TProject> List<TProject> reportList(Class<TProject> projectClass,
+                                         ProjectionList projectionList,
+                                         DetachedCriteria dc);
 
-	<TProject> List<TProject> reportList(Class<TProject> projectClass,
-	                                     ProjectionList projectionList,
-	                                     DetachedCriteria dc,
-	                                     int firstResult,
-	                                     int maxResults);
+    <TProject> List<TProject> reportList(Class<TProject> projectClass,
+                                         ProjectionList projectionList,
+                                         DetachedCriteria dc,
+                                         int firstResult,
+                                         int maxResults);
 
-	<TProject> List<TProject> reportList(Class<TProject> projectClass,
-	                                     ProjectionList projectionList,
-	                                     Criteria criteria);
+    <TProject> List<TProject> reportList(Class<TProject> projectClass,
+                                         ProjectionList projectionList,
+                                         Criteria criteria);
 
-	<TProject> List<TProject> reportList(Class<TProject> projectClass,
-	                                     ProjectionList projectionList,
-	                                     Criteria criteria,
-	                                     int firstResult,
-	                                     int maxResults);
+    <TProject> List<TProject> reportList(Class<TProject> projectClass,
+                                         ProjectionList projectionList,
+                                         Criteria criteria,
+                                         int firstResult,
+                                         int maxResults);
 
-	<TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
-	                                           ProjectionList projectionList,
-	                                           DetachedCriteria dc,
-	                                           int pageNo,
-	                                           int pageSize);
+    <TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
+                                               ProjectionList projectionList,
+                                               DetachedCriteria dc,
+                                               int pageNo,
+                                               int pageSize);
 
-	<TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
-	                                           ProjectionList projectionList,
-	                                           Criteria criteria,
-	                                           int pageNo,
-	                                           int pageSize);
+    <TProject> IPagedList<TProject> reportPage(Class<TProject> projectClass,
+                                               ProjectionList projectionList,
+                                               Criteria criteria,
+                                               int pageNo,
+                                               int pageSize);
 
 }

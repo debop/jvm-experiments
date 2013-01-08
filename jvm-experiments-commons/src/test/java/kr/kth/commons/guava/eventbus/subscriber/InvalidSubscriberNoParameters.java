@@ -10,12 +10,12 @@ import com.google.common.eventbus.Subscribe;
  */
 public class InvalidSubscriberNoParameters {
 
-	public InvalidSubscriberNoParameters(EventBus eventBus) {
-		eventBus.register(this);
-	}
+    public InvalidSubscriberNoParameters(EventBus eventBus) {
+        eventBus.register(this);
+    }
 
-	@Subscribe
-	public void handleEvent() {
-		// Do nothing will not work
-	}
+    @Subscribe
+    public void handleEvent() {
+        // Do nothing will not work
+    }
 }

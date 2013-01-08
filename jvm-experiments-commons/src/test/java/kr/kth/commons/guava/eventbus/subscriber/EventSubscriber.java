@@ -12,15 +12,15 @@ import java.util.List;
  */
 public abstract class EventSubscriber<T> {
 
-	List<T> events = Lists.newArrayList();
+    List<T> events = Lists.newArrayList();
 
-	public EventSubscriber(EventBus eventBus) {
-		eventBus.register(this);
-	}
+    public EventSubscriber(EventBus eventBus) {
+        eventBus.register(this);
+    }
 
-	public abstract void handleEvent(T event);
+    public abstract void handleEvent(T event);
 
-	public List<T> getHandledEvents() {
-		return events;
-	}
+    public List<T> getHandledEvents() {
+        return events;
+    }
 }

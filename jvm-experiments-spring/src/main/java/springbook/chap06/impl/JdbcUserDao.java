@@ -20,46 +20,46 @@ import java.util.List;
 @Slf4j
 public class JdbcUserDao implements UserDao {
 
-	private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
-	private RowMapper<User> userMapper =
-		new RowMapper<User>() {
-			@Override
-			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				User user = new User();
-				user.setId(rs.getString("id"));
-				user.setName(rs.getString("name"));
-				user.setPassword(rs.getString("password"));
-				user.setLevel(Level.valueOf(rs.getInt("level")));
-				user.setLogin(rs.getInt("login"));
-				user.setRecommend(rs.getInt("recommend"));
-				return user;
-			}
-		};
+    private RowMapper<User> userMapper =
+            new RowMapper<User>() {
+                @Override
+                public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    User user = new User();
+                    user.setId(rs.getString("id"));
+                    user.setName(rs.getString("name"));
+                    user.setPassword(rs.getString("password"));
+                    user.setLevel(Level.valueOf(rs.getInt("level")));
+                    user.setLogin(rs.getInt("login"));
+                    user.setRecommend(rs.getInt("recommend"));
+                    return user;
+                }
+            };
 
-	@Override
-	public void add(User user) {
-		jdbcTemplate.update("INSERT INTO Users(id, name, password) values(?,?,?)",
-		                    user.getId(),
-		                    user.getName(),
-		                    user.getPassword());
-	}
+    @Override
+    public void add(User user) {
+        jdbcTemplate.update("INSERT INTO Users(id, name, password) values(?,?,?)",
+                user.getId(),
+                user.getName(),
+                user.getPassword());
+    }
 
-	@Override
-	public List<User> getAll() {
-		return jdbcTemplate.query("SELECT * FROM Users ORDER BY id", userMapper);
-	}
+    @Override
+    public List<User> getAll() {
+        return jdbcTemplate.query("SELECT * FROM Users ORDER BY id", userMapper);
+    }
 
-	@Override
-	public void upgradeLevels() {
-		List<User> users = getAll();
+    @Override
+    public void upgradeLevels() {
+        List<User> users = getAll();
 
-		for (User user : users) {
-			log.debug("upgrade user level... user=[{}]", user);
-		}
-	}
+        for (User user : users) {
+            log.debug("upgrade user level... user=[{}]", user);
+        }
+    }
 }

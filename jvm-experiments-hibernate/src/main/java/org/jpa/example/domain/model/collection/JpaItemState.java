@@ -7,9 +7,9 @@ package org.jpa.example.domain.model.collection;
  */
 public enum JpaItemState {
 
-	Unknown,
+    Unknown,
 
-	Active,
+    Active,
 
-	Inactive
+    Inactive
 }

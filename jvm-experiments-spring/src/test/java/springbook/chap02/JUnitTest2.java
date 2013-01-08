@@ -17,28 +17,28 @@ import static org.junit.Assert.assertThat;
  */
 public class JUnitTest2 {
 
-	private Set<JUnitTest2> testObjects;
+    private Set<JUnitTest2> testObjects;
 
-	@Before
-	public void before() {
-		testObjects = Sets.newHashSet();
-	}
+    @Before
+    public void before() {
+        testObjects = Sets.newHashSet();
+    }
 
-	@Test
-	public void test1() {
-		assertThat(testObjects, not(hasItem(this)));
-		testObjects.add(this);
-	}
+    @Test
+    public void test1() {
+        assertThat(testObjects, not(hasItem(this)));
+        testObjects.add(this);
+    }
 
-	@Test
-	public void test2() {
-		assertThat(testObjects, not(hasItem(this)));
-		testObjects.add(this);
-	}
+    @Test
+    public void test2() {
+        assertThat(testObjects, not(hasItem(this)));
+        testObjects.add(this);
+    }
 
-	@Test
-	public void test3() {
-		assertThat(testObjects, not(hasItem(this)));
-		testObjects.add(this);
-	}
+    @Test
+    public void test3() {
+        assertThat(testObjects, not(hasItem(this)));
+        testObjects.add(this);
+    }
 }

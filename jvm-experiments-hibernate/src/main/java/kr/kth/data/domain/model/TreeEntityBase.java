@@ -14,25 +14,25 @@ import java.util.Set;
  * Date: 12. 9. 15.
  */
 public abstract class TreeEntityBase<T extends ITreeEntity<T>, TId extends Serializable>
-	extends EntityBase<TId> implements ITreeEntity<T> {
+        extends EntityBase<TId> implements ITreeEntity<T> {
 
-	private static final long serialVersionUID = 5383928955741762564L;
+    private static final long serialVersionUID = 5383928955741762564L;
 
-	@Getter
-	@Setter
-	private T parent;
+    @Getter
+    @Setter
+    private T parent;
 
-	@Getter
-	private Set<T> children = Sets.newLinkedHashSet();
+    @Getter
+    private Set<T> children = Sets.newLinkedHashSet();
 
-	@Getter
-	@Setter
-	private TreeNodePosition nodePosition = new TreeNodePosition();
+    @Getter
+    @Setter
+    private TreeNodePosition nodePosition = new TreeNodePosition();
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("parent", parent)
-		            .add("nodePosition", nodePosition);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("parent", parent)
+                .add("nodePosition", nodePosition);
+    }
 }

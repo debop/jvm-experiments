@@ -19,26 +19,26 @@ import java.util.List;
 @Setter
 public class Company extends ValueObjectBase {
 
-	private static final long serialVersionUID = 4442244029750273886L;
+    private static final long serialVersionUID = 4442244029750273886L;
 
-	private String code;
-	private String name;
-	private String description;
-	private long amount;
+    private String code;
+    private String name;
+    private String description;
+    private long amount;
 
-	private final List<User> users = Lists.newLinkedList();
+    private final List<User> users = Lists.newLinkedList();
 
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(code, name);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(code, name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("code", code)
-		            .add("name", name)
-		            .add("amount", amount);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("code", code)
+                .add("name", name)
+                .add("amount", amount);
+    }
 }

@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface UserService {
 
-	void add(User user);
+    void add(User user);
 
-	void upgradeLevels();
+    void upgradeLevels();
 
-	List<User> getAll();
+    List<User> getAll();
 }

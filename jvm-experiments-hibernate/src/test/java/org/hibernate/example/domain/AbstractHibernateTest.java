@@ -17,29 +17,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public abstract class AbstractHibernateTest {
 
-	@Autowired SessionFactory sessionFactory;
+    @Autowired
+    SessionFactory sessionFactory;
 
-	@Getter @Setter protected Session session;
+    @Getter
+    @Setter
+    protected Session session;
 
-	@Before
-	public void before() {
-		onBefore();
-	}
+    @Before
+    public void before() {
+        onBefore();
+    }
 
-	@After
-	public void after() {
-		onAfter();
-	}
+    @After
+    public void after() {
+        onAfter();
+    }
 
-	protected void onBefore() {
-		if (session == null)
-			session = sessionFactory.openSession();
-	}
+    protected void onBefore() {
+        if (session == null)
+            session = sessionFactory.openSession();
+    }
 
-	protected void onAfter() {
-		if (session != null) {
-			session.close();
-			session = null;
-		}
-	}
+    protected void onAfter() {
+        if (session != null) {
+            session.close();
+            session = null;
+        }
+    }
 }

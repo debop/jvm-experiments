@@ -10,17 +10,17 @@ import kr.kth.commons.slf4j.Logging
  */
 class ImplicitsTest extends Logging {
 
-	case class Delimiters(left: String, right: String)
+  case class Delimiters(left: String, right: String)
 
-	def quote(what: String)(implicit delims: Delimiters) = delims.left + what + delims.right
+  def quote(what: String)(implicit delims: Delimiters) = delims.left + what + delims.right
 
-	implicit val quoteDelimiters = Delimiters("<<", ">>")
+  implicit val quoteDelimiters = Delimiters("<<", ">>")
 
-	@Test
-	def implicitParamters() {
-		val q = quote("Category")
-		Assert.assertEquals("<<Category>>", q)
+  @Test
+  def implicitParamters() {
+    val q = quote("Category")
+    Assert.assertEquals("<<Category>>", q)
 
-		log.debug(s"q=[$q]")
-	}
+    log.debug(s"q=[$q]")
+  }
 }

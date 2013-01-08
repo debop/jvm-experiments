@@ -9,29 +9,29 @@ package kr.kth.commons.cryptography.symmetric;
  */
 public final class AriaEncryptor extends SymmetricByteEncryptorBase {
 
-	@Override
-	public final String getAlgorithm() {
-		return "Aria";
-	}
+    @Override
+    public final String getAlgorithm() {
+        return "Aria";
+    }
 
-	@Override
-	public boolean isInitialized() {
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
-	}
+    @Override
+    public boolean isInitialized() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	@Override
-	public void setPassword(String password) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
+    @Override
+    public void setPassword(String password) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	@Override
-	public byte[] encrypt(byte[] plainBytes) {
-		return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
-	}
+    @Override
+    public byte[] encrypt(byte[] plainBytes) {
+        return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	@Override
-	public byte[] decrypt(byte[] encryptedBytes) {
-		return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
-	}
+    @Override
+    public byte[] decrypt(byte[] encryptedBytes) {
+        return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 }

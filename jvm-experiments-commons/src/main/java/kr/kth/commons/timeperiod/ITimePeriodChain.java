@@ -7,13 +7,13 @@ package kr.kth.commons.timeperiod;
  */
 public interface ITimePeriodChain extends ITimePeriodContainer {
 
-	/**
-	 * 첫번째 항목
-	 */
-	ITimePeriod getFirst();
+    /**
+     * 첫번째 항목
+     */
+    ITimePeriod getFirst();
 
-	/**
-	 * 마지막 항목
-	 */
-	ITimePeriod getLast();
+    /**
+     * 마지막 항목
+     */
+    ITimePeriod getLast();
 }

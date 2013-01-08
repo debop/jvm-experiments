@@ -6,26 +6,26 @@ package kr.kth.commons.timeperiod;
  * Date: 12. 12. 19.
  */
 public enum HalfYearKind {
-	/**
-	 * 전반기
-	 */
-	First(1),
-	/**
-	 * 후반기
-	 */
-	Second(2);
+    /**
+     * 전반기
+     */
+    First(1),
+    /**
+     * 후반기
+     */
+    Second(2);
 
-	private final int halfYear;
+    private final int halfYear;
 
-	HalfYearKind(int halfYear) {
-		this.halfYear = halfYear;
-	}
+    HalfYearKind(int halfYear) {
+        this.halfYear = halfYear;
+    }
 
-	public final int toInt() {
-		return halfYear;
-	}
+    public final int toInt() {
+        return halfYear;
+    }
 
-	public static HalfYearKind valueOf(int value) {
-		return (value == 2) ? Second : First;
-	}
+    public static HalfYearKind valueOf(int value) {
+        return (value == 2) ? Second : First;
+    }
 }

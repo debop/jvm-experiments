@@ -25,67 +25,67 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(locations = "/springbook/chap01/applicationContext.xml")
 public class UserDaoTest {
 
-	@Autowired
-	private ApplicationContext appContext;
+    @Autowired
+    private ApplicationContext appContext;
 
-	@Test
-	public void springXmlApplicationContextTest() {
+    @Test
+    public void springXmlApplicationContextTest() {
 
-		UserDao dao = appContext.getBean("userDao", UserDao.class);
-		Assert.assertNotNull(dao);
+        UserDao dao = appContext.getBean("userDao", UserDao.class);
+        Assert.assertNotNull(dao);
 
-		UserDao dao2 = appContext.getBean("userDao", UserDao.class);
-		Assert.assertNotNull(dao2);
+        UserDao dao2 = appContext.getBean("userDao", UserDao.class);
+        Assert.assertNotNull(dao2);
 
-		assertEquals(dao, dao2);
+        assertEquals(dao, dao2);
 
-		Assert.assertNotNull(dao.getDataSource());
-	}
+        Assert.assertNotNull(dao.getDataSource());
+    }
 
-	@Test
-	public void userDaoTest() throws Exception {
+    @Test
+    public void userDaoTest() throws Exception {
 
-		UserDao dao = appContext.getBean("userDao", UserDao.class);
+        UserDao dao = appContext.getBean("userDao", UserDao.class);
 
-		dao.deleteAll();
+        dao.deleteAll();
 
-		User user = new User();
-		user.setId("debop");
-		user.setName("배성혁");
-		user.setPassword("real21");
+        User user = new User();
+        user.setId("debop");
+        user.setName("배성혁");
+        user.setPassword("real21");
 
-		dao.add(user);
+        dao.add(user);
 
-		if (log.isDebugEnabled())
-			log.debug("User=[{}] add success!!!", user);
+        if (log.isDebugEnabled())
+            log.debug("User=[{}] add success!!!", user);
 
-		User user2 = dao.get(user.getId());
+        User user2 = dao.get(user.getId());
 
-		Assert.assertNotNull(user2);
+        Assert.assertNotNull(user2);
 
-		if (log.isDebugEnabled())
-			log.debug("User=[{}] retrive success!!!", user2);
+        if (log.isDebugEnabled())
+            log.debug("User=[{}] retrive success!!!", user2);
 
-		dao.deleteAll();
-	}
+        dao.deleteAll();
+    }
 
-	@Test
-	public void getCountTest() throws Exception {
+    @Test
+    public void getCountTest() throws Exception {
 
-		UserDao dao = appContext.getBean("userDao", UserDao.class);
+        UserDao dao = appContext.getBean("userDao", UserDao.class);
 
-		dao.deleteAll();
-		assertEquals(0, dao.getCount());
+        dao.deleteAll();
+        assertEquals(0, dao.getCount());
 
-		User user = new User();
-		user.setId("debop");
-		user.setName("배성혁");
-		user.setPassword("real21");
+        User user = new User();
+        user.setId("debop");
+        user.setName("배성혁");
+        user.setPassword("real21");
 
-		dao.add(user);
+        dao.add(user);
 
-		assertThat(dao.getCount(), is(1));
+        assertThat(dao.getCount(), is(1));
 
-		dao.deleteAll();
-	}
+        dao.deleteAll();
+    }
 }

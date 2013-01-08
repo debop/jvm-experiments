@@ -12,17 +12,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class YearCalendarTimeRange extends CalendarTimeRange {
 
-	private static final long serialVersionUID = -4211622541447295691L;
+    private static final long serialVersionUID = -4211622541447295691L;
 
-	protected YearCalendarTimeRange(ITimePeriod period, ITimeCalendar calendar) {
-		super(period, calendar);
-	}
+    protected YearCalendarTimeRange(ITimePeriod period, ITimeCalendar calendar) {
+        super(period, calendar);
+    }
 
-	public int getBaseMonthOfYear() {
-		return getTimeCalendar().getBaseMonthOfYear();
-	}
+    public int getBaseMonthOfYear() {
+        return getTimeCalendar().getBaseMonthOfYear();
+    }
 
-	public int getBaseYear() {
-		return getStartYear();
-	}
+    public int getBaseYear() {
+        return getStartYear();
+    }
 }

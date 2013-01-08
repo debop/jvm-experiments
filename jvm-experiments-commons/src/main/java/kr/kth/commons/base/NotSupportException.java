@@ -7,13 +7,13 @@ package kr.kth.commons.base;
  */
 public class NotSupportException extends RuntimeException {
 
-	private static final long serialVersionUID = 231848084992090602L;
+    private static final long serialVersionUID = 231848084992090602L;
 
-	public NotSupportException() {
-		this("지원하지 않는 코드입니다.");
-	}
+    public NotSupportException() {
+        this("지원하지 않는 코드입니다.");
+    }
 
-	public NotSupportException(String message) {
-		super(message);
-	}
+    public NotSupportException(String message) {
+        super(message);
+    }
 }

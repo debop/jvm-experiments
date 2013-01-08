@@ -10,17 +10,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AutoStopwatch implements AutoCloseable {
 
-	private final Stopwatch stopwatch;
+    private final Stopwatch stopwatch;
 
-	public AutoStopwatch() {
-		stopwatch = new Stopwatch();
-		stopwatch.start();
-	}
+    public AutoStopwatch() {
+        stopwatch = new Stopwatch();
+        stopwatch.start();
+    }
 
-	@Override
-	public void close() {
-		try {
-			stopwatch.end();
-		} catch (Exception ignored) {}
-	}
+    @Override
+    public void close() {
+        try {
+            stopwatch.end();
+        } catch (Exception ignored) {
+        }
+    }
 }

@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NotImplementedException extends RuntimeException {
 
-	private static final long serialVersionUID = -1276105737644188535L;
+    private static final long serialVersionUID = -1276105737644188535L;
 
-	public NotImplementedException() {
-		this("구현이 되지 않았습니다. 구현해 주시기 바랍니다.");
-	}
+    public NotImplementedException() {
+        this("구현이 되지 않았습니다. 구현해 주시기 바랍니다.");
+    }
 
-	public NotImplementedException(String message) {
-		super(message);
-	}
+    public NotImplementedException(String message) {
+        super(message);
+    }
 }

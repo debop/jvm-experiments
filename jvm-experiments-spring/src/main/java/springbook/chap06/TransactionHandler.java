@@ -16,29 +16,32 @@ import java.lang.reflect.Method;
  */
 public class TransactionHandler implements InvocationHandler {
 
-	@Setter private Object target;
-	@Setter private PlatformTransactionManager transactionManager;
-	@Setter private String pattern;
+    @Setter
+    private Object target;
+    @Setter
+    private PlatformTransactionManager transactionManager;
+    @Setter
+    private String pattern;
 
 
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		if (method.getName().startsWith(pattern)) {
-			return invokeInTransaction(method, args);
-		} else {
-			return method.invoke(target, args);
-		}
-	}
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (method.getName().startsWith(pattern)) {
+            return invokeInTransaction(method, args);
+        } else {
+            return method.invoke(target, args);
+        }
+    }
 
-	private Object invokeInTransaction(Method method, Object[] args) throws Throwable {
-		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());
-		try {
-			Object ret = method.invoke(this.target, args);
-			transactionManager.commit(ts);
-			return ret;
-		} catch (InvocationTargetException e) {
-			transactionManager.rollback(ts);
-			throw e.getTargetException();
-		}
-	}
+    private Object invokeInTransaction(Method method, Object[] args) throws Throwable {
+        TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        try {
+            Object ret = method.invoke(this.target, args);
+            transactionManager.commit(ts);
+            return ret;
+        } catch (InvocationTargetException e) {
+            transactionManager.rollback(ts);
+            throw e.getTargetException();
+        }
+    }
 }

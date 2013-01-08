@@ -22,64 +22,65 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public final class MapperTool {
 
-	private MapperTool() {}
+    private MapperTool() {
+    }
 
-	private static final ModelMapper mapper;
+    private static final ModelMapper mapper;
 
-	static {
-		mapper = new ModelMapper();
-		mapper.getConfiguration()
-		      .enableFieldMatching(true)
-		      .setMatchingStrategy(MatchingStrategies.LOOSE)
-		      .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
+    static {
+        mapper = new ModelMapper();
+        mapper.getConfiguration()
+                .enableFieldMatching(true)
+                .setMatchingStrategy(MatchingStrategies.LOOSE)
+                .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
 
-		if (log.isInfoEnabled())
-			log.info("ModelMapper를 초기화했습니다.");
-	}
+        if (log.isInfoEnabled())
+            log.info("ModelMapper를 초기화했습니다.");
+    }
 
-	public static <T> T map(Object source, Class<T> destinationClass) {
-		shouldNotBeNull(source, "source");
-		shouldNotBeNull(destinationClass, "destinationClass");
+    public static <T> T map(Object source, Class<T> destinationClass) {
+        shouldNotBeNull(source, "source");
+        shouldNotBeNull(destinationClass, "destinationClass");
 
-		return mapper.map(source, destinationClass);
-	}
+        return mapper.map(source, destinationClass);
+    }
 
-	public static void map(Object source, Object destination) {
-		shouldNotBeNull(source, "source");
-		shouldNotBeNull(destination, "destination");
+    public static void map(Object source, Object destination) {
+        shouldNotBeNull(source, "source");
+        shouldNotBeNull(destination, "destination");
 
-		mapper.map(source, destination);
-	}
+        mapper.map(source, destination);
+    }
 
-	public static <S, T> List<T> mapList(Iterable<S> sources, Class<T> destinationClass) {
-		List<T> destinations = Lists.newArrayList();
+    public static <S, T> List<T> mapList(Iterable<S> sources, Class<T> destinationClass) {
+        List<T> destinations = Lists.newArrayList();
 
-		for (S source : sources) {
-			destinations.add(mapper.map(source, destinationClass));
-		}
-		return destinations;
-	}
+        for (S source : sources) {
+            destinations.add(mapper.map(source, destinationClass));
+        }
+        return destinations;
+    }
 
-	public static <T> Future<T> mapAsync(final Object source, final Class<T> destinationClass) {
-		return AsyncTool.startNew(new Callable<T>() {
-			@Override
-			public T call() throws Exception {
-				return mapper.map(source, destinationClass);
-			}
-		});
-	}
+    public static <T> Future<T> mapAsync(final Object source, final Class<T> destinationClass) {
+        return AsyncTool.startNew(new Callable<T>() {
+            @Override
+            public T call() throws Exception {
+                return mapper.map(source, destinationClass);
+            }
+        });
+    }
 
-	public static <S, T> Future<List<T>> mapListAsync(final Iterable<S> sources, final Class<T> destinationClass) {
+    public static <S, T> Future<List<T>> mapListAsync(final Iterable<S> sources, final Class<T> destinationClass) {
 
-		return AsyncTool.startNew(new Callable<List<T>>() {
-			@Override
-			public List<T> call() throws Exception {
-				List<T> destinations = Lists.newArrayList();
-				for (S source : sources) {
-					destinations.add(mapper.map(source, destinationClass));
-				}
-				return destinations;
-			}
-		});
-	}
+        return AsyncTool.startNew(new Callable<List<T>>() {
+            @Override
+            public List<T> call() throws Exception {
+                List<T> destinations = Lists.newArrayList();
+                for (S source : sources) {
+                    destinations.add(mapper.map(source, destinationClass));
+                }
+                return destinations;
+            }
+        });
+    }
 }

@@ -7,9 +7,9 @@ package org.hibernate.example.domain.model.collection;
  */
 public enum ItemState {
 
-	Unknown,
+    Unknown,
 
-	Active,
+    Active,
 
-	Inactive
+    Inactive
 }

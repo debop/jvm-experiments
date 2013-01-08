@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DESByteEncryptor extends SymmetricByteEncryptorBase {
 
-	@Override
-	public String getAlgorithm() {
-		return "PBEwithMD5andDES";
-	}
+    @Override
+    public String getAlgorithm() {
+        return "PBEwithMD5andDES";
+    }
 }

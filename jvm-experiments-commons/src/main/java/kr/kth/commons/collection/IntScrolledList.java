@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class IntScrolledList<E> extends ScrolledListBase<E, Integer> {
 
-	private static final long serialVersionUID = 290234509250517728L;
+    private static final long serialVersionUID = 290234509250517728L;
 
-	public IntScrolledList(List<E> list, int lowerBound, int upperBound) {
-		super(list, lowerBound, upperBound);
-	}
+    public IntScrolledList(List<E> list, int lowerBound, int upperBound) {
+        super(list, lowerBound, upperBound);
+    }
 }

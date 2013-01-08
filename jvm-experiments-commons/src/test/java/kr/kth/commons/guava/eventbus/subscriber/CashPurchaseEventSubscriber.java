@@ -11,13 +11,13 @@ import kr.kth.commons.guava.eventbus.events.CashPurchaseEvent;
  */
 public class CashPurchaseEventSubscriber extends EventSubscriber<CashPurchaseEvent> {
 
-	public CashPurchaseEventSubscriber(EventBus eventBus) {
-		super(eventBus);
-	}
+    public CashPurchaseEventSubscriber(EventBus eventBus) {
+        super(eventBus);
+    }
 
-	@Override
-	@Subscribe
-	public void handleEvent(CashPurchaseEvent event) {
-		events.add(event);
-	}
+    @Override
+    @Subscribe
+    public void handleEvent(CashPurchaseEvent event) {
+        events.add(event);
+    }
 }

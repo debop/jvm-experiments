@@ -20,33 +20,33 @@ import javax.persistence.*;
 @DynamicUpdate
 public abstract class PersonBase extends AnnotatedEntityBase {
 
-	private static final long serialVersionUID = -1470594196996731366L;
+    private static final long serialVersionUID = -1470594196996731366L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "PERSON_ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PERSON_ID")
+    private Long id;
 
-	@Column(name = "PERSON_NAME", nullable = false, length = 256)
-	private String name;
+    @Column(name = "PERSON_NAME", nullable = false, length = 256)
+    private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "COMPANY_ID", nullable = false)
-	private Company company;
+    @ManyToOne
+    @JoinColumn(name = "COMPANY_ID", nullable = false)
+    private Company company;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return HashTool.compute(id);
 
-		return HashTool.compute(name, company);
-	}
+        return HashTool.compute(name, company);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id)
-		            .add("name", name)
-		            .add("company", company);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id)
+                .add("name", name)
+                .add("company", company);
+    }
 }

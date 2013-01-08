@@ -13,14 +13,14 @@ import javax.persistence.Entity;
 @DiscriminatorValue("BA")
 public class Subclass_BankAccount extends Subclass_BillingDetails {
 
-	private static final long serialVersionUID = 6159765179966313199L;
+    private static final long serialVersionUID = 6159765179966313199L;
 
-	@Column(name = "BANK_ACCOUNT")
-	private String account;
+    @Column(name = "BANK_ACCOUNT")
+    private String account;
 
-	@Column(name = "BANK_NAME")
-	private String bankname;
+    @Column(name = "BANK_NAME")
+    private String bankname;
 
-	@Column(name = "BANK_SWIFT")
-	private String swift;
+    @Column(name = "BANK_SWIFT")
+    private String swift;
 }

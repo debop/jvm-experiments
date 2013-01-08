@@ -17,23 +17,23 @@ import javax.persistence.Table;
 @Table(name = "JS_CUSTOMER")
 public class Customer extends PersonBase {
 
-	private static final long serialVersionUID = -2249084619324711936L;
+    private static final long serialVersionUID = -2249084619324711936L;
 
-	@ManyToOne
-	@JoinColumn(name = "CONTACT_EMP_ID", nullable = false)
-	private Employee contactEmployee;
+    @ManyToOne
+    @JoinColumn(name = "CONTACT_EMP_ID", nullable = false)
+    private Employee contactEmployee;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return super.hashCode();
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return super.hashCode();
 
-		return HashTool.compute(super.hashCode(), contactEmployee);
-	}
+        return HashTool.compute(super.hashCode(), contactEmployee);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("contactEmployee", contactEmployee);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("contactEmployee", contactEmployee);
+    }
 }

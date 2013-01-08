@@ -15,89 +15,90 @@ import java.util.concurrent.*;
 @Slf4j
 public class TestTool {
 
-	private TestTool() {}
+    private TestTool() {
+    }
 
-	private static ExecutorService newExecutorService() {
-		return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-	}
+    private static ExecutorService newExecutorService() {
+        return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    }
 
-	public static void runTasks(int count, Runnable... runnables) {
+    public static void runTasks(int count, Runnable... runnables) {
 
-		ExecutorService executor = newExecutorService();
+        ExecutorService executor = newExecutorService();
 
-		try {
-			for (final Runnable runnable : runnables) {
-				final CountDownLatch latch = new CountDownLatch(count);
-				for (int i = 0; i < count; i++) {
-					executor.submit(new Runnable() {
-						@Override
-						public void run() {
-							runnable.run();
-							latch.countDown();
-						}
-					});
-				}
-				latch.await();
-			}
-		} catch (InterruptedException e) {
-			if (log.isErrorEnabled())
-				log.error("작업 수행 중 예외가 발생했습니다.", e);
-			throw new RuntimeException(e);
-		} finally {
-			executor.shutdown();
-		}
-	}
+        try {
+            for (final Runnable runnable : runnables) {
+                final CountDownLatch latch = new CountDownLatch(count);
+                for (int i = 0; i < count; i++) {
+                    executor.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            runnable.run();
+                            latch.countDown();
+                        }
+                    });
+                }
+                latch.await();
+            }
+        } catch (InterruptedException e) {
+            if (log.isErrorEnabled())
+                log.error("작업 수행 중 예외가 발생했습니다.", e);
+            throw new RuntimeException(e);
+        } finally {
+            executor.shutdown();
+        }
+    }
 
-	@SafeVarargs
-	public static <T> void runTasks(int count, Callable<T>... callables) {
+    @SafeVarargs
+    public static <T> void runTasks(int count, Callable<T>... callables) {
 
-		ExecutorService executor = newExecutorService();
+        ExecutorService executor = newExecutorService();
 
-		try {
-			List<Future<T>> futures = Lists.newArrayList();
+        try {
+            List<Future<T>> futures = Lists.newArrayList();
 
-			for (int i = 0; i < count; i++) {
-				List<Future<T>> results = executor.invokeAll(Lists.newArrayList(callables));
-				futures.addAll(results);
-			}
-			for (Future<T> future : futures) {
-				future.get();
-			}
+            for (int i = 0; i < count; i++) {
+                List<Future<T>> results = executor.invokeAll(Lists.newArrayList(callables));
+                futures.addAll(results);
+            }
+            for (Future<T> future : futures) {
+                future.get();
+            }
 
-		} catch (ExecutionException | InterruptedException e) {
-			if (log.isErrorEnabled())
-				log.error("예외가 발생했습니다.", e);
-			throw new RuntimeException(e);
-		} finally {
-			executor.shutdown();
-		}
-	}
+        } catch (ExecutionException | InterruptedException e) {
+            if (log.isErrorEnabled())
+                log.error("예외가 발생했습니다.", e);
+            throw new RuntimeException(e);
+        } finally {
+            executor.shutdown();
+        }
+    }
 
-	public static void runTasks(int count, final Action1<Integer> action) {
+    public static void runTasks(int count, final Action1<Integer> action) {
 
-		ExecutorService executor = newExecutorService();
-		final CountDownLatch latch = new CountDownLatch(count);
+        ExecutorService executor = newExecutorService();
+        final CountDownLatch latch = new CountDownLatch(count);
 
-		try {
+        try {
 
-			for (int i = 0; i < count; i++) {
-				final int index = i;
-				executor.execute(new Runnable() {
-					@Override
-					public void run() {
-						action.perform(index);
-						latch.countDown();
-					}
-				});
-			}
-			latch.await();
+            for (int i = 0; i < count; i++) {
+                final int index = i;
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        action.perform(index);
+                        latch.countDown();
+                    }
+                });
+            }
+            latch.await();
 
-		} catch (InterruptedException e) {
-			if (log.isErrorEnabled())
-				log.error("예외가 발생했습니다.", e);
-			throw new RuntimeException(e);
-		} finally {
-			executor.shutdown();
-		}
-	}
+        } catch (InterruptedException e) {
+            if (log.isErrorEnabled())
+                log.error("예외가 발생했습니다.", e);
+            throw new RuntimeException(e);
+        } finally {
+            executor.shutdown();
+        }
+    }
 }

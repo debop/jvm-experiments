@@ -12,117 +12,117 @@ import org.joda.time.DateTime;
  */
 public class TimeRange extends TimePeriodBase implements ITimeRange {
 
-	private static final long serialVersionUID = -8743222521934888987L;
+    private static final long serialVersionUID = -8743222521934888987L;
 
-	public static final TimeRange Anytime = new TimeRange(true);
+    public static final TimeRange Anytime = new TimeRange(true);
 
-	// region << Constructors >>
+    // region << Constructors >>
 
-	public TimeRange() {
-		super();
-	}
+    public TimeRange() {
+        super();
+    }
 
-	public TimeRange(boolean readonly) {
-		super(readonly);
-	}
+    public TimeRange(boolean readonly) {
+        super(readonly);
+    }
 
-	public TimeRange(DateTime moment) {
-		super(moment, false);
-	}
+    public TimeRange(DateTime moment) {
+        super(moment, false);
+    }
 
-	public TimeRange(DateTime moment, boolean readonly) {
-		super(moment, readonly);
-	}
+    public TimeRange(DateTime moment, boolean readonly) {
+        super(moment, readonly);
+    }
 
-	public TimeRange(DateTime start, DateTime end) {
-		super(start, end, false);
-	}
+    public TimeRange(DateTime start, DateTime end) {
+        super(start, end, false);
+    }
 
-	public TimeRange(DateTime start, DateTime end, boolean readonly) {
-		super(start, end, readonly);
-	}
+    public TimeRange(DateTime start, DateTime end, boolean readonly) {
+        super(start, end, readonly);
+    }
 
-	public TimeRange(DateTime start, long duration) {
-		super(start, duration, false);
-	}
+    public TimeRange(DateTime start, long duration) {
+        super(start, duration, false);
+    }
 
-	public TimeRange(DateTime start, long duration, boolean readonly) {
-		super(start, duration, readonly);
-	}
+    public TimeRange(DateTime start, long duration, boolean readonly) {
+        super(start, duration, readonly);
+    }
 
-	public TimeRange(ITimePeriod src) {
-		super(src);
-	}
+    public TimeRange(ITimePeriod src) {
+        super(src);
+    }
 
-	public TimeRange(ITimePeriod src, boolean readonly) {
-		super(src, readonly);
-	}
+    public TimeRange(ITimePeriod src, boolean readonly) {
+        super(src, readonly);
+    }
 
-	// endregion
+    // endregion
 
-	@Override
-	public void setStart(DateTime start) {
-		assertMutable();
-		this.start = start;
-	}
+    @Override
+    public void setStart(DateTime start) {
+        assertMutable();
+        this.start = start;
+    }
 
-	@Override
-	public void setEnd(DateTime end) {
-		assertMutable();
-		this.end = end;
-	}
+    @Override
+    public void setEnd(DateTime end) {
+        assertMutable();
+        this.end = end;
+    }
 
-	@Override
-	public void setDuration(long duration) {
-		assertMutable();
-		this.end = getStart().plus(duration);
-	}
+    @Override
+    public void setDuration(long duration) {
+        assertMutable();
+        this.end = getStart().plus(duration);
+    }
 
-	@Override
-	public void expandStartTo(DateTime moment) {
-		assertMutable();
-		this.start = moment;
-	}
+    @Override
+    public void expandStartTo(DateTime moment) {
+        assertMutable();
+        this.start = moment;
+    }
 
-	@Override
-	public void expandEndTo(DateTime moment) {
-		assertMutable();
-		this.end = moment;
-	}
+    @Override
+    public void expandEndTo(DateTime moment) {
+        assertMutable();
+        this.end = moment;
+    }
 
-	@Override
-	public void expandTo(DateTime moment) {
-		assertMutable();
+    @Override
+    public void expandTo(DateTime moment) {
+        assertMutable();
 
-		if (moment.compareTo(start) <= 0)
-			setStart(moment);
-		else if (moment.compareTo(end) >= 0)
-			setEnd(moment);
-	}
+        if (moment.compareTo(start) <= 0)
+            setStart(moment);
+        else if (moment.compareTo(end) >= 0)
+            setEnd(moment);
+    }
 
-	@Override
-	public void expandTo(ITimePeriod period) {
-		assertMutable();
-		expandStartTo(period.getStart());
-		expandEndTo(period.getEnd());
-	}
+    @Override
+    public void expandTo(ITimePeriod period) {
+        assertMutable();
+        expandStartTo(period.getStart());
+        expandEndTo(period.getEnd());
+    }
 
-	@Override
-	public void shrinkStartTo(DateTime moment) {
-		assertMutable();
-		this.start = moment;
-	}
+    @Override
+    public void shrinkStartTo(DateTime moment) {
+        assertMutable();
+        this.start = moment;
+    }
 
-	@Override
-	public void shrinkEndTo(DateTime moment) {
-		assertMutable();
-		this.end = moment;
-	}
+    @Override
+    public void shrinkEndTo(DateTime moment) {
+        assertMutable();
+        this.end = moment;
+    }
 
-	@Override
-	public void shrinkTo(ITimePeriod period) {
-		assertMutable();
-		shrinkStartTo(period.getStart());
-		shrinkEndTo(period.getEnd());
-	}
+    @Override
+    public void shrinkTo(ITimePeriod period) {
+        assertMutable();
+        shrinkStartTo(period.getStart());
+        shrinkEndTo(period.getEnd());
+    }
 }

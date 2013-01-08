@@ -6,12 +6,12 @@ package kr.kth.commons.timeperiod;
  * Date: 12. 12. 19.
  */
 public enum SeekBoundaryMode {
-	/**
-	 * Date 검색 시 검색한 값을 반환하도록 한다.
-	 */
-	Fill,
-	/**
-	 * Date 검색 시, 검색한 다음 값을 반환하도록 합니다.
-	 */
-	Next
+    /**
+     * Date 검색 시 검색한 값을 반환하도록 한다.
+     */
+    Fill,
+    /**
+     * Date 검색 시, 검색한 다음 값을 반환하도록 합니다.
+     */
+    Next
 }

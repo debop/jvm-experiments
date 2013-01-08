@@ -13,32 +13,32 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class HelloConfig {
 
-	@Bean
-	public Hello hello() {
-		if (log.isDebugEnabled())
-			log.debug("create hello instance...");
+    @Bean
+    public Hello hello() {
+        if (log.isDebugEnabled())
+            log.debug("create hello instance...");
 
-		Hello hello = new Hello();
-		hello.setName("Spring");
-		hello.setPrinter(printer());
-		return hello;
-	}
+        Hello hello = new Hello();
+        hello.setName("Spring");
+        hello.setPrinter(printer());
+        return hello;
+    }
 
-	@Bean
-	public Hello hello2() {
-		if (log.isDebugEnabled())
-			log.debug("create hello2 instance...");
+    @Bean
+    public Hello hello2() {
+        if (log.isDebugEnabled())
+            log.debug("create hello2 instance...");
 
-		Hello hello = new Hello();
-		hello.setName("Spring2");
-		hello.setPrinter(printer());
-		return hello;
-	}
+        Hello hello = new Hello();
+        hello.setName("Spring2");
+        hello.setPrinter(printer());
+        return hello;
+    }
 
-	@Bean
-	public Printer printer() {
-		if (log.isDebugEnabled())
-			log.debug("create StringPrinter instance...");
-		return new StringPrinter();
-	}
+    @Bean
+    public Printer printer() {
+        if (log.isDebugEnabled())
+            log.debug("create StringPrinter instance...");
+        return new StringPrinter();
+    }
 }

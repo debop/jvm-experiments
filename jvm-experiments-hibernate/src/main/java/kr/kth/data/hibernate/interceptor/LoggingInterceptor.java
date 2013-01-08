@@ -22,67 +22,68 @@ import java.util.List;
 @Slf4j
 public class LoggingInterceptor extends EmptyInterceptor {
 
-	private static final long serialVersionUID = -5900714659767205225L;
+    private static final long serialVersionUID = -5900714659767205225L;
 
-	private List<Log> logs = Lists.newArrayList();
-	private static final boolean isDebugEnabled = log.isDebugEnabled();
+    private List<Log> logs = Lists.newArrayList();
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
 
-	@Override
-	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		if (!(entity instanceof Log)) {
-			if (isDebugEnabled)
-				logs.add(new Log("insert", (String) id, entity.getClass().getName()));
-		}
-		return false;
-	}
+    @Override
+    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        if (!(entity instanceof Log)) {
+            if (isDebugEnabled)
+                logs.add(new Log("insert", (String) id, entity.getClass().getName()));
+        }
+        return false;
+    }
 
-	@Override
-	public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
-		if (!(entity instanceof Log)) {
-			if (isDebugEnabled)
-				logs.add(new Log("update", (String) id, entity.getClass().getName()));
-		}
-		return false;
-	}
+    @Override
+    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
+        if (!(entity instanceof Log)) {
+            if (isDebugEnabled)
+                logs.add(new Log("update", (String) id, entity.getClass().getName()));
+        }
+        return false;
+    }
 
-	@Override
-	public void postFlush(Iterator entities) {
-		// 로그 정보를 기타 DB에 따로 저장할 수 있습니다^^
-		//
-		if (isDebugEnabled) {
-			for (Log x : logs) {
-				log.debug("[{}]", x);
-			}
-		}
-		logs.clear();
-	}
+    @Override
+    public void postFlush(Iterator entities) {
+        // 로그 정보를 기타 DB에 따로 저장할 수 있습니다^^
+        //
+        if (isDebugEnabled) {
+            for (Log x : logs) {
+                log.debug("[{}]", x);
+            }
+        }
+        logs.clear();
+    }
 
-	@Getter
-	@Setter
-	public static class Log extends ValueObjectBase {
+    @Getter
+    @Setter
+    public static class Log extends ValueObjectBase {
 
-		private String entityName;
-		private String entityId;
-		private String action;
-		private Calendar time;
+        private String entityName;
+        private String entityId;
+        private String action;
+        private Calendar time;
 
-		public Log() {}
+        public Log() {
+        }
 
-		public Log(String action, String entityId, String entityName) {
-			super();
-			this.action = action;
-			this.entityId = entityId;
-			this.entityName = entityName;
-			this.time = Calendar.getInstance();
-		}
+        public Log(String action, String entityId, String entityName) {
+            super();
+            this.action = action;
+            this.entityId = entityId;
+            this.entityName = entityName;
+            this.time = Calendar.getInstance();
+        }
 
-		@Override
-		protected Objects.ToStringHelper buildStringHelper() {
-			return super.buildStringHelper()
-			            .add("entityId", entityId)
-			            .add("entityName", entityName)
-			            .add("action", action)
-			            .add("timePart", time);
-		}
-	}
+        @Override
+        protected Objects.ToStringHelper buildStringHelper() {
+            return super.buildStringHelper()
+                    .add("entityId", entityId)
+                    .add("entityName", entityName)
+                    .add("action", action)
+                    .add("timePart", time);
+        }
+    }
 }

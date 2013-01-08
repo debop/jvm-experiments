@@ -18,25 +18,25 @@ import static org.junit.Assert.assertEquals;
  */
 public class JsonSerializerTest extends AbstractTest {
 
-	private static final List<IJsonSerializer> serializers =
-		Lists.newArrayList(new GsonSerializer(), new JacksonSerializer());
+    private static final List<IJsonSerializer> serializers =
+            Lists.newArrayList(new GsonSerializer(), new JacksonSerializer());
 
-	@Test
-	public void serializeTest() {
-		User user = User.getUser(999);
+    @Test
+    public void serializeTest() {
+        User user = User.getUser(999);
 
-		for (int i = 0; i < serializers.size(); i++) {
-			IJsonSerializer serializer = serializers.get(i);
+        for (int i = 0; i < serializers.size(); i++) {
+            IJsonSerializer serializer = serializers.get(i);
 
-			byte[] serializedBytes = serializer.serialize(user);
-			User deserialized = serializer.deserialize(serializedBytes, User.class);
+            byte[] serializedBytes = serializer.serialize(user);
+            User deserialized = serializer.deserialize(serializedBytes, User.class);
 
-			assertEquals(user, deserialized);
-			assertEquals(user.getHomeAddress(), deserialized.getHomeAddress());
-			assertEquals(user.getOfficeAddress(), deserialized.getOfficeAddress());
-			assertEquals(listToString(user.getFavoriteMovies()), listToString(deserialized.getFavoriteMovies()));
+            assertEquals(user, deserialized);
+            assertEquals(user.getHomeAddress(), deserialized.getHomeAddress());
+            assertEquals(user.getOfficeAddress(), deserialized.getOfficeAddress());
+            assertEquals(listToString(user.getFavoriteMovies()), listToString(deserialized.getFavoriteMovies()));
 
-			assertArrayEquals(user.getByteArray(), deserialized.getByteArray());
-		}
-	}
+            assertArrayEquals(user.getByteArray(), deserialized.getByteArray());
+        }
+    }
 }

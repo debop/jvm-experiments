@@ -10,21 +10,21 @@ import kr.kth.commons.base.ISerializer;
  */
 public abstract class SerializerDecorator implements ISerializer {
 
-	private final ISerializer serializer;
+    private final ISerializer serializer;
 
-	public SerializerDecorator(ISerializer serializer) {
-		Guard.shouldNotBeNull(serializer, "serializer");
-		this.serializer = serializer;
-	}
+    public SerializerDecorator(ISerializer serializer) {
+        Guard.shouldNotBeNull(serializer, "serializer");
+        this.serializer = serializer;
+    }
 
 
-	@Override
-	public byte[] serialize(Object graph) {
-		return serializer.serialize(graph);
-	}
+    @Override
+    public byte[] serialize(Object graph) {
+        return serializer.serialize(graph);
+    }
 
-	@Override
-	public <T> T deserialize(byte[] bytes, Class<T> clazz) {
-		return serializer.deserialize(bytes, clazz);
-	}
+    @Override
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
+        return serializer.deserialize(bytes, clazz);
+    }
 }

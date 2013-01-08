@@ -19,63 +19,63 @@ import java.sql.SQLException;
  */
 public abstract class AbstractCompressedUserType implements UserType {
 
-	/**
-	 * 속성 값을 압축/복원하는 {@link kr.kth.commons.compress.ICompressor}의 구현 객체를 반환합니다.
-	 */
-	abstract public ICompressor getCompressor();
+    /**
+     * 속성 값을 압축/복원하는 {@link kr.kth.commons.compress.ICompressor}의 구현 객체를 반환합니다.
+     */
+    abstract public ICompressor getCompressor();
 
 
-	abstract public Class returnedClass();
+    abstract public Class returnedClass();
 
-	abstract public Object nullSafeGet(ResultSet resultSet,
-	                                   String[] strings,
-	                                   SessionImplementor sessionImplementor,
-	                                   Object o) throws
-	                                             HibernateException,
-	                                             SQLException;
+    abstract public Object nullSafeGet(ResultSet resultSet,
+                                       String[] strings,
+                                       SessionImplementor sessionImplementor,
+                                       Object o) throws
+            HibernateException,
+            SQLException;
 
-	abstract public void nullSafeSet(PreparedStatement preparedStatement,
-	                                 Object o,
-	                                 int i,
-	                                 SessionImplementor sessionImplementor) throws
-	                                                                        HibernateException,
-	                                                                        SQLException;
+    abstract public void nullSafeSet(PreparedStatement preparedStatement,
+                                     Object o,
+                                     int i,
+                                     SessionImplementor sessionImplementor) throws
+            HibernateException,
+            SQLException;
 
-	abstract public boolean isMutable();
+    abstract public boolean isMutable();
 
-	@Override
-	public int[] sqlTypes() {
-		return new int[]{BinaryType.INSTANCE.sqlType()};
-	}
+    @Override
+    public int[] sqlTypes() {
+        return new int[]{BinaryType.INSTANCE.sqlType()};
+    }
 
-	@Override
-	public boolean equals(Object x, Object y) throws HibernateException {
-		return Objects.equal(x, y);
-	}
+    @Override
+    public boolean equals(Object x, Object y) throws HibernateException {
+        return Objects.equal(x, y);
+    }
 
-	@Override
-	public int hashCode(Object o) throws HibernateException {
-		return Objects.hashCode(o);
-	}
+    @Override
+    public int hashCode(Object o) throws HibernateException {
+        return Objects.hashCode(o);
+    }
 
-	@Override
-	public Object deepCopy(Object o) throws HibernateException {
-		return o;
-	}
+    @Override
+    public Object deepCopy(Object o) throws HibernateException {
+        return o;
+    }
 
 
-	@Override
-	public Serializable disassemble(Object o) throws HibernateException {
-		return (Serializable) deepCopy(o);
-	}
+    @Override
+    public Serializable disassemble(Object o) throws HibernateException {
+        return (Serializable) deepCopy(o);
+    }
 
-	@Override
-	public Object assemble(Serializable serializable, Object o) throws HibernateException {
-		return deepCopy(serializable);
-	}
+    @Override
+    public Object assemble(Serializable serializable, Object o) throws HibernateException {
+        return deepCopy(serializable);
+    }
 
-	@Override
-	public Object replace(Object o, Object o1, Object o2) throws HibernateException {
-		return deepCopy(o);
-	}
+    @Override
+    public Object replace(Object o, Object o1, Object o2) throws HibernateException {
+        return deepCopy(o);
+    }
 }

@@ -17,37 +17,37 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CompressorConfiguration {
 
-	private static final boolean isDebugEnabled = log.isDebugEnabled();
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
 
-	@Bean(name = "bzip2Compressor")
-	public BZip2Compressor bzip2Compressor() {
-		if (isDebugEnabled)
-			log.debug("BZip2Compressor Bean 을 생성합니다.");
+    @Bean(name = "bzip2Compressor")
+    public BZip2Compressor bzip2Compressor() {
+        if (isDebugEnabled)
+            log.debug("BZip2Compressor Bean 을 생성합니다.");
 
-		return new BZip2Compressor();
-	}
+        return new BZip2Compressor();
+    }
 
-	@Bean(name = "gzipCompressor")
-	public GZipCompressor gzipCompressor() {
-		if (isDebugEnabled)
-			log.debug("GZipCompressor Bean 을 생성합니다.");
+    @Bean(name = "gzipCompressor")
+    public GZipCompressor gzipCompressor() {
+        if (isDebugEnabled)
+            log.debug("GZipCompressor Bean 을 생성합니다.");
 
-		return new GZipCompressor();
-	}
+        return new GZipCompressor();
+    }
 
-	@Bean(name = "deflateCompressor")
-	public DeflateCompressor deflateCompressor() {
-		if (isDebugEnabled)
-			log.debug("DeflateCompressor Bean 을 생성합니다.");
+    @Bean(name = "deflateCompressor")
+    public DeflateCompressor deflateCompressor() {
+        if (isDebugEnabled)
+            log.debug("DeflateCompressor Bean 을 생성합니다.");
 
-		return new DeflateCompressor();
-	}
+        return new DeflateCompressor();
+    }
 
-	@Bean(name = "xzCompressor")
-	public XZCompressor xzCompressor() {
-		if (isDebugEnabled)
-			log.debug("XZCompressor Bean 을 생성합니다.");
+    @Bean(name = "xzCompressor")
+    public XZCompressor xzCompressor() {
+        if (isDebugEnabled)
+            log.debug("XZCompressor Bean 을 생성합니다.");
 
-		return new XZCompressor();
-	}
+        return new XZCompressor();
+    }
 }

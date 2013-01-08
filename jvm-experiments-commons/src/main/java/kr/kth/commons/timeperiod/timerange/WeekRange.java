@@ -13,17 +13,17 @@ import org.joda.time.DateTime;
 @Slf4j
 public class WeekRange extends WeekTimeRange {
 
-	private static final long serialVersionUID = 5762664028391472463L;
+    private static final long serialVersionUID = 5762664028391472463L;
 
-	public WeekRange(ITimePeriod period, ITimeCalendar calendar) {
-		super(period, calendar);
-	}
+    public WeekRange(ITimePeriod period, ITimeCalendar calendar) {
+        super(period, calendar);
+    }
 
-	public WeekRange(DateTime moment, int weekCount, ITimeCalendar timeCalendar) {
-		super(moment, weekCount, timeCalendar);
-	}
+    public WeekRange(DateTime moment, int weekCount, ITimeCalendar timeCalendar) {
+        super(moment, weekCount, timeCalendar);
+    }
 
-	public WeekRange(int year, int week, int weekCount, ITimeCalendar timeCalendar) {
-		super(year, week, weekCount, timeCalendar);
-	}
+    public WeekRange(int year, int week, int weekCount, ITimeCalendar timeCalendar) {
+        super(year, week, weekCount, timeCalendar);
+    }
 }

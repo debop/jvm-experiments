@@ -24,50 +24,51 @@ import java.util.Iterator;
 @Slf4j
 public class TimeLineMoment implements ITimeLineMoment {
 
-	private static final long serialVersionUID = -4700989258602962868L;
+    private static final long serialVersionUID = -4700989258602962868L;
 
-	@Getter
-	private final DateTime moment;
+    @Getter
+    private final DateTime moment;
 
-	@Getter @Setter(value = AccessLevel.PROTECTED)
-	private ITimePeriodCollection periods = new TimePeriodCollection();
+    @Getter
+    @Setter(value = AccessLevel.PROTECTED)
+    private ITimePeriodCollection periods = new TimePeriodCollection();
 
-	public TimeLineMoment(DateTime moment) {
-		this.moment = moment;
-	}
+    public TimeLineMoment(DateTime moment) {
+        this.moment = moment;
+    }
 
-	@Override
-	public int getStartCount() {
-		Iterator<ITimePeriod> filtered =
-			Iterators.filter(periods.iterator(),
-			                 new Predicate<ITimePeriod>() {
-				                 @Override
-				                 public boolean apply(@Nullable ITimePeriod input) {
-					                 return input != null && input.getStart() == moment;
-				                 }
-			                 });
-		return Iterators.size(filtered);
-	}
+    @Override
+    public int getStartCount() {
+        Iterator<ITimePeriod> filtered =
+                Iterators.filter(periods.iterator(),
+                        new Predicate<ITimePeriod>() {
+                            @Override
+                            public boolean apply(@Nullable ITimePeriod input) {
+                                return input != null && input.getStart() == moment;
+                            }
+                        });
+        return Iterators.size(filtered);
+    }
 
-	@Override
-	public int getEndCount() {
-		Iterator<ITimePeriod> filtered =
-			Iterators.filter(periods.iterator(),
-			                 new Predicate<ITimePeriod>() {
-				                 @Override
-				                 public boolean apply(@Nullable ITimePeriod input) {
-					                 return input != null && input.getEnd() == moment;
-				                 }
-			                 });
-		return Iterators.size(filtered);
-	}
+    @Override
+    public int getEndCount() {
+        Iterator<ITimePeriod> filtered =
+                Iterators.filter(periods.iterator(),
+                        new Predicate<ITimePeriod>() {
+                            @Override
+                            public boolean apply(@Nullable ITimePeriod input) {
+                                return input != null && input.getEnd() == moment;
+                            }
+                        });
+        return Iterators.size(filtered);
+    }
 
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(this)
-		              .add("moment", moment)
-		              .add("getStartCount()", getStartCount())
-		              .add("getEndCount()", getEndCount())
-		              .toString();
-	}
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("moment", moment)
+                .add("getStartCount()", getStartCount())
+                .add("getEndCount()", getEndCount())
+                .toString();
+    }
 }

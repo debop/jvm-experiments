@@ -15,33 +15,33 @@ import static org.junit.Assert.assertTrue;
  */
 public class AnnotatedContextTest extends AbstractTest {
 
-	@Override
-	protected void onAfter() {
-		if (Spring.isInitialized())
-			Spring.reset();
-	}
+    @Override
+    protected void onAfter() {
+        if (Spring.isInitialized())
+            Spring.reset();
+    }
 
-	@Test
-	public void initByAnnotatedClasses() {
-		Spring.initByAnnotatedClasses(AnnotatedBeanConfig.class);
-		assertTrue(Spring.isInitialized());
+    @Test
+    public void initByAnnotatedClasses() {
+        Spring.initByAnnotatedClasses(AnnotatedBeanConfig.class);
+        assertTrue(Spring.isInitialized());
 
-		ICompressor compressor = (ICompressor) Spring.getBean("defaultCompressor");
-		assertNotNull(compressor);
-		assertTrue(compressor instanceof GZipCompressor);
-	}
+        ICompressor compressor = (ICompressor) Spring.getBean("defaultCompressor");
+        assertNotNull(compressor);
+        assertTrue(compressor instanceof GZipCompressor);
+    }
 
-	@Test
-	public void initByPackages() {
-		Spring.initByPackages(AnnotatedBeanConfig.class.getPackage().getName());
-		assertTrue(Spring.isInitialized());
+    @Test
+    public void initByPackages() {
+        Spring.initByPackages(AnnotatedBeanConfig.class.getPackage().getName());
+        assertTrue(Spring.isInitialized());
 
-		String[] beanNames = Spring.getBeanNamesForType(ICompressor.class, true, true);
+        String[] beanNames = Spring.getBeanNamesForType(ICompressor.class, true, true);
 
-		assertTrue(beanNames.length > 0);
+        assertTrue(beanNames.length > 0);
 
-		ICompressor compressor = (ICompressor) Spring.getBean("defaultCompressor");
-		assertNotNull(compressor);
-		assertTrue(compressor instanceof GZipCompressor);
-	}
+        ICompressor compressor = (ICompressor) Spring.getBean("defaultCompressor");
+        assertNotNull(compressor);
+        assertTrue(compressor instanceof GZipCompressor);
+    }
 }

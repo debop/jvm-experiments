@@ -11,20 +11,20 @@ import kr.kth.commons.slf4j.Logger
  */
 class CompressorTestSuite {
 
-	val log = Logger[this.type]
+  val log = Logger[this.type]
 
-	val Text = "동해물과 백두산이 마르고 닳도록"
+  val Text = "동해물과 백두산이 마르고 닳도록"
 
-	@Test
-	def compressTest() {
+  @Test
+  def compressTest() {
 
-		log.debug("압축 테스트 시작")
+    log.debug("압축 테스트 시작")
 
-		val compressor = new GZipCompressor
-		val bytes = compressor.compress(StringTool.getUtf8Bytes(Text))
-		val decompressed = compressor.decompress(bytes)
-		val decompressedText = StringTool.getUtf8String(decompressed)
+    val compressor = new GZipCompressor
+    val bytes = compressor.compress(StringTool.getUtf8Bytes(Text))
+    val decompressed = compressor.decompress(bytes)
+    val decompressedText = StringTool.getUtf8String(decompressed)
 
-		Assert.assertEquals(Text, decompressedText)
-	}
+    Assert.assertEquals(Text, decompressedText)
+  }
 }

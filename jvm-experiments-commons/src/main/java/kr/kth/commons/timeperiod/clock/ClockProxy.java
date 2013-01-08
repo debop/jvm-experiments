@@ -11,14 +11,14 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class ClockProxy {
 
-	private static AtomicReference<IClock> clockReference;
+    private static AtomicReference<IClock> clockReference;
 
-	public static IClock getClock() {
-		clockReference.compareAndSet(null, new SystemClock());
-		return clockReference.get();
-	}
+    public static IClock getClock() {
+        clockReference.compareAndSet(null, new SystemClock());
+        return clockReference.get();
+    }
 
-	public static void setClock(IClock clock) {
-		clockReference.set(clock);
-	}
+    public static void setClock(IClock clock) {
+        clockReference.set(clock);
+    }
 }

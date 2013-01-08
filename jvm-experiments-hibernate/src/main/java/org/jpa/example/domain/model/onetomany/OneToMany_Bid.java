@@ -22,36 +22,36 @@ import java.sql.Timestamp;
 @DynamicUpdate
 public class OneToMany_Bid extends JpaEntityBase {
 
-	private static final long serialVersionUID = 2401312144738936609L;
+    private static final long serialVersionUID = 2401312144738936609L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "BID_ID")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "BID_ID")
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "ITEM_ID", nullable = false)
-	private Item item;
+    @ManyToOne
+    @JoinColumn(name = "ITEM_ID", nullable = false)
+    private Item item;
 
-	@Column(name = "AMOUNT", nullable = false)
-	private BigDecimal amount;
+    @Column(name = "AMOUNT", nullable = false)
+    private BigDecimal amount;
 
-	@Transient
-	private Timestamp timestamp;
+    @Transient
+    private Timestamp timestamp;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return HashTool.compute(id);
 
-		return HashTool.compute(id);
-	}
+        return HashTool.compute(id);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id)
-		            .add("amount", amount)
-		            .add("item", item);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id)
+                .add("amount", amount)
+                .add("item", item);
+    }
 }

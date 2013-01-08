@@ -18,44 +18,45 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @ThreadSafe
 public class Local {
 
-	private Local() { }
+    private Local() {
+    }
 
-	private static ThreadLocal<HashMap> threadLocal =
-		new ThreadLocal<HashMap>() {
-			@Override
-			public HashMap initialValue() {
-				if (log.isDebugEnabled())
-					log.debug("현 ThreadContext 에 저장소를 생성합니다...");
+    private static ThreadLocal<HashMap> threadLocal =
+            new ThreadLocal<HashMap>() {
+                @Override
+                public HashMap initialValue() {
+                    if (log.isDebugEnabled())
+                        log.debug("현 ThreadContext 에 저장소를 생성합니다...");
 
-				return Maps.newLinkedHashMap();
-			}
-		};
+                    return Maps.newLinkedHashMap();
+                }
+            };
 
-	private static HashMap getMap() {
-		return threadLocal.get();
-	}
+    private static HashMap getMap() {
+        return threadLocal.get();
+    }
 
-	public static Object get(Object key) {
-		shouldNotBeNull(key, "key");
-		return threadLocal.get().get(key);
-	}
+    public static Object get(Object key) {
+        shouldNotBeNull(key, "key");
+        return threadLocal.get().get(key);
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> T get(Object key, Class<T> clazz) {
-		shouldNotBeNull(key, "key");
-		return (T) threadLocal.get().get(key);
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> T get(Object key, Class<T> clazz) {
+        shouldNotBeNull(key, "key");
+        return (T) threadLocal.get().get(key);
+    }
 
-	@SuppressWarnings("unchecked")
-	public static void put(Object key, Object value) {
-		shouldNotBeNull(key, "key");
-		if (log.isDebugEnabled())
-			log.debug("Local 저장소에 key=[{}], value=[{}]를 저장합니다.", key, value);
+    @SuppressWarnings("unchecked")
+    public static void put(Object key, Object value) {
+        shouldNotBeNull(key, "key");
+        if (log.isDebugEnabled())
+            log.debug("Local 저장소에 key=[{}], value=[{}]를 저장합니다.", key, value);
 
-		threadLocal.get().put(key, value);
-	}
+        threadLocal.get().put(key, value);
+    }
 
-	public static void clear() {
-		threadLocal.get().clear();
-	}
+    public static void clear() {
+        threadLocal.get().clear();
+    }
 }

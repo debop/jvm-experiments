@@ -10,10 +10,10 @@ import kr.kth.commons.json.JacksonSerializer;
  */
 public class JacsonTextUserType extends AbstractJsonTextUserType {
 
-	private static final IJsonSerializer serializer = new JacksonSerializer();
+    private static final IJsonSerializer serializer = new JacksonSerializer();
 
-	@Override
-	public IJsonSerializer getJsonSerializer() {
-		return serializer;
-	}
+    @Override
+    public IJsonSerializer getJsonSerializer() {
+        return serializer;
+    }
 }

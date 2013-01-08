@@ -17,44 +17,44 @@ import lombok.Setter;
 @Setter
 public class SimpleMetaValue extends ValueObjectBase implements IMetaValue {
 
-	private static final long serialVersionUID = -6675942606392780717L;
+    private static final long serialVersionUID = -6675942606392780717L;
 
-	public static final SimpleMetaValue Empty = new SimpleMetaValue("");
+    public static final SimpleMetaValue Empty = new SimpleMetaValue("");
 
-	private String value;
-	private String label;
-	private String description;
-	private String exAttr;
+    private String value;
+    private String label;
+    private String description;
+    private String exAttr;
 
-	public SimpleMetaValue() {
-		this("");
-	}
+    public SimpleMetaValue() {
+        this("");
+    }
 
-	public SimpleMetaValue(Object value) {
-		this.value = Guard.firstNotNull(value, "").toString();
-	}
+    public SimpleMetaValue(Object value) {
+        this.value = Guard.firstNotNull(value, "").toString();
+    }
 
-	public SimpleMetaValue(SimpleMetaValue metaValue) {
-		if (metaValue != null) {
-			this.value = metaValue.value;
-			this.label = metaValue.label;
-			this.description = metaValue.description;
-			this.exAttr = metaValue.exAttr;
-		}
-	}
+    public SimpleMetaValue(SimpleMetaValue metaValue) {
+        if (metaValue != null) {
+            this.value = metaValue.value;
+            this.label = metaValue.label;
+            this.description = metaValue.description;
+            this.exAttr = metaValue.exAttr;
+        }
+    }
 
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(value);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(value);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("value", value)
-		            .add("label", label)
-		            .add("description", description)
-		            .add("exAttr", exAttr);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("value", value)
+                .add("label", label)
+                .add("description", description)
+                .add("exAttr", exAttr);
+    }
 }

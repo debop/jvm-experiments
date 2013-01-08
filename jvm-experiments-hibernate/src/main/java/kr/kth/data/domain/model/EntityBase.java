@@ -15,72 +15,72 @@ import java.io.Serializable;
 @Slf4j
 public abstract class EntityBase<TId extends Serializable> extends StatefulEntityBase implements IEntity<TId> {
 
-	private static final long serialVersionUID = 4766509654284022534L;
-	protected TId id;
+    private static final long serialVersionUID = 4766509654284022534L;
+    protected TId id;
 
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <TId> TId getId() {
-		return (TId) this.id;
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TId> TId getId() {
+        return (TId) this.id;
+    }
 
-	protected void setId(TId id) {
-		this.id = id;
-	}
+    protected void setId(TId id) {
+        this.id = id;
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id);
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		boolean sameType = (obj != null) && (getClass() == obj.getClass());
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        boolean sameType = (obj != null) && (getClass() == obj.getClass());
 
-		if (sameType) {
-			EntityBase<TId> entity = (EntityBase<TId>) obj;
-			return hasSameNonDefaultIdAs(entity) ||
-				((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
-		}
-		return false;
-	}
+        if (sameType) {
+            EntityBase<TId> entity = (EntityBase<TId>) obj;
+            return hasSameNonDefaultIdAs(entity) ||
+                    ((!isPersisted() || entity.isPersisted()) && hashSameBusinessSignature(entity));
+        }
+        return false;
+    }
 
-	/**
-	 * Entity의 HashCode 를 제공합니다. 저장소에 저장된 엔티티의 경우는 Identifier 의 HashCode를 제공합니다.
-	 *
-	 * @return hash code
-	 */
-	public int hashCode() {
-		if (id == null || !isPersisted())
-			System.identityHashCode(this);
+    /**
+     * Entity의 HashCode 를 제공합니다. 저장소에 저장된 엔티티의 경우는 Identifier 의 HashCode를 제공합니다.
+     *
+     * @return hash code
+     */
+    public int hashCode() {
+        if (id == null || !isPersisted())
+            System.identityHashCode(this);
 
-		return Objects.hashCode(id);
-	}
+        return Objects.hashCode(id);
+    }
 
-	private boolean hasSameNonDefaultIdAs(IEntity<TId> entity) {
+    private boolean hasSameNonDefaultIdAs(IEntity<TId> entity) {
 
-		try {
-			Class<TId> idClass = ReflectTool.getGenericParameterType(this);
+        try {
+            Class<TId> idClass = ReflectTool.getGenericParameterType(this);
 
-			TId defaultValue = Defaults.defaultValue(idClass); //ActivatorTool.createInstance(idClass);
+            TId defaultValue = Defaults.defaultValue(idClass); //ActivatorTool.createInstance(idClass);
 
-			boolean idHasValue = !java.util.Objects.equals(id, defaultValue);
-			if (idHasValue) {
-				boolean entityIdHasValue = !java.util.Objects.equals(entity.getId(), defaultValue);
+            boolean idHasValue = !java.util.Objects.equals(id, defaultValue);
+            if (idHasValue) {
+                boolean entityIdHasValue = !java.util.Objects.equals(entity.getId(), defaultValue);
 
-				if (entityIdHasValue)
-					return java.util.Objects.equals(id, entity.getId());
-			}
-		} catch (Exception ex) {
-			log.error("Identifier 값 비교 시 예외 발생. entity=" + entity, ex);
-		}
-		return false;
-	}
+                if (entityIdHasValue)
+                    return java.util.Objects.equals(id, entity.getId());
+            }
+        } catch (Exception ex) {
+            log.error("Identifier 값 비교 시 예외 발생. entity=" + entity, ex);
+        }
+        return false;
+    }
 
-	private boolean hashSameBusinessSignature(IEntity<TId> other) {
-		return (other != null) && (hashCode() == other.hashCode());
-	}
+    private boolean hashSameBusinessSignature(IEntity<TId> other) {
+        return (other != null) && (hashCode() == other.hashCode());
+    }
 }

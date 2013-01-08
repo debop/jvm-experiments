@@ -7,5 +7,5 @@ package kr.kth.commons.base;
  */
 public interface Function2<T1, T2, R> {
 
-	R execute(T1 arg1, T2 arg2);
+    R execute(T1 arg1, T2 arg2);
 }

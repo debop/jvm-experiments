@@ -19,30 +19,31 @@ import javax.persistence.Embeddable;
 @Setter
 public class CarOption extends ValueObjectBase {
 
-	private static final long serialVersionUID = -4205766412047788934L;
+    private static final long serialVersionUID = -4205766412047788934L;
 
-	protected CarOption() {}
+    protected CarOption() {
+    }
 
-	public CarOption(String name, Integer value) {
-		this.name = name;
-		this.value = value;
-	}
+    public CarOption(String name, Integer value) {
+        this.name = name;
+        this.value = value;
+    }
 
-	@Column(name = "OptionName")
-	private String name;
+    @Column(name = "OptionName")
+    private String name;
 
-	@Column(name = "OptionValue")
-	private Integer value;
+    @Column(name = "OptionValue")
+    private Integer value;
 
-	@Override
-	public int hashCode() {
-		return HashTool.compute(name);
-	}
+    @Override
+    public int hashCode() {
+        return HashTool.compute(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("name", name)
-		            .add("value", value);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("name", name)
+                .add("value", value);
+    }
 }

@@ -9,14 +9,16 @@ import lombok.Setter;
  */
 public class Hello {
 
-	@Setter String name;
-	@Setter Printer printer;
+    @Setter
+    String name;
+    @Setter
+    Printer printer;
 
-	public String sayHello() {
-		return "Hello " + name;
-	}
+    public String sayHello() {
+        return "Hello " + name;
+    }
 
-	public void print() {
-		this.printer.print(sayHello());
-	}
+    public void print() {
+        this.printer.print(sayHello());
+    }
 }

@@ -22,11 +22,12 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = "/springbook/chap11/applicationContext.xml")
 public class TransactionManagerTest {
 
-	@Autowired ApplicationContext springContext;
+    @Autowired
+    ApplicationContext springContext;
 
-	@Test
-	public void loadTransactionManager() {
-		PlatformTransactionManager txm = springContext.getBean("transactionManager", PlatformTransactionManager.class);
-		assertNotNull(txm);
-	}
+    @Test
+    public void loadTransactionManager() {
+        PlatformTransactionManager txm = springContext.getBean("transactionManager", PlatformTransactionManager.class);
+        assertNotNull(txm);
+    }
 }

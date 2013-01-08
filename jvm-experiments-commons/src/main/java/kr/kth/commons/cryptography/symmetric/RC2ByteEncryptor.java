@@ -7,8 +7,8 @@ package kr.kth.commons.cryptography.symmetric;
  */
 public class RC2ByteEncryptor extends SymmetricByteEncryptorBase {
 
-	@Override
-	public String getAlgorithm() {
-		return "PBEwithSHA1andRC2_40";
-	}
+    @Override
+    public String getAlgorithm() {
+        return "PBEwithSHA1andRC2_40";
+    }
 }

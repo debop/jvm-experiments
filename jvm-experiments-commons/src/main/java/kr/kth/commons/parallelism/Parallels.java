@@ -22,106 +22,107 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public class Parallels {
 
-	private Parallels() {}
+    private Parallels() {
+    }
 
-	private static final int PROCESS_COUNT = Runtime.getRuntime().availableProcessors();
-	private static final ExecutorService defaultExecutor =
-		Executors.newFixedThreadPool(PROCESS_COUNT * 2, new NamedThreadFactory("Parallels"));
+    private static final int PROCESS_COUNT = Runtime.getRuntime().availableProcessors();
+    private static final ExecutorService defaultExecutor =
+            Executors.newFixedThreadPool(PROCESS_COUNT * 2, new NamedThreadFactory("Parallels"));
 
-	public static ExecutorService getDefaultExecutor() {
-		return defaultExecutor;
-	}
+    public static ExecutorService getDefaultExecutor() {
+        return defaultExecutor;
+    }
 
-	public static ExecutorService createExecutor(int threadCount) {
-		return Executors.newFixedThreadPool(threadCount);
-	}
+    public static ExecutorService createExecutor(int threadCount) {
+        return Executors.newFixedThreadPool(threadCount);
+    }
 
-	public static <T> void run(final Iterable<T> elements, final Action1<T> action) {
-		shouldNotBeNull(elements, "elements");
-		shouldNotBeNull(action, "action");
+    public static <T> void run(final Iterable<T> elements, final Action1<T> action) {
+        shouldNotBeNull(elements, "elements");
+        shouldNotBeNull(action, "action");
 
-		ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
+        ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
 
-		if (log.isDebugEnabled())
-			log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
+        if (log.isDebugEnabled())
+            log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
 
-		try {
-			List<T> elemList = Lists.newArrayList(elements);
-			List<List<T>> partitions = Lists.partition(elemList, PROCESS_COUNT);
-			List<Callable<Void>> tasks = new LinkedList<Callable<Void>>();
+        try {
+            List<T> elemList = Lists.newArrayList(elements);
+            List<List<T>> partitions = Lists.partition(elemList, PROCESS_COUNT);
+            List<Callable<Void>> tasks = new LinkedList<Callable<Void>>();
 
-			for (final List<T> partition : partitions) {
-				Callable<Void> task =
-					new Callable<Void>() {
-						@Override
-						public Void call() throws Exception {
-							for (final T element : partition)
-								action.perform(element);
-							return null;
-						}
-					};
-				tasks.add(task);
-			}
-			executor.invokeAll(tasks);
+            for (final List<T> partition : partitions) {
+                Callable<Void> task =
+                        new Callable<Void>() {
+                            @Override
+                            public Void call() throws Exception {
+                                for (final T element : partition)
+                                    action.perform(element);
+                                return null;
+                            }
+                        };
+                tasks.add(task);
+            }
+            executor.invokeAll(tasks);
 
-			if (log.isDebugEnabled())
-				log.debug("모든 작업을 병렬로 수행하였습니다. partitions=[{}]", partitions.size());
+            if (log.isDebugEnabled())
+                log.debug("모든 작업을 병렬로 수행하였습니다. partitions=[{}]", partitions.size());
 
-		} catch (Exception e) {
-			log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
-		} finally {
-			executor.shutdown();
-		}
-	}
+        } catch (Exception e) {
+            log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
+        } finally {
+            executor.shutdown();
+        }
+    }
 
-	public static <T, V> List<V> run(final Iterable<T> elements, final Function1<T, V> function) {
-		shouldNotBeNull(elements, "elements");
-		shouldNotBeNull(function, "function");
+    public static <T, V> List<V> run(final Iterable<T> elements, final Function1<T, V> function) {
+        shouldNotBeNull(elements, "elements");
+        shouldNotBeNull(function, "function");
 
-		ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
-		final List<V> results = new ArrayList<V>();
+        ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
+        final List<V> results = new ArrayList<V>();
 
-		if (log.isDebugEnabled())
-			log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
+        if (log.isDebugEnabled())
+            log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
 
-		try {
-			List<T> elemList = Lists.newArrayList(elements);
-			List<List<T>> partitions = Lists.partition(elemList, PROCESS_COUNT);
-			final Map<Integer, List<V>> localResults = new LinkedHashMap<Integer, List<V>>();
+        try {
+            List<T> elemList = Lists.newArrayList(elements);
+            List<List<T>> partitions = Lists.partition(elemList, PROCESS_COUNT);
+            final Map<Integer, List<V>> localResults = new LinkedHashMap<Integer, List<V>>();
 
-			List<Callable<List<V>>> tasks = new LinkedList<Callable<List<V>>>();
+            List<Callable<List<V>>> tasks = new LinkedList<Callable<List<V>>>();
 
-			for (int p = 0; p < partitions.size(); p++) {
-				final List<T> partition = partitions.get(p);
-				final List<V> localResult = new ArrayList<V>();
-				localResults.put(p, localResult);
+            for (int p = 0; p < partitions.size(); p++) {
+                final List<T> partition = partitions.get(p);
+                final List<V> localResult = new ArrayList<V>();
+                localResults.put(p, localResult);
 
-				Callable<List<V>> task = new Callable<List<V>>() {
-					@Override
-					public List<V> call() throws Exception {
-						for (final T element : partition)
-							localResult.add(function.execute(element));
-						return localResult;
-					}
-				};
-				tasks.add(task);
-			}
+                Callable<List<V>> task = new Callable<List<V>>() {
+                    @Override
+                    public List<V> call() throws Exception {
+                        for (final T element : partition)
+                            localResult.add(function.execute(element));
+                        return localResult;
+                    }
+                };
+                tasks.add(task);
+            }
 
-			executor.invokeAll(tasks);
+            executor.invokeAll(tasks);
 
-			for (int i = 0; i < partitions.size(); i++) {
-				results.addAll(localResults.get(i));
-			}
+            for (int i = 0; i < partitions.size(); i++) {
+                results.addAll(localResults.get(i));
+            }
 
-			if (log.isDebugEnabled())
-				log.debug("모든 작업을 병렬로 완료했습니다. partitions=[{}]", partitions.size());
+            if (log.isDebugEnabled())
+                log.debug("모든 작업을 병렬로 완료했습니다. partitions=[{}]", partitions.size());
 
-		} catch (Exception e) {
-			log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
-		} finally {
-			executor.shutdown();
-		}
+        } catch (Exception e) {
+            log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
+        } finally {
+            executor.shutdown();
+        }
 
-		return results;
-	}
+        return results;
+    }
 }

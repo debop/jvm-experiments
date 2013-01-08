@@ -12,25 +12,25 @@ import java.util.List;
  */
 public class MonitorSample {
 
-	private List<String> list = Lists.newArrayList();
-	private static final int MAX_SIZE = 10;
+    private List<String> list = Lists.newArrayList();
+    private static final int MAX_SIZE = 10;
 
-	private Monitor monitor = new Monitor();
+    private Monitor monitor = new Monitor();
 
-	private Monitor.Guard listBelowCapacity =
-		new Monitor.Guard(monitor) {
-			@Override
-			public boolean isSatisfied() {
-				return (list.size() < MAX_SIZE);
-			}
-		};
+    private Monitor.Guard listBelowCapacity =
+            new Monitor.Guard(monitor) {
+                @Override
+                public boolean isSatisfied() {
+                    return (list.size() < MAX_SIZE);
+                }
+            };
 
-	private void addToList(String item) throws InterruptedException {
-		monitor.enterWhen(listBelowCapacity);
-		try {
-			list.add(item);
-		} finally {
-			monitor.leave();
-		}
-	}
+    private void addToList(String item) throws InterruptedException {
+        monitor.enterWhen(listBelowCapacity);
+        try {
+            list.add(item);
+        } finally {
+            monitor.leave();
+        }
+    }
 }

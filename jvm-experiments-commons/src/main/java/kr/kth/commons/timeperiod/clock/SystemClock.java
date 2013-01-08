@@ -9,12 +9,13 @@ import org.joda.time.DateTime;
  */
 public class SystemClock extends ClockBase {
 
-	private static final long serialVersionUID = -2846191313649276854L;
+    private static final long serialVersionUID = -2846191313649276854L;
 
-	SystemClock() {}
+    SystemClock() {
+    }
 
-	@Override
-	public DateTime now() {
-		return new DateTime();
-	}
+    @Override
+    public DateTime now() {
+        return new DateTime();
+    }
 }

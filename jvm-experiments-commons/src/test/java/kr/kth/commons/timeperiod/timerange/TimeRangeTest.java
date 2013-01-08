@@ -16,20 +16,20 @@ import static org.junit.Assert.*;
 @Slf4j
 public class TimeRangeTest extends AbstractTest {
 
-	@Test
-	public void createTest() {
+    @Test
+    public void createTest() {
 
-		DateTime now = TimeTool.getNow();
-		TimeRange timeRange = new TimeRange(now);
+        DateTime now = TimeTool.getNow();
+        TimeRange timeRange = new TimeRange(now);
 
-		if (log.isDebugEnabled())
-			log.debug("today=[{}], timeRange=[{}]", now, timeRange);
+        if (log.isDebugEnabled())
+            log.debug("today=[{}], timeRange=[{}]", now, timeRange);
 
-		assertNotNull(timeRange);
-		assertEquals(now, timeRange.getStart());
-		assertEquals(now, timeRange.getEnd());
-		assertFalse(timeRange.isReadonly());
-		assertFalse(timeRange.isAnyTime());
-		assertTrue(timeRange.isMoment());
-	}
+        assertNotNull(timeRange);
+        assertEquals(now, timeRange.getStart());
+        assertEquals(now, timeRange.getEnd());
+        assertFalse(timeRange.isReadonly());
+        assertFalse(timeRange.isAnyTime());
+        assertTrue(timeRange.isMoment());
+    }
 }

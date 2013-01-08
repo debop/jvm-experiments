@@ -6,13 +6,13 @@ package kr.kth.commons.timeperiod;
  * Date: 12. 9. 18.
  */
 public enum IntervalEdge {
-	/**
-	 * 폐구간
-	 */
-	Closed,
+    /**
+     * 폐구간
+     */
+    Closed,
 
-	/**
-	 * 개구간
-	 */
-	Open
+    /**
+     * 개구간
+     */
+    Open
 }

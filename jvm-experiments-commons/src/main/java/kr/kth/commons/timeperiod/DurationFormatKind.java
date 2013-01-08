@@ -6,13 +6,13 @@ package kr.kth.commons.timeperiod;
  * Date: 12. 12. 19.
  */
 public enum DurationFormatKind {
-	/**
-	 * 기간을 약식으로 표현
-	 */
-	Compact,
+    /**
+     * 기간을 약식으로 표현
+     */
+    Compact,
 
-	/**
-	 * 기간을 상세하게 표현
-	 */
-	Detailed
+    /**
+     * 기간을 상세하게 표현
+     */
+    Detailed
 }

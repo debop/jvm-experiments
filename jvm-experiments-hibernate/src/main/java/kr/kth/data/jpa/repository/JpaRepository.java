@@ -21,32 +21,32 @@ import java.io.Serializable;
 @Slf4j
 public class JpaRepository<E extends JpaEntityBase> {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Getter
-	private Class<E> entityType;
+    @Getter
+    private Class<E> entityType;
 
-	public JpaRepository() {
-		entityType = ReflectTool.getGenericParameterType(this);
-		if (log.isDebugEnabled())
-			log.debug("JpaRepository<{}> 를 생성했습니다.", entityType.getName());
-	}
+    public JpaRepository() {
+        entityType = ReflectTool.getGenericParameterType(this);
+        if (log.isDebugEnabled())
+            log.debug("JpaRepository<{}> 를 생성했습니다.", entityType.getName());
+    }
 
-	public void setEntityManager(EntityManager entityManager) {
-		Guard.shouldNotBeNull(entityManager, "entityManager");
-		if (log.isDebugEnabled())
-			log.debug("EntityManager 설정.");
+    public void setEntityManager(EntityManager entityManager) {
+        Guard.shouldNotBeNull(entityManager, "entityManager");
+        if (log.isDebugEnabled())
+            log.debug("EntityManager 설정.");
 
-		this.entityManager = entityManager;
-	}
+        this.entityManager = entityManager;
+    }
 
-	public E get(Serializable id) {
-		return entityManager.getReference(entityType, id);
-	}
+    public E get(Serializable id) {
+        return entityManager.getReference(entityType, id);
+    }
 
-	public E find(Serializable id) {
-		return entityManager.find(entityType, id);
-	}
+    public E find(Serializable id) {
+        return entityManager.find(entityType, id);
+    }
 
 }

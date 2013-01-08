@@ -11,36 +11,36 @@ import org.jasypt.digest.StandardStringDigester;
 @Slf4j
 public abstract class StringDigesterBase implements IStringDigester {
 
-	private final StandardStringDigester standardStringDigester;
+    private final StandardStringDigester standardStringDigester;
 
-	public StringDigesterBase() {
-		this(5);
-	}
+    public StringDigesterBase() {
+        this(5);
+    }
 
-	public StringDigesterBase(int iterations) {
-		standardStringDigester = new StandardStringDigester();
-		standardStringDigester.setAlgorithm(getAlgorithm());
-		standardStringDigester.setIterations(iterations);
+    public StringDigesterBase(int iterations) {
+        standardStringDigester = new StandardStringDigester();
+        standardStringDigester.setAlgorithm(getAlgorithm());
+        standardStringDigester.setIterations(iterations);
 
-		if (log.isDebugEnabled())
-			log.debug("문자열을 암호화하는 [{}] 인스턴스를 생성했습니다. algorithm=[{}], iteration=[{}]",
-			          getClass().getName(), getAlgorithm(), iterations);
-	}
+        if (log.isDebugEnabled())
+            log.debug("문자열을 암호화하는 [{}] 인스턴스를 생성했습니다. algorithm=[{}], iteration=[{}]",
+                    getClass().getName(), getAlgorithm(), iterations);
+    }
 
-	abstract public String getAlgorithm();
+    abstract public String getAlgorithm();
 
-	@Override
-	public boolean isInitialized() {
-		return standardStringDigester.isInitialized();
-	}
+    @Override
+    public boolean isInitialized() {
+        return standardStringDigester.isInitialized();
+    }
 
-	@Override
-	public String digest(String message) {
-		return standardStringDigester.digest(message);
-	}
+    @Override
+    public String digest(String message) {
+        return standardStringDigester.digest(message);
+    }
 
-	@Override
-	public boolean matches(String message, String digest) {
-		return standardStringDigester.matches(message, digest);
-	}
+    @Override
+    public boolean matches(String message, String digest) {
+        return standardStringDigester.matches(message, digest);
+    }
 }

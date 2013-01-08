@@ -13,7 +13,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Slf4j
 public class UserService {
 
-	@Autowired @Setter UserDao userDao;
+    @Autowired
+    @Setter
+    UserDao userDao;
 
-	@Autowired @Setter PlatformTransactionManager transactionManager;
+    @Autowired
+    @Setter
+    PlatformTransactionManager transactionManager;
 }

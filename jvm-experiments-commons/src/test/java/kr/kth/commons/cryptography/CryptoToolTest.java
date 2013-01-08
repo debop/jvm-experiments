@@ -15,14 +15,14 @@ import java.util.Arrays;
 @Slf4j
 public class CryptoToolTest extends AbstractTest {
 
-	@Test
-	public void getRandomBytesTest() throws Exception {
+    @Test
+    public void getRandomBytesTest() throws Exception {
 
-		byte[] bytes = CryptoTool.getRandomBytes(100);
-		byte[] bytes2 = CryptoTool.getRandomBytes(100);
+        byte[] bytes = CryptoTool.getRandomBytes(100);
+        byte[] bytes2 = CryptoTool.getRandomBytes(100);
 
-		Assert.assertEquals(bytes.length, bytes2.length);
-		Assert.assertTrue(!Arrays.equals(bytes, bytes2));
-	}
+        Assert.assertEquals(bytes.length, bytes2.length);
+        Assert.assertTrue(!Arrays.equals(bytes, bytes2));
+    }
 
 }

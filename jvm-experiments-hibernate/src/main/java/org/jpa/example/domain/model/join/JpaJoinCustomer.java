@@ -23,58 +23,58 @@ import java.util.Date;
 @Setter
 public class JpaJoinCustomer extends AnnotatedEntityBase {
 
-	private static final long serialVersionUID = 6609847114968580068L;
+    private static final long serialVersionUID = 6609847114968580068L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "CUSTOMER_ID")
-	private Long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "CUSTOMER_ID")
+    private Long id;
 
-	@Column(name = "CUSTOMER_NAME")
-	private String name;
+    @Column(name = "CUSTOMER_NAME")
+    private String name;
 
-	@Column(name = "CUSTOMER_EMAIL")
-	private String email;
+    @Column(name = "CUSTOMER_EMAIL")
+    private String email;
 
 
-	@Embedded
-	@AttributeOverrides(
-		{
-			@AttributeOverride(name = "street",
-			                   column = @Column(name = "STREET", table = "JPA_JOIN_CUSTOMER_ADDR")),
-			@AttributeOverride(name = "zipcode",
-			                   column = @Column(name = "ZIPCODE", table = "JPA_JOIN_CUSTOMER_ADDR")),
-			@AttributeOverride(name = "city",
-			                   column = @Column(name = "CITY", table = "JPA_JOIN_CUSTOMER_ADDR")),
-		}
-	)
-	private JpaJoinAddress joinAddress = new JpaJoinAddress();
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "street",
+                            column = @Column(name = "STREET", table = "JPA_JOIN_CUSTOMER_ADDR")),
+                    @AttributeOverride(name = "zipcode",
+                            column = @Column(name = "ZIPCODE", table = "JPA_JOIN_CUSTOMER_ADDR")),
+                    @AttributeOverride(name = "city",
+                            column = @Column(name = "CITY", table = "JPA_JOIN_CUSTOMER_ADDR")),
+            }
+    )
+    private JpaJoinAddress joinAddress = new JpaJoinAddress();
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Generated(GenerationTime.INSERT)
-	@Column(name = "CREATED_TIME", insertable = false, updatable = false)
-	//@Setter(AccessLevel.PROTECTED)
-	private Date created;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Generated(GenerationTime.INSERT)
+    @Column(name = "CREATED_TIME", insertable = false, updatable = false)
+    //@Setter(AccessLevel.PROTECTED)
+    private Date created;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Generated(GenerationTime.ALWAYS)
-	@Column(name = "UPDATED_TIME", insertable = false, updatable = false)
-	//@Setter(AccessLevel.PROTECTED)
-	private Date lastUpdated;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Generated(GenerationTime.ALWAYS)
+    @Column(name = "UPDATED_TIME", insertable = false, updatable = false)
+    //@Setter(AccessLevel.PROTECTED)
+    private Date lastUpdated;
 
-	@Override
-	public int hashCode() {
-		if (isPersisted())
-			return HashTool.compute(id);
+    @Override
+    public int hashCode() {
+        if (isPersisted())
+            return HashTool.compute(id);
 
-		return HashTool.compute(name);
-	}
+        return HashTool.compute(name);
+    }
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("id", id)
-		            .add("name", name)
-		            .add("email", email);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("id", id)
+                .add("name", name)
+                .add("email", email);
+    }
 }

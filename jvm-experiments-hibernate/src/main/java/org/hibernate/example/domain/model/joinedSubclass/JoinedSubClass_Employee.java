@@ -11,17 +11,19 @@ import lombok.Setter;
  */
 public class JoinedSubClass_Employee extends JoinedSubClass_Person {
 
-	private static final long serialVersionUID = -7922814310961001746L;
+    private static final long serialVersionUID = -7922814310961001746L;
 
-	@Getter @Setter
-	private String title;
+    @Getter
+    @Setter
+    private String title;
 
-	@Getter @Setter
-	private JoinedSubClass_Employee manager;
+    @Getter
+    @Setter
+    private JoinedSubClass_Employee manager;
 
-	@Override
-	protected Objects.ToStringHelper buildStringHelper() {
-		return super.buildStringHelper()
-		            .add("title", title);
-	}
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("title", title);
+    }
 }

@@ -11,12 +11,12 @@ import kr.kth.commons.guava.eventbus.events.CreditPurchaseEvent;
  */
 public class InvalidSubscriberMultipleParameter {
 
-	public InvalidSubscriberMultipleParameter(EventBus eventBus) {
-		eventBus.register(this);
-	}
+    public InvalidSubscriberMultipleParameter(EventBus eventBus) {
+        eventBus.register(this);
+    }
 
-	@Subscribe
-	public void handleCreditEvent(CreditPurchaseEvent event, Object foo) {
-		// Do nothing this will not work
-	}
+    @Subscribe
+    public void handleCreditEvent(CreditPurchaseEvent event, Object foo) {
+        // Do nothing this will not work
+    }
 }

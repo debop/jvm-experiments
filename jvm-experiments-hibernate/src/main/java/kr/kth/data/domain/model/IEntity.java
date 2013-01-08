@@ -9,5 +9,5 @@ import java.io.Serializable;
  */
 public interface IEntity<TId extends Serializable> {
 
-	<TId> TId getId();
+    <TId> TId getId();
 }

@@ -9,15 +9,15 @@ import java.io.Serializable;
  */
 public interface ITimeLine extends Serializable {
 
-	ITimePeriodContainer getPeriods();
+    ITimePeriodContainer getPeriods();
 
-	ITimePeriod getLimits();
+    ITimePeriod getLimits();
 
-	ITimePeriodMapper getPeriodMapper();
+    ITimePeriodMapper getPeriodMapper();
 
-	ITimePeriodCollection combinePeriods();
+    ITimePeriodCollection combinePeriods();
 
-	ITimePeriodCollection intersectPeriods();
+    ITimePeriodCollection intersectPeriods();
 
-	ITimePeriodCollection calculateGaps();
+    ITimePeriodCollection calculateGaps();
 }

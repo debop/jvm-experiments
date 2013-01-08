@@ -13,36 +13,36 @@ import java.util.Set;
  * Date: 12. 9. 19
  */
 public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValue extends ILocaleValue>
-	extends LocaleEntityBase<TId, TLocaleValue> implements IMetaEntity {
+        extends LocaleEntityBase<TId, TLocaleValue> implements IMetaEntity {
 
-	private static final long serialVersionUID = -3409892017189966160L;
+    private static final long serialVersionUID = -3409892017189966160L;
 
-	@Getter
-	private Map<String, IMetaValue> metaMap = Maps.newLinkedHashMap();
+    @Getter
+    private Map<String, IMetaValue> metaMap = Maps.newLinkedHashMap();
 
-	@Override
-	public IMetaValue getMetaValue(String key) {
-		return getMetaMap().get(key);
-		//return Functions.forMap(metaMap);
-	}
+    @Override
+    public IMetaValue getMetaValue(String key) {
+        return getMetaMap().get(key);
+        //return Functions.forMap(metaMap);
+    }
 
-	@Override
-	public Set<String> getMetaKeys() {
-		return getMetaMap().keySet();
-	}
+    @Override
+    public Set<String> getMetaKeys() {
+        return getMetaMap().keySet();
+    }
 
-	@Override
-	public void addMetaValue(String metaKey, IMetaValue metaValue) {
-		getMetaMap().put(metaKey, metaValue);
-	}
+    @Override
+    public void addMetaValue(String metaKey, IMetaValue metaValue) {
+        getMetaMap().put(metaKey, metaValue);
+    }
 
-	@Override
-	public void addMetaValue(String metaKey, Object value) {
-		getMetaMap().put(metaKey, new SimpleMetaValue(value));
-	}
+    @Override
+    public void addMetaValue(String metaKey, Object value) {
+        getMetaMap().put(metaKey, new SimpleMetaValue(value));
+    }
 
-	@Override
-	public void removeMetaValue(String metaKey) {
-		getMetaMap().remove(metaKey);
-	}
+    @Override
+    public void removeMetaValue(String metaKey) {
+        getMetaMap().remove(metaKey);
+    }
 }

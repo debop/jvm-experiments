@@ -9,13 +9,13 @@ import java.util.Comparator;
  */
 public class TimePeriodComparator implements Comparator<ITimePeriod> {
 
-	/**
-	 * {@link ITimePeriod} 수형에 대한 기본 비교자
-	 */
-	public static final TimePeriodComparator Default = new TimePeriodComparator();
+    /**
+     * {@link ITimePeriod} 수형에 대한 기본 비교자
+     */
+    public static final TimePeriodComparator Default = new TimePeriodComparator();
 
-	@Override
-	public int compare(ITimePeriod o1, ITimePeriod o2) {
-		return o1.getStart().compareTo(o2.getStart());
-	}
+    @Override
+    public int compare(ITimePeriod o1, ITimePeriod o2) {
+        return o1.getStart().compareTo(o2.getStart());
+    }
 }
