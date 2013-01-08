@@ -11,28 +11,29 @@ import kr.kth.commons.slf4j.Logging
  */
 class ActorTest extends Logging {
 
-	case object Start
+  case object Start
 
-	case object Finish
+  case object Finish
 
-	class Reader() extends Actor {
-		def act() {
-			loop {
-				     react {
-					           case (Start, book) => println(s"Beginng to read $book")
-					           case (Finish, book) => println(s"Done readoing $book")
-				           }
-			     }
-		}
-	}
+  class Reader extends Actor with Logging {
+    def act() {
+      loop {
+        react {
+          case (Start, book) => log.debug(s"Beginng to read $book")
+          case (Finish, book) => log.debug(s"Done readoing $book")
+        }
+      }
+    }
+  }
 
-	@Test
-	def readerTest() {
-		val educated = new Reader().start()
+  @Test
+  def readerTest() {
+    val educated = new Reader()
+    educated.start()
 
-		educated !(Start, "Seven Language in Seven Weeks")
-		educated !(Finish, "Less is More")
+    educated !(Start, "Seven Language in Seven Weeks")
+    educated !(Finish, "Less is More")
 
-		Thread.sleep(10)
-	}
+    Thread.sleep(100)
+  }
 }
