@@ -22,7 +22,13 @@ public interface ITimeLineMoment extends Serializable {
      */
     ITimePeriodCollection getPeriods();
 
+    /**
+     * 시작 시각 갯수
+     */
     int getStartCount();
 
+    /**
+     * 종료 시각 갯수
+     */
     int getEndCount();
 }

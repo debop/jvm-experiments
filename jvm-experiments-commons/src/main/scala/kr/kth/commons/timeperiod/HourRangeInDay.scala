@@ -12,36 +12,36 @@ import kr.kth.commons.tools.HashTool
 class HourRangeInDay(val start: TimeVal,
                      val end: TimeVal) extends ValueObjectBase with Comparable[HourRangeInDay] {
 
-  def isMoment = Objects.equals(start, end)
+    def isMoment = Objects.equals(start, end)
 
-  def hasInside(hour: Int): Boolean = hasInside(TimeVal(hour))
+    def hasInside(hour: Int): Boolean = hasInside(TimeVal(hour))
 
-  def hasInside(target: TimeVal): Boolean = {
-    (target.compareTo(this.start) >= 0) && (target.compareTo(this.end) <= 0)
-  }
+    def hasInside(target: TimeVal): Boolean = {
+        (target.compareTo(this.start) >= 0) && (target.compareTo(this.end) <= 0)
+    }
 
-  def compareTo(other: HourRangeInDay): Int = start compareTo other.start
+    def compareTo(other: HourRangeInDay): Int = start compareTo other.start
 
-  override def hashCode: Int = HashTool.compute(start, end)
+    override def hashCode: Int = HashTool.compute(start, end)
 
-  protected override def buildStringHelper = {
-    super.buildStringHelper
-      .add("start", start)
-      .add("end", end)
-  }
+    protected override def buildStringHelper = {
+        super.buildStringHelper
+            .add("start", start)
+            .add("end", end)
+    }
 }
 
 object HourRangeInDay {
 
-  def apply(start: TimeVal, end: TimeVal): HourRangeInDay = {
-    if (start <= end) new HourRangeInDay(start, end)
-    else new HourRangeInDay(end, start)
-  }
+    def apply(start: TimeVal, end: TimeVal): HourRangeInDay = {
+        if (start <= end) new HourRangeInDay(start, end)
+        else new HourRangeInDay(end, start)
+    }
 
-  def apply(startHour: Int, endHour: Int): HourRangeInDay = {
-    if (startHour <= endHour) apply(TimeVal(startHour), TimeVal(endHour))
-    else apply(TimeVal(endHour), TimeVal(startHour))
-  }
+    def apply(startHour: Int, endHour: Int): HourRangeInDay = {
+        if (startHour <= endHour) apply(TimeVal(startHour), TimeVal(endHour))
+        else apply(TimeVal(endHour), TimeVal(startHour))
+    }
 
-  def apply(hour: Int): HourRangeInDay = apply(hour, hour)
+    def apply(hour: Int): HourRangeInDay = apply(hour, hour)
 }

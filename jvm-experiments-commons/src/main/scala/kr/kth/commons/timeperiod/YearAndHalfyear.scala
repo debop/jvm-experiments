@@ -12,26 +12,26 @@ import org.joda.time.DateTime
  */
 class YearAndHalfyear(@BeanProperty val year: Int,
                       @BeanProperty val halfyear: HalfYearKind = HalfYearKind.First)
-  extends ValueObjectBase with Comparable[YearAndHalfyear] {
+    extends ValueObjectBase with Comparable[YearAndHalfyear] {
 
-  def this(year: Int, halfyear: Int = 1) = this(year, HalfYearKind.valueOf(halfyear))
+    def this(year: Int, halfyear: Int = 1) = this(year, HalfYearKind.valueOf(halfyear))
 
-  def compareTo(other: YearAndHalfyear) = hashCode compareTo other.hashCode
+    def compareTo(other: YearAndHalfyear) = hashCode compareTo other.hashCode
 
-  override def hashCode: Int = year * 100 + halfyear.toInt
+    override def hashCode: Int = year * 100 + halfyear.toInt
 
-  protected override def buildStringHelper =
-    super.buildStringHelper
-      .add("year", year)
-      .add("halfyear", halfyear)
+    protected override def buildStringHelper =
+        super.buildStringHelper
+            .add("year", year)
+            .add("halfyear", halfyear)
 }
 
 object YearAndHalfyear {
 
-  def apply(): YearAndHalfyear = apply(ClockProxy.getClock.today())
+    def apply(): YearAndHalfyear = apply(ClockProxy.getClock.today())
 
-  def apply(today: DateTime): YearAndHalfyear = {
-    val today = ClockProxy.getClock.today()
-    new YearAndHalfyear(today.getYear, Times.halfyearOf(today))
-  }
+    def apply(today: DateTime): YearAndHalfyear = {
+        val today = ClockProxy.getClock.today()
+        new YearAndHalfyear(today.getYear, Times.halfyearOf(today))
+    }
 }

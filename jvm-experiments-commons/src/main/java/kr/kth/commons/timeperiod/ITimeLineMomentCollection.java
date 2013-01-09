@@ -12,8 +12,14 @@ import java.io.Serializable;
  */
 public interface ITimeLineMomentCollection extends Iterable<ITimeLineMoment>, Serializable {
 
+    /**
+     * 컬렉션 크기
+     */
     int size();
 
+    /**
+     * 빈 컬렉션인가?
+     */
     boolean isEmpty();
 
     ITimeLineMoment getMin();

@@ -11,21 +11,21 @@ import scala.util.continuations._
  */
 class DelimitedContinuationsTest extends Logging {
 
-  @Test
-  @Ignore("예외가 발생합니다. 이유는 모르겠어요^^")
-  def computationWithHole() {
-    var cont: (Unit => Unit) = null
-    reset {
-      log.debug("Before shift")
-      shift {
-        k: (Unit => Unit) => {
-          cont = k
-          log.debug("Inside shift")
+    @Test
+    @Ignore("예외가 발생합니다. 이유는 모르겠어요^^")
+    def computationWithHole() {
+        var cont: (Unit => Unit) = null
+        reset {
+            log.debug("Before shift")
+            shift {
+                k: (Unit => Unit) => {
+                    cont = k
+                    log.debug("Inside shift")
+                }
+            }
+            log.debug("After shift")
         }
-      }
-      log.debug("After shift")
+        log.debug("After reset")
+        cont()
     }
-    log.debug("After reset")
-    cont()
-  }
 }

@@ -11,13 +11,13 @@ import kr.kth.commons.base.ValueObjectBase
 class YearAndMonth(@BeanProperty var year: Int,
                    @BeanProperty var month: Int = 1) extends ValueObjectBase with Comparable[YearAndMonth] {
 
-  def compareTo(other: YearAndMonth): Int = hashCode() compareTo other.hashCode()
+    def compareTo(other: YearAndMonth): Int = hashCode() compareTo other.hashCode()
 
-  override def hashCode() = (year * 100 + month)
+    override def hashCode() = (year * 100 + month)
 
-  protected override def buildStringHelper() =
-    super.buildStringHelper()
-      .add("year", year)
-      .add("month", month)
+    protected override def buildStringHelper() =
+        super.buildStringHelper()
+            .add("year", year)
+            .add("month", month)
 }
 

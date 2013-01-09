@@ -1,6 +1,7 @@
 package scala.impatient;
 
 import kr.kth.commons.slf4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -8,7 +9,6 @@ import org.junit.Test;
  * User: Administrator
  * Date: 13. 1. 8
  * Time: 오전 10:08
- * To change this template use File | Settings | File Templates.
  */
 public class LoggingTest {
 
@@ -16,6 +16,7 @@ public class LoggingTest {
     public void loggingTest() {
         Logger log = Logger.apply(getClass());
 
-        //log.debug("String [{}]", "abc");
+        Assert.assertNotNull(log);
+        log.debug("String [{}]", "abc");
     }
 }

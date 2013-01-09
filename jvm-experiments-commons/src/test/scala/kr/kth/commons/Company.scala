@@ -10,13 +10,13 @@ import tools.ScalaHash
  */
 class Company(var name: String, var email: String, var address: String) extends ValueObjectBase {
 
-  override def hashCode(): Int = {
-    ScalaHash.compute(name)
-  }
+    override def hashCode(): Int = {
+        ScalaHash.compute(name)
+    }
 
-  override def buildStringHelper() =
-    super.buildStringHelper()
-      .add("name", name)
-      .add("email", email)
-      .add("address", address)
+    override def buildStringHelper() =
+        super.buildStringHelper()
+            .add("name", name)
+            .add("email", email)
+            .add("address", address)
 }

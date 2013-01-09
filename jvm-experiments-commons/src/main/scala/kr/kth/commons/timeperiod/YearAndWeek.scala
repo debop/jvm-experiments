@@ -11,12 +11,12 @@ import kr.kth.commons.base.ValueObjectBase
 class YearAndWeek(@BeanProperty var year: Int = 0,
                   @BeanProperty var weekOfYear: Int = 1) extends ValueObjectBase with Comparable[YearAndWeek] {
 
-  def compareTo(other: YearAndWeek): Int = hashCode() compareTo other.hashCode()
+    def compareTo(other: YearAndWeek): Int = hashCode() compareTo other.hashCode()
 
-  override def hashCode() = year * 100 + weekOfYear
+    override def hashCode() = year * 100 + weekOfYear
 
-  protected override def buildStringHelper() =
-    super.buildStringHelper()
-      .add("year", year)
-      .add("weekOfYear", weekOfYear)
+    protected override def buildStringHelper() =
+        super.buildStringHelper()
+            .add("year", year)
+            .add("weekOfYear", weekOfYear)
 }

@@ -34,7 +34,9 @@ class FunctionTest extends Logging {
         }
 
         val unit: Unit = {
-            println("Hi"); Thread.sleep(100); println("Bye")
+            println("Hi");
+            Thread.sleep(100);
+            println("Bye")
         }
 
         runInThread2 {

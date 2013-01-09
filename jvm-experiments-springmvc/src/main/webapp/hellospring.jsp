@@ -9,7 +9,7 @@
 <%@ page import="spring.temp.HelloSpring" %>
 <html>
 <head>
-	<title>Test</title>
+    <title>Test</title>
 </head>
 <body>
 
