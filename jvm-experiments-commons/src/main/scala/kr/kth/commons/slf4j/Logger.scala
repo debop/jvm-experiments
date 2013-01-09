@@ -1,7 +1,7 @@
 package kr.kth.commons.slf4j
 
-import org.slf4j.{Logger => Slf4jLogger, Marker}
 import annotation.varargs
+import org.slf4j.{Logger => Slf4jLogger, Marker}
 
 /**
  * Scala를 위한 Logger 입니다.

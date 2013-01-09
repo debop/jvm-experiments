@@ -9,25 +9,25 @@ import java.util.concurrent.Callable
  */
 object thread {
 
-    /**
-     * 지정된 Unit을 Runnable 인스턴스로 만듭니다.
-     * @param f  실행할 메소드 (()=>Unit)
-     * @return
-     */
-    implicit def makeRunnable(f: () => Unit): Runnable = new Runnable {
-        def run() {
-            f()
-        }
+  /**
+   * 지정된 Unit을 Runnable 인스턴스로 만듭니다.
+   * @param f  실행할 메소드 (()=>Unit)
+   * @return
+   */
+  implicit def makeRunnable(f: () => Unit): Runnable = new Runnable {
+    def run() {
+      f()
     }
+  }
 
 
-    /**
-     * 지정한 함수를 Callable[T] 인스턴스로 만듭니다.
-     * @param f  스레드에서 실행할 메소드 (()=>T)
-     * @tparam T 스레드 완료 후 결과
-     * @return 스레드 완료 결과
-     */
-    implicit def makeCallable[T](f: () => T): Callable[T] = new Callable[T] {
-        def call(): T = f()
-    }
+  /**
+   * 지정한 함수를 Callable[T] 인스턴스로 만듭니다.
+   * @param f  스레드에서 실행할 메소드 (()=>T)
+   * @tparam T 스레드 완료 후 결과
+   * @return 스레드 완료 결과
+   */
+  implicit def makeCallable[T](f: () => T): Callable[T] = new Callable[T] {
+    def call(): T = f()
+  }
 }

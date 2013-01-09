@@ -1,9 +1,8 @@
 package org.scala.impatient
 
-import org.junit.Test
 import concurrent._
-import ExecutionContext.Implicits.global
 import kr.kth.commons.slf4j.Logging
+import org.junit.Test
 
 
 /**

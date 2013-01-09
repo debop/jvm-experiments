@@ -1,7 +1,7 @@
 package kr.kth.commons.timeperiod
 
-import kr.kth.commons.base.ValueObjectBase
 import beans.BeanProperty
+import kr.kth.commons.base.ValueObjectBase
 
 /**
  * 년/월 정보를 나타냅니다.

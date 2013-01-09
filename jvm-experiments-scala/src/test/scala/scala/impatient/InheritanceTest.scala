@@ -1,7 +1,7 @@
 package scala.impatient
 
-import org.junit.Test
 import kr.kth.commons.slf4j.Logging
+import org.junit.Test
 
 /**
  * scala.impatient.InheritanceTest

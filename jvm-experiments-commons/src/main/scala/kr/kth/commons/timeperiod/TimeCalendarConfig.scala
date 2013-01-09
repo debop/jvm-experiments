@@ -1,11 +1,11 @@
 package kr.kth.commons.timeperiod
 
-import kr.kth.commons.base.ValueObjectBase
-import java.util.Locale
 import beans.BeanProperty
+import java.util.Locale
+import kr.kth.commons.base.ValueObjectBase
+import kr.kth.commons.tools.ScalaHash
 import org.joda.time.Duration
 import tools.WeekTools
-import kr.kth.commons.tools.ScalaHash
 
 /**
  * TimeCalendar의 설정 정보를 표현한다.

@@ -14,13 +14,17 @@ class TraitTest {
   }
 
   trait ConsoleLogger extends Logged {
-    override def log(msg: String) { println(msg) }
+    override def log(msg: String) {
+      println(msg)
+    }
   }
 
   trait LoggedException extends Logged {
     this: Exception =>
     // or this: { def getMessage(): String } =>
-    def log() { log(getMessage()) }
+    def log() {
+      log(getMessage())
+    }
   }
 
   class Account {

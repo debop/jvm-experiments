@@ -1,8 +1,8 @@
 package org.scala.impatient
 
-import util.Try
-import org.junit.{Test, Assert}
 import kr.kth.commons.slf4j.Logging
+import org.junit.{Test, Assert}
+import util.Try
 
 
 /**

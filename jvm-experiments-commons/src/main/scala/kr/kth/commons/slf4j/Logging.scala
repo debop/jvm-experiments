@@ -1,7 +1,7 @@
 package kr.kth.commons.slf4j
 
-import org.slf4j.Marker
 import annotation.varargs
+import org.slf4j.Marker
 
 /**
  * 로그를 사용할 클래스에서 MixIn 방식으로 상속해서 사용하면 됩니다. ( class A extends Logger ... )

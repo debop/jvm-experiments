@@ -1,14 +1,14 @@
 package kr.kth.commons.timeperiod
 
-import org.joda.time.{Duration, DateTime}
+import collection.JavaConversions
+import collection.mutable.ArrayBuffer
 import java.util.{Calendar, Date, Locale}
 import kr.kth.commons.base.{Guard, NotImplementedException}
-import collection.JavaConversions
+import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.StringTool
+import org.joda.time.{Duration, DateTime}
 import timerange.{YearRangeCollection, YearRange, TimeRange}
 import tools.TimeTool
-import collection.mutable.ArrayBuffer
-import kr.kth.commons.slf4j.Logging
 
 /**
  * DateTime 관련 Object

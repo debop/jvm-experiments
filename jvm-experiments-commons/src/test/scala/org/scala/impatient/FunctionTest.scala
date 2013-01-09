@@ -1,9 +1,9 @@
 package org.scala.impatient
 
 import kr.kth.commons.compress.GZipCompressor
+import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.StringTool
 import org.junit.{Assert, Test}
-import kr.kth.commons.slf4j.Logging
 
 /**
  * 설명을 추가하세요.

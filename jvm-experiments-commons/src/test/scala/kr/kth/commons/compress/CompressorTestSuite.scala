@@ -1,8 +1,8 @@
 package kr.kth.commons.compress
 
+import kr.kth.commons.slf4j.Logger
 import kr.kth.commons.tools.StringTool
 import org.junit.{Assert, Test}
-import kr.kth.commons.slf4j.Logger
 
 /**
  * kr.kth.commons.compress.CompressorTestSuite

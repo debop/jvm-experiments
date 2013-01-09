@@ -1,8 +1,8 @@
 package org.scala.impatient
 
-import org.junit.Test
 import actors.Actor
 import kr.kth.commons.slf4j.Logging
+import org.junit.Test
 
 /**
  * org.scala.impatient.ActorTest

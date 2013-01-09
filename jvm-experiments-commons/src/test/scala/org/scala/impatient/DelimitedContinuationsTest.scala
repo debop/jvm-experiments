@@ -1,8 +1,8 @@
 package org.scala.impatient
 
+import kr.kth.commons.slf4j.Logging
 import org.junit.{Ignore, Test}
 import scala.util.continuations._
-import kr.kth.commons.slf4j.Logging
 
 /**
  * org.scala.impatient.DelimitedContinuationsTest

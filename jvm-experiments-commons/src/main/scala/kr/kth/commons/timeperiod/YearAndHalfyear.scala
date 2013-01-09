@@ -1,9 +1,9 @@
 package kr.kth.commons.timeperiod
 
+import beans.BeanProperty
 import clock.ClockProxy
 import kr.kth.commons.base.ValueObjectBase
 import org.joda.time.DateTime
-import beans.BeanProperty
 
 /**
  * 년(Year), 반기(HalfYear) 정보를 가지는 Value Object 입니다.

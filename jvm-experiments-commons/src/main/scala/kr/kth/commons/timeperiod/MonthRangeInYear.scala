@@ -1,7 +1,7 @@
 package kr.kth.commons.timeperiod
 
-import kr.kth.commons.base.{Guard, ValueObjectBase}
 import beans.BeanProperty
+import kr.kth.commons.base.{Guard, ValueObjectBase}
 
 /**
  * 한 해 내에서의 월단위의 기간을 표현합니다. ( 1월 ~ 12월, 4월~4월)

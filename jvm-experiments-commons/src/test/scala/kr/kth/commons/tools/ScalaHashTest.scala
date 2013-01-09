@@ -1,8 +1,8 @@
 package kr.kth.commons.tools
 
-import org.junit.{Assert, Test}
 import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.timeperiod.YearAndWeek
+import org.junit.{Assert, Test}
 
 class ScalaHashTest extends Logging {
 

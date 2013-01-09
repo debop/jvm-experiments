@@ -1,8 +1,8 @@
 package kr.kth.commons.timeperiod
 
+import annotation.meta.beanGetter
 import kr.kth.commons.base.{Guard, TimeVal}
 import kr.kth.commons.tools.ScalaHash
-import annotation.meta.beanGetter
 
 /**
  * 특정요일의 한시간단위의 기간을 표현한다. (예: 금요일 1시~ 5시)

@@ -1,10 +1,9 @@
 package kr.kth.commons.timeperiod.tools
 
 import java.util.{Calendar, Locale}
-import org.joda.time.{Duration, DateTime}
-import kr.kth.commons.timeperiod._
-import kr.kth.commons.timeperiod.Times
 import kr.kth.commons.slf4j.Logging
+import kr.kth.commons.timeperiod._
+import org.joda.time.{Duration, DateTime}
 import timerange.{TimeRange, WeekRange}
 
 /**

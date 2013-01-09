@@ -2,13 +2,13 @@ package org.scala.impatient
 
 import annotation.meta.beanGetter
 import collection.mutable.ArrayBuffer
-import org.junit.{Assert, Test}
-import kr.kth.commons.base.ValueObjectBase
 import io.Source
 import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
 import java.io.File
+import javax.imageio.ImageIO
+import kr.kth.commons.base.ValueObjectBase
 import kr.kth.commons.slf4j.Logging
+import org.junit.{Assert, Test}
 
 /**
  * org.scala.impatient.AdvancedTypeTest

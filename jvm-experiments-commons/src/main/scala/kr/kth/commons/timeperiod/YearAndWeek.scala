@@ -1,7 +1,7 @@
 package kr.kth.commons.timeperiod
 
-import kr.kth.commons.base.ValueObjectBase
 import beans.BeanProperty
+import kr.kth.commons.base.ValueObjectBase
 
 /**
  * Year 와 WeekOfYear 를 표현합니다.

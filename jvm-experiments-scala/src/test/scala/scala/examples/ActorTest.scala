@@ -1,8 +1,8 @@
 package scala.examples
 
-import scala.actors._
-import org.junit.Test
 import kr.kth.commons.slf4j.Logging
+import org.junit.Test
+import scala.actors._
 
 /**
  * scala.examples.ActorTest

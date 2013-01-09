@@ -1,7 +1,7 @@
 package org.scala.impatient
 
-import org.junit.{Assert, Test}
 import kr.kth.commons.slf4j.Logging
+import org.junit.{Assert, Test}
 
 /**
  * org.scala.impatient.MatchingTest
