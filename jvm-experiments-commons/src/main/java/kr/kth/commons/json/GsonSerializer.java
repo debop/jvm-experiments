@@ -2,9 +2,9 @@ package kr.kth.commons.json;
 
 import com.google.common.base.Defaults;
 import com.google.gson.Gson;
+import kr.kth.commons.base.Guard;
 import kr.kth.commons.tools.StringTool;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,15 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 public class GsonSerializer implements IJsonSerializer {
 
     @Getter
-    @Setter
-    private Gson gson;
+    private final Gson gson;
 
     public GsonSerializer() {
         this(new Gson());
     }
 
     public GsonSerializer(Gson gson) {
-        this.gson = (gson != null) ? gson : new Gson();
+        this.gson = Guard.firstNotNull(gson, new Gson());
     }
 
 
@@ -36,7 +35,7 @@ public class GsonSerializer implements IJsonSerializer {
         if (log.isDebugEnabled())
             log.debug("Json 직렬화를 수행합니다... graph=[{}]", graph);
 
-        return getGson().toJson(graph);
+        return gson.toJson(graph);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class GsonSerializer implements IJsonSerializer {
             log.debug("Json 역직렬화를 수행합니다. jsonText=[{}], targetType=[{}]",
                     StringTool.ellipsisChar(jsonText, 255), targetType);
 
-        return getGson().fromJson(jsonText, targetType);
+        return gson.fromJson(jsonText, targetType);
     }
 
     @Override

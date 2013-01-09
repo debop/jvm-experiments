@@ -22,6 +22,7 @@ public class TestTool {
         return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
+    @SafeVarargs
     public static void runTasks(int count, Runnable... runnables) {
 
         ExecutorService executor = newExecutorService();

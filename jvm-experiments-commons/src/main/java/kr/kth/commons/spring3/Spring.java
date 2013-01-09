@@ -236,6 +236,18 @@ public final class Spring {
         return ArrayTool.toList(beanMap.values());
     }
 
+    public static <T> T getFirstBeanByType(Class<T> beanClass) {
+        return getFirstBeanByType(beanClass, true, true);
+    }
+
+    public static <T> T getFirstBeanByType(Class<T> beanClass, boolean includeNonSingletons, boolean allowEagerInit) {
+        List<T> beans = getBeansByType(beanClass, includeNonSingletons, allowEagerInit);
+        if (beans != null && beans.size() > 0)
+            return (T) beans.get(0);
+        else
+            return (T) null;
+    }
+
     /**
      * 지정된 수형 또는 상속한 수형으로 등록된 bean 들을 조회합니다.
      */
@@ -264,12 +276,31 @@ public final class Spring {
     }
 
     public static synchronized <T> T getOrRegisterBean(Class<T> beanClass, String scope) {
-        Map<String, T> beans = getBeansOfType(beanClass, true, true);
-        if (beans.size() > 0)
-            return beans.values().iterator().next();
+        return getOrRegisterBean(beanClass, beanClass, scope);
+    }
 
-        registerBean(beanClass.getName(), beanClass, scope);
-        return getContext().getBean(beanClass);
+    public static synchronized <T> T getOrRegisterBean(Class<T> beanClass, Class<? extends T> registBeanClass) {
+        return getOrRegisterBean(beanClass, registBeanClass, ConfigurableBeanFactory.SCOPE_SINGLETON);
+    }
+
+    /**
+     * 등록된 beanClass 를 조회 (보통 Interface) 하고, 없다면, registerBeanClass (Concrete Class) 를 등록합니다.
+     *
+     * @param beanClass       조회할 Bean의 수형 (보통 인터페이스)
+     * @param registBeanClass 등록되지 않은 beanClass 일때, 실제 등록할 Bean의 수형 (Concrete Class)
+     * @param scope           "Singleton", "Scope"
+     * @param <T>             Bean의 수형
+     * @return
+     */
+    public static synchronized <T> T getOrRegisterBean(Class<T> beanClass,
+                                                       Class<? extends T> registBeanClass,
+                                                       String scope) {
+        T bean = getFirstBeanByType(beanClass, true, true);
+        if (bean != null)
+            return bean;
+
+        registerBean(registBeanClass.getName(), registBeanClass, scope);
+        return getContext().getBean(registBeanClass);
     }
 
     public static synchronized <T> T getOrRegisterSingletonBean(Class<T> beanClass) {

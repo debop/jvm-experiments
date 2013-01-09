@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.Map;
 
 /**
- * 설명을 추가하세요.
+ * 압축 관련 테스트
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 17
  */

@@ -1,11 +1,11 @@
 package springbook.chap06;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.mockito.Mockito;
 import springbook.chap06.impl.UserServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 @Slf4j
 public class UserServiceTestByMock {
 
-    private List<User> users = new ArrayList<>();
+    private List<User> users = Lists.newArrayList();
 
     @Test
     public void mockUserDao() {

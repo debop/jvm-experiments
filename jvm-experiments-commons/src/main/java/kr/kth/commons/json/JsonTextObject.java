@@ -5,8 +5,6 @@ import kr.kth.commons.base.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 
-import static kr.kth.commons.tools.StringTool.ellipsisChar;
-
 /**
  * 객체를 JSON 직렬화를 수행하여, 그 결과를 저장하려고 할 때 사용한다.
  * User: sunghyouk.bae@gmail.com
@@ -31,13 +29,7 @@ public class JsonTextObject extends ValueObjectBase {
     }
 
     public JsonTextObject(JsonTextObject src) {
-        if (src == null) {
-            this.className = null;
-            this.jsonText = null;
-        } else {
-            this.className = src.className;
-            this.jsonText = src.jsonText;
-        }
+        this(src.className, src.jsonText);
     }
 
     @Override
@@ -49,6 +41,6 @@ public class JsonTextObject extends ValueObjectBase {
     protected Objects.ToStringHelper buildStringHelper() {
         return super.buildStringHelper()
                 .add("className", className)
-                .add("jsonText", ellipsisChar(jsonText, 255));
+                .add("jsonText", jsonText);
     }
 }

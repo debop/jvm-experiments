@@ -1,5 +1,6 @@
 package springbook.chap06;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -7,14 +8,14 @@ import org.junit.Test;
 
 import java.lang.reflect.Method;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * springbook.chap06.CGLibTest
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 18.
  */
+@Slf4j
 public class CGLibTest {
 
     @Test
@@ -29,8 +30,7 @@ public class CGLibTest {
 
         Hello hello = (Hello) proxy;
 
-        assertThat(hello.sayHello("debop"), is("HELLO DEBOP"));
-
+        assertEquals("HELLO DEBOP", hello.sayHello("debop"));
     }
 
     static class UppercaseInterceptor implements MethodInterceptor {

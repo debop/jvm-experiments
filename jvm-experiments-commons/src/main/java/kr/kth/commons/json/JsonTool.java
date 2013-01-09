@@ -1,6 +1,7 @@
 package kr.kth.commons.json;
 
 import kr.kth.commons.base.Guard;
+import kr.kth.commons.spring3.Spring;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -11,7 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JsonTool {
 
-    private static final IJsonSerializer serializer = new GsonSerializer();
+    private static IJsonSerializer serializer = new GsonSerializer();
+
+    synchronized static IJsonSerializer getDefaultSerializer() {
+        if (serializer == null) {
+            // IJsonSerializer 를 검색하고, 없다면 GsonSerializer 를 등록하고 반환한다.
+            serializer = Spring.getOrRegisterBean(IJsonSerializer.class, GsonSerializer.class);
+        }
+        return serializer;
+    }
 
     /**
      * 지정된 객체를 Json 직렬화를 수행하여 byte 배열로 변환합니다.

@@ -48,6 +48,7 @@ public class SpringTest extends AbstractTest {
         synchronized (syncLock) {
 
             Spring.reset();
+
             GenericApplicationContext context = new GenericApplicationContext();
 
             Spring.init(context);
@@ -83,14 +84,14 @@ public class SpringTest extends AbstractTest {
     @Test
     public void getOrRegisterBean_NotRegisteredBean() {
 
-        ArrayList arrayList = getOrRegisterBean(ArrayList.class);
+        ArrayList arrayList = Spring.getOrRegisterBean(ArrayList.class);
         assertNotNull(arrayList);
     }
 
     @Test
     public void getOrRegisterBean_NotRegisteredBean_WithScope() {
 
-        Object compressor = getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
+        Object compressor = Spring.getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
         assertNotNull(compressor);
         assertTrue(compressor instanceof GZipCompressor);
 
@@ -99,10 +100,28 @@ public class SpringTest extends AbstractTest {
         compressor = Spring.tryGetBean(GZipCompressor.class);
         assertNull(compressor);
 
-        ICompressor deflator = getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+        ICompressor deflator = Spring.getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
         assertNotNull(deflator);
         assertTrue(deflator instanceof DeflateCompressor);
     }
+
+    @Test
+    public void getOrRegisterBean_WithSubClass_WithScope() {
+
+        Object compressor = Spring.getOrRegisterBean(ICompressor.class, GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
+        assertNotNull(compressor);
+        assertTrue(compressor instanceof GZipCompressor);
+
+        Spring.removeBean(GZipCompressor.class);
+
+        compressor = Spring.tryGetBean(GZipCompressor.class);
+        assertNull(compressor);
+
+        ICompressor deflator = Spring.getOrRegisterBean(ICompressor.class, DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+        assertNotNull(deflator);
+        assertTrue(deflator instanceof DeflateCompressor);
+    }
+
 
     @Test
     @SuppressWarnings("unchecked")

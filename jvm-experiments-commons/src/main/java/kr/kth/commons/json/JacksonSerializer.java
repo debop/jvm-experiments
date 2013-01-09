@@ -5,7 +5,6 @@ import kr.kth.commons.base.Guard;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.StringTool;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,8 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JacksonSerializer implements IJsonSerializer {
 
     @Getter
-    @Setter
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     public JacksonSerializer() {
         this(new ObjectMapper());
@@ -37,7 +35,7 @@ public class JacksonSerializer implements IJsonSerializer {
             log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
 
         try {
-            return getMapper().writeValueAsBytes(graph);
+            return mapper.writeValueAsBytes(graph);
         } catch (Exception e) {
             if (log.isErrorEnabled())
                 log.error("객체를 Json 직렬화하는데 실패했습니다.", e);
@@ -53,7 +51,7 @@ public class JacksonSerializer implements IJsonSerializer {
         if (log.isDebugEnabled())
             log.debug("인스턴스를 JSON 포맷으로 직렬화합니다. graph=[{}]", graph);
         try {
-            return getMapper().writeValueAsString(graph);
+            return mapper.writeValueAsString(graph);
         } catch (Exception e) {
             if (log.isErrorEnabled())
                 log.error("객체를 Json 직렬화하는데 실패했습니다.", e);
@@ -70,7 +68,7 @@ public class JacksonSerializer implements IJsonSerializer {
             log.debug("JSON 역직렬화를 수행합니다. valueType=[{}]", targetType.getName());
 
         try {
-            return getMapper().readValue(jsonText, targetType);
+            return mapper.readValue(jsonText, targetType);
         } catch (Exception e) {
             if (log.isErrorEnabled())
                 log.error("Json 역직렬화하는데 실패했습니다.", e);
@@ -87,7 +85,7 @@ public class JacksonSerializer implements IJsonSerializer {
             log.debug("JSON 역직렬화를 수행합니다. targetType=[{}]", targetType.getName());
 
         try {
-            return getMapper().readValue(bytes, targetType);
+            return mapper.readValue(bytes, targetType);
         } catch (Exception e) {
             if (log.isErrorEnabled())
                 log.error("Json 역직렬화하는데 실패했습니다.", e);
