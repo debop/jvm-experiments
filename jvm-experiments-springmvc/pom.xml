@@ -10,7 +10,6 @@
     <artifactId>jvm-experiments-springmvc</artifactId>
     <packaging>war</packaging>
     <name>jvm-experiments-springmvc Maven Webapp</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,19 +20,16 @@
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-commons</artifactId>
             <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-hibernate</artifactId>
             <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-spring</artifactId>
             <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

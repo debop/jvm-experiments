@@ -80,7 +80,6 @@ public class Parallels {
         shouldNotBeNull(function, "function");
 
         ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
-        final List<V> results = new ArrayList<V>();
 
         if (log.isDebugEnabled())
             log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
@@ -110,6 +109,8 @@ public class Parallels {
 
             executor.invokeAll(tasks);
 
+            List<V> results = Lists.newArrayListWithCapacity(elemList.size());
+
             for (int i = 0; i < partitions.size(); i++) {
                 results.addAll(localResults.get(i));
             }
@@ -117,12 +118,13 @@ public class Parallels {
             if (log.isDebugEnabled())
                 log.debug("모든 작업을 병렬로 완료했습니다. partitions=[{}]", partitions.size());
 
+            return results;
+
         } catch (Exception e) {
             log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
         } finally {
             executor.shutdown();
         }
-
-        return results;
+        return Lists.newArrayList();
     }
 }
