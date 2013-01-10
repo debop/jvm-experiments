@@ -22,25 +22,22 @@ public class TestTool {
         return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
-    @SafeVarargs
-    public static void runTasks(int count, Runnable... runnables) {
+    public static void runTasks(int count, final Runnable runnable) {
 
         ExecutorService executor = newExecutorService();
 
         try {
-            for (final Runnable runnable : runnables) {
-                final CountDownLatch latch = new CountDownLatch(count);
-                for (int i = 0; i < count; i++) {
-                    executor.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            runnable.run();
-                            latch.countDown();
-                        }
-                    });
-                }
-                latch.await();
+            final CountDownLatch latch = new CountDownLatch(count);
+            for (int i = 0; i < count; i++) {
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        runnable.run();
+                        latch.countDown();
+                    }
+                });
             }
+            latch.await();
         } catch (InterruptedException e) {
             if (log.isErrorEnabled())
                 log.error("작업 수행 중 예외가 발생했습니다.", e);
@@ -50,8 +47,7 @@ public class TestTool {
         }
     }
 
-    @SafeVarargs
-    public static <T> void runTasks(int count, Callable<T>... callables) {
+    public static <T> void runTasks(int count, Callable<T> callables) {
 
         ExecutorService executor = newExecutorService();
 

@@ -1,11 +1,11 @@
-package org.scala.impatient
+package scala.impatient
 
 import kr.kth.commons.slf4j.Logging
 import org.junit.{Ignore, Test}
 import scala.util.continuations._
 
 /**
- * org.scala.impatient.DelimitedContinuationsTest
+ * scala.impatient.DelimitedContinuationsTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 5.
  */

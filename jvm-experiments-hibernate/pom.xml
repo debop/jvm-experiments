@@ -5,12 +5,13 @@
     <parent>
         <artifactId>jvm-experiments-parent</artifactId>
         <groupId>jvm-experiments</groupId>
-        <version>${kr.kth.version}</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jvm-experiments-hibernate</artifactId>
-    <version>${kr.kth.version}</version>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
     <properties>
         <hibernate4.version>4.1.9.Final</hibernate4.version>
@@ -22,8 +23,7 @@
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-commons</artifactId>
-            <version>${kr.kth.version}</version>
-            <scope>provided</scope>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -85,7 +85,13 @@
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
             <version>2.6.0</version>
-            <scope>optional</scope>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

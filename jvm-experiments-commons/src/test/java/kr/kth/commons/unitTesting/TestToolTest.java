@@ -22,7 +22,7 @@ public class TestToolTest {
     @Test
     public void runTasksWithAction() {
 
-        Runnable runnable =
+        final Runnable runnable =
                 new Runnable() {
                     @Override
                     public void run() {
@@ -36,13 +36,19 @@ public class TestToolTest {
 
         @Cleanup
         AutoStopwatch stopwatch = new AutoStopwatch();
-        TestTool.runTasks(100, runnable, runnable);
+        TestTool.runTasks(100, new Runnable() {
+            @Override
+            public void run() {
+                runnable.run();
+                runnable.run();
+            }
+        });
     }
 
     @Test
     public void runTasksWithCallables() {
 
-        Callable<Double> callable = new Callable<Double>() {
+        final Callable<Double> callable = new Callable<Double>() {
             @Override
             public Double call() throws Exception {
                 for (int i = LowerBound; i < UpperBound; i++) {
@@ -56,7 +62,12 @@ public class TestToolTest {
 
         @Cleanup
         AutoStopwatch stopwatch = new AutoStopwatch();
-        TestTool.runTasks(100, callable, callable);
+        TestTool.runTasks(100, new Callable<Double>() {
+            @Override
+            public Double call() throws Exception {
+                return (callable.call() + callable.call()) / 2.0;
+            }
+        });
     }
 
     public static class Hero {

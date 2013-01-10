@@ -1,4 +1,4 @@
-package org.scala.impatient
+package scala.impatient
 
 import annotation.meta.beanGetter
 import collection.mutable.ArrayBuffer
@@ -11,7 +11,7 @@ import kr.kth.commons.slf4j.Logging
 import org.junit.{Assert, Test}
 
 /**
- * org.scala.impatient.AdvancedTypeTest
+ * scala.impatient.AdvancedTypeTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 5.
  */

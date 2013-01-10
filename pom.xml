@@ -7,7 +7,7 @@
     <groupId>jvm-experiments</groupId>
     <artifactId>jvm-experiments-parent</artifactId>
     <packaging>pom</packaging>
-    <version>${kr.kth.version}</version>
+    <version>1.0.0</version>
 
     <modules>
         <module>jvm-experiments-commons</module>
@@ -18,7 +18,7 @@
     </modules>
 
     <properties>
-        <kr.kth.version>1.0.0</kr.kth.version>
+        <!--<kr.kth.version>1.0.0</kr.kth.version>-->
 
         <scala.version>2.10.0</scala.version>
 
@@ -185,7 +185,17 @@
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>netty</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.6.1.Final</version>
         </dependency>
 
         <dependency>

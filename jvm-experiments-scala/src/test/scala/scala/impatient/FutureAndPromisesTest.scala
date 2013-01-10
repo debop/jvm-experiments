@@ -1,13 +1,13 @@
-package org.scala.impatient
+package scala.impatient
 
-import concurrent._
 import concurrent.ExecutionContext.Implicits.global
+import concurrent._
 import kr.kth.commons.slf4j.Logging
 import org.junit.Test
 
 
 /**
- * org.scala.impatient.FutureAndPromisesTest
+ * scala.impatient.FutureAndPromisesTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 6.
  */

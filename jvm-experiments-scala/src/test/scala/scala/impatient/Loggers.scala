@@ -1,4 +1,4 @@
-package org.scala.impatient
+package scala.impatient
 
 /**
  * 설명을 추가하세요.

@@ -1,11 +1,12 @@
-package org.scala.impatient
+package scala.impatient
 
 import actors.Actor
 import kr.kth.commons.slf4j.Logging
 import org.junit.Test
 
+
 /**
- * org.scala.impatient.ActorTest
+ * scala.impatient.ActorTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 5.
  */
@@ -28,7 +29,7 @@ class ActorTest extends Logging {
         val actor1 = new HiActor
         actor1.start()
 
-        var reply = actor1 !? "Hi" // send and wait
+        val reply = actor1 !? "Hi" // send and wait
         reply match {
             case "Hi" => log.debug("Reply Hi")
             case "What?" => log.debug("What?")
@@ -107,12 +108,11 @@ class ActorTest extends Logging {
 
     @Test
     def actorObject() {
-        val actor = Actor.actor {
-            log.debug("Hi")
-        }
+        val actor = Actor.actor {log.debug("Hi")}
 
         actor ! "Hi"
         Thread.sleep(10)
-
     }
 }
+
+

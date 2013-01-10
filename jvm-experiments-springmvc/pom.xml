@@ -3,16 +3,16 @@
     <parent>
         <artifactId>jvm-experiments-parent</artifactId>
         <groupId>jvm-experiments</groupId>
-        <version>${kr.kth.version}</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
     <artifactId>jvm-experiments-springmvc</artifactId>
     <packaging>war</packaging>
     <name>jvm-experiments-springmvc Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -20,20 +20,20 @@
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-commons</artifactId>
-            <version>${kr.kth.version}</version>
-            <scope>provided</scope>
+            <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-hibernate</artifactId>
-            <version>${kr.kth.version}</version>
-            <scope>provided</scope>
+            <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-spring</artifactId>
-            <version>${kr.kth.version}</version>
-            <scope>provided</scope>
+            <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

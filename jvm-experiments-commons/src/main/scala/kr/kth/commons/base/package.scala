@@ -1,5 +1,7 @@
 package kr.kth.commons
 
+import org.joda.time.DateTime
+
 /**
  * kr.kth.commons.base package object
  * User: sunghyouk.bae@gmail.com
@@ -7,4 +9,9 @@ package kr.kth.commons
  */
 package object base {
 
+    /**
+     * 현재 날짜
+     * @return
+     */
+    def today = new DateTime().withTimeAtStartOfDay()
 }

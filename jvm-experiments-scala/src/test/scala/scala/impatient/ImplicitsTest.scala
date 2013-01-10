@@ -67,4 +67,18 @@ class ImplicitsTest extends Logging {
         val contents = path.toFile.read
         log.debug(contents)
     }
+
+    case class Delimiters(left: String, right: String)
+
+    def quote(what: String)(implicit delims: Delimiters) = delims.left + what + delims.right
+
+    implicit val quoteDelimiters = Delimiters("<<", ">>")
+
+    @Test
+    def implicitParamters() {
+        val q = quote("Category")
+        Assert.assertEquals("<<Category>>", q)
+
+        log.debug(s"q=[$q]")
+    }
 }

@@ -1,10 +1,10 @@
-package org.scala.impatient
+package scala.impatient
 
 import kr.kth.commons.slf4j.Logging
 import org.junit.{Assert, Test}
 
 /**
- * org.scala.impatient.MatchingTest
+ * scala.impatient.MatchingTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 6.
  */

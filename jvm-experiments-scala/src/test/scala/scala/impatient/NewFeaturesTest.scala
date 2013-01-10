@@ -1,4 +1,4 @@
-package org.scala.impatient
+package scala.impatient
 
 import kr.kth.commons.slf4j.Logging
 import org.junit.{Test, Assert}
@@ -6,7 +6,7 @@ import util.Try
 
 
 /**
- * org.scala.impatient.NewFeaturesTest
+ * scala.impatient.NewFeaturesTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 6.
  */

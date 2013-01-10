@@ -12,10 +12,10 @@ import org.junit.Test
 class ScalaTestToolTest extends Logging {
 
     private final val LowerBound: Int = 0
-    private final val UpperBound: Int = 99999
+    private final val UpperBound: Int = 100000
 
     @Test
-    def runUnitsWithControlAbstraction() {
+    def runUnitAsParallelTest() {
         def runnable = {
             (LowerBound to UpperBound).foreach {
                 i => Hero.findRoot(i)
@@ -25,32 +25,66 @@ class ScalaTestToolTest extends Logging {
         }
 
         val stopwatch: AutoStopwatch = new AutoStopwatch()
-        ScalaTestTool.runUnit(100) {
-            runnable
-            runnable
-        }
+        ParallelTestTool.runUnitAsParallel(100) {runnable; runnable}
         stopwatch.close()
     }
 
-    @Test def runFuncTest {
+    @Test
+    def runUnitAsParallelWithIndexTest() {
+        def runnable(x: Int) = {
+            (x to UpperBound).foreach {
+                i => Hero.findRoot(i)
+            }
+            log.debug("Unit: FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound))
+            Hero.findRoot(UpperBound)
+        }
+
+        val stopwatch: AutoStopwatch = new AutoStopwatch()
+        ParallelTestTool.runUnitAsParallelWithIndex(100) {x => {runnable(x); runnable(x)}}
+        stopwatch.close()
+    }
+
+    @Test
+    def runFuncAsParallelTest() {
         def callable = {
             for (i: Int <- LowerBound to UpperBound) {
                 Hero.findRoot(i)
             }
             log.debug("Function: FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound))
-            Hero.findRoot(UpperBound)
+            val root = Hero.findRoot(UpperBound)
+            //println( root )
+            root
         }
 
         val stopwatch: AutoStopwatch = new AutoStopwatch()
-        val results = ScalaTestTool.runFunc[Double](100) {
-            val a1 = callable
-            val a2 = callable
-            (a1 + a2) / 2.0
+        val results = ParallelTestTool.runFuncAsParallel[Double](100) {(callable + callable) / 4.0}
+        stopwatch.close()
+    }
+
+    @Test
+    def runFuncAsParallelWithIndexTest() {
+        def callable(x: Int) = {
+            for (i: Int <- x to UpperBound) {
+                Hero.findRoot(i)
+            }
+            log.debug("Function: FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound))
+            val root = Hero.findRoot(UpperBound)
+            //println( root )
+            root
+        }
+
+        val stopwatch: AutoStopwatch = new AutoStopwatch()
+        val results = ParallelTestTool.runFuncAsParallelWithIndex(100) {
+            x: Int => {
+                (callable(x) + callable(x)) / 4.0
+            }
         }
         stopwatch.close()
     }
 
     object Hero {
+        private final val Tolerance: Double = 1.0e-10
+
         def findRoot(number: Double): Double = {
             var guess: Double = 1.0
             var error: Double = Math.abs(guess * guess - number)
@@ -60,8 +94,6 @@ class ScalaTestToolTest extends Logging {
             }
             guess
         }
-
-        private final val Tolerance: Double = 1.0e-10
     }
 
 }

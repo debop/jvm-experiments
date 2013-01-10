@@ -1,9 +1,9 @@
-package org.scala.impatient
+package scala.impatient
 
 import org.junit.{Assert, Test}
 
 /**
- * org.scala.impatient.CaseClassTest
+ * scala.impatient.CaseClassTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 4.
  */

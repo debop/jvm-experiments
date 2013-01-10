@@ -32,7 +32,7 @@ class OperatorsTest extends Logging {
 
     @Test
     def extractors() {
-        var Fraction(a, b) = Fraction(3, 4) * Fraction(2, 5)
+        val Fraction(a, b) = Fraction(3, 4) * Fraction(2, 5)
         log.debug(s"Fraction a=[$a], b=[$b]")
     }
 
@@ -44,8 +44,8 @@ class OperatorsTest extends Logging {
         val amt = new Currency(29.95, "EUR")
 
         amt match {
-            case Currency(amount, "USD") => log.debug(s"     $$$amount")
-            case Currency(amount, "EUR") => log.debug(s"€$amount")
+            case Currency(amount, "USD") => log.debug("$$" + amount)
+            case Currency(amount, "EUR") => log.debug("€" + amount)
             case _ => log.debug(amt)
         }
     }

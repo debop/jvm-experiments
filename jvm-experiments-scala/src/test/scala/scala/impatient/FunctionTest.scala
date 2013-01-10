@@ -1,7 +1,7 @@
 package scala.impatient
 
-import org.junit.Test
 import kr.kth.commons.slf4j.Logging
+import org.junit.Test
 
 /**
  * scala.impatient.FunctionTest
@@ -34,8 +34,8 @@ class FunctionTest extends Logging {
         }
 
         val unit: Unit = {
-            println("Hi");
-            Thread.sleep(100);
+            println("Hi")
+            Thread.sleep(100)
             println("Bye")
         }
 
