@@ -36,7 +36,7 @@ class ColletionsTest extends Logging {
         Assert.assertEquals(math.pow(10, 10), powers(10), 1e-8)
 
         // 0~9 까지는 계산하지 않고, 다음 10개만 계산합니다.
-        println(powers.drop(10).take(10).map(x => {println(x); 1 / x}).force)
+        log.debug(powers.drop(10).take(10).map(x => {log.debug(x); 1 / x}).force)
     }
 
     @Test

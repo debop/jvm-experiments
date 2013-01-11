@@ -3,6 +3,7 @@ package kr.kth.commons.parallelism;
 import kr.kth.commons.base.Executable;
 import kr.kth.commons.base.ExecutableAdapter;
 import kr.kth.commons.base.Guard;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
@@ -16,26 +17,39 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 public class TimedExecutor {
 
+    @Getter
     private final long timeout;
+    @Getter
     private final long checkMilliSeconds;
 
+    /**
+     * 수행 시 제한 시간을 제한하여 수행합니다.
+     *
+     * @param timeout 제한 시간 (Millisecond 단위)
+     */
     private TimedExecutor(long timeout) {
-        this(timeout, 1000);
+        this(timeout, 100);
     }
 
+    /**
+     * 수행 시 제한 시간을 두고 작업을 처리하도록 합니다.
+     *
+     * @param timeout           제한 시간 (Milliseconds 단위)
+     * @param checkMilliSeconds 완료 여부 검사 시간 주기 (Milliseconds 딘위)
+     */
     private TimedExecutor(long timeout, long checkMilliSeconds) {
         if (log.isDebugEnabled())
-            log.debug("TimedExecutor 생성. timeout=[{}], checkMilliSeconds=[{}]", timeout, checkMilliSeconds);
+            log.debug("TimedExecutor 생성. timeout=[{}] msecs, checkMilliSeconds=[{}] msecs", timeout, checkMilliSeconds);
 
         this.timeout = timeout;
-        this.checkMilliSeconds = checkMilliSeconds;
+        this.checkMilliSeconds = Math.max(1, Math.min(timeout, checkMilliSeconds));
     }
 
     public void execute(Executable executable) throws TimeoutException {
         Guard.shouldNotBeNull(executable, "executable");
 
         if (log.isDebugEnabled())
-            log.debug("제한된 시간[{}] (sec)에 Executable 인스턴스를 수행합니다.", TimeUnit.SECONDS.toSeconds(timeout));
+            log.debug("제한된 시간[{}] (seconds) 동안 Executable 인스턴스를 수행합니다.", TimeUnit.SECONDS.toSeconds(timeout));
 
         final ExecutableAdapter adapter = new ExecutableAdapter(executable);
         final Thread separateThread = new Thread(adapter);

@@ -55,16 +55,14 @@ public class FileTool {
     }
 
     public static void copy(Path source, Path target) throws IOException {
-        Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+        Files.copy(source, target, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
     }
 
     public static void copy(Path source, Path target, CopyOption... options) throws IOException {
         Files.copy(source, target, options);
     }
 
-    public static Future<Void> copyAsync(final Path source,
-                                         final Path target,
-                                         final CopyOption... options) {
+    public static Future<Void> copyAsync(final Path source, final Path target, final CopyOption... options) {
         return
                 AsyncTool.startNew(new Callable<Void>() {
                     @Override
@@ -74,6 +72,30 @@ public class FileTool {
                     }
                 });
     }
+
+    public static void move(Path src, Path dst) throws IOException {
+        Files.move(src,
+                dst,
+                StandardCopyOption.ATOMIC_MOVE,
+                StandardCopyOption.COPY_ATTRIBUTES,
+                StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public static void move(Path src, Path dst, StandardCopyOption... options) throws IOException {
+        Files.move(src, dst, options);
+    }
+
+    public static Future<Void> moveAsync(final Path src, final Path dst, final StandardCopyOption... options) {
+        return
+                AsyncTool.startNew(new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        move(src, dst, options);
+                        return null;
+                    }
+                });
+    }
+
 
     public static void delete(Path path) throws IOException {
         if (log.isDebugEnabled())

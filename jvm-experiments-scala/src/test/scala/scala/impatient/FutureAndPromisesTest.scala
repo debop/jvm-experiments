@@ -4,6 +4,8 @@ import concurrent.ExecutionContext.Implicits.global
 import concurrent._
 import kr.kth.commons.slf4j.Logging
 import org.junit.Test
+import scala.util.Failure
+import scala.util.Success
 
 
 /**
@@ -17,14 +19,16 @@ class FutureAndPromisesTest extends Logging {
     def futureTest() {
         val f: Future[List[String]] =
             future {
-                log.debug("start Future")
+                log.debug("start Future...")
                 List("first", "second", "third")
             }
         f onComplete {
-            x => log.debug(s"onComplete: ${x.get}")
+            x => log.debug("onComplete ... return [{}]", x.get)
         }
 
-        Thread.sleep(10)
+        while (!f.isCompleted)
+            Thread.sleep(10)
+        log.debug("futureTest is completed")
     }
 
     @Test
@@ -33,8 +37,12 @@ class FutureAndPromisesTest extends Logging {
             2 / 0
         }
 
-        for (exc <- f.failed)
-            log.debug("예외 정보:", exc)
+        f onComplete {
+            case Success(x) => log.debug("Success")
+            case Failure(e) => log.debug("예외정보", e)
+        }
+        //        for (exc <- f.failed)
+        //            log.debug("예외 정보:", exc)
 
         val f2 = future {
             4 / 2
@@ -43,7 +51,8 @@ class FutureAndPromisesTest extends Logging {
             case x => log.debug("Result value: [{}]", x.get)
         }
 
-        Thread.sleep(10)
+        while (!(f.isCompleted && f2.isCompleted))
+            Thread.sleep(10)
     }
 
 
@@ -59,11 +68,15 @@ class FutureAndPromisesTest extends Logging {
         p.future onComplete {
             x => log.debug(s"Result value: ${x.get}")
         }
-        Thread.sleep(10)
+
+        while (!p.isCompleted)
+            Thread.sleep(10)
+
+        log.debug("futureAndPromise test is done.")
     }
 
     @Test
-    def combiningTryAdnFutures() {
+    def combiningTryAndFutures() {
 
         case class Friend(name: String, age: Int)
 
@@ -84,7 +97,10 @@ class FutureAndPromisesTest extends Logging {
             x => log.debug(s"result=${x.get}")
         }
 
-        Thread.sleep(100)
+        while (!(avgAge.isCompleted && avgAge.future.isCompleted))
+            Thread.sleep(10)
+
+        log.debug("combiningTryAndFutures test is done.")
     }
 }
 

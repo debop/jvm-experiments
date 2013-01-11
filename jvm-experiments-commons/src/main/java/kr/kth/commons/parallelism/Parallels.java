@@ -1,15 +1,19 @@
 package kr.kth.commons.parallelism;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import kr.kth.commons.base.Action1;
 import kr.kth.commons.base.Function1;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.util.NamedThreadFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static kr.kth.commons.base.Guard.shouldNotBeNull;
 
@@ -22,16 +26,15 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public class Parallels {
 
-    private Parallels() {
-    }
+    private Parallels() {}
 
-    private static final int PROCESS_COUNT = Runtime.getRuntime().availableProcessors();
+    @Getter(lazy = true)
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
+    @Getter(lazy = true)
+    private static final int processCount = Runtime.getRuntime().availableProcessors();
+    @Getter(lazy = true)
     private static final ExecutorService defaultExecutor =
-            Executors.newFixedThreadPool(PROCESS_COUNT * 2, new NamedThreadFactory("Parallels"));
-
-    public static ExecutorService getDefaultExecutor() {
-        return defaultExecutor;
-    }
+            Executors.newFixedThreadPool(getProcessCount() * 2, new NamedThreadFactory("Parallels"));
 
     public static ExecutorService createExecutor(int threadCount) {
         return Executors.newFixedThreadPool(threadCount);
@@ -41,15 +44,15 @@ public class Parallels {
         shouldNotBeNull(elements, "elements");
         shouldNotBeNull(action, "action");
 
-        ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
+        ExecutorService executor = Executors.newFixedThreadPool(getProcessCount());
 
         if (log.isDebugEnabled())
-            log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
+            log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", getProcessCount());
 
         try {
             List<T> elemList = Lists.newArrayList(elements);
-            List<List<T>> partitions = Lists.partition(elemList, PROCESS_COUNT);
-            List<Callable<Void>> tasks = new LinkedList<Callable<Void>>();
+            List<List<T>> partitions = Lists.partition(elemList, getProcessCount());
+            List<Callable<Void>> tasks = Lists.newLinkedList();
 
             for (final List<T> partition : partitions) {
                 Callable<Void> task =
@@ -70,6 +73,7 @@ public class Parallels {
 
         } catch (Exception e) {
             log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
+            throw new RuntimeException(e);
         } finally {
             executor.shutdown();
         }
@@ -79,21 +83,22 @@ public class Parallels {
         shouldNotBeNull(elements, "elements");
         shouldNotBeNull(function, "function");
 
-        ExecutorService executor = Executors.newFixedThreadPool(PROCESS_COUNT);
+        ExecutorService executor = Executors.newFixedThreadPool(getProcessCount());
 
         if (log.isDebugEnabled())
-            log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", PROCESS_COUNT);
+            log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", getProcessCount());
 
         try {
             List<T> elemList = Lists.newArrayList(elements);
-            List<List<T>> partitions = Lists.partition(elemList, PROCESS_COUNT);
-            final Map<Integer, List<V>> localResults = new LinkedHashMap<Integer, List<V>>();
+            int partitionSize = elemList.size() / getProcessCount() + (elemList.size() % getProcessCount());
+            List<List<T>> partitions = Lists.partition(elemList, partitionSize);
+            final Map<Integer, List<V>> localResults = Maps.newLinkedHashMap();
 
-            List<Callable<List<V>>> tasks = new LinkedList<Callable<List<V>>>();
+            List<Callable<List<V>>> tasks = Lists.newLinkedList(); // False Sharing을 방지하기 위해
 
             for (int p = 0; p < partitions.size(); p++) {
                 final List<T> partition = partitions.get(p);
-                final List<V> localResult = new ArrayList<V>();
+                final List<V> localResult = Lists.newArrayListWithCapacity(partition.size());
                 localResults.put(p, localResult);
 
                 Callable<List<V>> task = new Callable<List<V>>() {
@@ -116,15 +121,16 @@ public class Parallels {
             }
 
             if (log.isDebugEnabled())
-                log.debug("모든 작업을 병렬로 완료했습니다. partitions=[{}]", partitions.size());
+                log.debug("모든 작업을 병렬로 완료했습니다. partition size=[{}]", partitions.size());
 
             return results;
 
         } catch (Exception e) {
             log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
+            throw new RuntimeException(e);
         } finally {
             executor.shutdown();
         }
-        return Lists.newArrayList();
+        //return Lists.newArrayList();
     }
 }

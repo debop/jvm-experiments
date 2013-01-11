@@ -27,10 +27,10 @@ public class FibonacciTest {
 
         stopwatch.stop();
 
-        if (FibonacciTest.log.isDebugEnabled()) {
-            FibonacciTest.log.debug("Computing Fibonacci number=[{}]", N);
-            FibonacciTest.log.debug("Computed Result=[{}]", result);
-            FibonacciTest.log.debug(stopwatch.toString());
+        if (log.isDebugEnabled()) {
+            log.debug("Computing Fibonacci number=[{}]", N);
+            log.debug("Computed Result=[{}]", result);
+            log.debug(stopwatch.toString());
         }
     }
 
@@ -38,8 +38,8 @@ public class FibonacciTest {
     public void forkJoinWorkerTest() {
         int processors = Runtime.getRuntime().availableProcessors();
 
-        if (FibonacciTest.log.isDebugEnabled())
-            FibonacciTest.log.debug("process count=[{}]", processors);
+        if (log.isDebugEnabled())
+            log.debug("process count=[{}]", processors);
 
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
@@ -53,9 +53,9 @@ public class FibonacciTest {
         long result = task.getResult();
 
         stopwatch.stop();
-        if (FibonacciTest.log.isDebugEnabled()) {
-            FibonacciTest.log.debug("Computed result=[{}]", result);
-            FibonacciTest.log.debug(stopwatch.toString());
+        if (log.isDebugEnabled()) {
+            log.debug("Computed result=[{}]", result);
+            log.debug(stopwatch.toString());
         }
     }
 }

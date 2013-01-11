@@ -1,5 +1,6 @@
 package scala.impatient
 
+import java.util.concurrent.CountDownLatch
 import kr.kth.commons.slf4j.Logging
 import org.junit.Test
 
@@ -13,6 +14,8 @@ class FunctionTest extends Logging {
     @Test
     def controlAbtractionTest {
 
+        val latch = new CountDownLatch(2)
+
         def runInThread(block: () => Unit) {
             new Thread {
                 override def run() {
@@ -22,7 +25,13 @@ class FunctionTest extends Logging {
         }
 
         runInThread {
-            () => println("Hi"); Thread.sleep(100); println("Bye")
+            () => {
+                log.debug("Hi")
+                Thread.sleep(100)
+                log.debug("Bye")
+
+                latch.countDown()
+            }
         }
 
         def runInThread2(block: => Unit) {
@@ -33,16 +42,14 @@ class FunctionTest extends Logging {
             }.start()
         }
 
-        val unit: Unit = {
-            println("Hi")
-            Thread.sleep(100)
-            println("Bye")
-        }
-
         runInThread2 {
-            unit
+            log.debug("Hi2")
+            Thread.sleep(100)
+            log.debug("Bye2")
+
+            latch.countDown()
         }
 
-        Thread.sleep(500)
+        latch.await()
     }
 }
