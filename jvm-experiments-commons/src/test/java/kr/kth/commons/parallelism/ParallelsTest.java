@@ -78,5 +78,4 @@ public class ParallelsTest {
             return guess;
         }
     }
-
 }

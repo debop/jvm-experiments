@@ -1,5 +1,6 @@
 package kr.kth.commons.parallelism;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import kr.kth.commons.base.Action1;
@@ -26,7 +27,7 @@ import static kr.kth.commons.base.Guard.shouldNotBeNull;
 @Slf4j
 public class Parallels {
 
-    private Parallels() {}
+    private Parallels() { }
 
     @Getter(lazy = true)
     private static final ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -40,6 +41,10 @@ public class Parallels {
         return Executors.newFixedThreadPool(threadCount);
     }
 
+    private static int getPartitionSize(int itemCount, int partitionCount) {
+        return (itemCount / partitionCount) + ((itemCount % partitionCount) > 0 ? 1 : 0);
+    }
+
     public static <T> void run(final Iterable<T> elements, final Action1<T> action) {
         shouldNotBeNull(elements, "elements");
         shouldNotBeNull(action, "action");
@@ -51,7 +56,8 @@ public class Parallels {
 
         try {
             List<T> elemList = Lists.newArrayList(elements);
-            List<List<T>> partitions = Lists.partition(elemList, getProcessCount());
+            int partitionSize = getPartitionSize(elemList.size(), getProcessCount());
+            Iterable<List<T>> partitions = Iterables.partition(elemList, partitionSize);
             List<Callable<Void>> tasks = Lists.newLinkedList();
 
             for (final List<T> partition : partitions) {
@@ -69,7 +75,7 @@ public class Parallels {
             executor.invokeAll(tasks);
 
             if (log.isDebugEnabled())
-                log.debug("모든 작업을 병렬로 수행하였습니다. partitions=[{}]", partitions.size());
+                log.debug("모든 작업을 병렬로 수행하였습니다. partitionSize=[{}]", partitionSize);
 
         } catch (Exception e) {
             log.error("데이터에 대한 병렬 작업 중 예외가 발생했습니다.", e);
@@ -90,7 +96,7 @@ public class Parallels {
 
         try {
             List<T> elemList = Lists.newArrayList(elements);
-            int partitionSize = elemList.size() / getProcessCount() + (elemList.size() % getProcessCount());
+            int partitionSize = getPartitionSize(elemList.size(), getProcessCount());
             List<List<T>> partitions = Lists.partition(elemList, partitionSize);
             final Map<Integer, List<V>> localResults = Maps.newLinkedHashMap();
 
@@ -131,6 +137,5 @@ public class Parallels {
         } finally {
             executor.shutdown();
         }
-        //return Lists.newArrayList();
     }
 }
