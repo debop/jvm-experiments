@@ -10,27 +10,27 @@ import kr.kth.commons.tools.ScalaHash
  */
 class DayRangeInMonth(val min: Int, val max: Int) extends ValueObjectBase with Comparable[DayRangeInMonth] {
 
-    def isSingleDay = (min == max)
+  def isSingleDay = (min == max)
 
-    def hasInside(day: Int): Boolean = (min <= day && day <= max)
+  def hasInside(day: Int): Boolean = (min <= day && day <= max)
 
-    def compareTo(other: DayRangeInMonth): Int = this.min compare other.min
+  def compareTo(other: DayRangeInMonth): Int = this.min compare other.min
 
-    override def hashCode = ScalaHash.compute(this.min, this.max)
+  override def hashCode = ScalaHash.compute(this.min, this.max)
 
-    protected override def buildStringHelper =
-        super.buildStringHelper()
-            .add("min", min)
-            .add("max", max)
+  protected override def buildStringHelper =
+    super.buildStringHelper()
+      .add("min", min)
+      .add("max", max)
 }
 
 object DayRangeInMonth {
 
-    def apply(min: Int, max: Int): DayRangeInMonth = {
-        Guard.shouldBeBetween(min, 1, TimeSpec.MaxDaysPerMonth, "min")
-        Guard.shouldBeBetween(max, 1, TimeSpec.MaxDaysPerMonth, "max")
+  def apply(min: Int, max: Int): DayRangeInMonth = {
+    Guard.shouldBeBetween(min, 1, TimeSpec.MaxDaysPerMonth, "min")
+    Guard.shouldBeBetween(max, 1, TimeSpec.MaxDaysPerMonth, "max")
 
-        if (min <= max) DayRangeInMonth(min, max)
-        else DayRangeInMonth(max, min)
-    }
+    if (min <= max) DayRangeInMonth(min, max)
+    else DayRangeInMonth(max, min)
+  }
 }

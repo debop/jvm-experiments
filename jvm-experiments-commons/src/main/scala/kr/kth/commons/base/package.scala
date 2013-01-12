@@ -9,9 +9,9 @@ import org.joda.time.DateTime
  */
 package object base {
 
-    /**
-     * 현재 날짜
-     * @return
-     */
-    def today = new DateTime().withTimeAtStartOfDay()
+  /**
+   * 현재 날짜
+   * @return
+   */
+  def today = new DateTime().withTimeAtStartOfDay()
 }

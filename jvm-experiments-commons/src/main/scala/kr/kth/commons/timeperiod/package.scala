@@ -7,8 +7,8 @@ package kr.kth.commons
  */
 package object timeperiod {
 
-    /**
-     * 기본 주차 규칙 (ISO 8601)
-     */
-    val DefaultWeekOfYearRule = WeekOfYearRuleKind.Iso8601
+  /**
+   * 기본 주차 규칙 (ISO 8601)
+   */
+  val DefaultWeekOfYearRule = WeekOfYearRuleKind.Iso8601
 }

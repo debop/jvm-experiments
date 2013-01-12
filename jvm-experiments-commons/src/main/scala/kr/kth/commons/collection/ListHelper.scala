@@ -7,6 +7,6 @@ package kr.kth.commons.collection
  */
 object ListHelper {
 
-    def getDescription: String = "ListHelper"
+  def getDescription: String = "ListHelper"
 
 }

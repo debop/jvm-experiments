@@ -27,7 +27,7 @@ public class AsyncTool {
 
     @Getter(lazy = true)
     private static final ExecutorService executor =
-            Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+            Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
     @Getter(lazy = true)
     private static final Runnable emptyRunnable =
@@ -35,7 +35,7 @@ public class AsyncTool {
                 @Override
                 public void run() {
                     if (log.isDebugEnabled())
-                        log.debug("emptyRunnable is run");
+                        log.debug("emptyRunnable is runEach");
                 }
             };
 

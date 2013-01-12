@@ -12,9 +12,9 @@ import util.Try
  */
 class NewFeaturesTest extends Logging {
 
-    @Test
-    def tryTest() {
-        val v = Try(100 / 0) getOrElse 100
-        Assert.assertEquals(100, v)
-    }
+  @Test
+  def tryTest() {
+    val v = Try(100 / 0) getOrElse 100
+    Assert.assertEquals(100, v)
+  }
 }

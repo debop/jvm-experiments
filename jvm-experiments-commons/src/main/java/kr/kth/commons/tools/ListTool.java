@@ -27,13 +27,6 @@ public final class ListTool {
         if (collection == null) return null;
 
         return (T) minFrom(collection);
-//		T min = null;
-//		for (Comparable<T> item : collection) {
-//			if (item == null) continue;
-//			if (min == null) min = (T) item;
-//			if (item.compareTo(min) < 0) min = (T) item;
-//		}
-//		return min;
     }
 
     public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
@@ -49,14 +42,6 @@ public final class ListTool {
         if (collection == null) return null;
 
         return (T) maxFrom(collection);
-
-//		T max = null;
-//		for (Comparable<T> item : collection) {
-//			if (item == null) continue;
-//			if (max == null) max = (T) item;
-//			if (item.compareTo(max) > 0) max = (T) item;
-//		}
-//		return max;
     }
 
     /**

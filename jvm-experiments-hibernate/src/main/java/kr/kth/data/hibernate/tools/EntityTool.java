@@ -275,7 +275,7 @@ public class EntityTool {
             return new ArrayList<>();
 
         return
-                Parallels.run(sources, new Function1<S, T>() {
+                Parallels.runEach(sources, new Function1<S, T>() {
                     @Override
                     public T execute(@Nullable S input) {
                         return MapperTool.map(input, targetClass);

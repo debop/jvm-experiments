@@ -16,214 +16,214 @@ import org.joda.time.{Duration, DateTime}
 @Slf4j
 @SerialVersionUID(4848502849274L)
 class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITimeCalendar with Logging {
-    {
-        // 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
-        //
+  {
+    // 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
+    //
 
-        val cfg = if (config != null) config else TimeCalendarConfig.Default
+    val cfg = if (config != null) config else TimeCalendarConfig.Default
 
-        Guard.shouldNotBeNegativeNumber(cfg.getStartOffset.getMillis, "startOffSet")
-        Guard.shouldNotBeNegativeNumber(cfg.getEndOffset.getMillis, "endOffset")
+    Guard.shouldNotBeNegativeNumber(cfg.getStartOffset.getMillis, "startOffSet")
+    Guard.shouldNotBeNegativeNumber(cfg.getEndOffset.getMillis, "endOffset")
 
-        this.locale = cfg.getLocale
-        this.yearKind = cfg.getYearKind
-        this.startOffset = cfg.getStartOffset
-        this.endOffset = cfg.getEndOffset
-        this.yearBaseMonth = cfg.getYearBaseMonth
-        this.weekOfYearRule = cfg.getWeekOfYearRule
-        this.calendarWeekRule = cfg.getCalendarWeekRule
-        this.firstDayOfWeek = cfg.getFirstDayOfWeek
+    this.locale = cfg.getLocale
+    this.yearKind = cfg.getYearKind
+    this.startOffset = cfg.getStartOffset
+    this.endOffset = cfg.getEndOffset
+    this.yearBaseMonth = cfg.getYearBaseMonth
+    this.weekOfYearRule = cfg.getWeekOfYearRule
+    this.calendarWeekRule = cfg.getCalendarWeekRule
+    this.firstDayOfWeek = cfg.getFirstDayOfWeek
+  }
+
+  private var locale: Locale = _
+  private var yearKind: YearKind = _
+  private var startOffset: Duration = _
+  private var endOffset: Duration = _
+  private var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
+  private var weekOfYearRule: WeekOfYearRuleKind = _
+  private var calendarWeekRule: CalendarWeekRule = _
+  private var firstDayOfWeek: DayOfWeek = _
+
+
+  def getLocale: Locale = locale
+
+  def getYearKind: YearKind = yearKind
+
+  def getStartOffset: Duration = startOffset
+
+  def getEndOffset: Duration = endOffset
+
+  def getBaseMonthOfYear: Int = yearBaseMonth
+
+  def getWeekOfYearRule: WeekOfYearRuleKind = weekOfYearRule
+
+  def getCalendarWeekRule: CalendarWeekRule = calendarWeekRule
+
+  def getFirstDayOfWeek: DayOfWeek = firstDayOfWeek
+
+  def getYear(time: DateTime) = time.getYear
+
+  def getMonth(time: DateTime) = time.getMonthOfYear
+
+  def getDayOfMonth(time: DateTime) = time.getDayOfMonth
+
+  def getDayOfWeek(time: DateTime) = time.getDayOfWeek
+
+  def getHour(time: DateTime) = time.getHourOfDay
+
+  def getMinute(time: DateTime) = time.getMinuteOfHour
+
+  def getDaysInMonth(year: Int, month: Int) = Times.getDaysInMonth(year, month)
+
+  def getYearName(year: Int) =
+    yearKind match {
+      case YearKind.CalendarYear => TimeStrings.CalendarYearName(year)
+      case YearKind.FiscalYear => TimeStrings.FiscalYearName(year)
+      case YearKind.SchoolYear => TimeStrings.SchoolYearName(year)
+      case _ => TimeStrings.SystemYearName(year)
     }
 
-    private var locale: Locale = _
-    private var yearKind: YearKind = _
-    private var startOffset: Duration = _
-    private var endOffset: Duration = _
-    private var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
-    private var weekOfYearRule: WeekOfYearRuleKind = _
-    private var calendarWeekRule: CalendarWeekRule = _
-    private var firstDayOfWeek: DayOfWeek = _
+  def getHalfYearName(halfyear: HalfYearKind) =
+    yearKind match {
+      case YearKind.CalendarYear => TimeStrings.CalendarHalfyearName(halfyear)
+      case YearKind.FiscalYear => TimeStrings.FiscalHalfyearName(halfyear)
+      case YearKind.SchoolYear => TimeStrings.SchoolHalfyearName(halfyear)
+      case _ => TimeStrings.SystemHalfyearName(halfyear)
+    }
 
+  def getHalfYearOfYearName(year: Int, halfyear: HalfYearKind) =
+    yearKind match {
+      case YearKind.CalendarYear => TimeStrings.CalendarHalfyearOfYearName(halfyear, year)
+      case YearKind.FiscalYear => TimeStrings.FiscalHalfyearOfYearName(halfyear, year)
+      case YearKind.SchoolYear => TimeStrings.SchoolHalfyearOfYearName(halfyear, year)
+      case _ => TimeStrings.SystemHalfyearOfYearName(halfyear, year)
+    }
 
-    def getLocale: Locale = locale
+  def getQuarterName(quarter: QuarterKind) =
+    yearKind match {
+      case YearKind.CalendarYear => TimeStrings.CalendarQuarterName(quarter)
+      case YearKind.FiscalYear => TimeStrings.FiscalQuarterName(quarter)
+      case YearKind.SchoolYear => TimeStrings.SchoolQuarterName(quarter)
+      case _ => TimeStrings.SystemQuarterName(quarter)
+    }
 
-    def getYearKind: YearKind = yearKind
+  def getQuarterOfYearName(year: Int, quarter: QuarterKind) =
+    yearKind match {
+      case YearKind.CalendarYear => TimeStrings.CalendarQuarterOfYearName(quarter, year)
+      case YearKind.FiscalYear => TimeStrings.FiscalQuarterOfYearName(quarter, year)
+      case YearKind.SchoolYear => TimeStrings.SchoolQuarterOfYearName(quarter, year)
+      case _ => TimeStrings.SystemQuarterOfYearName(quarter, year)
+    }
 
-    def getStartOffset: Duration = startOffset
+  def getMonthName(month: Int) =
+    new DateTime().withMonthOfYear(month).monthOfYear().getAsText(locale)
 
-    def getEndOffset: Duration = endOffset
+  def getMonthOfYearName(year: Int, month: Int) =
+    TimeStrings.MonthOfYearName(getMonthName(month), getYearName(year))
 
-    def getBaseMonthOfYear: Int = yearBaseMonth
+  def getWeekOfYearName(year: Int, weekOfYear: Int) = TimeStrings.WeekOfYearName(weekOfYear, getYearName(year))
 
-    def getWeekOfYearRule: WeekOfYearRuleKind = weekOfYearRule
+  def getDayName(dayOfWeek: Int) = DayOfWeek.valueOf(dayOfWeek).toString
 
-    def getCalendarWeekRule: CalendarWeekRule = calendarWeekRule
+  def getWeekOfYear(time: DateTime) = time.getWeekOfWeekyear
 
-    def getFirstDayOfWeek: DayOfWeek = firstDayOfWeek
+  def getStartOfYearWeek(year: Int, weekOfYear: Int) = Times.getStartOfYearWeek(year, weekOfYear)
 
-    def getYear(time: DateTime) = time.getYear
+  def mapStart(moment: DateTime): DateTime =
+    if (moment.compareTo(TimeSpec.MinPeriodTime) > 0) moment.plus(getStartOffset) else moment
 
-    def getMonth(time: DateTime) = time.getMonthOfYear
+  def mapEnd(moment: DateTime) =
+    if (moment.compareTo(TimeSpec.MinPeriodTime) < 0) moment.minus(getEndOffset) else moment
 
-    def getDayOfMonth(time: DateTime) = time.getDayOfMonth
+  def unmapStart(moment: DateTime) =
+    if (moment.compareTo(TimeSpec.MinPeriodTime) > 0) moment.minus(getStartOffset) else moment
 
-    def getDayOfWeek(time: DateTime) = time.getDayOfWeek
+  def unmapEnd(moment: DateTime) =
+    if (moment.compareTo(TimeSpec.MinPeriodTime) < 0) moment.plus(getEndOffset) else moment
 
-    def getHour(time: DateTime) = time.getHourOfDay
+  override def hashCode(): Int = ScalaHash.compute(locale, startOffset, endOffset, yearBaseMonth, weekOfYearRule)
 
-    def getMinute(time: DateTime) = time.getMinuteOfHour
-
-    def getDaysInMonth(year: Int, month: Int) = Times.getDaysInMonth(year, month)
-
-    def getYearName(year: Int) =
-        yearKind match {
-            case YearKind.CalendarYear => TimeStrings.CalendarYearName(year)
-            case YearKind.FiscalYear => TimeStrings.FiscalYearName(year)
-            case YearKind.SchoolYear => TimeStrings.SchoolYearName(year)
-            case _ => TimeStrings.SystemYearName(year)
-        }
-
-    def getHalfYearName(halfyear: HalfYearKind) =
-        yearKind match {
-            case YearKind.CalendarYear => TimeStrings.CalendarHalfyearName(halfyear)
-            case YearKind.FiscalYear => TimeStrings.FiscalHalfyearName(halfyear)
-            case YearKind.SchoolYear => TimeStrings.SchoolHalfyearName(halfyear)
-            case _ => TimeStrings.SystemHalfyearName(halfyear)
-        }
-
-    def getHalfYearOfYearName(year: Int, halfyear: HalfYearKind) =
-        yearKind match {
-            case YearKind.CalendarYear => TimeStrings.CalendarHalfyearOfYearName(halfyear, year)
-            case YearKind.FiscalYear => TimeStrings.FiscalHalfyearOfYearName(halfyear, year)
-            case YearKind.SchoolYear => TimeStrings.SchoolHalfyearOfYearName(halfyear, year)
-            case _ => TimeStrings.SystemHalfyearOfYearName(halfyear, year)
-        }
-
-    def getQuarterName(quarter: QuarterKind) =
-        yearKind match {
-            case YearKind.CalendarYear => TimeStrings.CalendarQuarterName(quarter)
-            case YearKind.FiscalYear => TimeStrings.FiscalQuarterName(quarter)
-            case YearKind.SchoolYear => TimeStrings.SchoolQuarterName(quarter)
-            case _ => TimeStrings.SystemQuarterName(quarter)
-        }
-
-    def getQuarterOfYearName(year: Int, quarter: QuarterKind) =
-        yearKind match {
-            case YearKind.CalendarYear => TimeStrings.CalendarQuarterOfYearName(quarter, year)
-            case YearKind.FiscalYear => TimeStrings.FiscalQuarterOfYearName(quarter, year)
-            case YearKind.SchoolYear => TimeStrings.SchoolQuarterOfYearName(quarter, year)
-            case _ => TimeStrings.SystemQuarterOfYearName(quarter, year)
-        }
-
-    def getMonthName(month: Int) =
-        new DateTime().withMonthOfYear(month).monthOfYear().getAsText(locale)
-
-    def getMonthOfYearName(year: Int, month: Int) =
-        TimeStrings.MonthOfYearName(getMonthName(month), getYearName(year))
-
-    def getWeekOfYearName(year: Int, weekOfYear: Int) = TimeStrings.WeekOfYearName(weekOfYear, getYearName(year))
-
-    def getDayName(dayOfWeek: Int) = DayOfWeek.valueOf(dayOfWeek).toString
-
-    def getWeekOfYear(time: DateTime) = time.getWeekOfWeekyear
-
-    def getStartOfYearWeek(year: Int, weekOfYear: Int) = Times.getStartOfYearWeek(year, weekOfYear)
-
-    def mapStart(moment: DateTime): DateTime =
-        if (moment.compareTo(TimeSpec.MinPeriodTime) > 0) moment.plus(getStartOffset) else moment
-
-    def mapEnd(moment: DateTime) =
-        if (moment.compareTo(TimeSpec.MinPeriodTime) < 0) moment.minus(getEndOffset) else moment
-
-    def unmapStart(moment: DateTime) =
-        if (moment.compareTo(TimeSpec.MinPeriodTime) > 0) moment.minus(getStartOffset) else moment
-
-    def unmapEnd(moment: DateTime) =
-        if (moment.compareTo(TimeSpec.MinPeriodTime) < 0) moment.plus(getEndOffset) else moment
-
-    override def hashCode(): Int = ScalaHash.compute(locale, startOffset, endOffset, yearBaseMonth, weekOfYearRule)
-
-    protected override def buildStringHelper(): ToStringHelper =
-        super.buildStringHelper()
-            .add("locale", locale)
-            .add("startOffset", startOffset)
-            .add("endOffset", endOffset)
-            .add("yearBaseMonth", yearBaseMonth)
-            .add("weekOfYearRule", weekOfYearRule)
-            .add("calendarWeekRule", calendarWeekRule)
-            .add("firstDayOfWeek", firstDayOfWeek)
+  protected override def buildStringHelper(): ToStringHelper =
+    super.buildStringHelper()
+      .add("locale", locale)
+      .add("startOffset", startOffset)
+      .add("endOffset", endOffset)
+      .add("yearBaseMonth", yearBaseMonth)
+      .add("weekOfYearRule", weekOfYearRule)
+      .add("calendarWeekRule", calendarWeekRule)
+      .add("firstDayOfWeek", firstDayOfWeek)
 }
 
 
 object TimeCalendar extends Logging {
 
-    lazy val DefaultStartOffset = new Duration(TimeSpec.NoDuration)
-    lazy val DufaultEndOffset = new Duration(TimeSpec.MinPositiveDuration)
+  lazy val DefaultStartOffset = new Duration(TimeSpec.NoDuration)
+  lazy val DufaultEndOffset = new Duration(TimeSpec.MinPositiveDuration)
 
-    lazy val Default = apply
+  lazy val Default = apply
 
-    def apply = new TimeCalendar(TimeCalendarConfig.Default)
+  def apply = new TimeCalendar(TimeCalendarConfig.Default)
 
-    def apply(locale: Locale): TimeCalendar = {
-        val cfg = TimeCalendarConfig.Default
-        cfg.setLocale(locale)
+  def apply(locale: Locale): TimeCalendar = {
+    val cfg = TimeCalendarConfig.Default
+    cfg.setLocale(locale)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
-    def apply(yearBaseMonth: Int): TimeCalendar = {
-        val cfg = TimeCalendarConfig.Default
-        cfg.setYearBaseMonth(yearBaseMonth)
+  def apply(yearBaseMonth: Int): TimeCalendar = {
+    val cfg = TimeCalendarConfig.Default
+    cfg.setYearBaseMonth(yearBaseMonth)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
-    def apply(startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
-        val cfg = TimeCalendarConfig.Default
+  def apply(startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
+    val cfg = TimeCalendarConfig.Default
 
-        cfg.setStartOffset(startOffset)
-        cfg.setEndOffset(endOffset)
-        cfg.setYearBaseMonth(yearBaseMonth)
+    cfg.setStartOffset(startOffset)
+    cfg.setEndOffset(endOffset)
+    cfg.setYearBaseMonth(yearBaseMonth)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
-    def apply(locale: Locale, startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
-        val cfg = TimeCalendarConfig.Default
+  def apply(locale: Locale, startOffset: Duration, endOffset: Duration, yearBaseMonth: Int) = {
+    val cfg = TimeCalendarConfig.Default
 
-        cfg.setLocale(locale)
-        if (startOffset != null)
-            cfg.setStartOffset(startOffset)
-        if (endOffset != null)
-            cfg.setEndOffset(endOffset)
-        cfg.setYearBaseMonth(yearBaseMonth)
+    cfg.setLocale(locale)
+    if (startOffset != null)
+      cfg.setStartOffset(startOffset)
+    if (endOffset != null)
+      cfg.setEndOffset(endOffset)
+    cfg.setYearBaseMonth(yearBaseMonth)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
-    def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind) = {
-        val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
-        cfg.setYearBaseMonth(yearBaseMonth)
+  def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind) = {
+    val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
+    cfg.setYearBaseMonth(yearBaseMonth)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
-    def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind, startOffset: Duration, endOffset: Duration) = {
-        val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
-        cfg.setYearBaseMonth(yearBaseMonth)
-        if (startOffset != null)
-            cfg.setStartOffset(startOffset)
-        if (endOffset != null)
-            cfg.setEndOffset(endOffset)
+  def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind, startOffset: Duration, endOffset: Duration) = {
+    val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
+    cfg.setYearBaseMonth(yearBaseMonth)
+    if (startOffset != null)
+      cfg.setStartOffset(startOffset)
+    if (endOffset != null)
+      cfg.setEndOffset(endOffset)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
-    def apply(locale: Locale, yearBaseMonth: Int): TimeCalendar = {
-        val cfg = new TimeCalendarConfig(locale)
-        cfg.setYearBaseMonth(yearBaseMonth)
+  def apply(locale: Locale, yearBaseMonth: Int): TimeCalendar = {
+    val cfg = new TimeCalendarConfig(locale)
+    cfg.setYearBaseMonth(yearBaseMonth)
 
-        new TimeCalendar(cfg)
-    }
+    new TimeCalendar(cfg)
+  }
 
 }

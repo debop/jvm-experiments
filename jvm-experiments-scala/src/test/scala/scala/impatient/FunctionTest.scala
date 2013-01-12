@@ -11,45 +11,45 @@ import org.junit.Test
  */
 class FunctionTest extends Logging {
 
-    @Test
-    def controlAbtractionTest {
+  @Test
+  def controlAbtractionTest {
 
-        val latch = new CountDownLatch(2)
+    val latch = new CountDownLatch(2)
 
-        def runInThread(block: () => Unit) {
-            new Thread {
-                override def run() {
-                    block()
-                }
-            }.start()
+    def runInThread(block: () => Unit) {
+      new Thread {
+        override def run() {
+          block()
         }
-
-        runInThread {
-            () => {
-                log.debug("Hi")
-                Thread.sleep(100)
-                log.debug("Bye")
-
-                latch.countDown()
-            }
-        }
-
-        def runInThread2(block: => Unit) {
-            new Thread() {
-                override def run() {
-                    block
-                }
-            }.start()
-        }
-
-        runInThread2 {
-            log.debug("Hi2")
-            Thread.sleep(100)
-            log.debug("Bye2")
-
-            latch.countDown()
-        }
-
-        latch.await()
+      }.start()
     }
+
+    runInThread {
+      () => {
+        log.debug("Hi")
+        Thread.sleep(100)
+        log.debug("Bye")
+
+        latch.countDown()
+      }
+    }
+
+    def runInThread2(block: => Unit) {
+      new Thread() {
+        override def run() {
+          block
+        }
+      }.start()
+    }
+
+    runInThread2 {
+      log.debug("Hi2")
+      Thread.sleep(100)
+      log.debug("Bye2")
+
+      latch.countDown()
+    }
+
+    latch.await()
+  }
 }

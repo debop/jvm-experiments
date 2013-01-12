@@ -17,118 +17,118 @@ import org.junit.{Assert, Test}
  */
 class AdvancedTypeTest extends Logging {
 
-    class Document extends ValueObjectBase {
-        @beanGetter private var title: String = _
-        @beanGetter private var author: String = _
+  class Document extends ValueObjectBase {
+    @beanGetter private var title: String = _
+    @beanGetter private var author: String = _
 
-        def setTitle(title: String): this.type = {
-            this.title = title;
-            this
-        }
-
-        def setAuthor(author: String): this.type = {
-            this.author = author;
-            this
-        }
-
-        protected override def buildStringHelper() = {
-            super.buildStringHelper()
-                .add("title", title)
-                .add("author", author)
-        }
+    def setTitle(title: String): this.type = {
+      this.title = title;
+      this
     }
 
-    class Book extends Document {
-        @beanGetter private var chapters: ArrayBuffer[String] = new ArrayBuffer[String]()
-
-        def addChapter(chapter: String): this.type = {
-            chapters += chapter;
-            this
-        }
-
-        protected override def buildStringHelper() = {
-            super.buildStringHelper()
-                .add("chapters", chapters)
-        }
+    def setAuthor(author: String): this.type = {
+      this.author = author;
+      this
     }
 
-    @Test
-    def fluentSetting() {
-        var book = new Book().setTitle("scala").setAuthor("bae").addChapter("chapter 01").addChapter("chapter 02")
-        log.debug("book=[{}]", book)
+    protected override def buildStringHelper() = {
+      super.buildStringHelper()
+        .add("title", title)
+        .add("author", author)
+    }
+  }
+
+  class Book extends Document {
+    @beanGetter private var chapters: ArrayBuffer[String] = new ArrayBuffer[String]()
+
+    def addChapter(chapter: String): this.type = {
+      chapters += chapter;
+      this
     }
 
-    // Type Projections
+    protected override def buildStringHelper() = {
+      super.buildStringHelper()
+        .add("chapters", chapters)
+    }
+  }
 
-    class Network {
+  @Test
+  def fluentSetting() {
+    var book = new Book().setTitle("scala").setAuthor("bae").addChapter("chapter 01").addChapter("chapter 02")
+    log.debug("book=[{}]", book)
+  }
 
-        class Member(val name: String) {
-            val contacts = new ArrayBuffer[Network#Member]
-        }
+  // Type Projections
 
-        private val members = new ArrayBuffer[Network#Member]
+  class Network {
 
-        def join(name: String) = {
-            val m = new Member(name)
-            members += m
-            m
-        }
+    class Member(val name: String) {
+      val contacts = new ArrayBuffer[Network#Member]
     }
 
-    @Test
-    def typeProjectionTest() {
-        val chatter = new Network
-        val myFace = new Network
+    private val members = new ArrayBuffer[Network#Member]
 
-        val fred = chatter.join("Fred")
-        val barney = myFace.join("Barney")
-
-        Assert.assertEquals(fred.getClass, barney.getClass)
-        Assert.assertEquals(fred.contacts.getClass, barney.contacts.getClass)
-
-        fred.contacts += barney
-
+    def join(name: String) = {
+      val m = new Member(name)
+      members += m
+      m
     }
+  }
 
-    // Type Aliases
+  @Test
+  def typeProjectionTest() {
+    val chatter = new Network
+    val myFace = new Network
 
-    class Book2 extends Book {
+    val fred = chatter.join("Fred")
+    val barney = myFace.join("Barney")
 
-        // Type aliases
-        type Index = scala.collection.mutable.HashMap[String, (Int, Int)]
-    }
+    Assert.assertEquals(fred.getClass, barney.getClass)
+    Assert.assertEquals(fred.contacts.getClass, barney.contacts.getClass)
 
-    // Abstract Types
+    fred.contacts += barney
 
-    trait Reader {
-        type Contents
+  }
 
-        def read(filename: String): Contents
-    }
+  // Type Aliases
 
-    class StringReader extends Reader {
-        type Contents = String
+  class Book2 extends Book {
 
-        def read(filename: String) = Source.fromFile(filename, "UTF-8").mkString
-    }
+    // Type aliases
+    type Index = scala.collection.mutable.HashMap[String, (Int, Int)]
+  }
 
-    class ImageReader extends Reader {
-        type Contents = BufferedImage
+  // Abstract Types
 
-        def read(filename: String) = ImageIO.read(new File(filename))
-    }
+  trait Reader {
+    type Contents
 
-    trait GenericReader[C] {
-        def read(filename: String): C
-    }
+    def read(filename: String): Contents
+  }
 
-    class GenericStringReader extends GenericReader[String] {
-        def read(filename: String): String = Source.fromFile(filename, "UTF-8").mkString
-    }
+  class StringReader extends Reader {
+    type Contents = String
 
-    class GenericImageReader extends GenericReader[BufferedImage] {
-        def read(filename: String) = ImageIO.read(new File(filename))
-    }
+    def read(filename: String) = Source.fromFile(filename, "UTF-8").mkString
+  }
+
+  class ImageReader extends Reader {
+    type Contents = BufferedImage
+
+    def read(filename: String) = ImageIO.read(new File(filename))
+  }
+
+  trait GenericReader[C] {
+    def read(filename: String): C
+  }
+
+  class GenericStringReader extends GenericReader[String] {
+    def read(filename: String): String = Source.fromFile(filename, "UTF-8").mkString
+  }
+
+  class GenericImageReader extends GenericReader[BufferedImage] {
+    def read(filename: String) = ImageIO.read(new File(filename))
+  }
 
 
 }

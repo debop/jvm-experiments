@@ -38,7 +38,26 @@ public class ParallelsTest {
 
         @Cleanup
         AutoStopwatch stopwatch = new AutoStopwatch();
-        Parallels.run(Range.range(0, 100), action1);
+        Parallels.run(0, 100, action1);
+    }
+
+    @Test
+    public void parallelRunEachAction() {
+        final Action1<Integer> action1 =
+                new Action1<Integer>() {
+                    @Override
+                    public void perform(Integer x) {
+                        for (int i = LowerBound; i < UpperBound; i++) {
+                            Hero.findRoot(i);
+                        }
+                        if (log.isDebugEnabled())
+                            log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
+                    }
+                };
+
+        @Cleanup
+        AutoStopwatch stopwatch = new AutoStopwatch();
+        Parallels.runEach(Range.range(0, 100), action1);
     }
 
     @Test
@@ -58,7 +77,30 @@ public class ParallelsTest {
 
         @Cleanup
         AutoStopwatch stopwatch = new AutoStopwatch();
-        List<Double> results = Parallels.run(Range.range(0, 100), function1);
+        List<Double> results = Parallels.run(0, 100, function1);
+
+        Assert.assertNotNull(results);
+        Assert.assertEquals(100, results.size());
+    }
+
+    @Test
+    public void parallelRunEachFunction() {
+        final Function1<Integer, Double> function1 =
+                new Function1<Integer, Double>() {
+                    @Override
+                    public Double execute(Integer x) {
+                        for (int i = LowerBound; i < UpperBound; i++) {
+                            Hero.findRoot(i);
+                        }
+                        if (log.isDebugEnabled())
+                            log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
+                        return Hero.findRoot(UpperBound);
+                    }
+                };
+
+        @Cleanup
+        AutoStopwatch stopwatch = new AutoStopwatch();
+        List<Double> results = Parallels.runEach(Range.range(0, 100), function1);
         Assert.assertNotNull(results);
         Assert.assertEquals(100, results.size());
     }

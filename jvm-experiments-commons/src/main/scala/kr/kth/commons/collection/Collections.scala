@@ -9,19 +9,19 @@ import collection.{JavaConversions, mutable}
  */
 object Collections {
 
-    implicit def convertIterator[T](iterator: java.util.Iterator[T]) = JavaConversions.asScalaIterator(iterator)
+  implicit def convertIterator[T](iterator: java.util.Iterator[T]) = JavaConversions.asScalaIterator(iterator)
 
-    implicit def convertList[T](list: java.util.List[T]) = JavaConversions.asScalaBuffer(list)
+  implicit def convertList[T](list: java.util.List[T]) = JavaConversions.asScalaBuffer(list)
 
-    implicit def convertSet[T](set: java.util.Set[T]) = JavaConversions.asScalaSet(set)
+  implicit def convertSet[T](set: java.util.Set[T]) = JavaConversions.asScalaSet(set)
 
-    implicit def convertMap[K, V](map: java.util.Map[K, V]) = JavaConversions.mapAsScalaMap(map)
+  implicit def convertMap[K, V](map: java.util.Map[K, V]) = JavaConversions.mapAsScalaMap(map)
 
-    implicit def convertJavaIterable[T](iterable: mutable.Iterable[T]) = JavaConversions.asJavaIterable(iterable)
+  implicit def convertJavaIterable[T](iterable: mutable.Iterable[T]) = JavaConversions.asJavaIterable(iterable)
 
-    implicit def convertJavaList[T](buffer: mutable.Buffer[T]) = JavaConversions.bufferAsJavaList(buffer)
+  implicit def convertJavaList[T](buffer: mutable.Buffer[T]) = JavaConversions.bufferAsJavaList(buffer)
 
-    implicit def convertJavaSet[T](set: mutable.Set[T]) = JavaConversions.setAsJavaSet(set)
+  implicit def convertJavaSet[T](set: mutable.Set[T]) = JavaConversions.setAsJavaSet(set)
 
-    implicit def convertJavaMap[K, V](map: Map[K, V]) = JavaConversions.mapAsJavaMap(map)
+  implicit def convertJavaMap[K, V](map: Map[K, V]) = JavaConversions.mapAsJavaMap(map)
 }
