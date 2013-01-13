@@ -16,7 +16,7 @@ public class HelloConfig {
     @Bean
     public Hello hello() {
         if (log.isDebugEnabled())
-            log.debug("create hello instance...");
+            log.debug("spawn hello instance...");
 
         Hello hello = new Hello();
         hello.setName("Spring");
@@ -27,7 +27,7 @@ public class HelloConfig {
     @Bean
     public Hello hello2() {
         if (log.isDebugEnabled())
-            log.debug("create hello2 instance...");
+            log.debug("spawn hello2 instance...");
 
         Hello hello = new Hello();
         hello.setName("Spring2");
@@ -38,7 +38,7 @@ public class HelloConfig {
     @Bean
     public Printer printer() {
         if (log.isDebugEnabled())
-            log.debug("create StringPrinter instance...");
+            log.debug("spawn StringPrinter instance...");
         return new StringPrinter();
     }
 }

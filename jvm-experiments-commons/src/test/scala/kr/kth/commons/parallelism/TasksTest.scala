@@ -3,6 +3,7 @@ package kr.kth.commons.parallelism
 import kr.kth.commons.slf4j.Logging
 import org.junit.{Assert, Test}
 import scala.UnsupportedOperationException
+import kr.kth.commons.tools.Tasks
 
 /**
  * kr.kth.commons.parallelism.TasksTest

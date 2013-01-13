@@ -29,7 +29,7 @@ public final class UnitOfWorks {
     }
 
     private static final String CURRENT_UNIT_OF_WORK_KEY = "kr.kth.data.hibernate.unitofwork.UnitOfWorks";
-    private static final String UNIT_OF_WORK_NOT_STARTED = "UnitOfWorks가 시작되지 않았습니다. 사용 전에 UnitOfWorks.start()를 호출하세요.";
+    private static final String UNIT_OF_WORK_NOT_STARTED = "UnitOfWorks가 시작되지 않았습니다. 사용 전에 UnitOfWorks.getStart()를 호출하세요.";
 
     private static IUnitOfWork globalNonThreadSafeUnitOfWork;
     private static IUnitOfWorkFactory unitOfWorkFactory;

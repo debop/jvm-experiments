@@ -8,8 +8,8 @@ import kr.kth.commons.{ValueObjectBase, TimeVal}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class HourRangeInDay(val start: TimeVal,
-                     val end: TimeVal) extends ValueObjectBase with Comparable[HourRangeInDay] {
+class HourRangeInDay(val start: TimeVal, val end: TimeVal)
+  extends ValueObjectBase with Comparable[HourRangeInDay] {
 
   def isMoment = (start == end)
 
@@ -25,8 +25,8 @@ class HourRangeInDay(val start: TimeVal,
 
   protected override def buildStringHelper = {
     super.buildStringHelper
-      .add("start", start)
-      .add("end", end)
+      .add("getStart", start)
+      .add("getEnd", end)
   }
 }
 

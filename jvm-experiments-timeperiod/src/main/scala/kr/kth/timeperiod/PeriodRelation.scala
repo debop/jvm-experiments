@@ -1,13 +1,13 @@
 package kr.kth.timeperiod
 
 /**
- * kr.kth.timeperiod.ScalaPeriodRelation
+ * kr.kth.timeperiod.PeriodRelation
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-object ScalaPeriodRelation extends Enumeration {
+object PeriodRelation extends Enumeration {
 
-  type ScalaPeriodRelation = Value
+  type PeriodRelation = Value
 
   /**
    * 관계 없음 (두 개의 기간이 모두 AnyTime 일 경우)

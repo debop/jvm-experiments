@@ -7,9 +7,9 @@ import org.joda.time.DateTimeConstants
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-object ScalaDayOfWeek extends Enumeration {
+object DayOfWeek extends Enumeration {
 
-  type ScalaDayOfWeek = Value
+  type DayOfWeek = Value
 
   // NOTE: withName, apply 메소드를 사용하세요
 
@@ -20,5 +20,4 @@ object ScalaDayOfWeek extends Enumeration {
   val Friday = Value(DateTimeConstants.FRIDAY, "Friday")
   val Saturday = Value(DateTimeConstants.SATURDAY, "Saturday")
   val Sunday = Value(DateTimeConstants.SUNDAY, "Sunday")
-
 }

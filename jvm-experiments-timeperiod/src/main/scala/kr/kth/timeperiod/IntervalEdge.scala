@@ -5,9 +5,9 @@ package kr.kth.timeperiod
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-object ScalaIntervalEdge extends Enumeration {
+object IntervalEdge extends Enumeration {
 
-  type ScalaIntervalEdge = Value
+  type IntervalEdge = Value
 
   // NOTE: withName 메소드를 사용하세요
 

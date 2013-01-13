@@ -8,9 +8,11 @@ import org.junit.{Assert, Test}
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-class TimeSpecTest extends Logging {
+class ScalaTimeSpecTest extends Logging {
+
   @Test
   def testTimeSpec() {
-    Assert.assertEquals(0, TimeSpec.ZeroTick)
+    Assert.assertEquals(0L, TimeSpec.MinMillis)
+    Assert.assertEquals(0L, TimeSpec.ZeroMillis)
   }
 }

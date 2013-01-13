@@ -2,14 +2,14 @@ package kr.kth.timeperiod
 
 import java.util.Locale
 import org.joda.time.DateTime
-import kr.kth.timeperiod.ScalaIntervalEdge._
+import IntervalEdge._
 
 /**
  * 시간 정보를 문자열로 포맷팅하는 Trait 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-trait ScalaTimeFormatter {
+trait ITimeFormatter {
 
   def getLocale: Locale = Locale.getDefault
 
@@ -37,7 +37,7 @@ trait ScalaTimeFormatter {
 
   def getCollection(count: Int): String
 
-  def getCollectionPeriod(count: Int, start: DateTime, end: DateTime, duration: Long)
+  def getCollectionPeriod(count: Int, start: DateTime, end: DateTime, duration: Long): String
 
   def getDate(date: DateTime): String
 
@@ -55,7 +55,8 @@ trait ScalaTimeFormatter {
 
   def getPeriod(start: DateTime, end: DateTime, duration: Long): String
 
-  def getInterval(start: DateTime, end: DateTime, startEdge: ScalaIntervalEdge, endEdge: ScalaIntervalEdge, duration: Long): String
+  def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge, endEdge: IntervalEdge, duration: Long): String
 
-  def getCalendarPeriod(start: String, end: String, duration: Long, startContex: String = "", endContext: String = ""): String
+  def getCalendarPeriod(start: String, end: String, duration: Long,
+                        startContex: String = "", endContext: String = ""): String
 }

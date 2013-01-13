@@ -31,7 +31,7 @@ public class ServiceConfig {
     public DataSource dataSource() {
 
         if (log.isInfoEnabled())
-            log.info("create DataSource. url=[{}], username=[{}], password=[{}]",
+            log.info("spawn DataSource. url=[{}], username=[{}], password=[{}]",
                     url, username, password);
 
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();

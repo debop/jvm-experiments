@@ -155,7 +155,7 @@ public class TimePeriodContainer implements ITimePeriodContainer {
 
     @Override
     public String getDurationDescription() {
-        return TimeFormatter.getInstance().getDuration(getDuration(), DurationFormatKind.Detailed);
+        return ITimeFormatter.getInstance().getDuration(getDuration(), DurationFormatKind.Detailed);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class TimePeriodContainer implements ITimePeriodContainer {
 
     public String format(ITimeFormatter formatter) {
         if (formatter == null)
-            formatter = TimeFormatter.getInstance();
+            formatter = ITimeFormatter.getInstance();
 
         return formatter.getCollectionPeriod(size(), getStart(), getEnd(), getDuration());
     }

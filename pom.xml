@@ -243,6 +243,13 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/typesafehub/config -->
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>13.0.1</version>
@@ -355,7 +362,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -375,7 +381,6 @@
             <version>0.4.0</version>
             <scope>test</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.scala-lang</groupId>

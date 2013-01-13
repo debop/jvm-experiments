@@ -182,6 +182,6 @@ public class TimeBlock extends TimePeriodBase implements ITimeBlock {
     }
 
     protected void assertValidDuration(long duration) {
-        Guard.shouldBe(duration >= TimeSpec.MinPeriodDuration, "duration");
+        Guard.shouldBe(duration >= TimeSpec.MinPeriodDuration, "getDuration");
     }
 }

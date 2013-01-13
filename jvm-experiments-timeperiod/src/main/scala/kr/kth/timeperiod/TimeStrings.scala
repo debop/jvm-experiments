@@ -1,6 +1,7 @@
 package kr.kth.timeperiod
 
 import java.util.Locale
+import QuarterKind._
 
 
 /**
@@ -64,29 +65,37 @@ object TimeStrings {
   val FiscalQuarterOfYearNameFormat: String = "FQ%d %d"
   val SchoolQuarterOfYearNameFormat: String = "SQ%d %d"
 
-  def SystemQuarterName(quarter: QuarterKind) = format(SystemQuarterNameFormat, quarter.toInt)
+  def SystemQuarterName(quarter: QuarterKind) =
+    format(SystemQuarterNameFormat, quarter.id)
 
-  def CalendarQuarterName(quater: QuarterKind) = format(CalendarQuarterNameFormat, quater.toInt)
+  def CalendarQuarterName(quater: QuarterKind) =
+    format(CalendarQuarterNameFormat, quater.id)
 
-  def FiscalQuarterName(quater: QuarterKind) = format(FiscalQuarterNameFormat, quater.toInt)
+  def FiscalQuarterName(quater: QuarterKind) = format(FiscalQuarterNameFormat, quater.id)
 
-  def SchoolQuarterName(quater: QuarterKind) = format(SchoolQuarterNameFormat, quater.toInt)
+  def SchoolQuarterName(quater: QuarterKind) = format(SchoolQuarterNameFormat, quater.id)
 
-  def SystemQuarterOfYearName(quater: QuarterKind, year: Int) = format(SystemQuarterOfYearNameFormat, quater.toInt, year)
+  def SystemQuarterOfYearName(quater: QuarterKind, year: Int) =
+    format(SystemQuarterOfYearNameFormat, quater.id, year)
 
-  def CalendarQuarterOfYearName(quater: QuarterKind, year: Int) = format(CalendarQuarterOfYearNameFormat, quater.toInt, year)
+  def CalendarQuarterOfYearName(quater: QuarterKind, year: Int) =
+    format(CalendarQuarterOfYearNameFormat, quater.id, year)
 
-  def FiscalQuarterOfYearName(quater: QuarterKind, year: Int) = format(FiscalQuarterOfYearNameFormat, quater.toInt, year)
+  def FiscalQuarterOfYearName(quater: QuarterKind, year: Int) =
+    format(FiscalQuarterOfYearNameFormat, quater.id, year)
 
-  def SchoolQuarterOfYearName(quater: QuarterKind, year: Int) = format(SchoolQuarterOfYearNameFormat, quater.toInt, year)
+  def SchoolQuarterOfYearName(quater: QuarterKind, year: Int) =
+    format(SchoolQuarterOfYearNameFormat, quater.id, year)
 
   val MonthOfYearNameFormat = "%s %s"
 
-  def MonthOfYearName(monthName: String, yearName: String) = format(MonthOfYearNameFormat, monthName, yearName)
+  def MonthOfYearName(monthName: String, yearName: String) =
+    format(MonthOfYearNameFormat, monthName, yearName)
 
   val WeekOfYearNameFormat = "w/c %d %s"
 
-  def WeekOfYearName(weekOfYear: Int, yearName: String) = format(WeekOfYearNameFormat, weekOfYear, yearName)
+  def WeekOfYearName(weekOfYear: Int, yearName: String) =
+    format(WeekOfYearNameFormat, weekOfYear, yearName)
 
   val TimeSpanYears = "Years"
   val TimeSpanYear = "Year"
@@ -102,7 +111,6 @@ object TimeStrings {
   val TimeSpanMinute = "Minute"
   val TimeSpanSeconds = "Seconds"
   val TimeSpanSecond = "Second"
-
 
   private def format(fmt: String, args: Any*): String = fmt.formatLocal(Locale.ROOT, args)
 }

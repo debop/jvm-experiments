@@ -5,13 +5,13 @@ import org.joda.time.DateTime;
 import java.util.Locale;
 
 /**
- * kr.kth.timeperiod.TimeFormatter
+ * kr.kth.timeperiod.ITimeFormatter
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 23.
  */
 public class TimeFormatter implements ITimeFormatter {
 
-    private static ITimeFormatter instance = new TimeFormatter();
+    private static ITimeFormatter instance = new ITimeFormatter();
     private static final Object syncLock = new Object();
 
     // region << Constructors >>

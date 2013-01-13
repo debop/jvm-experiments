@@ -37,7 +37,7 @@ public class TimeRangeUserType implements CompositeUserType {
 
     @Override
     public String[] getPropertyNames() {
-        return new String[]{"start", "end"};
+        return new String[]{"getStart", "getEnd"};
     }
 
     @Override

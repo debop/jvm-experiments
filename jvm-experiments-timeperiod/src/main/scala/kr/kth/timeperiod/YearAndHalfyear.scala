@@ -1,7 +1,6 @@
 package kr.kth.timeperiod
 
 import beans.BeanProperty
-import kr.kth.timeperiod.clock.ClockProxy
 import org.joda.time.DateTime
 import kr.kth.commons.ValueObjectBase
 
@@ -31,7 +30,7 @@ object YearAndHalfyear {
   def apply(): YearAndHalfyear = apply(ClockProxy.getClock.today())
 
   def apply(today: DateTime): YearAndHalfyear = {
-    val today = ClockProxy.getClock.today()
+    //val today = ClockProxy.getClock.today()
     new YearAndHalfyear(today.getYear, Times.halfyearOf(today))
   }
 }

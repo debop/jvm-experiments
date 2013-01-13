@@ -6,6 +6,8 @@ import kr.kth.commons.tools.ScalaHash
 import org.joda.time.Duration
 import kr.kth.timeperiod.tools.WeekTools
 import kr.kth.commons.ValueObjectBase
+import YearKind._
+import DayOfWeek._
 
 /**
  * TimeCalendar의 설정 정보를 표현한다.
@@ -18,7 +20,7 @@ class TimeCalendarConfig(aLocale: Locale = Locale.getDefault,
   extends ValueObjectBase {
 
   @BeanProperty var locale: Locale = aLocale
-  @BeanProperty var yearKind: YearKind = YearKind.CalendarYear
+  @BeanProperty var yearKind: YearKind = YearKind.Calendar
   @BeanProperty var startOffset: Duration = Duration.ZERO
   @BeanProperty var endOffset: Duration = Duration.millis(TimeSpec.MinPositiveDuration)
   @BeanProperty var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth

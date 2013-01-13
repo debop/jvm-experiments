@@ -3,7 +3,6 @@ package kr.kth.timeperiod.timerange;
 import kr.kth.timeperiod.ITimeCalendar;
 import kr.kth.timeperiod.ITimeFormatter;
 import kr.kth.timeperiod.TimeCalendar;
-import kr.kth.timeperiod.TimeFormatter;
 import kr.kth.timeperiod.clock.ClockProxy;
 import org.joda.time.DateTime;
 
@@ -81,7 +80,7 @@ public class MinuteRange extends MinuteTimeRange {
 
     @Override
     protected String format(ITimeFormatter formatter) {
-        ITimeFormatter fmt = firstNotNull(formatter, TimeFormatter.getInstance());
+        ITimeFormatter fmt = firstNotNull(formatter, ITimeFormatter.getInstance());
 
         return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
                 fmt.getShortTime(getStart()),

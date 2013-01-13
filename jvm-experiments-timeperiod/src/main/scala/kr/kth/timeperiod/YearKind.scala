@@ -1,12 +1,12 @@
 package kr.kth.timeperiod
 
 /**
- * kr.kth.timeperiod.ScalaYearKind
+ * kr.kth.timeperiod.YearKind
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-object ScalaYearKind extends Enumeration {
-  type ScalaYearKind = Value
+object YearKind extends Enumeration {
+  type YearKind = Value
 
   /**
    * 설치된 OS의 문화권에 해당하는 Year

@@ -5,6 +5,7 @@ import kr.kth.commons.slf4j.Logging
 import org.joda.time.{Duration, DateTime}
 import kr.kth.timeperiod._
 import timerange.{TimeRange, WeekRange}
+import DayOfWeek._
 
 /**
  * 주(Week) 관련 메소드
@@ -32,7 +33,7 @@ object WeekTools extends Logging {
   def getCalendarWeekRuleAndFirstDayOfWeek(locale: Locale,
                                            weekOfYearRule: WeekOfYearRuleKind): (CalendarWeekRule, DayOfWeek) = {
     if (weekOfYearRule == WeekOfYearRuleKind.Caleandar) {
-      val dayOfWeek = DayOfWeek.valueOf(Calendar.getInstance(locale).getFirstDayOfWeek)
+      val dayOfWeek = DayOfWeek(Calendar.getInstance(locale).getFirstDayOfWeek)
       (getCalendarWeekRuleByLocale(locale), dayOfWeek)
     } else {
       DefaultCalendarWeekRuleAndFirstDayOfWeek

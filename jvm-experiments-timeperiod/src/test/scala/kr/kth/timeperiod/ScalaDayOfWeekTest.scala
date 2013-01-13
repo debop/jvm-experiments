@@ -13,15 +13,15 @@ class ScalaDayOfWeekTest extends Logging {
 
   @Test
   def dayOfWeekEquals() {
-    val sunday = ScalaDayOfWeek.Sunday
-    val parsed = ScalaDayOfWeek.withName("Sunday")
+    val sunday = DayOfWeek.Sunday
+    val parsed = DayOfWeek.withName("Sunday")
 
     Assert.assertEquals(sunday, parsed)
     Assert.assertEquals("Sunday", sunday.toString)
 
-    Assert.assertNotEquals(ScalaDayOfWeek.Friday, ScalaDayOfWeek.Monday)
+    Assert.assertNotEquals(DayOfWeek.Friday, DayOfWeek.Monday)
 
-    Assert.assertEquals(ScalaDayOfWeek.Monday, ScalaDayOfWeek(DateTimeConstants.MONDAY))
-    log.debug(ScalaDayOfWeek.values)
+    Assert.assertEquals(DayOfWeek.Monday, DayOfWeek(DateTimeConstants.MONDAY))
+    log.debug(DayOfWeek.values)
   }
 }

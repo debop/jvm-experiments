@@ -161,7 +161,7 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
     public void setStartInterval(DateTime start) {
         assertMutable();
         Guard.shouldBe(start.compareTo(this.end) <= 0,
-                "새로운 start=[%s]는 end=[%s] 보다 작거나 같아야 합니다.", start, this.end);
+                "새로운 getStart=[%s]는 getEnd=[%s] 보다 작거나 같아야 합니다.", start, this.end);
         this.start = start;
     }
 
@@ -198,7 +198,7 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
     public void setEndInterval(DateTime end) {
         assertMutable();
         Guard.shouldBe(end.compareTo(this.start) >= 0,
-                "새로운 end=[%s]가 start=[{}]보다 크거나 같아야 합니다.", end, this.start);
+                "새로운 getEnd=[%s]가 getStart=[{}]보다 크거나 같아야 합니다.", end, this.start);
         this.end = end;
     }
 
@@ -230,7 +230,7 @@ public class TimeInterval extends TimePeriodBase implements ITimeInterval {
         super.setup(start, end);
 
         if (TimeInterval.log.isDebugEnabled())
-            TimeInterval.log.debug("기간을 다시 설정합니다. start=[{}], end=[{}]", start, end);
+            TimeInterval.log.debug("기간을 다시 설정합니다. getStart=[{}], getEnd=[{}]", start, end);
 
         assertMutable();
 

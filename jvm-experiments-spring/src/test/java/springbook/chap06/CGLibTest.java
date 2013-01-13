@@ -25,7 +25,7 @@ public class CGLibTest {
         enhancer.setSuperclass(HelloTarget.class);
         enhancer.setCallback(new UppercaseInterceptor());
 
-        // create proxy
+        // spawn proxy
         Object proxy = enhancer.create();
 
         Hello hello = (Hello) proxy;

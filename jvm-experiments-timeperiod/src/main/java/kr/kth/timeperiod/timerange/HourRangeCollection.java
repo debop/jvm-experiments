@@ -5,7 +5,6 @@ import kr.kth.commons.Guard;
 import kr.kth.timeperiod.ITimeCalendar;
 import kr.kth.timeperiod.ITimeFormatter;
 import kr.kth.timeperiod.TimeCalendar;
-import kr.kth.timeperiod.TimeFormatter;
 import kr.kth.timeperiod.tools.TimeTool;
 import org.joda.time.DateTime;
 
@@ -49,7 +48,7 @@ public class HourRangeCollection extends HourTimeRange {
 
     @Override
     protected String format(ITimeFormatter formatter) {
-        ITimeFormatter fmt = Guard.firstNotNull(formatter, TimeFormatter.getInstance());
+        ITimeFormatter fmt = Guard.firstNotNull(formatter, ITimeFormatter.getInstance());
         return fmt.getCalendarPeriod(fmt.getShortDate(getStart()),
                 fmt.getShortDate(getEnd()),
                 fmt.getShortTime(getStart()),

@@ -2,13 +2,14 @@ package kr.kth.timeperiod
 
 import org.joda.time.{DateTime, DateTimeConstants}
 import scala.collection.immutable
+import kr.kth.timeperiod.DayOfWeek._
 
 /**
  * Time 관련 상수
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 13.
  */
-object ScalaTimeSpec {
+object TimeSpec {
 
   val MonthsPerYear = 12
   val HalfyearsPerYear = 2

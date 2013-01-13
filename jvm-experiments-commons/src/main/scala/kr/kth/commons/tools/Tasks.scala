@@ -1,4 +1,4 @@
-package kr.kth.commons.parallelism
+package kr.kth.commons.tools
 
 import kr.kth.commons.slf4j.Logging
 

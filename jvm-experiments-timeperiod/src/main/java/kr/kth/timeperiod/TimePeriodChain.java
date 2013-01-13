@@ -198,32 +198,32 @@ public class TimePeriodChain extends TimePeriodContainer implements ITimePeriodC
 
 
     /**
-     * moment 이전에 duration 만큼의 시간적 공간이 있는지 여부 (새로운 기간을 추가하기 위해서는 빈 공간이 필요합니다)
+     * moment 이전에 getDuration 만큼의 시간적 공간이 있는지 여부 (새로운 기간을 추가하기 위해서는 빈 공간이 필요합니다)
      */
     protected void assertSpaceBefore(DateTime moment, long duration) {
         if (TimePeriodChain.log.isDebugEnabled())
-            TimePeriodChain.log.debug("moment=[{}] 이전에 duration=[{}] 만큼의 공간이 있는지 확인합니다.", moment, duration);
+            TimePeriodChain.log.debug("moment=[{}] 이전에 getDuration=[{}] 만큼의 공간이 있는지 확인합니다.", moment, duration);
         boolean hasSpace = (moment != TimeSpec.MinPeriodTime);
 
         if (hasSpace) {
             long remaining = moment.getMillis() - TimeSpec.MinPeriodTime.getMillis();
             hasSpace = (duration <= remaining);
         }
-        Guard.shouldBe(hasSpace, "duration [%d] 은 범위를 벗어났습니다.", duration);
+        Guard.shouldBe(hasSpace, "getDuration [%d] 은 범위를 벗어났습니다.", duration);
     }
 
     /**
-     * moment 이후에 duration 만큼의 시간적 공간이 있는지 여부 (새로운 기간을 추가하기 위해서는 빈 공간이 필요합니다)
+     * moment 이후에 getDuration 만큼의 시간적 공간이 있는지 여부 (새로운 기간을 추가하기 위해서는 빈 공간이 필요합니다)
      */
     protected void assertSpaceAfter(DateTime moment, long duration) {
         if (TimePeriodChain.log.isDebugEnabled())
-            TimePeriodChain.log.debug("moment=[{}] 이후에 duration=[{}] 만큼의 공간이 있는지 확인합니다.", moment, duration);
+            TimePeriodChain.log.debug("moment=[{}] 이후에 getDuration=[{}] 만큼의 공간이 있는지 확인합니다.", moment, duration);
         boolean hasSpace = moment != TimeSpec.MaxPeriodTime;
 
         if (hasSpace) {
             long remaining = TimeSpec.MaxPeriodTime.getMillis() - moment.getMillis();
             hasSpace = duration <= remaining;
         }
-        Guard.shouldBe(hasSpace, "duration [%d]은 범위를 벗어났습니다.", duration);
+        Guard.shouldBe(hasSpace, "getDuration [%d]은 범위를 벗어났습니다.", duration);
     }
 }

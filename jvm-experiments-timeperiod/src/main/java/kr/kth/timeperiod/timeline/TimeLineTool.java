@@ -45,7 +45,7 @@ public final class TimeLineTool {
                     "getStartCount() 값은 [0]이 아니여야 합니다. periodStart.getStartCount()=[%s]",
                     periodStart.getStartCount());
 
-            // search next period end
+            // search next period getEnd
             // use balancing to handle overlapping periods
             int balance = periodStart.getStartCount();
             ITimeLineMoment periodEnd = null;
@@ -104,7 +104,7 @@ public final class TimeLineTool {
             balance += moment.getStartCount();
             balance -= moment.getEndCount();
 
-            // intersection is starting by a period start
+            // intersection is starting by a period getStart
             if (moment.getStartCount() > 0 && balance > 1 && intersectionStart < 0) {
                 intersectionStart = i;
                 continue;
@@ -172,7 +172,7 @@ public final class TimeLineTool {
             Guard.shouldBe(moment.getStartCount() != 0,
                     "moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[%s]", moment);
 
-            // search next gap start
+            // search next gap getStart
             // use balancing to handle overlapping periods
             int balance = moment.getStartCount();
             ITimeLineMoment gapStart = null;

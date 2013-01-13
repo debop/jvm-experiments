@@ -6,6 +6,8 @@ import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.ScalaHash
 import org.joda.time.{Duration, DateTime}
 import kr.kth.commons.{ValueObjectBase, Guard}
+import DayOfWeek._, QuarterKind._, YearKind._
+
 
 /**
  * 문화권에 따른 날짜 표현, 날짜 계산 등을 제공하는 Calendar 입니다. (ISO 8601, Korean 등)
@@ -75,41 +77,41 @@ class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITim
 
   def getYearName(year: Int) =
     yearKind match {
-      case YearKind.CalendarYear => TimeStrings.CalendarYearName(year)
-      case YearKind.FiscalYear => TimeStrings.FiscalYearName(year)
-      case YearKind.SchoolYear => TimeStrings.SchoolYearName(year)
+      case YearKind.Calendar => TimeStrings.CalendarYearName(year)
+      case YearKind.Fiscal => TimeStrings.FiscalYearName(year)
+      case YearKind.School => TimeStrings.SchoolYearName(year)
       case _ => TimeStrings.SystemYearName(year)
     }
 
   def getHalfYearName(halfyear: HalfYearKind) =
     yearKind match {
-      case YearKind.CalendarYear => TimeStrings.CalendarHalfyearName(halfyear)
-      case YearKind.FiscalYear => TimeStrings.FiscalHalfyearName(halfyear)
-      case YearKind.SchoolYear => TimeStrings.SchoolHalfyearName(halfyear)
+      case YearKind.Calendar => TimeStrings.CalendarHalfyearName(halfyear)
+      case YearKind.Fiscal => TimeStrings.FiscalHalfyearName(halfyear)
+      case YearKind.School => TimeStrings.SchoolHalfyearName(halfyear)
       case _ => TimeStrings.SystemHalfyearName(halfyear)
     }
 
   def getHalfYearOfYearName(year: Int, halfyear: HalfYearKind) =
     yearKind match {
-      case YearKind.CalendarYear => TimeStrings.CalendarHalfyearOfYearName(halfyear, year)
-      case YearKind.FiscalYear => TimeStrings.FiscalHalfyearOfYearName(halfyear, year)
-      case YearKind.SchoolYear => TimeStrings.SchoolHalfyearOfYearName(halfyear, year)
+      case YearKind.Calendar => TimeStrings.CalendarHalfyearOfYearName(halfyear, year)
+      case YearKind.Fiscal => TimeStrings.FiscalHalfyearOfYearName(halfyear, year)
+      case YearKind.School => TimeStrings.SchoolHalfyearOfYearName(halfyear, year)
       case _ => TimeStrings.SystemHalfyearOfYearName(halfyear, year)
     }
 
-  def getQuarterName(quarter: QuarterKind) =
+  def getQuarterName(quarter: QuarterKind): String =
     yearKind match {
-      case YearKind.CalendarYear => TimeStrings.CalendarQuarterName(quarter)
-      case YearKind.FiscalYear => TimeStrings.FiscalQuarterName(quarter)
-      case YearKind.SchoolYear => TimeStrings.SchoolQuarterName(quarter)
+      case YearKind.Calendar => TimeStrings.CalendarQuarterName(quarter)
+      case YearKind.Fiscal => TimeStrings.FiscalQuarterName(quarter)
+      case YearKind.School => TimeStrings.SchoolQuarterName(quarter)
       case _ => TimeStrings.SystemQuarterName(quarter)
     }
 
-  def getQuarterOfYearName(year: Int, quarter: QuarterKind) =
+  def getQuarterOfYearName(year: Int, quarter: QuarterKind): String =
     yearKind match {
-      case YearKind.CalendarYear => TimeStrings.CalendarQuarterOfYearName(quarter, year)
-      case YearKind.FiscalYear => TimeStrings.FiscalQuarterOfYearName(quarter, year)
-      case YearKind.SchoolYear => TimeStrings.SchoolQuarterOfYearName(quarter, year)
+      case YearKind.Calendar => TimeStrings.CalendarQuarterOfYearName(quarter, year)
+      case YearKind.Fiscal => TimeStrings.FiscalQuarterOfYearName(quarter, year)
+      case YearKind.School => TimeStrings.SchoolQuarterOfYearName(quarter, year)
       case _ => TimeStrings.SystemQuarterOfYearName(quarter, year)
     }
 
@@ -121,7 +123,7 @@ class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITim
 
   def getWeekOfYearName(year: Int, weekOfYear: Int) = TimeStrings.WeekOfYearName(weekOfYear, getYearName(year))
 
-  def getDayName(dayOfWeek: Int) = DayOfWeek.valueOf(dayOfWeek).toString
+  def getDayName(dayOfWeek: Int) = DayOfWeek(dayOfWeek).toString
 
   def getWeekOfYear(time: DateTime) = time.getWeekOfWeekyear
 
@@ -152,7 +154,9 @@ class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITim
       .add("firstDayOfWeek", firstDayOfWeek)
 }
 
-
+/**
+ * TimeCalendar Object
+ */
 object TimeCalendar extends Logging {
 
   lazy val DefaultStartOffset = new Duration(TimeSpec.NoDuration)
@@ -206,7 +210,8 @@ object TimeCalendar extends Logging {
     new TimeCalendar(cfg)
   }
 
-  def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind, startOffset: Duration, endOffset: Duration) = {
+  def apply(locale: Locale, yearBaseMonth: Int, weekOfYearRule: WeekOfYearRuleKind,
+            startOffset: Duration, endOffset: Duration) = {
     val cfg = new TimeCalendarConfig(locale, weekOfYearRule)
     cfg.setYearBaseMonth(yearBaseMonth)
     if (startOffset != null)

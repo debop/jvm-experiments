@@ -3,12 +3,18 @@ package kr.kth.timeperiod
 import collection.JavaConversions
 import collection.mutable.ArrayBuffer
 import java.util.{Calendar, Date, Locale}
+import org.joda.time.{Duration, DateTime}
+
+import kr.kth.commons.{NotImplementedException, Guard}
 import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.StringTool
-import org.joda.time.{Duration, DateTime}
+
 import timerange.{YearRangeCollection, YearRange, TimeRange}
 import tools.TimeTool
-import kr.kth.commons.{NotImplementedException, Guard}
+import QuarterKind._
+import DayOfWeek._
+import PeriodKind._
+import PeriodRelation._
 
 /**
  * DateTime 관련 Object
@@ -100,7 +106,7 @@ object Times extends Logging {
     HalfYearKind.valueOf((deltaMonths / TimeSpec.MonthsPerHalfyear) + 1)
   }
 
-  def getMonthsOfHalfyear(halfyear: HalfYearKind): Array[Int] =
+  def getMonthsOfHalfyear(halfyear: HalfYearKind): collection.immutable.List[Int] =
     if (halfyear == HalfYearKind.First) TimeSpec.FirstHalfyearMonths
     else TimeSpec.SecondHalfyearMonths
 
@@ -111,7 +117,7 @@ object Times extends Logging {
 
   def addQuarter(startQuarter: QuarterKind, startYear: Int = 0, count: Int = 0): YearAndQuarter = {
     val offsetYear = (Math.abs(count) / TimeSpec.QuartersPerYear) + 1
-    val startQuarterCount = ((startYear + offsetYear) * TimeSpec.QuartersPerYear) + (startQuarter.toInt - 1)
+    val startQuarterCount = ((startYear + offsetYear) * TimeSpec.QuartersPerYear) + (startQuarter.id - 1)
     val targetQuarterCount = startQuarterCount - count
 
     val year = (targetQuarterCount / TimeSpec.QuartersPerYear) - offsetYear
@@ -127,15 +133,15 @@ object Times extends Logging {
       monthOfYearIndex += TimeSpec.MonthsPerYear
     val deltaMonths = monthOfYearIndex - yearStartMonthIndex
 
-    QuarterKind.valueOf((deltaMonths / TimeSpec.MonthsPerQuarter) + 1)
+    QuarterKind((deltaMonths / TimeSpec.MonthsPerQuarter) + 1)
   }
 
-  def getMonthsOfQuarter(quarter: QuarterKind): Array[Int] = {
+  def getMonthsOfQuarter(quarter: QuarterKind): collection.immutable.List[Int] = {
     quarter match {
       case QuarterKind.First => TimeSpec.FirstQuarterMonths
       case QuarterKind.Second => TimeSpec.SecondQuarterMonths
       case QuarterKind.Third => TimeSpec.ThirdQuarterMonths
-      case QuarterKind.Fouth => TimeSpec.FourthQuarterMonths
+      case QuarterKind.Fourth => TimeSpec.FourthQuarterMonths
 
       case _ => throw new IllegalArgumentException(quarter.toString)
     }
@@ -172,7 +178,7 @@ object Times extends Logging {
    */
   def getStartOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime = {
     var currentDay = datePart(moment)
-    while (currentDay.getDayOfWeek != firstDayOfWeek.toInt) {
+    while (currentDay.getDayOfWeek != firstDayOfWeek.id) {
       currentDay = currentDay.minusDays(1)
     }
     currentDay
@@ -221,12 +227,12 @@ object Times extends Logging {
     var weekday = new DateTime().withDate(year, 1, 1).plusDays(weekOfYear * TimeSpec.DaysPerWeek)
     var current = getWeekOfYear(weekday, locale, weekOfYearRule)
 
-    // end datePart of week
+    // getEnd datePart of week
     while (current.weekOfYear != weekOfYear) {
       weekday = weekday.minusDays(1)
       current = getWeekOfYear(weekday, locale, weekOfYearRule)
     }
-    // end of previous week
+    // getEnd of previous week
     while (current.weekOfYear == weekOfYear) {
       weekday = weekday.minusDays(1)
       current = getWeekOfYear(weekday, locale, weekOfYearRule)
@@ -249,10 +255,10 @@ object Times extends Logging {
       return dayOfWeek
 
     val weeks = Math.abs(days) / TimeSpec.DaysPerWeek + 1
-    val offset = weeks * TimeSpec.DaysPerWeek + dayOfWeek.toInt
+    val offset = weeks * TimeSpec.DaysPerWeek + dayOfWeek.id
     val targetOffset = offset + days
 
-    DayOfWeek.valueOf(targetOffset)
+    DayOfWeek(targetOffset)
   }
 
   //
@@ -382,7 +388,7 @@ object Times extends Logging {
   def currentQuarter(yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
     val now = getNow
     val quarter = getQuarterOfMonth(yearStartMonth, now.getMonthOfYear)
-    val months = quarter.toInt * TimeSpec.MonthsPerQuarter
+    val months = quarter.id * TimeSpec.MonthsPerQuarter
 
     currentYear(yearStartMonth).plusMonths(months)
   }
@@ -393,7 +399,7 @@ object Times extends Logging {
 
   def currentWeek(locale: Locale): DateTime = {
     val firstDayOfWeek = Calendar.getInstance(locale).getFirstDayOfWeek
-    startTimeOfWeek(getNow, DayOfWeek.valueOf(firstDayOfWeek))
+    startTimeOfWeek(getNow, DayOfWeek(firstDayOfWeek))
   }
 
   def curerntWeek(firstDayOfWeek: DayOfWeek): DateTime = startTimeOfWeek(getNow, firstDayOfWeek)
@@ -432,7 +438,7 @@ object Times extends Logging {
   def endTimeOfYear(moment: DateTime): DateTime = endTimeOfYear(moment, TimeSpec.CalendarYearStartMonth)
 
   def endTimeOfYear(moment: DateTime, startMonthOfYear: Int): DateTime =
-    startTimeOfYear(moment, startMonthOfYear).plusYears(1).minus(TimeSpec.MinTicks)
+    startTimeOfYear(moment, startMonthOfYear).plusYears(1).minus(TimeSpec.MinMillis)
 
   def endTimeOfYear(year: Int): DateTime = endTimeOfYear(year, TimeSpec.CalendarYearStartMonth)
 
@@ -497,7 +503,7 @@ object Times extends Logging {
   //
 
   def startTimeOfQuarter(moment: DateTime, startMonthOfYear: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
-    val quarter = getQuarterOfMonth(moment.getMonthOfYear, startMonthOfYear).toInt
+    val quarter = getQuarterOfMonth(moment.getMonthOfYear, startMonthOfYear).id
     val months = (quarter - 1) * TimeSpec.MonthsPerQuarter
 
     val result = startTimeOfYear(moment, startMonthOfYear).plusMonths(months)
@@ -510,7 +516,7 @@ object Times extends Logging {
   def startTimeOfQuarterByYear(year: Int,
                                quarter: QuarterKind,
                                yearStartMonth: Int = TimeSpec.CalendarYearStartMonth): DateTime = {
-    val months = (quarter.toInt - 1) * TimeSpec.MonthsPerQuarter
+    val months = (quarter.id - 1) * TimeSpec.MonthsPerQuarter
     new DateTime().withDate(year, yearStartMonth, 1).plusMonths(months)
   }
 
@@ -578,7 +584,7 @@ object Times extends Logging {
   def startTimeOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = TimeSpec.FirstDayOfWeek): DateTime = {
     val currentFirstDay = firstDayOfWeek
     var day = moment
-    while (day.getDayOfWeek != currentFirstDay.toInt)
+    while (day.getDayOfWeek != currentFirstDay.id)
       day = day.minusDays(1)
 
     day.withTimeAtStartOfDay()
@@ -601,7 +607,7 @@ object Times extends Logging {
    */
   private def dayOfWeekByCalendarToJodaTime(locale: Locale): DayOfWeek = {
     val dayOfWeek = (Calendar.getInstance(locale).getFirstDayOfWeek + 5) % 7 + 1
-    DayOfWeek.valueOf(dayOfWeek)
+    DayOfWeek(dayOfWeek)
   }
 
 
@@ -658,14 +664,14 @@ object Times extends Logging {
   // QuarterKind
   //
   def startMonthOfQuarter(quarter: QuarterKind): Int =
-    (quarter.toInt - 1) * TimeSpec.MonthsPerQuarter + 1
+    (quarter.id - 1) * TimeSpec.MonthsPerQuarter + 1
 
   def endMonthOfQuarter(quarter: QuarterKind): Int =
-    quarter.toInt * TimeSpec.MonthsPerQuarter
+    quarter.id * TimeSpec.MonthsPerQuarter
 
   def quarterOf(month: Int): QuarterKind = {
     val quarter = (month - 1) / TimeSpec.MonthsPerQuarter + 1
-    QuarterKind.valueOf(quarter)
+    QuarterKind(quarter)
   }
 
   def quarterOf(moment: DateTime): QuarterKind = quarterOf(moment.getMonthOfYear)
@@ -749,19 +755,19 @@ object Times extends Logging {
   def noon(moment: DateTime): DateTime = getDatePart(moment).withHourOfDay(12)
 
   /**
-   * 지정한 시각에서 duration 이전의 시각 (과거)
+   * 지정한 시각에서 getDuration 이전의 시각 (과거)
    */
   def ago(moment: DateTime, duration: Duration): DateTime = moment.minus(duration)
 
   /**
-   * 지정한 시각에서 duration 이후의 시각 (미래)
+   * 지정한 시각에서 getDuration 이후의 시각 (미래)
    */
   def from(moment: DateTime, duration: Duration): DateTime = moment.plus(duration)
 
   def fromNow(duration: Duration): DateTime = from(getNow, duration)
 
   /**
-   * from 메소드와 같다 (지정한 시각에서 duration 이후의 시각 (미래))
+   * from 메소드와 같다 (지정한 시각에서 getDuration 이후의 시각 (미래))
    */
   def since(moment: DateTime, duration: Duration): DateTime = from(moment, duration)
 
@@ -971,11 +977,12 @@ object Times extends Logging {
     } else if (period.getEnd == target.getStart) {
       relation = PeriodRelation.EndTouching
     } else if (hasInside(period, target)) {
-      if (period.getStart == target.getStart) {
+      if (period.getStart == target.hasStart) {
         relation = PeriodRelation.EnclosingStartTouching
       }
       else {
-        relation = if (((period.getEnd == target.getEnd))) PeriodRelation.EnclosingEndTouching else PeriodRelation.Enclosing
+        relation = if (((period.getEnd == target.getEnd))) PeriodRelation.EnclosingEndTouching
+        else PeriodRelation.Enclosing
       }
     } else {
       val insideStart: Boolean = hasInside(target, period.getStart)

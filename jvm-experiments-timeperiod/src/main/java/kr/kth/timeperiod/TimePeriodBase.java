@@ -252,8 +252,8 @@ public abstract class TimePeriodBase extends ValueObjectBase implements ITimePer
     @Override
     protected Objects.ToStringHelper buildStringHelper() {
         return super.buildStringHelper()
-                .add("start", start)
-                .add("end", end)
+                .add("getStart", start)
+                .add("getEnd", end)
                 .add("readonly", readonly);
     }
 }
