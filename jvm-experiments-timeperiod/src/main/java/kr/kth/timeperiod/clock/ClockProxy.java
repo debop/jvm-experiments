@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class ClockProxy {
 
-    private static AtomicReference<IClock> clockReference;
+    private static AtomicReference<IClock> clockReference = new AtomicReference<>();
 
     public static IClock getClock() {
         clockReference.compareAndSet(null, new SystemClock());

@@ -4,7 +4,6 @@ import com.google.common.base.Objects.ToStringHelper
 import java.util.Locale
 import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.ScalaHash
-import lombok.extern.slf4j.Slf4j
 import org.joda.time.{Duration, DateTime}
 import kr.kth.commons.{ValueObjectBase, Guard}
 
@@ -13,7 +12,6 @@ import kr.kth.commons.{ValueObjectBase, Guard}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 29.
  */
-@Slf4j
 @SerialVersionUID(4848502849274L)
 class TimeCalendar(config: TimeCalendarConfig) extends ValueObjectBase with ITimeCalendar with Logging {
   {

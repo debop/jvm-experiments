@@ -701,7 +701,7 @@ public class TimeTool {
     }
 
     public static void assertMutable(ITimePeriod period) {
-        Guard.shouldBe(!period.isReadonly(), "TimePeriod 가 읽기전용입니다. period=[%s]", period);
+        Guard.shouldBe(!period.isReadonly(), "ScalaTimePeriod 가 읽기전용입니다. period=[%s]", period);
     }
 
     public static boolean allItemsAreEquals(Collection<? extends ITimePeriod> left,
