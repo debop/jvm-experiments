@@ -1,9 +1,9 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.base.Action;
-import kr.kth.commons.base.Action1;
-import kr.kth.commons.base.Function;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Action;
+import kr.kth.commons.Action1;
+import kr.kth.commons.Function;
+import kr.kth.commons.Guard;
 import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
 

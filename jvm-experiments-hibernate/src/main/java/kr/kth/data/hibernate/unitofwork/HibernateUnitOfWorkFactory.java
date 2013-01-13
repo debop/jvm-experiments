@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.unitofwork;
 
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.Local;
+import kr.kth.commons.Guard;
+import kr.kth.commons.Local;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

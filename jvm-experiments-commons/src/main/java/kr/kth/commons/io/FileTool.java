@@ -20,8 +20,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static kr.kth.commons.base.Guard.shouldBe;
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldBe;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 import static kr.kth.commons.tools.StringTool.listToString;
 
 /**

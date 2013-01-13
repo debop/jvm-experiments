@@ -1,6 +1,6 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.timeperiod.YearAndWeek;
+import kr.kth.commons.YearWeek;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,9 +26,9 @@ public class HashToolTest {
         Assert.assertNotEquals(a, b);
         Assert.assertEquals(a, ScalaHash.compute(1, 2));
 
-        int withNull1 = ScalaHash.compute(new YearAndWeek(2013, 1), null);
-        int withNull2 = ScalaHash.compute(null, new YearAndWeek(2013, 1));
-        int withNull3 = ScalaHash.compute(new YearAndWeek(2013, 1), null);
+        int withNull1 = ScalaHash.compute(new YearWeek(2013, 1), null);
+        int withNull2 = ScalaHash.compute(null, new YearWeek(2013, 1));
+        int withNull3 = ScalaHash.compute(new YearWeek(2013, 1), null);
 
         Assert.assertNotEquals(withNull1, withNull2);
         Assert.assertNotEquals(withNull2, withNull3);

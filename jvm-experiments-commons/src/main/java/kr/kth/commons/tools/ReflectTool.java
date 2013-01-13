@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 
 
 /**

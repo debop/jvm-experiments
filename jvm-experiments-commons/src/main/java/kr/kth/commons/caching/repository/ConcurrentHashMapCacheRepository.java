@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
+import static kr.kth.commons.Guard.shouldNotBeWhiteSpace;
 
 /**
  * {@link java.util.concurrent.ConcurrentHashMap}을 캐시 저장소로 사용하는 비동기 캐시 저장소입니다.

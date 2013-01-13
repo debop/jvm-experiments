@@ -1,8 +1,8 @@
 package kr.kth.commons.unitTesting
 
-import kr.kth.commons.base.AutoStopwatch
 import kr.kth.commons.slf4j.Logging
 import org.junit.Test
+import kr.kth.commons.AutoStopwatch
 
 /**
  * Scala 코드를 멀티쓰레드에서 테스트 합니다.

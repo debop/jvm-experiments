@@ -2,7 +2,7 @@ package kr.kth.data.hibernate.interceptor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import kr.kth.commons.base.ValueObjectBase;
+import kr.kth.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

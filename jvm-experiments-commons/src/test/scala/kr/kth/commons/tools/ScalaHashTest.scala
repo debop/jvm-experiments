@@ -1,8 +1,8 @@
 package kr.kth.commons.tools
 
 import kr.kth.commons.slf4j.Logging
-import kr.kth.commons.timeperiod.YearAndWeek
 import org.junit.{Assert, Test}
+import kr.kth.commons.YearWeek
 
 class ScalaHashTest extends Logging {
 
@@ -15,9 +15,9 @@ class ScalaHashTest extends Logging {
     Assert.assertEquals(a, ScalaHash.compute(1, 2))
 
 
-    val withNull1 = ScalaHash.compute(new YearAndWeek(2013, 1), null)
-    val withNull2 = ScalaHash.compute(null, new YearAndWeek(2013, 1))
-    val withNull3 = ScalaHash.compute(new YearAndWeek(2013, 1), null)
+    val withNull1 = ScalaHash.compute(new YearWeek(2013, 1), null)
+    val withNull2 = ScalaHash.compute(null, new YearWeek(2013, 1))
+    val withNull3 = ScalaHash.compute(new YearWeek(2013, 1), null)
 
     Assert.assertNotEquals(withNull1, withNull2)
     Assert.assertNotEquals(withNull2, withNull3)

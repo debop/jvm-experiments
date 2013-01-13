@@ -1,7 +1,7 @@
 package kr.kth.commons.io;
 
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.ISerializer;
+import kr.kth.commons.Guard;
+import kr.kth.commons.ISerializer;
 
 /**
  * {@link ISerializer} 를 데코레이터 패턴으로, 여러가지 작업을 수행할 수 있도록 합니다.

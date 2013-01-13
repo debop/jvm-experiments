@@ -1,6 +1,6 @@
 package kr.kth.data.jpa.repository;
 
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.tools.ReflectTool;
 import kr.kth.data.jpa.domain.JpaEntityBase;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package kr.kth.commons.io;
 
-import kr.kth.commons.base.ISerializer;
+import kr.kth.commons.ISerializer;
 import kr.kth.commons.compress.ICompressor;
 import kr.kth.commons.cryptography.symmetric.ISymmetricByteEncryptor;
 import kr.kth.commons.spring3.Spring;

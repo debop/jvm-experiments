@@ -1,7 +1,7 @@
 package kr.kth.commons.io;
 
 import kr.kth.commons.AbstractTest;
-import kr.kth.commons.base.YearWeek;
+import kr.kth.commons.YearWeek;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

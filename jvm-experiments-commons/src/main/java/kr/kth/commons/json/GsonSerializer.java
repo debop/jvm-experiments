@@ -2,7 +2,7 @@ package kr.kth.commons.json;
 
 import com.google.common.base.Defaults;
 import com.google.gson.Gson;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.tools.StringTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

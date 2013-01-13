@@ -1,8 +1,8 @@
 package kr.kth.commons.spring3;
 
-import kr.kth.commons.base.AutoCloseableAction;
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.Local;
+import kr.kth.commons.AutoCloseableAction;
+import kr.kth.commons.Guard;
+import kr.kth.commons.Local;
 import kr.kth.commons.tools.ArrayTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.PropertyValue;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 import static kr.kth.commons.tools.StringTool.listToString;
 
 /**

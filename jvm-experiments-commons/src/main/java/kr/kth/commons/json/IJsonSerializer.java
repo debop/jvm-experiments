@@ -1,6 +1,6 @@
 package kr.kth.commons.json;
 
-import kr.kth.commons.base.ISerializer;
+import kr.kth.commons.ISerializer;
 
 /**
  * JSON 포맷으로 직렬화 / 역직렬화를 수행합니다.

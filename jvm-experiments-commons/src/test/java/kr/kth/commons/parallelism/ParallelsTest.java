@@ -1,8 +1,8 @@
 package kr.kth.commons.parallelism;
 
-import kr.kth.commons.base.Action1;
-import kr.kth.commons.base.AutoStopwatch;
-import kr.kth.commons.base.Function1;
+import kr.kth.commons.Action1;
+import kr.kth.commons.AutoStopwatch;
+import kr.kth.commons.Function1;
 import kr.kth.commons.collection.Range;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;

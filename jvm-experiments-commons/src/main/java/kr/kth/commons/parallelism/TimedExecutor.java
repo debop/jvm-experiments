@@ -1,8 +1,8 @@
 package kr.kth.commons.parallelism;
 
-import kr.kth.commons.base.Executable;
-import kr.kth.commons.base.ExecutableAdapter;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Executable;
+import kr.kth.commons.ExecutableAdapter;
+import kr.kth.commons.Guard;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

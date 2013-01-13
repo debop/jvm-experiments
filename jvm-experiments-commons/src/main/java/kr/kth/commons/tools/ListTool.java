@@ -1,6 +1,6 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 package kr.kth.commons.io;
 
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.ISerializer;
+import kr.kth.commons.Guard;
+import kr.kth.commons.ISerializer;
 import kr.kth.commons.compress.GZipCompressor;
 import kr.kth.commons.compress.ICompressor;
 import lombok.extern.slf4j.Slf4j;

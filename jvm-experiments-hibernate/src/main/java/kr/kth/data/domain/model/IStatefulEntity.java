@@ -1,6 +1,6 @@
 package kr.kth.data.domain.model;
 
-import kr.kth.commons.base.IValueObject;
+import kr.kth.commons.IValueObject;
 
 /**
  * 저장 상태 정보를 가지는 엔티티임을 나타내는 인터페이스입니다.

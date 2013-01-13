@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.tools;
 
 import com.google.common.collect.Maps;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.spring3.Spring;
 import kr.kth.commons.tools.SerializeTool;
 import kr.kth.data.domain.model.IStatefulEntity;
@@ -25,8 +25,8 @@ import org.hibernate.type.ObjectType;
 
 import java.util.Map;
 
-import static kr.kth.commons.base.Guard.firstNotNull;
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.firstNotNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 
 /**
  * Hibernate 관련 Tool

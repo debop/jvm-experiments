@@ -1,8 +1,8 @@
 package kr.kth.data.hibernate.usertype;
 
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.timeperiod.TimeSpec;
-import kr.kth.commons.timeperiod.timerange.TimeRange;
+import kr.kth.commons.Guard;
+import kr.kth.timeperiod.TimeSpec;
+import kr.kth.timeperiod.timerange.TimeRange;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;

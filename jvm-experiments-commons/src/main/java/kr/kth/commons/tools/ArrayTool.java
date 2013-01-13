@@ -2,7 +2,7 @@ package kr.kth.commons.tools;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.cryptography.CryptoTool;
 import lombok.extern.slf4j.Slf4j;
 

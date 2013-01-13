@@ -7,7 +7,7 @@ import org.springframework.transaction.TransactionDefinition;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 
 /**
  * {@link IUnitOfWork} 의 가장 기본적인 구현 클래스입니다.

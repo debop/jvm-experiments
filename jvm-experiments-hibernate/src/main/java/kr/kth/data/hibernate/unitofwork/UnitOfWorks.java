@@ -1,8 +1,8 @@
 package kr.kth.data.hibernate.unitofwork;
 
-import kr.kth.commons.base.AutoCloseableAction;
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.Local;
+import kr.kth.commons.AutoCloseableAction;
+import kr.kth.commons.Guard;
+import kr.kth.commons.Local;
 import kr.kth.commons.spring3.Spring;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;

@@ -1,6 +1,6 @@
 package kr.kth.commons.unitTesting;
 
-import kr.kth.commons.base.AutoStopwatch;
+import kr.kth.commons.AutoStopwatch;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

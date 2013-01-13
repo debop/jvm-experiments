@@ -1,11 +1,11 @@
 package kr.kth.data.domain;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.base.ValueObjectBase;
+import kr.kth.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 
-import static kr.kth.commons.base.Guard.shouldNotBeEmpty;
+import static kr.kth.commons.Guard.shouldNotBeEmpty;
 
 /**
  * SQL 실행 문의 인자 정보를 나타내는 {@link INamedParameter} 의 추상클래스입니다.

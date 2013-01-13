@@ -23,6 +23,13 @@
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-commons</artifactId>
             <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>jvm-experiments</groupId>
+            <artifactId>jvm-experiments-timeperiod</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

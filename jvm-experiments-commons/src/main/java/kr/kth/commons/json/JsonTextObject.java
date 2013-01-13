@@ -1,7 +1,7 @@
 package kr.kth.commons.json;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.base.ValueObjectBase;
+import kr.kth.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 

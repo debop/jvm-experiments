@@ -1,6 +1,6 @@
 package kr.kth.commons.json;
 
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.spring3.Spring;
 import lombok.extern.slf4j.Slf4j;
 

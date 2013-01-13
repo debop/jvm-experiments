@@ -1,9 +1,9 @@
 package kr.kth.data.hibernate.tools;
 
 import com.google.common.collect.Sets;
-import kr.kth.commons.base.Function1;
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.IDataObject;
+import kr.kth.commons.Function1;
+import kr.kth.commons.Guard;
+import kr.kth.commons.IDataObject;
 import kr.kth.commons.json.GsonSerializer;
 import kr.kth.commons.json.IJsonSerializer;
 import kr.kth.commons.parallelism.Parallels;

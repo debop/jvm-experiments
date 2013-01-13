@@ -3,8 +3,8 @@ package kr.kth.commons.parallelism;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import kr.kth.commons.base.Action1;
-import kr.kth.commons.base.Function1;
+import kr.kth.commons.Action1;
+import kr.kth.commons.Function1;
 import kr.kth.commons.collection.Range;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 
 
 /**

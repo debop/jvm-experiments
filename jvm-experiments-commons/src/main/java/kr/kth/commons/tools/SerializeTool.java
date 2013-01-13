@@ -1,7 +1,7 @@
 package kr.kth.commons.tools;
 
-import kr.kth.commons.base.BinaryStringFormat;
-import kr.kth.commons.base.ISerializer;
+import kr.kth.commons.BinaryStringFormat;
+import kr.kth.commons.ISerializer;
 import kr.kth.commons.io.BinarySerializer;
 import kr.kth.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +14,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 import static kr.kth.commons.tools.StringTool.getBytesFromHexString;
 
 /**
- * {@link kr.kth.commons.base.ISerializer} 를 이용한 직렬화/역직렬화를 수행하는 Utility Method 를 제공합니다.
+ * {@link kr.kth.commons.ISerializer} 를 이용한 직렬화/역직렬화를 수행하는 Utility Method 를 제공합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 14
  */

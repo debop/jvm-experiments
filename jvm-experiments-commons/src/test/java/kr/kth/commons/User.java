@@ -2,7 +2,6 @@ package kr.kth.commons;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import kr.kth.commons.base.ValueObjectBase;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.HashTool;
 import lombok.Getter;

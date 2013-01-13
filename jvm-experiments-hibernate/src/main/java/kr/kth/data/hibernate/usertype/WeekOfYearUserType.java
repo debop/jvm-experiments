@@ -1,8 +1,8 @@
 package kr.kth.data.hibernate.usertype;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.base.Guard;
-import kr.kth.commons.base.YearWeek;
+import kr.kth.commons.Guard;
+import kr.kth.commons.YearWeek;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -25,7 +25,7 @@ import java.sql.SQLException;
 public class WeekOfYearUserType implements CompositeUserType {
 
     /**
-     * 객체를 {@link kr.kth.commons.base.YearWeek} 로 변환합니다.
+     * 객체를 {@link kr.kth.commons.YearWeek} 로 변환합니다.
      */
     private static YearWeek asYearWeek(Object value) {
         if (value == null)

@@ -1,7 +1,7 @@
 package kr.kth.commons.compress;
 
-import kr.kth.commons.base.BinaryStringFormat;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.BinaryStringFormat;
+import kr.kth.commons.Guard;
 import kr.kth.commons.parallelism.AsyncTool;
 import kr.kth.commons.tools.StreamTool;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeNull;
 import static kr.kth.commons.tools.StreamTool.toByteArray;
 import static kr.kth.commons.tools.StringTool.*;
 

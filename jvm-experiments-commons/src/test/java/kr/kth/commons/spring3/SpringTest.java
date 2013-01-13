@@ -1,7 +1,7 @@
 package kr.kth.commons.spring3;
 
 import kr.kth.commons.AbstractTest;
-import kr.kth.commons.base.AutoCloseableAction;
+import kr.kth.commons.AutoCloseableAction;
 import kr.kth.commons.compress.*;
 import kr.kth.commons.unitTesting.TestTool;
 import lombok.extern.slf4j.Slf4j;

@@ -8,8 +8,8 @@ import net.spy.memcached.MemcachedClient;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
-import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
+import static kr.kth.commons.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeWhiteSpace;
 
 
 /**

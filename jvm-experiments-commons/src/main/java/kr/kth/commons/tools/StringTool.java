@@ -5,7 +5,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
-import kr.kth.commons.base.BinaryStringFormat;
+import kr.kth.commons.BinaryStringFormat;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;

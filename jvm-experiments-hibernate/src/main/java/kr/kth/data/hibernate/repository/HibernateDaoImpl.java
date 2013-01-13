@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.repository;
 
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.collection.IPagedList;
 import kr.kth.commons.collection.SimplePagedList;
 import kr.kth.commons.tools.ArrayTool;

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-import static kr.kth.commons.base.Guard.*;
+import static kr.kth.commons.Guard.*;
 
 /**
  * 페이징된 목록을 표현하는 클래스입니다.

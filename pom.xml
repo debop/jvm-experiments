@@ -11,10 +11,11 @@
 
     <modules>
         <module>jvm-experiments-commons</module>
+        <module>jvm-experiments-timeperiod</module>
         <module>jvm-experiments-hibernate</module>
+        <module>jvm-experiments-scala</module>
         <module>jvm-experiments-spring</module>
         <module>jvm-experiments-springmvc</module>
-        <module>jvm-experiments-scala</module>
     </modules>
 
     <properties>

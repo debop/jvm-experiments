@@ -1,6 +1,5 @@
 package kr.kth.commons
 
-import base.ValueObjectBase
 import tools.ScalaHash
 
 /**

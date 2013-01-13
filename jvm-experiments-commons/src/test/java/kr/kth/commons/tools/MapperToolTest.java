@@ -1,7 +1,7 @@
 package kr.kth.commons.tools;
 
 import com.google.common.collect.Lists;
-import kr.kth.commons.base.ValueObjectBase;
+import kr.kth.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.Assert;

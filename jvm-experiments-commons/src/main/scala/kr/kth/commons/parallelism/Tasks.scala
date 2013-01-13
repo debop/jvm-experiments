@@ -3,7 +3,7 @@ package kr.kth.commons.parallelism
 import kr.kth.commons.slf4j.Logging
 
 /**
- * kr.kth.commons.parallelism.Tasks
+ * 특정 작업에 대한 여러가지 변형 작업을 제공합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 12.
  */
@@ -11,6 +11,7 @@ object Tasks extends Logging {
   /**
    * 지정한 코드 블럭을 성공할 때까지 지정한 횟수만큼 시도합니다.
    * @param attempts 재시도 횟수
+   * @param idleMillis 재시도 전에 대기 시간 (milliseconds)
    * @param block 실행할 코드 블럭
    */
   def retryAction(attempts: Int, idleMillis: Long = 0L)(block: => Unit) {
@@ -30,6 +31,7 @@ object Tasks extends Logging {
   /**
    * 지정한 블럭을 성공할 때까지 지정한 횟수만큼 시도합니다.
    * @param attempts 재시도 횟수
+   * @param idleMillis 재시도 전에 대기 시간 (milliseconds)
    * @param block 실행할 함수 코드 블럭
    * @tparam T 함수의 반환 수형
    * @return 함수 실행 결과

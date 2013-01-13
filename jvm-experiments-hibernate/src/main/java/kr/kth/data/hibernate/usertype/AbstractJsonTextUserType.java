@@ -1,7 +1,7 @@
 package kr.kth.data.hibernate.usertype;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.json.IJsonSerializer;
 import kr.kth.commons.json.JsonTextObject;
 import lombok.extern.slf4j.Slf4j;

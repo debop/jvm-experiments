@@ -1,6 +1,6 @@
 package kr.kth.data.hibernate.tools;
 
-import kr.kth.commons.base.Guard;
+import kr.kth.commons.Guard;
 import kr.kth.commons.tools.ArrayTool;
 import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;

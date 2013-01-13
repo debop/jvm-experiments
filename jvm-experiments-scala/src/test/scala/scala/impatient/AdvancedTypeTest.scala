@@ -6,9 +6,9 @@ import io.Source
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import kr.kth.commons.base.ValueObjectBase
 import kr.kth.commons.slf4j.Logging
 import org.junit.{Assert, Test}
+import kr.kth.commons.ValueObjectBase
 
 /**
  * scala.impatient.AdvancedTypeTest

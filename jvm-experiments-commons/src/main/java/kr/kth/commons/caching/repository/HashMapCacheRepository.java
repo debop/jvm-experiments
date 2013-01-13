@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import static kr.kth.commons.base.Guard.shouldNotBeNull;
-import static kr.kth.commons.base.Guard.shouldNotBeWhiteSpace;
+import static kr.kth.commons.Guard.shouldNotBeNull;
+import static kr.kth.commons.Guard.shouldNotBeWhiteSpace;
 
 
 /**
