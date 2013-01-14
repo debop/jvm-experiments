@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * 설명을 입력해주세요
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 11
  */
