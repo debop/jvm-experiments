@@ -1,7 +1,7 @@
 package kr.kth.timeperiod
 
-import org.joda.time.DateTime
 import PeriodRelation._
+import org.joda.time.DateTime
 import scala.annotation.varargs
 
 /**
@@ -11,24 +11,38 @@ import scala.annotation.varargs
  */
 trait ITimePeriodCollection extends ITimePeriodContainer {
 
-  def hasInsidePeriods(target: ITimePeriod): Boolean
+  def hasInsidePeriods(moment: DateTime): Boolean =
+    getPeriods.exists(p => Times.hasInside(p, moment))
 
-  def hasOverlapPeriods(target: ITimePeriod): Boolean
+  def hasInsidePeriods(target: ITimePeriod): Boolean =
+    getPeriods.exists(p => Times.hasInside(p, target))
 
-  def hasIntersectionPeriods(moment: DateTime): Boolean
+  def hasOverlapPeriods(target: ITimePeriod): Boolean =
+    getPeriods.exists(p => Times.overlapsWith(p, target))
 
-  def hasIntersectionPeriods(target: ITimePeriod): Boolean
+  def hasIntersectionPeriods(moment: DateTime): Boolean =
+    hasIntersectionPeriods(TimeRange(start = moment, end = moment))
 
-  def insidePeriods(target: ITimePeriod): Iterable[ITimePeriod]
+  def hasIntersectionPeriods(target: ITimePeriod): Boolean =
+    getPeriods.exists(p => Times.intersectsWith(p, target))
 
-  def overlapPeriods(target: ITimePeriod): Iterable[ITimePeriod]
+  def insidePeriods(target: ITimePeriod): Iterable[ITimePeriod] =
+    getPeriods.filter(p => Times.hasInside(p, target))
 
-  def intersectionPeriods(moment: DateTime): Iterable[ITimePeriod]
+  def overlapPeriods(target: ITimePeriod): Iterable[ITimePeriod] =
+    getPeriods.filter(p => Times.overlapsWith(p, target))
 
-  def intersectionPeriods(target: ITimePeriod): Iterable[ITimePeriod]
+  def intersectionPeriods(moment: DateTime): Iterable[ITimePeriod] =
+    intersectionPeriods(TimeRange(start = moment, end = moment))
 
-  def relationPeriods(target: ITimePeriod, relation: PeriodRelation): Iterable[ITimePeriod]
+  def intersectionPeriods(target: ITimePeriod): Iterable[ITimePeriod] =
+    getPeriods.filter(p => Times.intersectsWith(p, target))
+
+  def relationPeriods(target: ITimePeriod, relation: PeriodRelation): Iterable[ITimePeriod] =
+    getPeriods.filter(p => Times.getRelation(p, target) == relation)
 
   @varargs
-  def relationPeriods(target: ITimePeriod, relations: PeriodRelation*): Iterable[ITimePeriod]
+  def relationPeriods(target: ITimePeriod, relations: PeriodRelation*): Iterable[ITimePeriod] = {
+    getPeriods.filter(p => relations.contains(Times.getRelation(p, target)))
+  }
 }

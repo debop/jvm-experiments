@@ -2,23 +2,23 @@ package kr.kth.timeperiod.timerange
 
 import com.google.common.base.Objects
 import java.lang.String
-import kr.kth.commons.tools.{ScalaHash, HashTool}
+import kr.kth.commons.Guard._
+import kr.kth.commons.tools.ScalaHash
 import kr.kth.timeperiod._
 import org.joda.time.DateTime
-import kr.kth.commons.Guard._
 
 /**
  * kr.kth.timeperiod.timerange.ICalendarTimeRange
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 15
  */
-class CalendarTimeRange extends ICalendarTimeRange {
-
+class CalendarTimeRange(val timeCalendar: ITimeCalendar) extends ICalendarTimeRange {
+  override def getTimeCalendar: ITimeCalendar = timeCalendar
 }
 
 object CalendarTimeRange {
 
-  def toCalendarTimeRange(period : ITimePeriod, mapper:ITimePeriodMapper=TimeCalendar.Default):TimeRange={
+  def toCalendarTimeRange(period: ITimePeriod, mapper: ITimePeriodMapper = TimeCalendar.Default): TimeRange = {
     shouldNotBeNull(period, "period")
     val mappedStart: DateTime = mapper.mapStart(period.getStart)
     val mappedEnd: DateTime = mapper.mapEnd(period.getEnd)
@@ -33,9 +33,7 @@ object CalendarTimeRange {
 
 trait ICalendarTimeRange extends ITimeRange {
 
-  protected val timeCalendar: ITimeCalendar = _
-
-  def getTimeCalendar: ITimeCalendar = this.timeCalendar
+  abstract def getTimeCalendar: ITimeCalendar
 
   def getStartYear: Int = getStart.getYear
 
@@ -57,13 +55,13 @@ trait ICalendarTimeRange extends ITimeRange {
 
   def getEndMinute: Int = getStart.getMinuteOfHour
 
-  def getMappedStart: DateTime = timeCalendar.mapStart(getStart)
+  def getMappedStart: DateTime = getTimeCalendar.mapStart(getStart)
 
-  def getMappedEnd: DateTime = timeCalendar.mapEnd(getEnd)
+  def getMappedEnd: DateTime = getTimeCalendar.mapEnd(getEnd)
 
-  def getUnmappedStart: DateTime = timeCalendar.unmapStart(getStart)
+  def getUnmappedStart: DateTime = getTimeCalendar.unmapStart(getStart)
 
-  def getUnmappedEnd: DateTime = timeCalendar.unmapEnd(getEnd)
+  def getUnmappedEnd: DateTime = getTimeCalendar.unmapEnd(getEnd)
 
   def getStartMonthStart: DateTime = Times.trimToDay(getStart)
 
@@ -86,7 +84,7 @@ trait ICalendarTimeRange extends ITimeRange {
   def getEndSecondEnd: DateTime = Times.trimToMillis(getEnd)
 
   override def copy(offset: Long): ITimePeriod = {
-    CalendarTimeRange.toCalendarTimeRange(super.copy(offset), timeCalendar)
+    CalendarTimeRange.toCalendarTimeRange(super.copy(offset), getTimeCalendar)
   }
 
   override def format(formatter: Option[ITimeFormatter]): String = {
@@ -99,11 +97,11 @@ trait ICalendarTimeRange extends ITimeRange {
 
 
   override def hashCode: Int = {
-    ScalaHash.compute(super.hashCode, timeCalendar)
+    ScalaHash.compute(super.hashCode, getTimeCalendar)
   }
 
   protected override def buildStringHelper(): Objects.ToStringHelper = {
-    super.buildStringHelper().add("timeCalendar", timeCalendar)
+    super.buildStringHelper().add("timeCalendar", getTimeCalendar)
   }
 }
 

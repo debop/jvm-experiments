@@ -8,6 +8,7 @@ import kr.kth.commons.{ValueObjectBase, Guard, SortDirection}
 import org.joda.time.DateTime
 import scala.collection.JavaConversions._
 import scala.collection.{JavaConversions, TraversableOnce}
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * kr.kth.timeperiod.TimePeriodContainer
@@ -39,6 +40,8 @@ object TimePeriodContainer extends Logging {
 trait ITimePeriodContainer extends ValueObjectBase with scala.collection.Iterable[ITimePeriod] with ITimePeriod {
 
   protected var _periods = collection.mutable.ArrayBuffer[ITimePeriod]()
+
+  protected def getPeriods: collection.mutable.ArrayBuffer[ITimePeriod] = _periods
 
   def iterator: Iterator[ITimePeriod] = _periods.iterator
 
