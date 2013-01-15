@@ -18,11 +18,13 @@ package object timeperiod {
    */
   val DefaultWeekOfYearRule = WeekOfYearRuleKind.Iso8601
 
-  implicit def dateTime2Millis(x: DateTime): Long = x.getMillis()
+  private[timeperiod] implicit def dateTime2Millis(x: DateTime): Long = x.getMillis
+
+  private[timeperiod] implicit def millis2DateTime(millis: Long):DateTime = new DateTime().withMillis(millis)
 
   lazy val DateTimeOrdering: Ordering[DateTime] = {
     new Ordering[DateTime] {
-      override def compare(x: DateTime, y: DateTime): Int = x.getMillis.compareTo(y.getMillis)
+      override def compare(x: DateTime, y: DateTime): Int = x.compareTo(y)
     }
   }
 

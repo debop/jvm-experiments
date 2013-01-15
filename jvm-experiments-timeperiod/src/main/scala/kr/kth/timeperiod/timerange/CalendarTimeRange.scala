@@ -33,7 +33,7 @@ object CalendarTimeRange {
 
 trait ICalendarTimeRange extends ITimeRange {
 
-  abstract def getTimeCalendar: ITimeCalendar
+  def getTimeCalendar: ITimeCalendar
 
   def getStartYear: Int = getStart.getYear
 

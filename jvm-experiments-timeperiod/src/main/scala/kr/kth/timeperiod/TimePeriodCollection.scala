@@ -8,7 +8,7 @@ import scala.collection.TraversableOnce
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 15
  */
-class TimePeriodCollection extends TimePeriodContainer {
+class TimePeriodCollection extends TimePeriodContainer with ITimePeriodCollection {
 }
 
 object TimePeriodCollection extends Logging {

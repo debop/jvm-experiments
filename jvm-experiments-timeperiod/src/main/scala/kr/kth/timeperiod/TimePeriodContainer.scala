@@ -1,6 +1,5 @@
 package kr.kth.timeperiod
 
-import com.google.common.collect.Lists
 import java.util
 import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.ScalaHash
@@ -8,7 +7,6 @@ import kr.kth.commons.{ValueObjectBase, Guard, SortDirection}
 import org.joda.time.DateTime
 import scala.collection.JavaConversions._
 import scala.collection.{JavaConversions, TraversableOnce}
-import scala.collection.mutable.ArrayBuffer
 
 /**
  * kr.kth.timeperiod.TimePeriodContainer
@@ -47,6 +45,8 @@ trait ITimePeriodContainer extends ValueObjectBase with scala.collection.Iterabl
 
   def reverseIterator: Iterator[ITimePeriod] = _periods.reverseIterator
 
+  def add(elem: ITimePeriod) { append(elem) }
+
   def append(elems: ITimePeriod*) { appendAll(elems) }
 
   /**
@@ -61,8 +61,8 @@ trait ITimePeriodContainer extends ValueObjectBase with scala.collection.Iterabl
   def contains(elem: ITimePeriod): Boolean = _periods.contains(elem)
 
   /**
- * 지정한 기간을 포함하고 있는지 검사한다.
- */
+   * 지정한 기간을 포함하고 있는지 검사한다.
+   */
   def containsPeriod(target: ITimePeriod): Boolean = _periods.contains(target)
 
 
@@ -209,7 +209,7 @@ trait ITimePeriodContainer extends ValueObjectBase with scala.collection.Iterabl
 
   override def format(formatter: Option[ITimeFormatter]) =
     formatter.getOrElse(TimeFormatter.instance)
-    .getCollectionPeriod(size, getStart, getEnd, getDuration)
+      .getCollectionPeriod(size, getStart, getEnd, getDuration)
 
   override def getIntersection(other: ITimePeriod): ITimePeriod =
     Times.getIntersectionRange(this, other)
@@ -230,8 +230,8 @@ trait ITimePeriodContainer extends ValueObjectBase with scala.collection.Iterabl
 
   override def equals(other: Any): Boolean = {
     (other != null) &&
-    (other.isInstanceOf[ITimePeriod]) &&
-    isSampePeriod(other.asInstanceOf[ITimePeriod])
+      (other.isInstanceOf[ITimePeriod]) &&
+      isSampePeriod(other.asInstanceOf[ITimePeriod])
   }
 
   override def hashCode =
