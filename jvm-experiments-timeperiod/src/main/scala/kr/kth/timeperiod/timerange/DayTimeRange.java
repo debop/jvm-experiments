@@ -57,8 +57,8 @@ public abstract class DayTimeRange extends CalendarTimeRange {
     }
 
     public List<HourRange> getHours() {
-        if (log.isDebugEnabled())
-            log.debug("HourRange 컬렉션을 빌드합니다. dayCount=[{}]", dayCount);
+        if (DayTimeRange.log.isDebugEnabled())
+            DayTimeRange.log.debug("HourRange 컬렉션을 빌드합니다. dayCount=[{}]", dayCount);
 
         List<HourRange> hours = Lists.newArrayListWithCapacity(dayCount * TimeSpec.HoursPerDay);
         DateTime startDay = getStartDayStart();

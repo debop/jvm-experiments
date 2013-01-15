@@ -4,8 +4,10 @@ import java.util.{Calendar, Locale}
 import kr.kth.commons.slf4j.Logging
 import org.joda.time.{Duration, DateTime}
 import kr.kth.timeperiod._
-import timerange.{TimeRange, WeekRange}
+import timerange.WeekRange
 import DayOfWeek._
+import CalendarWeekRule._
+import WeekOfYearRuleKind._
 
 /**
  * 주(Week) 관련 메소드
@@ -32,7 +34,7 @@ object WeekTools extends Logging {
    */
   def getCalendarWeekRuleAndFirstDayOfWeek(locale: Locale,
                                            weekOfYearRule: WeekOfYearRuleKind): (CalendarWeekRule, DayOfWeek) = {
-    if (weekOfYearRule == WeekOfYearRuleKind.Caleandar) {
+    if (weekOfYearRule == WeekOfYearRuleKind.Calendar) {
       val dayOfWeek = DayOfWeek(Calendar.getInstance(locale).getFirstDayOfWeek)
       (getCalendarWeekRuleByLocale(locale), dayOfWeek)
     } else {
@@ -44,7 +46,7 @@ object WeekTools extends Logging {
    * 주차 계산 룰과 문화권에 따른 주차 계산 룰을 구합니다.
    */
   def getCalendarWeekRule(locale: Locale,
-                          weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Caleandar): CalendarWeekRule =
+                          weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Calendar): CalendarWeekRule =
     if (weekOfYearRule == WeekOfYearRuleKind.Iso8601)
       CalendarWeekRule.FirstFourDayWeek
     else
@@ -58,11 +60,12 @@ object WeekTools extends Logging {
    * @return
    */
   def getFirstDayOfWeek(locale: Locale = Locale.getDefault,
-                        weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Caleandar): DayOfWeek = {
+                        weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Calendar): DayOfWeek = {
     if (weekOfYearRule == WeekOfYearRuleKind.Iso8601)
       DayOfWeek.Monday
     else
-      DayOfWeek.valueOf(Calendar.getInstance(locale).getFirstDayOfWeek)
+      // TODO: Calendar의 DayOfWeek 와 joda-time의 DateTimeConsts 의 DayOfWeek는 값이 다르다.
+      DayOfWeek(Calendar.getInstance(locale).getFirstDayOfWeek)
   }
 
   /**
@@ -77,7 +80,7 @@ object WeekTools extends Logging {
       firstDayOfWeek == DayOfWeek.Monday)
       WeekOfYearRuleKind.Iso8601
     else
-      WeekOfYearRuleKind.Caleandar
+      WeekOfYearRuleKind.Calendar
 
 
   def getYearAdnWeek(moment: DateTime,

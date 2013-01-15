@@ -1,7 +1,7 @@
 package kr.kth.timeperiod
 
+import com.google.common.base.Objects.ToStringHelper
 import kr.kth.commons.Guard
-import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.ScalaHash
 import kr.kth.timeperiod.IntervalEdge._
 import org.joda.time.DateTime
@@ -17,6 +17,7 @@ class TimeInterval(start: DateTime,
                    endEdge: IntervalEdge = IntervalEdge.Closed,
                    intervalEnabled: Boolean = true,
                    readonly: Boolean = false)
+
   extends TimePeriod(start, end, readonly) with ITimeInterval {
 
   _startEdge = startEdge
@@ -25,44 +26,25 @@ class TimeInterval(start: DateTime,
 
 }
 
-object TimeInterval extends Logging {
+object TimeInterval {
 
-  lazy val Anytime = apply(readonly = true)
+  lazy val Anytime: TimeInterval = apply(start = TimeSpec.MinPeriodTime,
+                                         end = TimeSpec.MaxPeriodTime,
+                                         readonly = true)
 
-  def apply(readonly: Boolean) =
-    apply(start = TimeSpec.MinPeriodTime,
-          end = TimeSpec.MaxPeriodTime,
-          readonly = readonly)
-
-  def apply(moment: DateTime,
-            startEdge: IntervalEdge = IntervalEdge.Closed,
-            endEdge: IntervalEdge = IntervalEdge.Closed,
-            intervalEnabled: Boolean = true,
-            readonly: Boolean = true) =
-    apply(moment,
-          moment,
-          startEdge,
-          endEdge,
-          intervalEnabled,
-          readonly)
+  def apply(): TimeInterval = apply(start = TimeSpec.MinPeriodTime,
+                                    end = TimeSpec.MaxPeriodTime,
+                                    readonly = false)
 
   def apply(start: DateTime,
             end: DateTime,
             startEdge: IntervalEdge = IntervalEdge.Closed,
             endEdge: IntervalEdge = IntervalEdge.Closed,
             intervalEnabled: Boolean = true,
-            readonly: Boolean = true) =
+            readonly: Boolean = false): TimeInterval =
     new TimeInterval(start, end, startEdge, endEdge, intervalEnabled, readonly)
 
-  def apply(start: DateTime,
-            duration: Long,
-            startEdge: IntervalEdge = IntervalEdge.Closed,
-            endEdge: IntervalEdge = IntervalEdge.Closed,
-            intervalEnabled: Boolean = true,
-            readonly: Boolean = true) =
-    apply(start, start.plus(duration), startEdge, endEdge, intervalEnabled, readonly)
-
-  def apply(source: ITimePeriod) = {
+  def apply(source: ITimePeriod): TimeInterval = {
     Guard.shouldNotBeNull(source, "source")
     if (source == Anytime) Anytime
     else if (source.isInstanceOf[ITimeInterval]) {
@@ -78,7 +60,7 @@ object TimeInterval extends Logging {
     }
   }
 
-  def apply(source: ITimePeriod, readonly: Boolean) = {
+  def apply(source: ITimePeriod, readonly: Boolean): TimeInterval = {
     Guard.shouldNotBeNull(source, "source")
 
     if (source.isInstanceOf[ITimeInterval]) {
@@ -165,7 +147,7 @@ trait ITimeInterval extends ITimePeriod {
    * 시작 시각을 설정합니다.
    */
   def setStartInterval(newStart: DateTime) {
-    assertMutable;
+    assertMutable()
     assert(newStart.compareTo(_end) <= 0, "새로운 start가 end 보다 작아야 합니다.")
     _start = newStart
   }
@@ -220,46 +202,46 @@ trait ITimeInterval extends ITimePeriod {
   }
 
   def expandStartTo(moment: DateTime) {
-    assertMutable
+    assertMutable()
     if (_start.compareTo(moment) > 0) _start = moment
   }
 
   def expandEndTo(moment: DateTime) {
-    assertMutable
+    assertMutable()
     if (_end.compareTo(moment) < 0) _end = moment
   }
 
   def expandTo(moment: DateTime) {
-    assertMutable
+    assertMutable()
     expandStartTo(moment)
     expandEndTo(moment)
   }
 
   def expandTo(period: ITimePeriod) {
-    assertMutable
+    assertMutable()
     expandStartTo(period.getStart)
     expandEndTo(period.getEnd)
   }
 
 
   def shrinkStartTo(moment: DateTime) {
-    assertMutable
+    assertMutable()
     if (_start.compareTo(moment) < 0) _start = moment
   }
 
   def shrinkEndTo(moment: DateTime) {
-    assertMutable
+    assertMutable()
     if (_end.compareTo(moment) > 0) _end = moment
   }
 
   def shrinkTo(moment: DateTime) {
-    assertMutable
+    assertMutable()
     shrinkStartTo(moment)
     shrinkEndTo(moment)
   }
 
   def shrinkTo(period: ITimePeriod) {
-    assertMutable
+    assertMutable()
     shrinkStartTo(period.getStart)
     shrinkEndTo(period.getEnd)
   }
@@ -298,9 +280,17 @@ trait ITimeInterval extends ITimePeriod {
     Times.getUnionRange(this, other)
   }
 
-  override def format(formatter: ITimeFormatter): String =
-    formatter.getInterval(_start, _end, _startEdge, _endEdge, getDuration)
+  override def format(formatter: Option[ITimeFormatter]): String =
+    formatter
+    .getOrElse(TimeFormatter.instance)
+    .getInterval(getStart, getEnd, getStartEdge, getEndEdge, getDuration)
 
   override def hashCode: Int =
-    ScalaHash.compute(super.hashCode, _startEdge, _endEdge, _intervalEnabled)
+    ScalaHash.compute(super.hashCode, getStartEdge, getEndEdge, isIntervalEnabled)
+
+  protected override def buildStringHelper(): ToStringHelper =
+    super.buildStringHelper()
+    .add("startEdge", getStartEdge)
+    .add("endEdge", getEndEdge)
+    .add("intervalEnabled", isIntervalEnabled)
 }

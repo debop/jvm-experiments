@@ -3,6 +3,7 @@ package kr.kth.timeperiod
 import annotation.meta.beanGetter
 import kr.kth.commons.tools.ScalaHash
 import kr.kth.commons.{Guard, TimeVal}
+import DayOfWeek._
 
 /**
  * 특정요일의 한시간단위의 기간을 표현한다. (예: 금요일 1시~ 5시)
@@ -23,7 +24,7 @@ object DayHourRange {
 
   def apply(dayOfWeek: Int, hour: Int): DayHourRange = {
     Guard.shouldBeBetween(dayOfWeek, 1, TimeSpec.DaysPerWeek, "dayOfWeek")
-    apply(DayOfWeek.valueOf(dayOfWeek), hour, hour)
+    apply(DayOfWeek(dayOfWeek), hour, hour)
   }
 
   def apply(dayOfWeek: DayOfWeek, hour: Int): DayHourRange = {

@@ -8,6 +8,7 @@ import kr.kth.timeperiod.tools.WeekTools
 import kr.kth.commons.ValueObjectBase
 import YearKind._
 import DayOfWeek._
+import WeekOfYearRuleKind._
 
 /**
  * TimeCalendar의 설정 정보를 표현한다.

@@ -42,8 +42,8 @@ public class DayRangeCollection extends DayTimeRange {
 
     public List<DayRange> getDays() {
 
-        if (log.isDebugEnabled())
-            log.debug("일단위 컬렉션을 반환합니다. 시작일=[{}], 일자수=[{}]", getStart(), getDayCount());
+        if (DayRangeCollection.log.isDebugEnabled())
+            DayRangeCollection.log.debug("일단위 컬렉션을 반환합니다. 시작일=[{}], 일자수=[{}]", getStart(), getDayCount());
 
         DateTime startDay = getStart();
         List<DayRange> dayRanges = Lists.newArrayListWithCapacity(getDayCount());

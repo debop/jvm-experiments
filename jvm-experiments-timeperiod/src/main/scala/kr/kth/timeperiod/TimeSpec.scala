@@ -1,6 +1,6 @@
 package kr.kth.timeperiod
 
-import org.joda.time.{DateTime, DateTimeConstants}
+import org.joda.time.{Duration, DateTime, DateTimeConstants}
 import scala.collection.immutable
 import kr.kth.timeperiod.DayOfWeek._
 
@@ -93,4 +93,7 @@ object TimeSpec {
 
   val MinPeriodDuration = 0L
   lazy val MaxPeriodDuration = MaxMillis - MinMillis
+
+  lazy val MinDuration = new Duration(MinPeriodDuration)
+  lazy val MaxDuration = new Duration(MaxPeriodDuration)
 }

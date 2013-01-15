@@ -7,7 +7,7 @@ import org.joda.time.DateTime
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 14
  */
-trait ITimeLineMomentCollection extends Iterable[_ <: ITimeLineMoment] with Serializable {
+trait ITimeLineMomentCollection extends java.util.Collection[ITimeLineMoment] with Serializable {
 
   def getMin: ITimeLineMoment
 

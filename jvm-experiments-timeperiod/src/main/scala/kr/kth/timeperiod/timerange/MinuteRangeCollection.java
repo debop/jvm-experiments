@@ -41,8 +41,8 @@ public class MinuteRangeCollection extends MinuteTimeRange {
         DateTime startMinute = getStart().withHourOfDay(getStartHour()).withMinuteOfHour(getStartMinute());
         List<MinuteRange> minuteRanges = Lists.newArrayListWithCapacity(getMinuteCount());
 
-        if (log.isDebugEnabled())
-            log.debug("분단위 기간을 나타내는 MinuteRange 컬렉션을 빌드합니다. startMinute=[{}], minuteCount=[{}]",
+        if (MinuteRangeCollection.log.isDebugEnabled())
+            MinuteRangeCollection.log.debug("분단위 기간을 나타내는 MinuteRange 컬렉션을 빌드합니다. startMinute=[{}], minuteCount=[{}]",
                     startMinute, getMinuteCount());
 
         for (int i = 0; i < getMinuteCount(); i++) {

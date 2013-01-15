@@ -47,6 +47,7 @@ public class TestTool {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> void runTasks(int count, Callable<T> callables) {
 
         ExecutorService executor = newExecutorService();
@@ -71,6 +72,7 @@ public class TestTool {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static void runTasks(int count, final Action1<Integer> action) {
 
         ExecutorService executor = newExecutorService();

@@ -1,7 +1,7 @@
 package kr.kth.timeperiod
 
 import java.util.Locale
-import QuarterKind._
+import QuarterKind._, HalfYearKind._
 
 
 /**
@@ -36,25 +36,25 @@ object TimeStrings {
   val FiscalHalfyearOfYearNameFormat: String = "FHY%d %d"
   val SchoolHalfyearOfYearNameFormat: String = "SHY%d %d"
 
-  def SystemHalfyearName(halfyear: HalfYearKind) = format(SystemHalfyearNameFormat, halfyear.toInt)
+  def SystemHalfyearName(halfyear: HalfYearKind) = format(SystemHalfyearNameFormat, halfyear.id)
 
-  def CalendarHalfyearName(halfyear: HalfYearKind) = format(CalendarHalfyearNameFormat, halfyear.toInt)
+  def CalendarHalfyearName(halfyear: HalfYearKind) = format(CalendarHalfyearNameFormat, halfyear.id)
 
-  def FiscalHalfyearName(halfyear: HalfYearKind) = format(FiscalHalfyearNameFormat, halfyear.toInt)
+  def FiscalHalfyearName(halfyear: HalfYearKind) = format(FiscalHalfyearNameFormat, halfyear.id)
 
-  def SchoolHalfyearName(halfyear: HalfYearKind) = format(SchoolHalfyearNameFormat, halfyear.toInt)
+  def SchoolHalfyearName(halfyear: HalfYearKind) = format(SchoolHalfyearNameFormat, halfyear.id)
 
   def SystemHalfyearOfYearName(halfyear: HalfYearKind, year: Int) =
-    format(SystemHalfyearOfYearNameFormat, halfyear.toInt, year)
+    format(SystemHalfyearOfYearNameFormat, halfyear.id, year)
 
   def CalendarHalfyearOfYearName(halfyear: HalfYearKind, year: Int) =
-    format(CalendarHalfyearOfYearNameFormat, halfyear.toInt, year)
+    format(CalendarHalfyearOfYearNameFormat, halfyear.id, year)
 
   def FiscalHalfyearOfYearName(halfyear: HalfYearKind, year: Int) =
-    format(FiscalHalfyearOfYearNameFormat, halfyear.toInt, year)
+    format(FiscalHalfyearOfYearNameFormat, halfyear.id, year)
 
   def SchoolHalfyearOfYearName(halfyear: HalfYearKind, year: Int) =
-    format(SchoolHalfyearOfYearNameFormat, halfyear.toInt, year)
+    format(SchoolHalfyearOfYearNameFormat, halfyear.id, year)
 
   val SystemQuarterNameFormat = "Q%d"
   val CalendarQuarterNameFormat = "CQ%d"

@@ -3,7 +3,6 @@ package kr.kth.timeperiod
 import kr.kth.commons.Guard
 import kr.kth.commons.slf4j.Logging
 import org.joda.time.DateTime
-import tools.TimeTool
 
 /**
  * 기준 일자의 시간 간격을 이용하여 기간을 표현합니다.
@@ -21,24 +20,17 @@ object TimeBlock extends Logging {
 
   lazy val Anytime = apply(readonly = true)
 
-  def apply(readonly: Boolean) = new TimeBlock(TimeSpec.MinPeriodTime, TimeSpec.MaxPeriodTime, readonly)
-
-  def apply(moment: DateTime, readonly: Boolean = false) = new TimeBlock(moment, moment, readonly)
-
-  def apply(start: DateTime, end: DateTime, readonly: Boolean = false) = new TimeBlock(start, end, readonly)
-
-  def apply(start: DateTime, duration: Long, readonly: Boolean = false) =
-    new TimeBlock(start, start.plus(duration), readonly)
-
-  def apply(duration: Long, end: DateTime, readonly: Boolean = false) =
-    new TimeBlock(end.minus(duration), end, readonly)
+  def apply(start: DateTime = TimeSpec.MinPeriodTime,
+            end: DateTime = TimeSpec.MaxPeriodTime,
+            readonly: Boolean = false): TimeBlock =
+    new TimeBlock(start, end, readonly)
 
   def apply(source: ITimePeriod): TimeBlock = {
     Guard.shouldNotBeNull(source, "source")
     new TimeBlock(source.getStart, source.getEnd, source.isReadonly)
   }
 
-  def apply(source: ITimePeriod, readonly: Boolean) {
+  def apply(source: ITimePeriod, readonly: Boolean): TimeBlock = {
     Guard.shouldNotBeNull(source, "source")
     new TimeBlock(source.getStart, source.getEnd, readonly)
   }
@@ -70,7 +62,7 @@ trait ITimeBlock extends ITimePeriod {
    * 기간을 설정합니다.
    */
   override def setDuration(nv: Long) {
-    assertMutable
+    assertMutable()
     assertValidDuration(nv)
     durationFromStart(nv)
   }
@@ -133,7 +125,7 @@ trait ITimeBlock extends ITimePeriod {
    */
   def getPreviousBlock(offset: Long = TimeSpec.ZeroMillis): ITimeBlock = {
     // val endOff = if(offset > TimeSpec.ZeroMillis) -offset else offset
-    val result = TimeBlock(getDuration, getStart.minus(Math.abs(offset)), isReadonly)
+    val result = TimeBlock(getStart.minus(getDuration), getStart.minus(Math.abs(offset)), isReadonly)
     log.debug("직전 Block을 구합니다. offset=[{}], previousBlock=[{}]", offset, result)
     result
   }
@@ -143,17 +135,17 @@ trait ITimeBlock extends ITimePeriod {
    */
   def getNextBlock(offset: Long = TimeSpec.ZeroMillis): ITimeBlock = {
     // var startOff= if (offset > TimeSpec.ZeroMillis) offset else -offset
-    val result = TimeBlock(_end.plus(Math.abs(offset)), getDuration, isReadonly)
+    val result = TimeBlock(getEnd.plus(Math.abs(offset)), getEnd.plus(getDuration), isReadonly)
     log.debug("직후 Block을 구합니다. offset=[{}], nextBlock=[{}]", offset, result)
     result
   }
 
   override def getIntersection(other: ITimePeriod): ITimeBlock = {
-    TimeTool.getIntersectionBlock(this, other)
+    Times.getIntersectionBlock(this, other)
   }
 
   override def getUnion(other: ITimePeriod): ITimeBlock = {
-    TimeTool.getUnionBlock(this, other)
+    Times.getUnionBlock(this, other)
   }
 
   protected def assertValidDuration(duration: Long) {

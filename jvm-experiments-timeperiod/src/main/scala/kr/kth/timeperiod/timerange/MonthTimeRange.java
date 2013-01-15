@@ -64,8 +64,8 @@ public class MonthTimeRange extends CalendarTimeRange {
     }
 
     public List<DayRange> getDays() {
-        if (log.isDebugEnabled())
-            log.debug("DayRange 컬렉션을 빌드합니다. monthCount=[{}]", monthCount);
+        if (MonthTimeRange.log.isDebugEnabled())
+            MonthTimeRange.log.debug("DayRange 컬렉션을 빌드합니다. monthCount=[{}]", monthCount);
 
         throw new NotImplementedException();
 

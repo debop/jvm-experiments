@@ -11,14 +11,14 @@ import org.joda.time.DateTime
 @SerialVersionUID(7093665366996191218L)
 abstract class TimePeriod extends ValueObjectBase with ITimePeriod {
 
-  def this(start: DateTime, end: DateTime, readonly: Boolean = false) {
+  def this(start: DateTime, end: DateTime, readonly: Boolean) {
     this()
     _start = if (start != null) start else TimeSpec.MinPeriodTime
     _end = if (end != null) end else TimeSpec.MaxPeriodTime
     _readonly = readonly
   }
 
-  def this(start: DateTime, duration: Long, readonly: Boolean = false) {
+  def this(start: DateTime, duration: Long, readonly: Boolean) {
     this()
     _start = if (start != null) start else TimeSpec.MinPeriodTime
     _end = TimeSpec.MaxPeriodTime
@@ -33,7 +33,7 @@ abstract class TimePeriod extends ValueObjectBase with ITimePeriod {
     _readonly = readonly.getOrElse(source.isReadonly)
   }
 
-  def this(moment: DateTime, readonly: Boolean = false) {
+  def this(moment: DateTime, readonly: Boolean) {
     this(moment, moment, readonly)
   }
 

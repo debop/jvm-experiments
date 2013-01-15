@@ -1,5 +1,6 @@
 package kr.kth.timeperiod
 
+import HalfYearKind._, QuarterKind._, DayOfWeek._
 import kr.kth.commons.slf4j.Logging
 import org.joda.time.DateTime
 
@@ -31,7 +32,7 @@ object DateTool extends Logging {
 
   def getHalfyear(moment: DateTime): HalfYearKind = {
     val halfyear = ((moment.getMonthOfYear - 1) / TimeSpec.MonthsPerHalfyear) + 1
-    HalfYearKind.valueOf(halfyear)
+    HalfYearKind(halfyear)
   }
 
   def getStartOfHalfyear(moment: DateTime): DateTime =
@@ -43,12 +44,12 @@ object DateTool extends Logging {
   /**
    * 지정한 분기의 시작 월
    */
-  def getStartMonthOfQuarter(quarter: QuarterKind): Int = (quarter.toInt - 1) * TimeSpec.MonthsPerQuarter + 1
+  def getStartMonthOfQuarter(quarter: QuarterKind): Int = (quarter.id - 1) * TimeSpec.MonthsPerQuarter + 1
 
   /**
    * 지정한 분기의 마직막 월
    */
-  def getEndMonthOfQuarter(quarter: QuarterKind): Int = quarter.toInt * TimeSpec.MonthsPerQuarter
+  def getEndMonthOfQuarter(quarter: QuarterKind): Int = quarter.id * TimeSpec.MonthsPerQuarter
 
   def getStartOfQuarter(quarter: QuarterKind, year: Int = DateTime.now().getYear): DateTime =
     new DateTime().withDate(year, getStartMonthOfQuarter(quarter), 1)
@@ -58,9 +59,9 @@ object DateTool extends Logging {
     val endMonth = getEndMonthOfQuarter(quarter)
 
     new DateTime()
-      .withDate(year, endMonth, Times.getDaysInMonth(year, endMonth))
-      .plusDays(1)
-      .minus(TimeSpec.MinPositiveDuration)
+    .withDate(year, endMonth, Times.getDaysInMonth(year, endMonth))
+    .plusDays(1)
+    .minus(TimeSpec.MinPositiveDuration)
   }
 
   /**
@@ -68,7 +69,7 @@ object DateTool extends Logging {
    */
   def getQuarterByMonth(monthOfYear: Int): QuarterKind = {
     val quarter = (monthOfYear - 1) / TimeSpec.MonthsPerQuarter + 1
-    QuarterKind.valueOf(quarter)
+    QuarterKind(quarter)
   }
 
   def getQuarterByDate(date: DateTime) = getQuarterByMonth(date.getMonthOfYear)
@@ -110,7 +111,7 @@ object DateTool extends Logging {
    * 지정된 날짜가 속한 주(week)의 첫번째 요일의 날짜 (한국:일요일, ISO8601:월요일)
    */
   def getStartOfWeek(moment: DateTime, firstDayOfWeek: DayOfWeek = DayOfWeek.Monday): DateTime = {
-    var add = firstDayOfWeek.toInt - moment.getDayOfWeek
+    var add = firstDayOfWeek.id - moment.getDayOfWeek
     if (add > 0)
       add -= TimeSpec.DaysPerWeek
 
@@ -162,7 +163,7 @@ object DateTool extends Logging {
    */
   def nextDayOfWeek(current: DateTime, dayOfWeek: DayOfWeek): DateTime = {
     var next = current.plusDays(1)
-    while (next.getDayOfWeek != dayOfWeek.toInt) {
+    while (next.getDayOfWeek != dayOfWeek.id) {
       next = next.plusDays(1)
     }
     next
@@ -175,7 +176,7 @@ object DateTool extends Logging {
    */
   def prevDayOfWeek(current: DateTime, dayOfWeek: DayOfWeek): DateTime = {
     var prev = current.minusDays(1)
-    while (prev.getDayOfWeek != dayOfWeek.toInt) {
+    while (prev.getDayOfWeek != dayOfWeek.id) {
       prev = prev.minusDays(1)
     }
     prev
