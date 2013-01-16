@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import kr.kth.data.domain.model.EntityBase;
 import kr.kth.data.domain.model.IUpdateTimestampedEntity;
-import kr.kth.timeperiod.tools.TimeTool;
+import kr.kth.timeperiod.Times;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +37,7 @@ public class Event extends EntityBase<Long> implements IUpdateTimestampedEntity 
     private Timestamp updateTimestamp;
 
     public void updateUpdateTimestamp() {
-        updateTimestamp = TimeTool.getNowTimestamp();
+        updateTimestamp = new Timestamp(Times.getNowTime());
     }
 
 

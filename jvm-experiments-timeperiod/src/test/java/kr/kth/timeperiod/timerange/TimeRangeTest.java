@@ -1,7 +1,8 @@
 package kr.kth.timeperiod.timerange;
 
 import kr.kth.timeperiod.AbstractTest;
-import kr.kth.timeperiod.tools.TimeTool;
+import kr.kth.timeperiod.TimeRange;
+import kr.kth.timeperiod.Times;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -19,8 +20,8 @@ public class TimeRangeTest extends AbstractTest {
     @Test
     public void createTest() {
 
-        DateTime now = TimeTool.getNow();
-        TimeRange timeRange = new TimeRange(now);
+        DateTime now = Times.getNow();
+        TimeRange timeRange = new TimeRange(now, now, false);
 
         if (log.isDebugEnabled())
             log.debug("today=[{}], timeRange=[{}]", now, timeRange);
@@ -29,7 +30,7 @@ public class TimeRangeTest extends AbstractTest {
         assertEquals(now, timeRange.getStart());
         assertEquals(now, timeRange.getEnd());
         assertFalse(timeRange.isReadonly());
-        assertFalse(timeRange.isAnyTime());
+        assertFalse(timeRange.isAnytime());
         assertTrue(timeRange.isMoment());
     }
 }
