@@ -12,96 +12,117 @@ import org.joda.time.DateTime
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 15
  */
-class CalendarTimeRange(val timeCalendar: ITimeCalendar) extends ICalendarTimeRange {
-  override def getTimeCalendar: ITimeCalendar = timeCalendar
+class CalendarTimeRange(start: DateTime, end: DateTime, val timeCalendar: ITimeCalendar)
+	extends TimeRange(start, end, false) with ICalendarTimeRange {
+
+	def this(period: ITimePeriod, timeCalendar: ITimeCalendar) {
+		this(period.getStart, period.getEnd, timeCalendar)
+	}
+
+	def this(start: DateTime, duration: Long, timeCalendar: ITimeCalendar) {
+		this(start, start.plus(duration), timeCalendar)
+	}
+
+	override def getTimeCalendar: ITimeCalendar = timeCalendar
 }
 
 object CalendarTimeRange {
 
-  def toCalendarTimeRange(period: ITimePeriod, mapper: ITimePeriodMapper = TimeCalendar.Default): TimeRange = {
-    shouldNotBeNull(period, "period")
-    val mappedStart: DateTime = mapper.mapStart(period.getStart)
-    val mappedEnd: DateTime = mapper.mapEnd(period.getEnd)
+	def apply(period: ITimePeriod): CalendarTimeRange = apply(period, TimeCalendar.Default)
 
-    Times.assertValidPeriod(mappedStart, mappedEnd)
-    val mapped: TimeRange = new TimeRange(mappedStart, mappedEnd)
-    log.debug("TimeCalendar 매퍼를 이용하여 기간을 매핑했습니다. period=[{}], mapped=[{}]", period, mapped)
+	def apply(period: ITimePeriod, mapper: ITimeCalendar): CalendarTimeRange = {
+		new CalendarTimeRange(toCalendarTimeRange(period, mapper), mapper)
+	}
 
-    mapped
-  }
+	def apply(start: DateTime, end: DateTime, timeCalendar: ITimeCalendar): CalendarTimeRange = {
+		new CalendarTimeRange(start, end, timeCalendar)
+	}
+
+	def toCalendarTimeRange(period: ITimePeriod, mapper: ITimePeriodMapper = TimeCalendar.Default): TimeRange = {
+		shouldNotBeNull(period, "period")
+		val mappedStart: DateTime = mapper.mapStart(period.getStart)
+		val mappedEnd: DateTime = mapper.mapEnd(period.getEnd)
+
+		Times.assertValidPeriod(mappedStart, mappedEnd)
+		val mapped: TimeRange = new TimeRange(mappedStart, mappedEnd)
+		log.debug("TimeCalendar 매퍼를 이용하여 기간을 매핑했습니다. period=[{}], mapped=[{}]", period, mapped)
+
+		mapped
+	}
 }
 
-trait ICalendarTimeRange extends ITimeRange {
+trait ICalendarTimeRange extends ITimeRange with Ordering[ICalendarTimeRange] {
 
-  def getTimeCalendar: ITimeCalendar
+	def getTimeCalendar: ITimeCalendar
 
-  def getStartYear: Int = getStart.getYear
+	def getStartYear: Int = getStart.getYear
 
-  def getStartMonth: Int = getStart.getMonthOfYear
+	def getStartMonth: Int = getStart.getMonthOfYear
 
-  def getStartDay: Int = getStart.getDayOfMonth
+	def getStartDay: Int = getStart.getDayOfMonth
 
-  def getStartHour: Int = getStart.getHourOfDay
+	def getStartHour: Int = getStart.getHourOfDay
 
-  def getStartMinute: Int = getStart.getMinuteOfHour
+	def getStartMinute: Int = getStart.getMinuteOfHour
 
-  def getEndYear: Int = getEnd.getYear
+	def getEndYear: Int = getEnd.getYear
 
-  def getEndMonth: Int = getEnd.getMonthOfYear
+	def getEndMonth: Int = getEnd.getMonthOfYear
 
-  def getEndDay: Int = getStart.getDayOfMonth
+	def getEndDay: Int = getStart.getDayOfMonth
 
-  def getEndHour: Int = getStart.getHourOfDay
+	def getEndHour: Int = getStart.getHourOfDay
 
-  def getEndMinute: Int = getStart.getMinuteOfHour
+	def getEndMinute: Int = getStart.getMinuteOfHour
 
-  def getMappedStart: DateTime = getTimeCalendar.mapStart(getStart)
+	def getMappedStart: DateTime = getTimeCalendar.mapStart(getStart)
 
-  def getMappedEnd: DateTime = getTimeCalendar.mapEnd(getEnd)
+	def getMappedEnd: DateTime = getTimeCalendar.mapEnd(getEnd)
 
-  def getUnmappedStart: DateTime = getTimeCalendar.unmapStart(getStart)
+	def getUnmappedStart: DateTime = getTimeCalendar.unmapStart(getStart)
 
-  def getUnmappedEnd: DateTime = getTimeCalendar.unmapEnd(getEnd)
+	def getUnmappedEnd: DateTime = getTimeCalendar.unmapEnd(getEnd)
 
-  def getStartMonthStart: DateTime = Times.trimToDay(getStart)
+	def getStartMonthStart: DateTime = Times.trimToDay(getStart)
 
-  def getEndMonthStart: DateTime = Times.trimToDay(getEnd)
+	def getEndMonthStart: DateTime = Times.trimToDay(getEnd)
 
-  def getStartDayStart: DateTime = Times.trimToHour(getStart)
+	def getStartDayStart: DateTime = Times.trimToHour(getStart)
 
-  def getEndDayEnd: DateTime = Times.trimToHour(getEnd)
+	def getEndDayEnd: DateTime = Times.trimToHour(getEnd)
 
-  def getStartHourStart: DateTime = Times.trimToMinute(getStart)
+	def getStartHourStart: DateTime = Times.trimToMinute(getStart)
 
-  def getEndHourEnd: DateTime = Times.trimToMinute(getEnd)
+	def getEndHourEnd: DateTime = Times.trimToMinute(getEnd)
 
-  def getStartMinuteStart: DateTime = Times.trimToSecond(getStart)
+	def getStartMinuteStart: DateTime = Times.trimToSecond(getStart)
 
-  def getEndMinuteEnd: DateTime = Times.trimToSecond(getEnd)
+	def getEndMinuteEnd: DateTime = Times.trimToSecond(getEnd)
 
-  def getStartSecondStart: DateTime = Times.trimToMillis(getStart)
+	def getStartSecondStart: DateTime = Times.trimToMillis(getStart)
 
-  def getEndSecondEnd: DateTime = Times.trimToMillis(getEnd)
+	def getEndSecondEnd: DateTime = Times.trimToMillis(getEnd)
 
-  override def copy(offset: Long): ITimePeriod = {
-    CalendarTimeRange.toCalendarTimeRange(super.copy(offset), getTimeCalendar)
-  }
+	override def copy(offset: Long): ITimePeriod = {
+		CalendarTimeRange.toCalendarTimeRange(super.copy(offset), getTimeCalendar)
+	}
 
-  override def format(formatter: Option[ITimeFormatter]): String = {
-    val fmt = formatter.getOrElse(TimeFormatter.instance)
-    fmt.getCalendarPeriod(fmt.getDate(getStart), fmt.getDate(getEnd), getDuration)
-  }
+	override def format(formatter: Option[ITimeFormatter]): String = {
+		val fmt = formatter.getOrElse(TimeFormatter.instance)
+		fmt.getCalendarPeriod(fmt.getDate(getStart), fmt.getDate(getEnd), getDuration)
+	}
 
-  def compareTo(other: ICalendarTimeRange): Int =
-    getStart.compareTo(other.getStart)
+	def compare(o1: ICalendarTimeRange, o2: ICalendarTimeRange): Int =
+		o1.getStart.compareTo(o2.getStart)
 
 
-  override def hashCode: Int = {
-    ScalaHash.compute(super.hashCode, getTimeCalendar)
-  }
+	override def hashCode: Int = {
+		ScalaHash.compute(super.hashCode, getTimeCalendar)
+	}
 
-  protected override def buildStringHelper(): Objects.ToStringHelper = {
-    super.buildStringHelper().add("timeCalendar", getTimeCalendar)
-  }
+	protected override def buildStringHelper(): Objects.ToStringHelper = {
+		super.buildStringHelper()
+		.add("timeCalendar", getTimeCalendar)
+	}
 }
 
