@@ -11,7 +11,7 @@ import org.joda.time.DateTime
  */
 package object timeperiod {
 
-    lazy val log = Logger("kr.kth.timeperiod")
+    private[timeperiod] lazy val log = Logger("kr.kth.timeperiod")
 
     /**
      * 기본 주차 규칙 (ISO 8601)
@@ -41,7 +41,7 @@ package object timeperiod {
         }
     }
 
-    implicit def TimeLimeMomentOrdering:Ordering[ITimeLineMoment] = {
+    lazy val TimeLimeMomentOrdering:Ordering[ITimeLineMoment] = {
         new Ordering[ITimeLineMoment] {
             def compare(x: ITimeLineMoment, y: ITimeLineMoment): Int =
                 x.getMoment.compareTo(y.getMoment)

@@ -23,6 +23,13 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.scalaz</groupId>
+            <artifactId>scalaz-core_2.10</artifactId>
+            <version>6.0.4</version>
+        </dependency>
+
     </dependencies>
 
 </project>
