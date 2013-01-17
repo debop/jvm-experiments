@@ -6,7 +6,7 @@ import kr.kth.commons.tools.ScalaHash
 
 
 abstract class HourTimeRange(start: DateTime, hourCount: Int, calendar: ITimeCalendar)
-	extends CalendarTimeRange(start, hourCount, calendar) {
+	extends CalendarTimeRange(start, start.plusHours(hourCount), calendar) {
 
 	private val _hourCount = hourCount
 	private val _endHour = start.plusHours(hourCount).getHourOfDay
@@ -114,7 +114,7 @@ class HourRangeCollection(moment: DateTime, hourCount: Int, calendar: ITimeCalen
 		this(year, month, day, hour, hourCount, TimeCalendar.Default)
 	}
 
-	def getHours: Iterable[HourRange] = {
+	def getHours: IndexedSeq[HourRange] = {
 		var startHour = Times.trimToHour(getStart, getStartHour)
 		(0 until getHourCount)
 		.map(x => new HourRange(startHour.plusHours(x), getTimeCalendar))
