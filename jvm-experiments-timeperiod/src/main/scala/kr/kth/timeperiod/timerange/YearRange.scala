@@ -2,6 +2,60 @@ package kr.kth.timeperiod.timerange
 
 import kr.kth.timeperiod._
 import org.joda.time.DateTime
+import kr.kth.commons.tools.ScalaHash
+import kr.kth.commons.Guard
+
+/**
+ * kr.kth.timeperiod.timerange.YearCalendarTimeRange
+ * User: sunghyouk.bae@gmail.com
+ * Date: 13. 1. 16.
+ */
+abstract class YearCalendarTimeRange(period: ITimePeriod, calendar: ITimeCalendar)
+	extends CalendarTimeRange(period, calendar) {
+
+	def getYearBaseMonth = getTimeCalendar.getBaseMonthOfYear
+
+	def getBaseYear = getStartYear
+}
+
+/**
+ * kr.kth.timeperiod.timerange.YearTimeRange
+ * User: sunghyouk.bae@gmail.com
+ * Date: 13. 1. 16.
+ */
+abstract class YearTimeRange(val startYear: Int,
+                             val yearCount: Int,
+                             calendar: ITimeCalendar)
+	extends YearCalendarTimeRange(YearTimeRange.getPeriodOf(calendar.getBaseMonthOfYear,
+	                                                        startYear,
+	                                                        yearCount),
+	                              calendar) {
+
+	override def getBaseYear = startYear
+
+	def getYearCount = yearCount
+
+	def getStartYearName = getTimeCalendar.getYearName(getStartYear)
+
+	def getEndYearName = getTimeCalendar.getYearName(getEndYear)
+
+
+	override def hashCode: Int = ScalaHash.compute(super.hashCode, yearCount)
+
+	protected override def buildStringHelper() =
+		super.buildStringHelper()
+		.add("yearCount", yearCount)
+}
+
+object YearTimeRange {
+
+	def getPeriodOf(baseMonthOfYear: Int, year: Int, yearCount: Int): TimeRange = {
+		Guard.shouldBePositiveNumber(yearCount, "yearCount")
+
+		val start = new DateTime(year, baseMonthOfYear, 1)
+		TimeRange(start, start.plusYears(yearCount))
+	}
+}
 
 /**
  * 1년 단위의 기간을 표현합니다.

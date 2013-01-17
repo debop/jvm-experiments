@@ -56,7 +56,11 @@ class TimeFormatter extends ITimeFormatter with Logging {
 
 	def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge.IntervalEdge, endEdge: IntervalEdge.IntervalEdge, duration: Long): String = ???
 
-	def getCalendarPeriod(start: String, end: String, duration: Long, startContex: String, endContext: String): String = ???
+	def getCalendarPeriod(start: String, end: String, duration: Long): String = ???
+
+	def getCalendarPeriod(context: String, start: String, end: String, duration: Long): String = ???
+
+	def getCalendarPeriod(start: String, end: String, startContex: String, endContext: String, duration: Long): String = ???
 }
 
 /**
@@ -112,7 +116,11 @@ trait ITimeFormatter {
 
 	def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge, endEdge: IntervalEdge, duration: Long): String
 
-	def getCalendarPeriod(start: String, end: String, startContex: String, endContext: String, duration: Long): String
+	def getCalendarPeriod(start: String, end: String, duration: Long): String
+
+	def getCalendarPeriod(context: String, start: String, end: String, duration: Long): String
+
+	def getCalendarPeriod(startContext: String, endContext: String, start: String, end: String, duration: Long): String
 }
 
 object TimeFormatter extends Logging {
