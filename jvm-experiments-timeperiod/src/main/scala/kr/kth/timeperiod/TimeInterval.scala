@@ -280,7 +280,7 @@ trait ITimeInterval extends ITimePeriod {
     Times.getUnionRange(this, other)
   }
 
-  override def format(formatter: Option[ITimeFormatter]): String =
+  override protected def format(formatter: Option[ITimeFormatter]): String =
     formatter
     .getOrElse(TimeFormatter.instance)
     .getInterval(getStart, getEnd, getStartEdge, getEndEdge, getDuration)

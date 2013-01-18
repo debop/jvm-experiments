@@ -106,14 +106,14 @@ class WeekRange(start: DateTime, calendar: ITimeCalendar) extends WeekTimeRange(
 	}
 
 	def addWeeks(weeks: Int): WeekRange = {
-		var startOfWeek = Times.getStartOfYearWeek(getYear,
+		val startOfWeek = Times.getStartOfYearWeek(getYear,
 		                                           getStartWeek,
 		                                           getTimeCalendar.getLocale,
 		                                           getTimeCalendar.getWeekOfYearRule)
 		new WeekRange(startOfWeek.plusDays(weeks * TimeSpec.DaysPerWeek), getTimeCalendar)
 	}
 
-	override def format(formatter: Option[ITimeFormatter]) = {
+	override protected def format(formatter: Option[ITimeFormatter]) = {
 		val fmt = formatter.getOrElse(TimeFormatter.instance)
 		fmt.getCalendarPeriod(getWeekOfYearName,
 		                      fmt.getShortDate(getStart),

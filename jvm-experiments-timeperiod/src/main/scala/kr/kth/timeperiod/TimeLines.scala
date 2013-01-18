@@ -2,26 +2,20 @@ package kr.kth.timeperiod
 
 import kr.kth.commons.Guard
 import kr.kth.commons.slf4j.Logging
-import kr.kth.commons.tools.ActivatorTool
+import kr.kth.commons.tools.ScalaReflects
 import kr.kth.commons.tools.StringTool._
-import scala.collection.JavaConversions._
+import scala.reflect.{ClassTag, classTag}
 
 /**
- * kr.kth.timeperiod.TimeLines
+ * TimeLine 관련 Object
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 16
  */
 object TimeLines extends Logging {
     /**
-         * {@link ITimeLineMome ntCollection}의 모든 기간의 합집합을 구합니다.
-         *
-         * @param periodClass
-         * @param timeLineMoments
-         * @param <T>
-         * @return
-         */
-    def combinePeriods[T <: ITimePeriod](periodClass: Class[T],
-                                         timeLineMoments: ITimeLineMomentCollection)
+     * {@link ITimeLineMome ntCollection}의 모든 기간의 합집합을 구합니다.
+     */
+    def combinePeriods[T <: ITimePeriod : ClassTag](timeLineMoments: ITimeLineMomentCollection)
     : ITimePeriodCollection = {
         log.debug("ITimeLineMoment 컬렉션의 모든 기간의 합집합을 구합니다...")
 
@@ -34,7 +28,7 @@ object TimeLines extends Logging {
             val periodStart = timeLineMoments.get(itemIndex)
             Guard.shouldNotBeNull(periodStart, "periodStart")
             Guard.shouldBe(periodStart.getStartCount != 0,
-                s"getStartCount() 값은 [0] 이 아니여야 합니다. periodStart.getStartCount()=[${periodStart.getStartCount}]")
+                           s"getStartCount() 값은 [0] 이 아니여야 합니다. periodStart.getStartCount()=[${periodStart.getStartCount}]")
 
             var balance: Int = periodStart.getStartCount
             var periodEnd: ITimeLineMoment = null
@@ -48,7 +42,7 @@ object TimeLines extends Logging {
             Guard.shouldNotBeNull(periodEnd, "periodEnd")
             if (periodEnd.getStartCount == 0) {
                 if (itemIndex < timeLineMoments.size) {
-                    val period: ITimePeriod = ActivatorTool.createInstance(periodClass)
+                    val period: ITimePeriod = ScalaReflects.newInstance[T] //classTag[T].runtimeClass.newInstance.asInstanceOf[T]  // periodClass.newInstance()
                     period.setup(periodStart.getMoment, periodEnd.getMoment)
                     if (log.isDebugEnabled) log.debug("Combine period를 추가합니다. period=[{}]", period)
                     periods.add(period)
@@ -68,8 +62,7 @@ object TimeLines extends Logging {
          * @param <T>
          * @return
          */
-    def intersectPeriods[T <: ITimePeriod](periodClass: Class[T],
-                                           timeLineMoments: ITimeLineMomentCollection)
+    def intersectPeriods[T <: ITimePeriod : ClassTag](timeLineMoments: ITimeLineMomentCollection)
     : ITimePeriodCollection = {
         log.debug("ItimeLineMomentCollection으로부터 교집합에 해당하는 기간들을 구합니다.")
 
@@ -85,7 +78,7 @@ object TimeLines extends Logging {
             if (moment.getStartCount > 0 && balance > 1 && intersectionStart < 0) {
                 intersectionStart = i
             } else if (moment.getEndCount > 0 && balance <= 1 && intersectionStart >= 0) {
-                val period: ITimePeriod = ActivatorTool.createInstance(periodClass)
+                val period: ITimePeriod = ScalaReflects.newInstance[T] //classTag[T].runtimeClass.newInstance().asInstanceOf[T] //periodClass.newInstance() //newInstance[T](classOf[T])
                 period.setup(timeLineMoments.get(intersectionStart).getMoment, moment.getMoment)
 
                 log.debug("Intersection period를 추가합니다. period=[{}]", period)
@@ -101,9 +94,8 @@ object TimeLines extends Logging {
     /**
          * {@link ITimeLineMomentCollection}의 모든 기간에 속하지 않는 Gap 들을 찾아냅니다.
          */
-    def calculateCaps[T <: ITimePeriod](periodClass: Class[T],
-                                        timeLineMoments: ITimeLineMomentCollection,
-                                        range: ITimePeriod)
+    def calculateCaps[T <: ITimePeriod : ClassTag](timeLineMoments: ITimeLineMomentCollection,
+                                                   range: ITimePeriod)
     : ITimePeriodCollection = {
         log.debug("ITimeLineMomentCollection의 Gap을 계산합니다...")
         Guard.shouldNotBeNull(timeLineMoments, "timeLineMoments")
@@ -115,7 +107,7 @@ object TimeLines extends Logging {
 
         val periodStart: ITimeLineMoment = timeLineMoments.getMin
         if (periodStart != null && range.getStart.compareTo(periodStart.getMoment) < 0) {
-            val startingGap = ActivatorTool.createInstance(periodClass)
+            val startingGap = ScalaReflects.newInstance[T] //periodClass.newInstance()  // newInstance[T]()
             startingGap.setup(range.getStart, periodStart.getMoment)
             log.debug(s"Starting Gap을 추가합니다... startingGap=[$startingGap]")
             gaps.add(startingGap)
@@ -125,7 +117,7 @@ object TimeLines extends Logging {
         while (itemIndex < timeLineMoments.size) {
             val moment: ITimeLineMoment = timeLineMoments.get(itemIndex)
             Guard.shouldBe(moment.getStartCount != 0,
-                s"moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[$moment]")
+                           s"moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[$moment]")
 
             var balance: Int = moment.getStartCount
             var gapStart: ITimeLineMoment = null
@@ -139,10 +131,10 @@ object TimeLines extends Logging {
             Guard.shouldNotBeNull(gapStart, "gapStart")
             if (gapStart != null && gapStart.getStartCount == 0) {
                 if (itemIndex < timeLineMoments.size - 1) {
-                    val gap: ITimePeriod = ActivatorTool.createInstance(periodClass)
+                    val gap: ITimePeriod = ScalaReflects.newInstance[T] // periodClass.newInstance() //newInstance[T](classOf[T])
                     gap.setup(gapStart.getMoment, timeLineMoments.get(itemIndex + 1).getMoment)
 
-                    log.debug("intermediated gap 을 추가합니다. gap=[{}]", gap)
+                    log.debug(s"intermediated gap 을 추가합니다. gap=[$gap]")
                     gaps.add(gap)
                 }
             }
@@ -151,14 +143,16 @@ object TimeLines extends Logging {
 
         val periodEnd: ITimeLineMoment = timeLineMoments.getMax
         if (periodEnd != null && range.getEnd.compareTo(periodEnd.getMoment) > 0) {
-            val endingGap: ITimePeriod = ActivatorTool.createInstance(periodClass)
+            val endingGap: ITimePeriod = ScalaReflects.newInstance[T] //periodClass.newInstance// newInstance[T](classOf[T])
             endingGap.setup(periodEnd.getMoment, range.getEnd)
 
             log.debug("Ending Gap을 추가합니다. endingGap=[{}]", endingGap)
             gaps.add(endingGap)
         }
-        log.debug("기간들의 gap에 해당하는 부분을 계산했습니다!!! gaps=[{}]", listToString(gaps))
+        log.debug(s"기간들의 gap에 해당하는 부분을 계산했습니다!!! gaps=[${listToString(gaps)}]")
         gaps
     }
 
+    //    @inline
+    //    def newInstance[T](periodClass: Class[T]): T = periodClass.newInstance()
 }

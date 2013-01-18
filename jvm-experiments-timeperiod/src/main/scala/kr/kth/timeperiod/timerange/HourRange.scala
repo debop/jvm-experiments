@@ -86,7 +86,7 @@ class HourRange(moment: DateTime, calendar: ITimeCalendar) extends HourTimeRange
 		return new HourRange(startHour.plusHours(hours), getTimeCalendar)
 	}
 
-	override def format(formatter: Option[ITimeFormatter]) = {
+	override protected def format(formatter: Option[ITimeFormatter]) = {
 		val fmt = formatter.getOrElse(TimeFormatter.instance)
 		fmt.getCalendarPeriod(fmt.getShortDate(getStart),
 		                      fmt.getShortTime(getStart),

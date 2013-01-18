@@ -98,7 +98,7 @@ class DayRange(moment: DateTime, calendar: ITimeCalendar) extends DayTimeRange(m
 		new DayRange(Times.getDatePart(getStart).plusDays(days), getTimeCalendar)
 	}
 
-	override def format(formatter: Option[ITimeFormatter]) = {
+	override protected def format(formatter: Option[ITimeFormatter]) = {
 		val fmt = formatter.getOrElse(TimeFormatter.instance)
 		fmt.getCalendarPeriod(getDayName,
 		                      fmt.getShortDate(getStart),
@@ -133,7 +133,7 @@ class DayRangeCollection(moment: DateTime, dayCount: Int, calendar: ITimeCalenda
 		(0 until getDayCount).map(d => new DayRange(startDay.plusDays(d), getTimeCalendar))
 	}
 
-	override def format(formatter: Option[ITimeFormatter]) = {
+	override protected def format(formatter: Option[ITimeFormatter]) = {
 		val fmt = formatter.getOrElse(TimeFormatter.instance)
 		fmt.getCalendarPeriod(getStartDayName,
 		                      getEndDayName,

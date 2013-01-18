@@ -2,7 +2,7 @@ package kr.kth.data.hibernate.usertype;
 
 import kr.kth.commons.Guard;
 import kr.kth.timeperiod.TimeSpec;
-import kr.kth.timeperiod.timerange.TimeRange;
+import kr.kth.timeperiod.TimeRange;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -70,10 +70,10 @@ public class TimeRangeUserType implements CompositeUserType {
 
         switch (property) {
             case 0:
-                timeRange.setStart((value != null) ? new DateTime(value) : TimeSpec.MinPeriodTime);
+                timeRange.setStart((value != null) ? new DateTime(value) : TimeSpec.MinPeriodTime());
                 break;
             case 1:
-                timeRange.setEnd((value != null) ? new DateTime(value) : TimeSpec.MaxPeriodTime);
+                timeRange.setEnd((value != null) ? new DateTime(value) : TimeSpec.MaxPeriodTime());
                 break;
             default:
                 throw new IllegalArgumentException("복합 수형의 인덱스 범위가 벗어났습니다. 0, 1만 가능합니다. property=" + property);

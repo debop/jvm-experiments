@@ -13,7 +13,7 @@ class TimePeriodCollection extends TimePeriodContainer with ITimePeriodCollectio
 
 object TimePeriodCollection extends Logging {
 
-  def apply() = new TimePeriodCollection
+  def apply() = new TimePeriodCollection()
 
   def apply(elems: ITimePeriod*):TimePeriodCollection = {
     val collection = new TimePeriodCollection()

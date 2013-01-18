@@ -107,7 +107,7 @@ trait ICalendarTimeRange extends ITimeRange with Ordering[ICalendarTimeRange] {
 		CalendarTimeRange.toCalendarTimeRange(super.copy(offset), getTimeCalendar)
 	}
 
-	override def format(formatter: Option[ITimeFormatter]): String = {
+	override protected def format(formatter: Option[ITimeFormatter]): String = {
 		val fmt = formatter.getOrElse(TimeFormatter.instance)
 		fmt.getCalendarPeriod(fmt.getDate(getStart), fmt.getDate(getEnd), getDuration)
 	}

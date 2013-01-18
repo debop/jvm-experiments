@@ -70,7 +70,7 @@ class MinuteRange(moment: DateTime, calendar: ITimeCalendar)
 	def getNextMinute: MinuteRange = addMinutes(1)
 
 	def addMinutes(minutes: Int): MinuteRange = {
-		var startMinute = getStart
+		val startMinute = getStart
 		                  .withTimeAtStartOfDay()
 		                  .withHourOfDay(getStartHour)
 		                  .withMinuteOfHour(getStartMinute)

@@ -1,13 +1,12 @@
 package kr.kth.data.hibernate.usertype;
 
-import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;
-import org.hibernate.usertype.EnhancedUserType;
 import org.hibernate.usertype.ParameterizedType;
+import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -22,24 +21,9 @@ import java.util.Properties;
  * Date: 12. 11. 19.
  */
 @Slf4j
-public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
+public class StringEnumUserType implements UserType, ParameterizedType {
 
     private Class<Enum> enumClass;
-
-    @Override
-    public String objectToSQLString(Object value) {
-        return StringTool.quotedStr(((Enum) value).name());
-    }
-
-    @Override
-    public String toXMLString(Object value) {
-        return ((Enum) value).name();
-    }
-
-    @Override
-    public Object fromXMLString(String xmlValue) {
-        return Enum.valueOf(enumClass, xmlValue);
-    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -77,7 +61,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
             throws HibernateException, SQLException {
 
         String value = rs.getString(names[0]);
-        return rs.wasNull() ? null : value; //fromXMLString(value);
+        return rs.wasNull() ? null : Enum.valueOf(enumClass, value);
     }
 
     @Override
@@ -87,7 +71,7 @@ public class StringEnumUserType implements EnhancedUserType, ParameterizedType {
         if (value == null)
             st.setNull(index, sqlTypes()[0]);
         else
-            st.setString(index, value.toString()); //toXMLString(value));
+            st.setString(index, ((Enum) value).name());
     }
 
     @Override

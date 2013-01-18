@@ -26,14 +26,21 @@ trait Clock {
     def timeOfDay: Long
 }
 
-abstract class ClockBase(val datetime:DateTime) extends Clock with Serializable {
+abstract class ClockBase(val datetime: DateTime) extends Clock with Serializable {
 
-    override def now: DateTime = {
-        datetime
-    }
+    /**
+    * 현재 시각
+    */
+    override def now: DateTime = datetime
 
+    /**
+    * 현재 시각 중 시간 부분을 뺀 날짜부분만을 나타냅니다.
+    */
     override def today: DateTime = now.withTimeAtStartOfDay
 
+    /**
+    * 현재 시각 중 시간부분만을 Milliseconds 로 환산하여 제공합니다.
+    */
     override def timeOfDay: Long = now.getMillisOfDay
 
 }
@@ -53,11 +60,17 @@ class StaticClock(datetime: DateTime) extends ClockBase(datetime) {}
 object Clock {
     val clockReferece = new AtomicReference[Clock]()
 
+    /**
+    * 시스템 Clock을 제공합니다.
+    */
     def getClock: Clock = {
         clockReferece.compareAndSet(null, new SystemClock())
         clockReferece.get()
     }
 
+    /**
+    * Clock을 설정합니다.
+    */
     def setClock(clock: Clock) {
         clockReferece.set(clock)
     }

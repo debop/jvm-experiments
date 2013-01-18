@@ -207,7 +207,7 @@ trait ITimePeriodContainer extends ValueObjectBase with scala.collection.Iterabl
   override def getDescription(formatter: Option[ITimeFormatter] = None) =
     format(formatter)
 
-  override def format(formatter: Option[ITimeFormatter]) =
+  override protected def format(formatter: Option[ITimeFormatter]) =
     formatter.getOrElse(TimeFormatter.instance)
       .getCollectionPeriod(size, getStart, getEnd, getDuration)
 
