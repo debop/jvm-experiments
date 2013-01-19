@@ -61,8 +61,8 @@ abstract class QuarterTimeRange(startYear: Int, startQuarter: QuarterKind, quart
     def isCalendarQuarter: Boolean = ((getYearBaseMonth - 1) % TimeSpec.MonthsPerQuarter) == 0
 
     /**
-    * 시작 분기와 완료 분기가 다른 년도인지 판단합니다.
-    */
+     * 시작 분기와 완료 분기가 다른 년도인지 판단합니다.
+     */
     def isMultipleCalendarYears: Boolean = {
         if (isCalendarQuarter) return false
 
@@ -76,8 +76,8 @@ abstract class QuarterTimeRange(startYear: Int, startQuarter: QuarterKind, quart
     }
 
     /**
-    * 해당 기간의 모든 Month를 열거합니다.
-    */
+     * 해당 기간의 모든 Month를 열거합니다.
+     */
     def getMonths: IndexedSeq[MonthRange] = {
         val startMonth = new DateTime(getStartYear, getYearBaseMonth, 1)
         val monthCount = getQuarterCount * TimeSpec.MonthsPerQuarter
@@ -106,17 +106,96 @@ object QuarterTimeRange {
     }
 }
 
+/**
+ * 단위 분기 기간을 표현합니다.
+ */
+class QuarterRange(year: Int, quarter: QuarterKind, calendar: ITimeCalendar)
+    extends QuarterTimeRange(year, quarter, 1, calendar) {
 
-class QuarterRange {
+    def this(year: Int, quarter: QuarterKind) {
+        this(year, quarter, TimeCalendar.Default)
+    }
 
+    def this(moment: DateTime, calendar: ITimeCalendar) {
+        this(Times.getYearOfCalendar(calendar, moment),
+             Times.getQuarterOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
+             calendar)
+    }
+
+    def this(moment: DateTime) {
+        this(moment, TimeCalendar.Default)
+    }
+
+    def this() {
+        this(Clock.getClock.today)
+    }
+
+    def getYear = getStartYear
+
+    def getQuarterKind: QuarterKind = getStartQuarter
+
+    def getQuarterName = getStartQuarterName
+
+    def getQuarterOfYearName = getStartQuarterOfYearName
+
+    def getPreviousQuarter: QuarterRange = addQuarters(-1)
+
+    def getNextQuarter: QuarterRange = addQuarters(1)
+
+    def addQuarters(quarters: Int): QuarterRange = {
+        val yq = Times.addQuarter(getStartQuarter, getStartYear, quarters)
+        new QuarterRange(yq.getYear, yq.getQuarter, getTimeCalendar)
+    }
+
+    override protected def format(formatter: Option[ITimeFormatter]): String = {
+        val fmt = formatter.getOrElse(TimeFormatter.instance)
+        fmt.getCalendarPeriod(getQuarterOfYearName,
+                              fmt.getShortDate(getStart),
+                              fmt.getShortDate(getEnd),
+                              getDuration)
+    }
 }
 
-object QuarteRange {
+/**
+ * 분기 단위의 기간을 표현하는 QuarterRange 의 컬렉션
+ */
+class QuarterRangeCollection(year: Int, quarter: QuarterKind, quarterCount: Int, calendar: ITimeCalendar)
+    extends QuarterTimeRange(year, quarter, quarterCount, calendar) {
 
+    def this(year: Int, quarter: QuarterKind, quarterCount: Int) {
+        this(year, quarter, quarterCount, TimeCalendar.Default)
+    }
 
-}
+    def this(moment: DateTime, quarterCount: Int, calendar: ITimeCalendar) {
+        this(Times.getYearOfCalendar(calendar, moment),
+             Times.getQuarterOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
+             quarterCount,
+             calendar)
+    }
 
-class QuarterRangeCollection {
+    def this(moment: DateTime, quarterCount: Int) {
+        this(moment, quarterCount, TimeCalendar.Default)
+    }
 
+    def getQuarters: Iterable[QuarterRange] = {
+        val startYear = getStartYear
+        val startQuarter = getStartQuarter
+
+        (0 until getQuarterCount)
+        .view
+        .map(q => {
+            var yq = Times.addQuarter(startQuarter, startYear, q)
+            new QuarterRange(yq.getYear, yq.getQuarter, getTimeCalendar)
+        })
+    }
+
+    override protected def format(formatter: Option[ITimeFormatter]): String = {
+        val fmt = formatter.getOrElse(TimeFormatter.instance)
+        fmt.getCalendarPeriod(getStartQuarterOfYearName,
+                              getEndQuarterOfYearName,
+                              fmt.getShortDate(getStart),
+                              fmt.getShortDate(getEnd),
+                              getDuration)
+    }
 }
 

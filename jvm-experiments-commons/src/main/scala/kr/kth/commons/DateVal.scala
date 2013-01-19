@@ -8,50 +8,47 @@ import org.joda.time.DateTime
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class DateVal(val date: DateTime) extends ValueObjectBase with Comparable[DateVal] {
+class DateVal(val date: DateTime) extends ValueObjectBase with Ordered[DateVal] {
 
-  def year = date.getYear
+    private val _date = date
 
-  def monthOfYear = date.getMonthOfYear
+    def getDate = _date
 
-  def dayOfMonth = date.getDayOfMonth
+    def year = _date.getYear
 
-  def getDateTime(time: TimeVal): DateTime = if (time != null) this.date.plusMillis(time.millis.toInt) else this.date
+    def monthOfYear = _date.getMonthOfYear
 
-  def getDateTime(hourOfDay: Int = 0, minuteOfHour: Int = 0, secondOfMinute: Int = 0, milliOfSecond: Int = 0): DateTime = {
-    this.date.withTime(hourOfDay, minuteOfHour, secondOfMinute, milliOfSecond)
-  }
+    def dayOfMonth = _date.getDayOfMonth
 
-  def ==(other: DateVal) = this.equals(other)
+    def getDateTime(time: TimeVal): DateTime =
+        if (time != null) this.date.plusMillis(time.millis.toInt) else this.date
 
-  def <(other: DateVal) = this.compareTo(other) < 0
+    def getDateTime(hourOfDay: Int = 0,
+                    minuteOfHour: Int = 0,
+                    secondOfMinute: Int = 0,
+                    milliOfSecond: Int = 0): DateTime = {
+        this.date.withTime(hourOfDay, minuteOfHour, secondOfMinute, milliOfSecond)
+    }
 
-  def <=(other: DateVal): Boolean = this.compareTo(other) <= 0
+    def compare(that: DateVal) = getDate.compareTo(that.getDate)
 
-  def >(other: DateVal) = this.compareTo(other) > 0
+    override def hashCode(): Int = ScalaHash.compute(date)
 
-  def >=(other: DateVal) = this.compareTo(other) >= 0
+    protected override def buildStringHelper() =
+        super.buildStringHelper()
+        .add("date", date)
 
-  def compareTo(other: DateVal): Int = {
-    Guard.shouldNotBeNull(other, "other")
-    this.date.compareTo(other.date)
-  }
 
-  override def hashCode(): Int = ScalaHash.compute(date)
-
-  protected override def buildStringHelper() =
-    super.buildStringHelper()
-      .add("date", date)
 }
 
 object DateVal {
-  def today: DateVal = new DateVal(DateTime.now())
+    def today: DateVal = new DateVal(DateTime.now())
 
-  def apply(date: DateTime) = {
-    new DateVal(date)
-  }
+    def apply(date: DateTime) = {
+        new DateVal(date)
+    }
 
-  def apply(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1) = {
-    new DateVal(new DateTime().withDate(year, monthOfYear, dayOfMonth))
-  }
+    def apply(year: Int, monthOfYear: Int = 1, dayOfMonth: Int = 1) = {
+        new DateVal(new DateTime().withDate(year, monthOfYear, dayOfMonth))
+    }
 }

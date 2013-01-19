@@ -1,6 +1,5 @@
 package kr.kth.timeperiod
 
-import beans.BeanProperty
 import kr.kth.commons.ValueObjectBase
 
 /**
@@ -8,16 +7,33 @@ import kr.kth.commons.ValueObjectBase
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26.
  */
-class YearAndWeek(@BeanProperty var year: Int = 0,
-                  @BeanProperty var weekOfYear: Int = 1) extends ValueObjectBase with Comparable[YearAndWeek] {
+class YearAndWeek(year: Int = 0, weekOfYear: Int = 1)
+    extends ValueObjectBase with Ordered[YearAndWeek] {
 
-  def compareTo(other: YearAndWeek): Int = hashCode() compareTo other.hashCode()
+    private val _year = year
+    private val _weekOfYear = weekOfYear
 
-  override def hashCode() = year * 100 + weekOfYear
+    def getYear = _year
 
-  protected override def buildStringHelper() = {
-    super.buildStringHelper()
-      .add("year", year)
-      .add("weekOfYear", weekOfYear)
-  }
+    def getWeekOfYear = _weekOfYear
+
+    lazy val _hash = _year * 100 + _weekOfYear
+
+    override def hashCode: Int = _hash
+
+    protected override def buildStringHelper() = {
+        super.buildStringHelper()
+        .add("year", _year)
+        .add("weekOfYear", _weekOfYear)
+    }
+
+    def compare(that: YearAndWeek) = hashCode compareTo that.hashCode
+}
+
+object YearAndWeek {
+
+    def apply(year: Int = 0, weekOfYear: Int = 1): YearAndWeek =
+        new YearAndWeek(year, weekOfYear)
+
+    def unapply(yw: YearAndWeek) = (yw.getYear, yw.getWeekOfYear)
 }

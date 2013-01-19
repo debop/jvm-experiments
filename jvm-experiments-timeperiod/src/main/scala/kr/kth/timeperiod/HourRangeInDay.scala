@@ -1,6 +1,6 @@
 package kr.kth.timeperiod
 
-import kr.kth.commons.tools.HashTool
+import kr.kth.commons.tools.ScalaHash
 import kr.kth.commons.{ValueObjectBase, TimeVal}
 
 /**
@@ -8,39 +8,49 @@ import kr.kth.commons.{ValueObjectBase, TimeVal}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class HourRangeInDay(val start: TimeVal, val end: TimeVal)
-  extends ValueObjectBase with Comparable[HourRangeInDay] {
+class HourRangeInDay(start: TimeVal, end: TimeVal)
+    extends ValueObjectBase with Ordered[HourRangeInDay] {
 
-  def isMoment = (start == end)
+    private val _start: TimeVal = start
+    private val _end: TimeVal = end
 
-  def hasInside(hour: Int): Boolean = hasInside(TimeVal(hour))
+    def getStart: TimeVal = _start
 
-  def hasInside(target: TimeVal): Boolean = {
-    (target.compareTo(this.start) >= 0) && (target.compareTo(this.end) <= 0)
-  }
+    def getEnd: TimeVal = _end
 
-  def compareTo(other: HourRangeInDay): Int = start compareTo other.start
+    def isMoment: Boolean = (_start == _end)
 
-  override def hashCode: Int = HashTool.compute(start, end)
+    def hasInside(hour: Int): Boolean = hasInside(TimeVal(hour))
 
-  protected override def buildStringHelper = {
-    super.buildStringHelper
-      .add("getStart", start)
-      .add("getEnd", end)
-  }
+    def hasInside(target: TimeVal): Boolean = {
+        target >= _start && target <= _end
+    }
+
+    def compare(that: HourRangeInDay) = getStart compareTo that.getStart
+
+    override def hashCode: Int = ScalaHash.compute(_start, _end)
+
+    protected override def buildStringHelper = {
+        super.buildStringHelper
+        .add("start", _start)
+        .add("end", _end)
+    }
 }
 
 object HourRangeInDay {
 
-  def apply(start: TimeVal, end: TimeVal): HourRangeInDay = {
-    if (start <= end) new HourRangeInDay(start, end)
-    else new HourRangeInDay(end, start)
-  }
+    def apply(start: TimeVal, end: TimeVal): HourRangeInDay = {
+        if (start <= end) new HourRangeInDay(start, end)
+        else new HourRangeInDay(end, start)
+    }
 
-  def apply(startHour: Int, endHour: Int): HourRangeInDay = {
-    if (startHour <= endHour) apply(TimeVal(startHour), TimeVal(endHour))
-    else apply(TimeVal(endHour), TimeVal(startHour))
-  }
+    def apply(startHour: Int, endHour: Int): HourRangeInDay = {
+        if (startHour <= endHour) apply(TimeVal(startHour), TimeVal(endHour))
+        else apply(TimeVal(endHour), TimeVal(startHour))
+    }
 
-  def apply(hour: Int): HourRangeInDay = apply(hour, hour)
+    def apply(hour: Int): HourRangeInDay = apply(hour, hour)
+
+
+    def unapply(hourRange: HourRangeInDay) = (hourRange.getStart, hourRange.getEnd)
 }

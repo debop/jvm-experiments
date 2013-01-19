@@ -1,6 +1,5 @@
 package kr.kth.commons.tools
 
-import annotation.varargs
 
 /**
  * Scala 용 Hash 생성 툴
@@ -9,14 +8,21 @@ import annotation.varargs
  */
 object ScalaHash {
 
-  def instance = this
+    val NullValue: Int = 0
+    val Factor: Int = 31
 
-  /**
-   * 지정된 객체들의 Hash Code를 조합한 Hash Code를 생성합니다.
-   */
-  @inline
-  @varargs
-  def compute(objs: Any*): Int = {
-    HashTool.compute(objs.map(_.asInstanceOf[AnyRef]): _*)
-  }
+    @inline private def computeInternal(x: => Any): Int = {
+        if (x != null) x.hashCode() else NullValue
+    }
+
+    /**
+     * 지정된 객체들의 Hash Code를 조합한 Hash Code를 생성합니다.
+     */
+    @inline def compute(objs: Any*): Int = {
+        var hash = NullValue
+        objs.map(x => hash = hash * Factor + computeInternal(x))
+
+        hash
+        //HashTool.compute(objs.map(_.asInstanceOf[AnyRef]): _*)
+    }
 }

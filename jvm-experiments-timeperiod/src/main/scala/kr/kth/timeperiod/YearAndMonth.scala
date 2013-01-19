@@ -1,6 +1,5 @@
 package kr.kth.timeperiod
 
-import beans.BeanProperty
 import kr.kth.commons.ValueObjectBase
 
 /**
@@ -8,16 +7,31 @@ import kr.kth.commons.ValueObjectBase
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26.
  */
-class YearAndMonth(@BeanProperty var year: Int,
-                   @BeanProperty var month: Int = 1) extends ValueObjectBase with Comparable[YearAndMonth] {
+class YearAndMonth(year: Int, month: Int)
+    extends ValueObjectBase with Ordered[YearAndMonth] {
 
-  def compareTo(other: YearAndMonth): Int = hashCode() compareTo other.hashCode()
+    private val _year = year
+    private val _month = month
 
-  override def hashCode() = (year * 100 + month)
+    def getYear = _year
 
-  protected override def buildStringHelper() =
-    super.buildStringHelper()
-      .add("year", year)
-      .add("month", month)
+    def getMonth = _month
+
+    lazy val _hash = (_year * 100 + _month)
+
+    override def hashCode = _hash
+
+    protected override def buildStringHelper() =
+        super.buildStringHelper()
+        .add("year", _year)
+        .add("month", _month)
+
+    def compare(that: YearAndMonth) = hashCode compareTo that.hashCode
+}
+
+object YearAndMonth {
+    def apply(year: Int, month: Int): YearAndMonth = new YearAndMonth(year, month)
+
+    def unapply(instance: YearAndMonth) = (instance.getYear, instance.getMonth)
 }
 

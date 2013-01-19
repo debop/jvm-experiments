@@ -32,7 +32,7 @@ trait ITimePeriod extends ValueObjectBase with Ordered[ITimePeriod] with Logging
         assertMutable()
         assert(duration >= 0)
         if (hasStart)
-            _end = getStart.plus(duration)
+            _end = _start.plus(duration)
     }
 
     def getDurationDescription: String = org.joda.time.Duration.millis(getDuration).toString
@@ -126,12 +126,6 @@ trait ITimePeriod extends ValueObjectBase with Ordered[ITimePeriod] with Logging
         .add("_end", getEnd)
         .add("_readonly", isReadonly)
 
-
-    override def compare(that: ITimePeriod): Int = getStart compareTo that.getStart
-
-    implicit def ordering: Ordering[ITimePeriod] =
-        new Ordering[ITimePeriod] {
-            def compare(x: ITimePeriod, y: ITimePeriod): Int = x.getStart.compareTo(y.getStart)
-        }
+    def compare(that: ITimePeriod): Int = getStart compareTo that.getStart
 }
 

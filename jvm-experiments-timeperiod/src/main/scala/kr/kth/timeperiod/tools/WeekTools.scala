@@ -6,8 +6,8 @@ import kr.kth.timeperiod.CalendarWeekRule._
 import kr.kth.timeperiod.DayOfWeek._
 import kr.kth.timeperiod.WeekOfYearRuleKind._
 import kr.kth.timeperiod._
+import kr.kth.timeperiod.timerange.WeekRange
 import org.joda.time.{Duration, DateTime}
-import timerange.WeekRange
 
 /**
  * 주(Week) 관련 메소드
@@ -108,8 +108,8 @@ object WeekTools extends Logging {
      * 해당 주차에 해당에 속한 기간
      */
     def getWeekRange(yearAndWeek: YearAndWeek, timeCalendar: ITimeCalendar): WeekRange = {
-        val startTime = Times.getStartOfYearWeek(yearAndWeek.year,
-                                                 yearAndWeek.weekOfYear,
+        val startTime = Times.getStartOfYearWeek(yearAndWeek.getYear,
+                                                 yearAndWeek.getWeekOfYear,
                                                  timeCalendar.getLocale,
                                                  timeCalendar.getWeekOfYearRule)
 
