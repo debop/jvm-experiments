@@ -8,38 +8,33 @@ import org.joda.time.{Duration, DateTime}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class TimeVal(time: DateTime) extends ValueObjectBase with Ordered[TimeVal] {
+class TimeVal(val time: DateTime) extends ValueObjectBase with Ordered[TimeVal] {
 
-    private val _time: DateTime = time
+    def getTime = time
 
-    def getTime = _time
+    def datetime: DateTime = time
 
-    def datetime: DateTime = _time
+    def hourOfDay: Int = time.getHourOfDay
 
-    def hourOfDay: Int = _time.getHourOfDay
+    def minuteOfHour: Int = time.getMinuteOfHour
 
-    def minuteOfHour: Int = _time.getMinuteOfHour
+    def secondOfMinute: Int = time.getSecondOfMinute
 
-    def secondOfMinute: Int = _time.getSecondOfMinute
+    def millisOfSecond: Int = time.getMillisOfSecond
 
-    def millisOfSecond: Int = _time.getMillisOfSecond
+    def millis: Long = time.getMillis
 
-    def millis: Long = _time.getMillis
-
-    def getDateTime(moment: DateTime): DateTime = moment.withTimeAtStartOfDay().plus(millis)
+    def getDateTime(moment: DateTime): DateTime = moment.withTimeAtStartOfDay() + millis
 
     def getDateTime(date: DateVal): DateTime = date.getDateTime(this)
 
+    def compare(that: TimeVal) = time compareTo that.time
 
-    def compare(that: TimeVal) = getTime.compareTo(that.getTime)
+    override def hashCode: Int = ScalaHash.compute(time)
 
-    override def hashCode(): Int = ScalaHash.compute(_time)
-
-    protected override def buildStringHelper() =
+    protected override def buildStringHelper =
         super.buildStringHelper()
-        .add("time", _time)
-
-
+        .add("time", time)
 }
 
 object TimeVal {

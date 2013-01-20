@@ -1,7 +1,7 @@
 package kr.kth
 
 import commons.slf4j.Logger
-import org.joda.time.{Duration, DateTime}
+import org.joda.time.DateTime
 
 
 /**
@@ -12,25 +12,6 @@ import org.joda.time.{Duration, DateTime}
 package object timeperiod {
 
     private[timeperiod] lazy val log = Logger("kr.kth.timeperiod")
-
-
-    implicit class OrderedDateTime(val date: DateTime) extends Ordered[DateTime] {
-
-        def compare(that: DateTime): Int = date.compareTo(that)
-
-        def +(that: DateTime): DateTime = this.date.plus(that.getMillis)
-
-        def -(that: DateTime): DateTime = this.date.minus(that.getMillis)
-    }
-
-    implicit class OrderedDuration(val duration: org.joda.time.Duration) extends Ordered[Duration] {
-
-        def compare(that: Duration) = duration.compareTo(that)
-
-        def +(that: Duration) = this.duration.plus(that.getMillis)
-
-        def -(that: Duration) = this.duration.minus(that.getMillis)
-    }
 
     /**
      * 기본 주차 규칙 (ISO 8601)
@@ -46,7 +27,6 @@ package object timeperiod {
             override def compare(x: DateTime, y: DateTime): Int = x.compareTo(y)
         }
     }
-
 
     lazy val StartOfTimePeriodOrdering: Ordering[ITimePeriod] = {
         new Ordering[ITimePeriod] {

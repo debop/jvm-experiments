@@ -7,10 +7,10 @@ package kr.kth.timeperiod
  */
 object QuarterKind extends Enumeration {
 
-  type QuarterKind = Value
+    type QuarterKind = Value
 
-  val First = Value(1, "First")
-  val Second = Value(2, "Second")
-  val Third = Value(3, "Third")
-  val Fourth = Value(4, "Fourth")
+    val First = Value(1, "First")
+    val Second = Value(2, "Second")
+    val Third = Value(3, "Third")
+    val Fourth = Value(4, "Fourth")
 }

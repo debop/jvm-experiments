@@ -108,10 +108,10 @@ object WeekTools extends Logging {
      * 해당 주차에 해당에 속한 기간
      */
     def getWeekRange(yearAndWeek: YearAndWeek, timeCalendar: ITimeCalendar): WeekRange = {
-        val startTime = Times.getStartOfYearWeek(yearAndWeek.getYear,
-                                                 yearAndWeek.getWeekOfYear,
-                                                 timeCalendar.getLocale,
-                                                 timeCalendar.getWeekOfYearRule)
+        val startTime = Times.getStartOfYearWeek(yearAndWeek.year,
+            yearAndWeek.weekOfYear,
+            timeCalendar.getLocale,
+            timeCalendar.getWeekOfYearRule)
 
         //
         // TODO: 여기 작업이 많이 필요합니다.

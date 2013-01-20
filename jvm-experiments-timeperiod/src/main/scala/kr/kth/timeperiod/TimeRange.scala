@@ -31,7 +31,6 @@ class TimeRange(start: DateTime, end: DateTime, readonly: Boolean)
     def this() {
         this(TimeSpec.MinPeriodTime, TimeSpec.MaxPeriodTime, false)
     }
-
 }
 
 /**

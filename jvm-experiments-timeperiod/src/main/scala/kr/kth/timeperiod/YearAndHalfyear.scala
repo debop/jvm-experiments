@@ -9,29 +9,25 @@ import org.joda.time.DateTime
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class YearAndHalfyear(year: Int,
-                      halfyear: HalfYearKind = HalfYearKind.First)
+class YearAndHalfyear(val year: Int, val halfyear: HalfYearKind = HalfYearKind.First)
     extends ValueObjectBase with Ordered[YearAndHalfyear] {
-
-    private val _year: Int = year
-    private val _halfyear: HalfYearKind = halfyear
 
     def this(year: Int, halfyear: Int) {
         this(year, HalfYearKind(halfyear))
     }
 
-    def getYear = _year
+    def getYear = year
 
-    def getHalfyear = _halfyear
+    def getHalfyear = halfyear
 
-    lazy val _hash = _year * 100 + _halfyear.id
+    lazy val _hash = year * 100 + halfyear.id
 
     override def hashCode: Int = _hash
 
     protected override def buildStringHelper =
         super.buildStringHelper
-        .add("year", _year)
-        .add("halfyear", _halfyear)
+        .add("year", year)
+        .add("halfyear", halfyear)
 
     def compare(that: YearAndHalfyear) = hashCode compareTo that.hashCode
 }

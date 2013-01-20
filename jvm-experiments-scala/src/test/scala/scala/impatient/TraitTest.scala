@@ -9,42 +9,42 @@ import org.junit.Test
  */
 class TraitTest {
 
-  trait Logged {
-    def log(msg: String) {}
-  }
-
-  trait ConsoleLogger extends Logged {
-    override def log(msg: String) {
-      println(msg)
+    trait Logged {
+        def log(msg: String) {}
     }
-  }
 
-  trait LoggedException extends Logged {
-    this: Exception =>
-    // or this: { def getMessage(): String } =>
-    def log() {
-      log(getMessage())
+    trait ConsoleLogger extends Logged {
+        override def log(msg: String) {
+            println(msg)
+        }
     }
-  }
 
-  class Account {
-    protected var balance = 0.0
-  }
-
-  class SavingsAccount extends Account {
-    def withdraw(amount: Double) {
-      if (amount > balance) throw new IllegalStateException("Insufficient funds") with LoggedException with ConsoleLogger
-      else balance -= amount
+    trait LoggedException extends Logged {
+        this: Exception =>
+        // or this: { def getMessage(): String } =>
+        def log() {
+            log(getMessage())
+        }
     }
-  }
 
-  @Test
-  def selfTypeTrait() {
-    try {
-      val acct = new SavingsAccount
-      acct.withdraw(100)
-    } catch {
-      case e: LoggedException => e.log()
+    class Account {
+        protected var balance = 0.0
     }
-  }
+
+    class SavingsAccount extends Account {
+        def withdraw(amount: Double) {
+            if (amount > balance) throw new IllegalStateException("Insufficient funds") with LoggedException with ConsoleLogger
+            else balance -= amount
+        }
+    }
+
+    @Test
+    def selfTypeTrait() {
+        try {
+            val acct = new SavingsAccount
+            acct.withdraw(100)
+        } catch {
+            case e: LoggedException => e.log()
+        }
+    }
 }

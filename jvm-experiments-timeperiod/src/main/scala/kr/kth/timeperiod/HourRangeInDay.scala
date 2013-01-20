@@ -8,32 +8,25 @@ import kr.kth.commons.{ValueObjectBase, TimeVal}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26
  */
-class HourRangeInDay(start: TimeVal, end: TimeVal)
+class HourRangeInDay(val start: TimeVal, val end: TimeVal)
     extends ValueObjectBase with Ordered[HourRangeInDay] {
 
-    private val _start: TimeVal = start
-    private val _end: TimeVal = end
-
-    def getStart: TimeVal = _start
-
-    def getEnd: TimeVal = _end
-
-    def isMoment: Boolean = (_start == _end)
+    def isMoment: Boolean = (start == end)
 
     def hasInside(hour: Int): Boolean = hasInside(TimeVal(hour))
 
     def hasInside(target: TimeVal): Boolean = {
-        target >= _start && target <= _end
+        target >= start && target <= end
     }
 
-    def compare(that: HourRangeInDay) = getStart compareTo that.getStart
+    def compare(that: HourRangeInDay) = start compareTo that.start
 
-    override def hashCode: Int = ScalaHash.compute(_start, _end)
+    override def hashCode: Int = ScalaHash.compute(start, end)
 
     protected override def buildStringHelper = {
         super.buildStringHelper
-        .add("start", _start)
-        .add("end", _end)
+        .add("start", start)
+        .add("end", end)
     }
 }
 
@@ -52,5 +45,5 @@ object HourRangeInDay {
     def apply(hour: Int): HourRangeInDay = apply(hour, hour)
 
 
-    def unapply(hourRange: HourRangeInDay) = (hourRange.getStart, hourRange.getEnd)
+    def unapply(hourRange: HourRangeInDay) = (hourRange.start, hourRange.end)
 }

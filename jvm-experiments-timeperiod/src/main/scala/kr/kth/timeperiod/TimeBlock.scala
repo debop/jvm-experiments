@@ -10,30 +10,30 @@ import org.joda.time.DateTime
  * Date: 13. 1. 14
  */
 class TimeBlock(start: DateTime, end: DateTime, readonly: Boolean = true)
-  extends TimePeriod(start, end, readonly) with ITimeBlock {
+    extends TimePeriod(start, end, readonly) with ITimeBlock {
 
-  _duration = super.getDuration
+    _duration = super.getDuration
 
 }
 
 object TimeBlock extends Logging {
 
-  lazy val Anytime = apply(readonly = true)
+    lazy val Anytime = apply(readonly = true)
 
-  def apply(start: DateTime = TimeSpec.MinPeriodTime,
-            end: DateTime = TimeSpec.MaxPeriodTime,
-            readonly: Boolean = false): TimeBlock =
-    new TimeBlock(start, end, readonly)
+    def apply(start: DateTime = TimeSpec.MinPeriodTime,
+              end: DateTime = TimeSpec.MaxPeriodTime,
+              readonly: Boolean = false): TimeBlock =
+        new TimeBlock(start, end, readonly)
 
-  def apply(source: ITimePeriod): TimeBlock = {
-    Guard.shouldNotBeNull(source, "source")
-    new TimeBlock(source.getStart, source.getEnd, source.isReadonly)
-  }
+    def apply(source: ITimePeriod): TimeBlock = {
+        Guard.shouldNotBeNull(source, "source")
+        new TimeBlock(source.getStart, source.getEnd, source.isReadonly)
+    }
 
-  def apply(source: ITimePeriod, readonly: Boolean): TimeBlock = {
-    Guard.shouldNotBeNull(source, "source")
-    new TimeBlock(source.getStart, source.getEnd, readonly)
-  }
+    def apply(source: ITimePeriod, readonly: Boolean): TimeBlock = {
+        Guard.shouldNotBeNull(source, "source")
+        new TimeBlock(source.getStart, source.getEnd, readonly)
+    }
 }
 
 /**
@@ -43,113 +43,113 @@ object TimeBlock extends Logging {
  */
 trait ITimeBlock extends ITimePeriod {
 
-  protected var _duration: Long = 0
+    protected var _duration: Long = 0
 
-  /**
-   * 시작 시각을 설정합니다.
-   */
-  def setStart(nv: DateTime) { assertMutable; _start = nv }
+    /**
+     * 시작 시각을 설정합니다.
+     */
+    def setStart(nv: DateTime) { assertMutable(); _start = nv }
 
-  /**
-   * 완료 시각을 설정합니다.
-   */
-  def setEnd(nv: DateTime) { assertMutable; _end = nv }
+    /**
+     * 완료 시각을 설정합니다.
+     */
+    def setEnd(nv: DateTime) { assertMutable(); _end = nv }
 
 
-  override def getDuration = _duration
+    override def getDuration = _duration
 
-  /**
-   * 기간을 설정합니다.
-   */
-  override def setDuration(nv: Long) {
-    assertMutable()
-    assertValidDuration(nv)
-    durationFromStart(nv)
-  }
+    /**
+     * 기간을 설정합니다.
+     */
+    override def setDuration(nv: Long) {
+        assertMutable()
+        assertValidDuration(nv)
+        durationFromStart(nv)
+    }
 
-  def copy(): ITimeBlock = {
-    copy(TimeSpec.ZeroMillis)
-  }
+    def copy(): ITimeBlock = {
+        copy(TimeSpec.ZeroMillis)
+    }
 
-  override def copy(offset: Long): ITimeBlock = {
-    log.debug("[{}] 를 offset[{}]을 주어 복사한 객체를 반환합니다.", this.getClass.getName, offset)
-    if (offset == TimeSpec.ZeroMillis)
-      return TimeBlock(this)
+    override def copy(offset: Long): ITimeBlock = {
+        log.debug("[{}] 를 offset[{}]을 주어 복사한 객체를 반환합니다.", this.getClass.getName, offset)
+        if (offset == TimeSpec.ZeroMillis)
+            return TimeBlock(this)
 
-    val start = if (hasStart) _start.plus(offset) else _start
-    val end = if (hasEnd) _end.plus(offset) else _end
-    TimeBlock(start, end)
-  }
+        val start = if (hasStart) _start.plus(offset) else _start
+        val end = if (hasEnd) _end.plus(offset) else _end
+        TimeBlock(start, end)
+    }
 
-  /**
-   * 기간을 설정합니다.
-   *
-   * @param newStart    시작 시각
-   * @param newDuration 기간
-   */
-  def setup(newStart: DateTime, newDuration: Long) {
-    assertValidDuration(newDuration)
-    log.debug("새로운 기간으로 TimeBlock을 설정합니다. newStart=[{}], newDuration=[{}]", newStart, newDuration)
+    /**
+     * 기간을 설정합니다.
+     *
+     * @param newStart    시작 시각
+     * @param newDuration 기간
+     */
+    def setup(newStart: DateTime, newDuration: Long) {
+        assertValidDuration(newDuration)
+        log.debug("새로운 기간으로 TimeBlock을 설정합니다. newStart=[{}], newDuration=[{}]", newStart, newDuration)
 
-    _start = newStart
-    _duration = newDuration
-    _end = _start.plus(_duration)
-  }
+        _start = newStart
+        _duration = newDuration
+        _end = _start.plus(_duration)
+    }
 
-  /**
-   * 시작 시각으로부터 지정된 getDuration 만큼을 기간으로 설정합니다.
-   *
-   * @param duration 간격
-   */
-  def durationFromStart(duration: Long) {
-    assertValidDuration(duration)
+    /**
+     * 시작 시각으로부터 지정된 getDuration 만큼을 기간으로 설정합니다.
+     *
+     * @param duration 간격
+     */
+    def durationFromStart(duration: Long) {
+        assertValidDuration(duration)
 
-    _duration = duration
-    _end = _start.plus(_duration)
-  }
+        _duration = duration
+        _end = _start.plus(_duration)
+    }
 
-  /**
-   * 완료 시각 기준으로 getDuration 만큼을 기간으로 설정합니다.
-   *
-   * @param duration 간격
-   */
-  def durationFromEnd(duration: Long) {
-    assertValidDuration(duration)
+    /**
+     * 완료 시각 기준으로 getDuration 만큼을 기간으로 설정합니다.
+     *
+     * @param duration 간격
+     */
+    def durationFromEnd(duration: Long) {
+        assertValidDuration(duration)
 
-    _duration = duration
-    _start = _end.minus(_duration)
-  }
+        _duration = duration
+        _start = _end.minus(_duration)
+    }
 
-  /**
-   * 지정된 offset 이전의 {@link ITimeBlock} 을 찾습니다.
-   */
-  def getPreviousBlock(offset: Long = TimeSpec.ZeroMillis): ITimeBlock = {
-    // val endOff = if(offset > TimeSpec.ZeroMillis) -offset else offset
-    val result = TimeBlock(getStart.minus(getDuration), getStart.minus(Math.abs(offset)), isReadonly)
-    log.debug("직전 Block을 구합니다. offset=[{}], previousBlock=[{}]", offset, result)
-    result
-  }
+    /**
+     * 지정된 offset 이전의 {@link ITimeBlock} 을 찾습니다.
+     */
+    def getPreviousBlock(offset: Long = TimeSpec.ZeroMillis): ITimeBlock = {
+        // val endOff = if(offset > TimeSpec.ZeroMillis) -offset else offset
+        val result = TimeBlock(getStart.minus(getDuration), getStart.minus(Math.abs(offset)), isReadonly)
+        log.debug("직전 Block을 구합니다. offset=[{}], previousBlock=[{}]", offset, result)
+        result
+    }
 
-  /**
-   * 지정된 offset 이후의 {@link ITimeBlock} 을 찾습니다.
-   */
-  def getNextBlock(offset: Long = TimeSpec.ZeroMillis): ITimeBlock = {
-    // var startOff= if (offset > TimeSpec.ZeroMillis) offset else -offset
-    val result = TimeBlock(getEnd.plus(Math.abs(offset)), getEnd.plus(getDuration), isReadonly)
-    log.debug("직후 Block을 구합니다. offset=[{}], nextBlock=[{}]", offset, result)
-    result
-  }
+    /**
+     * 지정된 offset 이후의 {@link ITimeBlock} 을 찾습니다.
+     */
+    def getNextBlock(offset: Long = TimeSpec.ZeroMillis): ITimeBlock = {
+        // var startOff= if (offset > TimeSpec.ZeroMillis) offset else -offset
+        val result = TimeBlock(getEnd.plus(Math.abs(offset)), getEnd.plus(getDuration), isReadonly)
+        log.debug("직후 Block을 구합니다. offset=[{}], nextBlock=[{}]", offset, result)
+        result
+    }
 
-  override def getIntersection(other: ITimePeriod): ITimeBlock = {
-    Times.getIntersectionBlock(this, other)
-  }
+    override def getIntersection(other: ITimePeriod): ITimeBlock = {
+        Times.getIntersectionBlock(this, other)
+    }
 
-  override def getUnion(other: ITimePeriod): ITimeBlock = {
-    Times.getUnionBlock(this, other)
-  }
+    override def getUnion(other: ITimePeriod): ITimeBlock = {
+        Times.getUnionBlock(this, other)
+    }
 
-  protected def assertValidDuration(duration: Long) {
-    assert(duration >= TimeSpec.MinPeriodDuration,
-           "duration should be 0 or positive number! duration=" + duration)
-  }
+    protected def assertValidDuration(duration: Long) {
+        assert(duration >= TimeSpec.MinPeriodDuration,
+            "duration should be 0 or positive number! duration=" + duration)
+    }
 }

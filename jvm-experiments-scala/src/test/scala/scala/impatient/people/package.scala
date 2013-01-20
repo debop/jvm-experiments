@@ -7,11 +7,11 @@ package scala.impatient
  * Date: 13. 1. 7.
  */
 package object people {
-  val defaultName = "Sunghyouk Bae"
+    val defaultName = "Sunghyouk Bae"
 
-  object User {
-    def instance = this
-  }
+    object User {
+        def instance = this
+    }
 
 }
 

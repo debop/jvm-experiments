@@ -4,7 +4,7 @@ import kr.kth.commons.Guard
 import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.ScalaReflects
 import kr.kth.commons.tools.StringTool._
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
 
 /**
  * TimeLine 관련 Object
@@ -28,7 +28,7 @@ object TimeLines extends Logging {
             val periodStart = timeLineMoments.get(itemIndex)
             Guard.shouldNotBeNull(periodStart, "periodStart")
             Guard.shouldBe(periodStart.getStartCount != 0,
-                           s"getStartCount() 값은 [0] 이 아니여야 합니다. periodStart.getStartCount()=[${periodStart.getStartCount}]")
+                s"getStartCount() 값은 [0] 이 아니여야 합니다. periodStart.getStartCount()=[${periodStart.getStartCount}]")
 
             var balance: Int = periodStart.getStartCount
             var periodEnd: ITimeLineMoment = null
@@ -55,13 +55,13 @@ object TimeLines extends Logging {
     }
 
     /**
-         * {@link ITimeLineMomentCollection} 으로부터 교집합에 해당하는 기간들을 구합니다.
-         *
-         * @param periodClass
-         * @param timeLineMoments
-         * @param <T>
-         * @return
-         */
+     * {@link ITimeLineMomentCollection} 으로부터 교집합에 해당하는 기간들을 구합니다.
+     *
+     * @param periodClass
+     * @param timeLineMoments
+     * @param <T>
+     * @return
+     */
     def intersectPeriods[T <: ITimePeriod : ClassTag](timeLineMoments: ITimeLineMomentCollection)
     : ITimePeriodCollection = {
         log.debug("ItimeLineMomentCollection으로부터 교집합에 해당하는 기간들을 구합니다.")
@@ -92,8 +92,8 @@ object TimeLines extends Logging {
     }
 
     /**
-         * {@link ITimeLineMomentCollection}의 모든 기간에 속하지 않는 Gap 들을 찾아냅니다.
-         */
+     * {@link ITimeLineMomentCollection}의 모든 기간에 속하지 않는 Gap 들을 찾아냅니다.
+     */
     def calculateCaps[T <: ITimePeriod : ClassTag](timeLineMoments: ITimeLineMomentCollection,
                                                    range: ITimePeriod)
     : ITimePeriodCollection = {
@@ -117,7 +117,7 @@ object TimeLines extends Logging {
         while (itemIndex < timeLineMoments.size) {
             val moment: ITimeLineMoment = timeLineMoments.get(itemIndex)
             Guard.shouldBe(moment.getStartCount != 0,
-                           s"moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[$moment]")
+                s"moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[$moment]")
 
             var balance: Int = moment.getStartCount
             var gapStart: ITimeLineMoment = null

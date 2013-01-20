@@ -1,7 +1,5 @@
 package kr.kth.timeperiod
 
-import kr.kth.commons.slf4j.Logging
-import org.joda.time.DateTime
 
 /**
  * Date 를 요소로 가지는 {@link TreeSet[Date]} 입니다.
@@ -12,6 +10,7 @@ import org.joda.time.DateTime
 class DateTimeSet {
 
 }
+
 //@SerialVersionUID(6897988915122604105L)
 //class DateTimeSet extends IDateTimeSet {
 //  override implicit def ordering(): Ordering[DateTime] = DateTimeOrdering

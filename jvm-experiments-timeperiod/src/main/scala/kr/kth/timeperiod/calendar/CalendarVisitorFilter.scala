@@ -1,10 +1,10 @@
 package kr.kth.timeperiod.calendar
 
 import com.google.common.base.Objects
-import java.util.concurrent.locks.ReentrantLock
 import kr.kth.commons.tools.StringTool
 import kr.kth.timeperiod.DayOfWeek._
 import kr.kth.timeperiod.{DayOfWeek, TimePeriodCollection}
+import scala.util.Try
 
 /**
  * kr.kth.timeperiod.calendar.CalendarVisitorFilter
@@ -20,8 +20,6 @@ class CalendarVisitorFilter extends ICalendarVisitorFilter {
     private val _weekDays = new collection.mutable.HashSet[DayOfWeek]()
     private val _hours = new collection.mutable.HashSet[Int]()
     private val _minutes = new collection.mutable.HashSet[Int]()
-
-    private val _lock = new ReentrantLock()
 
     def getExcludePeriods = _excludePeriods
 
@@ -39,15 +37,15 @@ class CalendarVisitorFilter extends ICalendarVisitorFilter {
 
     def addWorkingWeekDays() {
         addWeekDays(DayOfWeek.Monday,
-                    DayOfWeek.Tuesday,
-                    DayOfWeek.Wednesday,
-                    DayOfWeek.Thursday,
-                    DayOfWeek.Friday)
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday)
     }
 
     def addWeekendWeekDays() {
         addWeekDays(DayOfWeek.Saturday,
-                    DayOfWeek.Sunday)
+            DayOfWeek.Sunday)
     }
 
     def addWeekDays(dayOfWeeks: DayOfWeek*) {
@@ -56,16 +54,15 @@ class CalendarVisitorFilter extends ICalendarVisitorFilter {
     }
 
     def clear() {
-        _lock.lock()
-        try {
-            _years.clear()
-            _months.clear()
-            _days.clear()
-            _weekDays.clear()
-            _hours.clear()
-            _minutes.clear()
-        } finally {
-            _lock.unlock()
+        this.synchronized {
+            Try {
+                _years.clear()
+                _months.clear()
+                _days.clear()
+                _weekDays.clear()
+                _hours.clear()
+                _minutes.clear()
+            }
         }
     }
 

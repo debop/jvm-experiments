@@ -7,9 +7,9 @@ package kr.kth.timeperiod
  */
 object SeekBoundaryMode extends Enumeration {
 
-  type SeekBoundaryMode = Value
+    type SeekBoundaryMode = Value
 
-  val Seek = Value("Seek")
-  // 0
-  val Next = Value("Next") // 1
+    val Seek = Value("Seek")
+    // 0
+    val Next = Value("Next") // 1
 }

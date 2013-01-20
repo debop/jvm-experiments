@@ -151,7 +151,7 @@ object Times extends Logging {
     def previousMonth(startMonth: Int): YearAndMonth = addMonth(0, startMonth, -1)
 
     def addMonth(current: YearAndMonth, count: Int): YearAndMonth =
-        addMonth(current.getYear, current.getMonth, count)
+        addMonth(current.year, current.month, count)
 
     def addMonth(startYear: Int, startMonth: Int, count: Int): YearAndMonth = {
 
@@ -198,14 +198,14 @@ object Times extends Logging {
 
         var currentDay = new DateTime().withDate(year, 12, 31)
         var yearAndWeek = getWeekOfYear(currentDay, locale, weekOfYearRule)
-        while (yearAndWeek.getYear != year) {
+        while (yearAndWeek.year != year) {
             currentDay = currentDay.minusDays(1)
             yearAndWeek = getWeekOfYear(currentDay, locale, weekOfYearRule)
         }
-        val weeks = yearAndWeek.getWeekOfYear
+        val weeks = yearAndWeek.weekOfYear
 
         log.debug("해당년도[{}]의 주차 수 [{}]를 구했습니다!!! locale=[{}], weekOfYearRule=[{}]",
-                  year, weeks, locale, weekOfYearRule)
+            year, weeks, locale, weekOfYearRule)
         weeks
     }
 
@@ -221,18 +221,18 @@ object Times extends Logging {
         Guard.shouldBeBetween(weekOfYear, 1, TimeSpec.MaxWeeksPerYear, "weekOfYear")
 
         log.debug("해당 주차의 시작일을 구합니다. year=[{}], weekOfYear=[{}], locale=[{}], weekOfYearRule=[{}]",
-                  year, weekOfYear, locale, weekOfYearRule)
+            year, weekOfYear, locale, weekOfYearRule)
 
         var weekday = new DateTime().withDate(year, 1, 1).plusDays(weekOfYear * TimeSpec.DaysPerWeek)
         var current = getWeekOfYear(weekday, locale, weekOfYearRule)
 
         // getEnd datePart of week
-        while (current.getWeekOfYear != weekOfYear) {
+        while (current.weekOfYear != weekOfYear) {
             weekday = weekday.minusDays(1)
             current = getWeekOfYear(weekday, locale, weekOfYearRule)
         }
         // getEnd of previous week
-        while (current.getWeekOfYear == weekOfYear) {
+        while (current.weekOfYear == weekOfYear) {
             weekday = weekday.minusDays(1)
             current = getWeekOfYear(weekday, locale, weekOfYearRule)
         }
@@ -941,7 +941,7 @@ object Times extends Logging {
         val hasInside: Boolean = (target.compareTo(period.getStart) >= 0) && (target.compareTo(period.getEnd) <= 0)
 
         log.debug("기간[{}]에 대상날짜[{}]가 포함(Inside)되는지 여부를 검사. hasInside=[{}]",
-                  asString(period), target, hasInside)
+            asString(period), target, hasInside)
 
         hasInside
     }
@@ -1014,7 +1014,7 @@ object Times extends Logging {
                 (target.getStart.compareTo(period.getStart) < 0 && target.getEnd.compareTo(period.getEnd) > 0)
 
         log.debug("period=[{}], target=[{}]에 교차구간이 있는지 확인합니다. isIntersected=[{}]",
-                  asString(period), asString(target), isIntersected)
+            asString(period), asString(target), isIntersected)
 
         isIntersected
     }
@@ -1035,7 +1035,7 @@ object Times extends Logging {
                 relation != PeriodRelation.NoRelation
 
         log.debug("period=[{}], target=[{}]이 overlap 되는지 확인합니다. isOverlaps=[{}]",
-                  asString(period), asString(target), isOverlaps)
+            asString(period), asString(target), isOverlaps)
 
         isOverlaps
     }
@@ -1056,7 +1056,7 @@ object Times extends Logging {
         }
 
         log.debug("period=[{}], target=[{}]의 교집합 TimeBlock=[{}]을 구했습니다.",
-                  asString(period), asString(target), asString(intersectionBlock))
+            asString(period), asString(target), asString(intersectionBlock))
 
         intersectionBlock
     }
@@ -1070,7 +1070,7 @@ object Times extends Logging {
         val unionBlock: TimeBlock = new TimeBlock(start, end, period.isReadonly)
 
         log.debug("period=[{}]와 target=[{}]의 합집합 TimeBlock=[{}]을 구했습니다.",
-                  asString(period), asString(target), asString(unionBlock))
+            asString(period), asString(target), asString(unionBlock))
 
         unionBlock
     }
@@ -1088,7 +1088,7 @@ object Times extends Logging {
             intersectionRange = new TimeRange(start, end, period.isReadonly)
         }
         log.debug("period=[{}]와 target=[{}]의 교집합 TimeRange=[{}]을 구했습니다.",
-                  asString(period), asString(target), asString(intersectionRange))
+            asString(period), asString(target), asString(intersectionRange))
 
         intersectionRange
     }
@@ -1108,7 +1108,7 @@ object Times extends Logging {
         }
 
         log.debug("period=[{}]와 target=[{}]의 합집합 TimeRange=[{}]을 구했습니다.",
-                  asString(period), asString(target), asString(unionRange))
+            asString(period), asString(target), asString(unionRange))
 
         unionRange
     }
@@ -1138,7 +1138,7 @@ object Times extends Logging {
     def assertValidPeriod(start: DateTime, end: DateTime) {
         if (start != null && end != null)
             Guard.shouldBe(start.getMillis <= end.getMillis,
-                           "시작 시각이 완료 시각보다 이전 시각이어야 합니다. Start=[%s], End=[%s]", start, end)
+                "시작 시각이 완료 시각보다 이전 시각이어야 합니다. Start=[%s], End=[%s]", start, end)
     }
 
     def assertMutable(period: ITimePeriod) {

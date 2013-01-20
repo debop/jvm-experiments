@@ -12,55 +12,55 @@ import org.joda.time.DateTime
  */
 class TimeFormatter extends ITimeFormatter with Logging {
 
-	def getListSeparator: String = ???
+    def getListSeparator: String = ???
 
-	def getContextSeparator: String = ???
+    def getContextSeparator: String = ???
 
-	def getStartEndSeparator: String = ???
+    def getStartEndSeparator: String = ???
 
-	def getDurationSeparator: String = ???
+    def getDurationSeparator: String = ???
 
-	def getDateFormat: String = ???
+    def getDateFormat: String = ???
 
-	def getShortDateFormat: String = ???
+    def getShortDateFormat: String = ???
 
-	def getLongDateFormat: String = ???
+    def getLongDateFormat: String = ???
 
-	def getShortTimeFormat: String = ???
+    def getShortTimeFormat: String = ???
 
-	def getLongTimeFormat: String = ???
+    def getLongTimeFormat: String = ???
 
-	def getDurationKind: DurationFormatKind.DurationFormatKind = ???
+    def getDurationKind: DurationFormatKind.DurationFormatKind = ???
 
-	def isUseDurationSeconds: Boolean = ???
+    def isUseDurationSeconds: Boolean = ???
 
-	def getCollection(count: Int): String = ???
+    def getCollection(count: Int): String = ???
 
-	def getCollectionPeriod(count: Int, start: DateTime, end: DateTime, duration: Long): String = ???
+    def getCollectionPeriod(count: Int, start: DateTime, end: DateTime, duration: Long): String = ???
 
-	def getDate(date: DateTime): String = ???
+    def getDate(date: DateTime): String = ???
 
-	def getShortDate(date: DateTime): String = ???
+    def getShortDate(date: DateTime): String = ???
 
-	def getLongDate(date: DateTime): String = ???
+    def getLongDate(date: DateTime): String = ???
 
-	def getTime(date: DateTime): String = ???
+    def getTime(date: DateTime): String = ???
 
-	def getShortTime(date: DateTime): String = ???
+    def getShortTime(date: DateTime): String = ???
 
-	def getLongTime(date: DateTime): String = ???
+    def getLongTime(date: DateTime): String = ???
 
-	def getDuration(duration: Long, durationFormatKind: DurationFormatKind.DurationFormatKind): String = ???
+    def getDuration(duration: Long, durationFormatKind: DurationFormatKind.DurationFormatKind): String = ???
 
-	def getPeriod(start: DateTime, end: DateTime, duration: Long): String = ???
+    def getPeriod(start: DateTime, end: DateTime, duration: Long): String = ???
 
-	def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge.IntervalEdge, endEdge: IntervalEdge.IntervalEdge, duration: Long): String = ???
+    def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge.IntervalEdge, endEdge: IntervalEdge.IntervalEdge, duration: Long): String = ???
 
-	def getCalendarPeriod(start: String, end: String, duration: Long): String = ???
+    def getCalendarPeriod(start: String, end: String, duration: Long): String = ???
 
-	def getCalendarPeriod(context: String, start: String, end: String, duration: Long): String = ???
+    def getCalendarPeriod(context: String, start: String, end: String, duration: Long): String = ???
 
-	def getCalendarPeriod(start: String, end: String, startContex: String, endContext: String, duration: Long): String = ???
+    def getCalendarPeriod(start: String, end: String, startContex: String, endContext: String, duration: Long): String = ???
 }
 
 /**
@@ -70,62 +70,62 @@ class TimeFormatter extends ITimeFormatter with Logging {
  */
 trait ITimeFormatter {
 
-	def getLocale: Locale = Locale.getDefault
+    def getLocale: Locale = Locale.getDefault
 
-	def getListSeparator: String
+    def getListSeparator: String
 
-	def getContextSeparator: String
+    def getContextSeparator: String
 
-	def getStartEndSeparator: String
+    def getStartEndSeparator: String
 
-	def getDurationSeparator: String
+    def getDurationSeparator: String
 
-	def getDateFormat: String
+    def getDateFormat: String
 
-	def getShortDateFormat: String
+    def getShortDateFormat: String
 
-	def getLongDateFormat: String
+    def getLongDateFormat: String
 
-	def getShortTimeFormat: String
+    def getShortTimeFormat: String
 
-	def getLongTimeFormat: String
+    def getLongTimeFormat: String
 
-	def getDurationKind: DurationFormatKind
+    def getDurationKind: DurationFormatKind
 
-	def isUseDurationSeconds: Boolean
+    def isUseDurationSeconds: Boolean
 
-	def getCollection(count: Int): String
+    def getCollection(count: Int): String
 
-	def getCollectionPeriod(count: Int, start: DateTime, end: DateTime, duration: Long): String
+    def getCollectionPeriod(count: Int, start: DateTime, end: DateTime, duration: Long): String
 
-	def getDate(date: DateTime): String
+    def getDate(date: DateTime): String
 
-	def getShortDate(date: DateTime): String
+    def getShortDate(date: DateTime): String
 
-	def getLongDate(date: DateTime): String
+    def getLongDate(date: DateTime): String
 
-	def getTime(date: DateTime): String
+    def getTime(date: DateTime): String
 
-	def getShortTime(date: DateTime): String
+    def getShortTime(date: DateTime): String
 
-	def getLongTime(date: DateTime): String
+    def getLongTime(date: DateTime): String
 
-	def getDuration(duration: Long, durationFormatKind: DurationFormatKind = DurationFormatKind.Compact): String
+    def getDuration(duration: Long, durationFormatKind: DurationFormatKind = DurationFormatKind.Compact): String
 
-	def getPeriod(start: DateTime, end: DateTime, duration: Long): String
+    def getPeriod(start: DateTime, end: DateTime, duration: Long): String
 
-	def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge, endEdge: IntervalEdge, duration: Long): String
+    def getInterval(start: DateTime, end: DateTime, startEdge: IntervalEdge, endEdge: IntervalEdge, duration: Long): String
 
-	def getCalendarPeriod(start: String, end: String, duration: Long): String
+    def getCalendarPeriod(start: String, end: String, duration: Long): String
 
-	def getCalendarPeriod(context: String, start: String, end: String, duration: Long): String
+    def getCalendarPeriod(context: String, start: String, end: String, duration: Long): String
 
-	def getCalendarPeriod(startContext: String, endContext: String, start: String, end: String, duration: Long): String
+    def getCalendarPeriod(startContext: String, endContext: String, start: String, end: String, duration: Long): String
 }
 
 object TimeFormatter extends Logging {
 
-	lazy val instance = new TimeFormatter()
+    lazy val instance = new TimeFormatter()
 }
 
 

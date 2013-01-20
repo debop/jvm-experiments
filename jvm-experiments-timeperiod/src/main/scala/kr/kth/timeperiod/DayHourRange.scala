@@ -9,18 +9,14 @@ import kr.kth.commons.{Guard, TimeVal}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 27
  */
-class DayHourRange(dayOfWeek: DayOfWeek,
+class DayHourRange(val dayOfWeek: DayOfWeek,
                    start: TimeVal,
                    end: TimeVal) extends HourRangeInDay(start, end) {
 
-    private val _dayOfWeek = dayOfWeek
-
-    def getDayOfWeek = _dayOfWeek
-
-    override def hashCode = ScalaHash.compute(super.hashCode(), _dayOfWeek)
+    override def hashCode = ScalaHash.compute(super.hashCode(), dayOfWeek)
 
     protected override def buildStringHelper =
-        super.buildStringHelper.add("dayOfWeek", _dayOfWeek)
+        super.buildStringHelper.add("dayOfWeek", dayOfWeek)
 }
 
 object DayHourRange {

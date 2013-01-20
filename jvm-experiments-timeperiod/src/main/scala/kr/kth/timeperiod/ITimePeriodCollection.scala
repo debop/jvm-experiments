@@ -11,38 +11,38 @@ import scala.annotation.varargs
  */
 trait ITimePeriodCollection extends ITimePeriodContainer {
 
-  def hasInsidePeriods(moment: DateTime): Boolean =
-    getPeriods.exists(p => Times.hasInside(p, moment))
+    def hasInsidePeriods(moment: DateTime): Boolean =
+        getPeriods.exists(p => Times.hasInside(p, moment))
 
-  def hasInsidePeriods(target: ITimePeriod): Boolean =
-    getPeriods.exists(p => Times.hasInside(p, target))
+    def hasInsidePeriods(target: ITimePeriod): Boolean =
+        getPeriods.exists(p => Times.hasInside(p, target))
 
-  def hasOverlapPeriods(target: ITimePeriod): Boolean =
-    getPeriods.exists(p => Times.overlapsWith(p, target))
+    def hasOverlapPeriods(target: ITimePeriod): Boolean =
+        getPeriods.exists(p => Times.overlapsWith(p, target))
 
-  def hasIntersectionPeriods(moment: DateTime): Boolean =
-    hasIntersectionPeriods(TimeRange(start = moment, end = moment))
+    def hasIntersectionPeriods(moment: DateTime): Boolean =
+        hasIntersectionPeriods(TimeRange(start = moment, end = moment))
 
-  def hasIntersectionPeriods(target: ITimePeriod): Boolean =
-    getPeriods.exists(p => Times.intersectsWith(p, target))
+    def hasIntersectionPeriods(target: ITimePeriod): Boolean =
+        getPeriods.exists(p => Times.intersectsWith(p, target))
 
-  def insidePeriods(target: ITimePeriod): Iterable[ITimePeriod] =
-    getPeriods.filter(p => Times.hasInside(p, target))
+    def insidePeriods(target: ITimePeriod): Iterable[ITimePeriod] =
+        getPeriods.filter(p => Times.hasInside(p, target))
 
-  def overlapPeriods(target: ITimePeriod): Iterable[ITimePeriod] =
-    getPeriods.filter(p => Times.overlapsWith(p, target))
+    def overlapPeriods(target: ITimePeriod): Iterable[ITimePeriod] =
+        getPeriods.filter(p => Times.overlapsWith(p, target))
 
-  def intersectionPeriods(moment: DateTime): Iterable[ITimePeriod] =
-    intersectionPeriods(TimeRange(start = moment, end = moment))
+    def intersectionPeriods(moment: DateTime): Iterable[ITimePeriod] =
+        intersectionPeriods(TimeRange(start = moment, end = moment))
 
-  def intersectionPeriods(target: ITimePeriod): Iterable[ITimePeriod] =
-    getPeriods.filter(p => Times.intersectsWith(p, target))
+    def intersectionPeriods(target: ITimePeriod): Iterable[ITimePeriod] =
+        getPeriods.filter(p => Times.intersectsWith(p, target))
 
-  def relationPeriods(target: ITimePeriod, relation: PeriodRelation): Iterable[ITimePeriod] =
-    getPeriods.filter(p => Times.getRelation(p, target) == relation)
+    def relationPeriods(target: ITimePeriod, relation: PeriodRelation): Iterable[ITimePeriod] =
+        getPeriods.filter(p => Times.getRelation(p, target) == relation)
 
-  @varargs
-  def relationPeriods(target: ITimePeriod, relations: PeriodRelation*): Iterable[ITimePeriod] = {
-    getPeriods.filter(p => relations.contains(Times.getRelation(p, target)))
-  }
+    @varargs
+    def relationPeriods(target: ITimePeriod, relations: PeriodRelation*): Iterable[ITimePeriod] = {
+        getPeriods.filter(p => relations.contains(Times.getRelation(p, target)))
+    }
 }

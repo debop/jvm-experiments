@@ -10,15 +10,13 @@ import org.joda.time.DateTime
  */
 class DateVal(val date: DateTime) extends ValueObjectBase with Ordered[DateVal] {
 
-    private val _date = date
+    def getDate = date
 
-    def getDate = _date
+    def year = date.getYear
 
-    def year = _date.getYear
+    def monthOfYear = date.getMonthOfYear
 
-    def monthOfYear = _date.getMonthOfYear
-
-    def dayOfMonth = _date.getDayOfMonth
+    def dayOfMonth = date.getDayOfMonth
 
     def getDateTime(time: TimeVal): DateTime =
         if (time != null) this.date.plusMillis(time.millis.toInt) else this.date
@@ -37,8 +35,6 @@ class DateVal(val date: DateTime) extends ValueObjectBase with Ordered[DateVal] 
     protected override def buildStringHelper() =
         super.buildStringHelper()
         .add("date", date)
-
-
 }
 
 object DateVal {

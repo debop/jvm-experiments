@@ -7,33 +7,25 @@ import kr.kth.commons.ValueObjectBase
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 26.
  */
-class YearAndWeek(year: Int = 0, weekOfYear: Int = 1)
+class YearAndWeek(val year: Int = 0, val weekOfYear: Int = 1)
     extends ValueObjectBase with Ordered[YearAndWeek] {
 
-    private val _year = year
-    private val _weekOfYear = weekOfYear
-
-    def getYear = _year
-
-    def getWeekOfYear = _weekOfYear
-
-    lazy val _hash = _year * 100 + _weekOfYear
+    lazy val _hash = year * 100 + weekOfYear
 
     override def hashCode: Int = _hash
 
     protected override def buildStringHelper() = {
         super.buildStringHelper()
-        .add("year", _year)
-        .add("weekOfYear", _weekOfYear)
+        .add("year", year)
+        .add("weekOfYear", weekOfYear)
     }
 
     def compare(that: YearAndWeek) = hashCode compareTo that.hashCode
 }
 
 object YearAndWeek {
-
     def apply(year: Int = 0, weekOfYear: Int = 1): YearAndWeek =
         new YearAndWeek(year, weekOfYear)
 
-    def unapply(yw: YearAndWeek) = (yw.getYear, yw.getWeekOfYear)
+    def unapply(yw: YearAndWeek) = (yw.year, yw.weekOfYear)
 }

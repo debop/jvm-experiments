@@ -7,28 +7,21 @@ import kr.kth.commons.{Guard, ValueObjectBase}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 27
  */
-class MonthRangeInYear(min: Int, var max: Int)
+class MonthRangeInYear(val minMonth: Int, val maxMonth: Int)
     extends ValueObjectBase with Ordered[MonthRangeInYear] {
 
-    private val _min: Int = min
-    private val _max: Int = max
+    def isSingleMonth = (minMonth == maxMonth)
 
-    def getMin = _min
+    def hasInside(month: Int) = minMonth <= month && month <= maxMonth
 
-    def getMax = _max
-
-    def isSingleMonth = (_min == _max)
-
-    def hasInside(month: Int) = getMin <= month && month <= getMax
-
-    override def hashCode() = _max * 100 + _min
+    override def hashCode() = minMonth * 100 + maxMonth
 
     protected override def buildStringHelper() =
         super.buildStringHelper()
-        .add("min", _min)
-        .add("max", _max)
+        .add("minMonth", minMonth)
+        .add("maxMonth", maxMonth)
 
-    def compare(that: MonthRangeInYear) = getMin compareTo that.getMin
+    def compare(that: MonthRangeInYear) = minMonth compareTo that.minMonth
 }
 
 object MonthRangeInYear {
@@ -42,5 +35,5 @@ object MonthRangeInYear {
     }
 
     def unapply(monthRangeInYear: MonthRangeInYear) =
-        (monthRangeInYear.getMin, monthRangeInYear.getMax)
+        (monthRangeInYear.minMonth, monthRangeInYear.maxMonth)
 }

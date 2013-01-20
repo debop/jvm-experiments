@@ -1,8 +1,8 @@
 package kr.kth.timeperiod
 
 import kr.kth.commons.slf4j.Logging
-import org.junit.{Assert, Test}
 import org.joda.time.DateTimeConstants
+import org.junit.{Assert, Test}
 
 /**
  * kr.kth.timeperiod.ScalaDayOfWeekTest
@@ -11,17 +11,17 @@ import org.joda.time.DateTimeConstants
  */
 class ScalaDayOfWeekTest extends Logging {
 
-  @Test
-  def dayOfWeekEquals() {
-    val sunday = DayOfWeek.Sunday
-    val parsed = DayOfWeek.withName("Sunday")
+    @Test
+    def dayOfWeekEquals() {
+        val sunday = DayOfWeek.Sunday
+        val parsed = DayOfWeek.withName("Sunday")
 
-    Assert.assertEquals(sunday, parsed)
-    Assert.assertEquals("Sunday", sunday.toString)
+        Assert.assertEquals(sunday, parsed)
+        Assert.assertEquals("Sunday", sunday.toString)
 
-    Assert.assertNotEquals(DayOfWeek.Friday, DayOfWeek.Monday)
+        Assert.assertNotEquals(DayOfWeek.Friday, DayOfWeek.Monday)
 
-    Assert.assertEquals(DayOfWeek.Monday, DayOfWeek(DateTimeConstants.MONDAY))
-    log.debug(DayOfWeek.values)
-  }
+        Assert.assertEquals(DayOfWeek.Monday, DayOfWeek(DateTimeConstants.MONDAY))
+        log.debug(DayOfWeek.values)
+    }
 }

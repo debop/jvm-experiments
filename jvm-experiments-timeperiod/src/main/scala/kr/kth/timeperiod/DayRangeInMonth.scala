@@ -8,28 +8,21 @@ import kr.kth.commons.{Guard, ValueObjectBase}
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 27
  */
-class DayRangeInMonth(min: Int, max: Int)
+class DayRangeInMonth(val minDay: Int, val maxDay: Int)
     extends ValueObjectBase with Ordered[DayRangeInMonth] {
 
-    private val _min = min
-    private val _max = max
+    def isSingleDay = (minDay == maxDay)
 
-    def isSingleDay = (_min == _max)
+    def hasInside(day: Int): Boolean = (minDay <= day && day <= maxDay)
 
-    def getMin = _min
-
-    def getMax = _max
-
-    def hasInside(day: Int): Boolean = (getMin <= day && day <= getMax)
-
-    override def hashCode = ScalaHash.compute(_min, _max)
+    override def hashCode = ScalaHash.compute(minDay, maxDay)
 
     protected override def buildStringHelper =
         super.buildStringHelper()
-        .add("min", _min)
-        .add("max", _max)
+        .add("minDay", minDay)
+        .add("maxDay", maxDay)
 
-    def compare(that: DayRangeInMonth) = getMin compareTo that.getMin
+    def compare(that: DayRangeInMonth) = minDay compareTo that.minDay
 }
 
 object DayRangeInMonth {
@@ -42,5 +35,5 @@ object DayRangeInMonth {
         else DayRangeInMonth(max, min)
     }
 
-    def unapply(dayRangeInMonth: DayRangeInMonth) = (dayRangeInMonth.getMin, dayRangeInMonth.getMax)
+    def unapply(dayRangeInMonth: DayRangeInMonth) = (dayRangeInMonth.minDay, dayRangeInMonth.maxDay)
 }

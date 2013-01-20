@@ -12,10 +12,10 @@ abstract class HalfyearTimeRange(startYear: Int,
                                  calendar: ITimeCalendar)
     extends YearCalendarTimeRange(HalfyearTimeRange.
                                   getPeriodOf(calendar.getBaseMonthOfYear,
-                                              startYear,
-                                              startHalfyear,
-                                              halfyearCount),
-                                  calendar) {
+        startYear,
+        startHalfyear,
+        halfyearCount),
+        calendar) {
 
     private val _startYear = startYear
     private val _startHalfyear = startHalfyear
@@ -62,7 +62,7 @@ abstract class HalfyearTimeRange(startYear: Int,
         val monthCount2 = monthCount + getHalfyearCount * TimeSpec.MonthsPerHalfyear
         val endYM = Times.addMonth(getStartYear, getYearBaseMonth, monthCount2)
 
-        startYM.getYear != endYM.getYear
+        startYM.year != endYM.year
     }
 
     def getQuarters: IndexedSeq[QuarterRange] = {
@@ -114,8 +114,8 @@ class HalfyearRange(startYear: Int, halfyear: HalfYearKind, calendar: ITimeCalen
 
     def this(moment: DateTime, calendar: ITimeCalendar) {
         this(Times.getYearOfCalendar(calendar, moment),
-             Times.getHalfyearOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
-             calendar)
+            Times.getHalfyearOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
+            calendar)
     }
 
     def this(moment: DateTime) {
@@ -147,9 +147,9 @@ class HalfyearRange(startYear: Int, halfyear: HalfYearKind, calendar: ITimeCalen
         val fmt = formatter.getOrElse(TimeFormatter.instance)
 
         fmt.getCalendarPeriod(getHalfyearOfYearName,
-                              fmt.getShortDate(getStart),
-                              fmt.getShortDate(getEnd),
-                              getDuration)
+            fmt.getShortDate(getStart),
+            fmt.getShortDate(getEnd),
+            getDuration)
     }
 }
 
@@ -162,9 +162,9 @@ class HalfyearRangeCollection(year: Int, halfyear: HalfYearKind, halfyearCount: 
 
     def this(moment: DateTime, halfyearCount: Int, calendar: ITimeCalendar) {
         this(Times.getYearOfCalendar(calendar, moment),
-             Times.getHalfyearOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
-             halfyearCount,
-             calendar)
+            Times.getHalfyearOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
+            halfyearCount,
+            calendar)
     }
 
     def this(moment: DateTime, halfyearCount: Int) {
@@ -180,11 +180,10 @@ class HalfyearRangeCollection(year: Int, halfyear: HalfYearKind, halfyearCount: 
 
     protected override def format(formatter: Option[ITimeFormatter]) = {
         val fmt = formatter.getOrElse(TimeFormatter.instance)
-
         fmt.getCalendarPeriod(getStartHalfyearOfYearName,
-                              getEndHalfyearOfYearName,
-                              fmt.getShortDate(getStart),
-                              fmt.getShortDate(getEnd),
-                              getDuration)
+            getEndHalfyearOfYearName,
+            fmt.getShortDate(getStart),
+            fmt.getShortDate(getEnd),
+            getDuration)
     }
 }

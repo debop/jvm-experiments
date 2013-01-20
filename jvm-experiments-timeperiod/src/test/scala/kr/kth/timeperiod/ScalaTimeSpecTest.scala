@@ -10,9 +10,9 @@ import org.junit.{Assert, Test}
  */
 class ScalaTimeSpecTest extends Logging {
 
-  @Test
-  def testTimeSpec() {
-    Assert.assertEquals(0L, TimeSpec.MinMillis)
-    Assert.assertEquals(0L, TimeSpec.ZeroMillis)
-  }
+    @Test
+    def testTimeSpec() {
+        Assert.assertEquals(0L, TimeSpec.MinMillis)
+        Assert.assertEquals(0L, TimeSpec.ZeroMillis)
+    }
 }

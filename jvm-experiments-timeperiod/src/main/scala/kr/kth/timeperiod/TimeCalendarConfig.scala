@@ -1,14 +1,14 @@
 package kr.kth.timeperiod
 
-import beans.BeanProperty
-import java.util.Locale
-import kr.kth.commons.tools.ScalaHash
-import org.joda.time.Duration
-import kr.kth.timeperiod.tools.WeekTools
-import kr.kth.commons.ValueObjectBase
-import YearKind._
 import DayOfWeek._
 import WeekOfYearRuleKind._
+import YearKind._
+import beans.BeanProperty
+import java.util.Locale
+import kr.kth.commons.ValueObjectBase
+import kr.kth.commons.tools.ScalaHash
+import kr.kth.timeperiod.tools.WeekTools
+import org.joda.time.Duration
 
 /**
  * TimeCalendar의 설정 정보를 표현한다.
@@ -18,37 +18,37 @@ import WeekOfYearRuleKind._
 @SerialVersionUID(939047587024793248L)
 class TimeCalendarConfig(aLocale: Locale = Locale.getDefault,
                          aWeekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601)
-  extends ValueObjectBase {
+    extends ValueObjectBase {
 
-  @BeanProperty var locale: Locale = aLocale
-  @BeanProperty var yearKind: YearKind = YearKind.Calendar
-  @BeanProperty var startOffset: Duration = Duration.ZERO
-  @BeanProperty var endOffset: Duration = Duration.millis(TimeSpec.MinPositiveDuration)
-  @BeanProperty var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
-  @BeanProperty var weekOfYearRule: WeekOfYearRuleKind = aWeekOfYearRule
+    @BeanProperty var locale: Locale = aLocale
+    @BeanProperty var yearKind: YearKind = YearKind.Calendar
+    @BeanProperty var startOffset: Duration = Duration.ZERO
+    @BeanProperty var endOffset: Duration = Duration.millis(TimeSpec.MinPositiveDuration)
+    @BeanProperty var yearBaseMonth: Int = TimeSpec.CalendarYearStartMonth
+    @BeanProperty var weekOfYearRule: WeekOfYearRuleKind = aWeekOfYearRule
 
-  def getCalendarWeekRule = WeekTools.getCalendarWeekRule(locale, weekOfYearRule)
+    def getCalendarWeekRule = WeekTools.getCalendarWeekRule(locale, weekOfYearRule)
 
-  def getFirstDayOfWeek: DayOfWeek = WeekTools.getFirstDayOfWeek(locale, weekOfYearRule)
+    def getFirstDayOfWeek: DayOfWeek = WeekTools.getFirstDayOfWeek(locale, weekOfYearRule)
 
-  override def hashCode() = ScalaHash.compute(locale, weekOfYearRule, startOffset, endOffset)
+    override def hashCode() = ScalaHash.compute(locale, weekOfYearRule, startOffset, endOffset)
 
-  protected override def buildStringHelper() =
-    super.buildStringHelper()
-      .add("locale", locale)
-      .add("weekOfYearRule", weekOfYearRule)
-      .add("startOffset", startOffset)
-      .add("endOffset", endOffset)
+    protected override def buildStringHelper() =
+        super.buildStringHelper()
+        .add("locale", locale)
+        .add("weekOfYearRule", weekOfYearRule)
+        .add("startOffset", startOffset)
+        .add("endOffset", endOffset)
 }
 
 object TimeCalendarConfig {
 
-  lazy val Default: TimeCalendarConfig = new TimeCalendarConfig()
+    lazy val Default: TimeCalendarConfig = new TimeCalendarConfig()
 
-  def apply(): TimeCalendarConfig = new TimeCalendarConfig()
+    def apply(): TimeCalendarConfig = new TimeCalendarConfig()
 
-  def apply(locale: Locale, weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601) = {
-    val loc = if (locale != null) locale else Locale.getDefault
-    new TimeCalendarConfig(loc, weekOfYearRule)
-  }
+    def apply(locale: Locale, weekOfYearRule: WeekOfYearRuleKind = WeekOfYearRuleKind.Iso8601) = {
+        val loc = if (locale != null) locale else Locale.getDefault
+        new TimeCalendarConfig(loc, weekOfYearRule)
+    }
 }

@@ -16,8 +16,7 @@ import static kr.kth.commons.Guard.shouldNotBeNull;
 @Slf4j
 public final class ReflectTool {
 
-    private ReflectTool() {
-    }
+    private ReflectTool() {}
 
     /**
      * 객체가 Generic 형식일 경우, 형식인자(type parameter)들을 가져옵니다.

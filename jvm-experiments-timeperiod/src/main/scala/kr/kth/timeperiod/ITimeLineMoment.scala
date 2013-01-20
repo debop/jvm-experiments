@@ -29,8 +29,8 @@ class TimeLineMoment(moment: DateTime) extends ITimeLineMoment {
     }
 
     /**
-    * 기간의 컬렉션을 반환합니다.
-    */
+     * 기간의 컬렉션을 반환합니다.
+     */
     protected def setPeriods(periods: ITimePeriodCollection) {
         _periods.set(periods)
     }

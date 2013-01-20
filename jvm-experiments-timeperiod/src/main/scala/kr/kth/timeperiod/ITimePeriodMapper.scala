@@ -8,23 +8,23 @@ import org.joda.time.DateTime
  * Date: 13. 1. 13.
  */
 trait ITimePeriodMapper extends Serializable {
-  /**
-   * 지정된 Date를 StartOffset을 적용하여 매핑합니다.
-   */
-  def mapStart(moment: DateTime): DateTime
+    /**
+     * 지정된 Date를 StartOffset을 적용하여 매핑합니다.
+     */
+    def mapStart(moment: DateTime): DateTime
 
-  /**
-   * 지정된 Date를 EndOffset을 적용하여 매핑합니다.
-   */
-  def mapEnd(moment: DateTime): DateTime
+    /**
+     * 지정된 Date를 EndOffset을 적용하여 매핑합니다.
+     */
+    def mapEnd(moment: DateTime): DateTime
 
-  /**
-   * 지정된 Date를 StartOffset 적용을 해제합니다.
-   */
-  def unmapStart(moment: DateTime): DateTime
+    /**
+     * 지정된 Date를 StartOffset 적용을 해제합니다.
+     */
+    def unmapStart(moment: DateTime): DateTime
 
-  /**
-   * 지정된 Date를 EndOffset 적용을 해제합니다.
-   */
-  def unmapEnd(moment: DateTime): DateTime
+    /**
+     * 지정된 Date를 EndOffset 적용을 해제합니다.
+     */
+    def unmapEnd(moment: DateTime): DateTime
 }

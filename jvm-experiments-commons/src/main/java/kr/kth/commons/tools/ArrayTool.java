@@ -54,9 +54,14 @@ public final class ArrayTool {
     public static <T> T[] asArray(Collection<T> collection) {
         Guard.shouldNotBeNull(collection, "collection");
 
-        T[] result = (T[]) java.lang.reflect.Array
-                .newInstance(ReflectTool.getGenericParameterType(collection),
-                        collection.size());
+        T[] result = (T[]) java.lang.reflect.Array.newInstance(ReflectTool.getGenericParameterType(collection), collection.size());
+        return (T[]) collection.toArray(result);
+    }
+
+    public static <T> T[] asArray(Collection<T> collection, Class clazz) {
+        Guard.shouldNotBeNull(collection, "collection");
+
+        T[] result = (T[]) java.lang.reflect.Array.newInstance(clazz, collection.size());
         return (T[]) collection.toArray(result);
     }
 

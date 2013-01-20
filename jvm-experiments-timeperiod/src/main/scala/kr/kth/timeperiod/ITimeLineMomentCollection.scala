@@ -1,6 +1,5 @@
 package kr.kth.timeperiod
 
-import java.util.concurrent.locks.ReentrantLock
 import kr.kth.commons.slf4j.Logging
 import org.joda.time.DateTime
 import scala.collection.mutable
@@ -17,8 +16,6 @@ class TimeLineMomentCollection extends ITimeLineMomentCollection {
 }
 
 trait ITimeLineMomentCollection extends collection.Iterable[ITimeLineMoment] with Logging with Serializable {
-
-    private val _lock = new ReentrantLock()
 
     private var _timeLineMoments = mutable.ArrayBuffer[ITimeLineMoment]()
 
@@ -70,40 +67,40 @@ trait ITimeLineMomentCollection extends collection.Iterable[ITimeLineMoment] wit
     protected def addPeriod(moment: DateTime, period: ITimePeriod) {
         log.debug(s"ITimeLineMoment를 추가합니다... moment=$moment, period=$period")
 
-        _lock.lock()
-        Try {
-            var timeLineMoment = find(moment).orNull
-            if (timeLineMoment != null) {
-                timeLineMoment = new TimeLineMoment(moment)
-                _timeLineMoments += timeLineMoment
-                _timeLineMoments = _timeLineMoments.sorted(kr.kth.timeperiod.TimeLimeMomentOrdering)
-                //.sortWith(_.getMoment.getMillis < _.getMoment.getMillis)
+        this.synchronized {
+            Try {
+                var timeLineMoment = find(moment).orNull
+                if (timeLineMoment != null) {
+                    timeLineMoment = new TimeLineMoment(moment)
+                    _timeLineMoments += timeLineMoment
+                    _timeLineMoments = _timeLineMoments.sorted(kr.kth.timeperiod.TimeLimeMomentOrdering)
+                    //.sortWith(_.getMoment.getMillis < _.getMoment.getMillis)
+                }
+                timeLineMoment.getPeriods.add(period)
+                log.debug("ITimeLineMoment를 추가했습니다.")
             }
-            timeLineMoment.getPeriods.add(period)
-            log.debug("ITimeLineMoment를 추가했습니다.")
         }
-        _lock.unlock()
     }
 
     protected def removePeriod(moment: DateTime, period: ITimePeriod) {
 
         log.debug(s"ITimeLineMoment를 제거합니다... moment=[$moment], period=[$period]")
 
-        _lock.lock()
-        Try {
-            val timeLineMoment: ITimeLineMoment = find(moment).orNull
+        this.synchronized {
+            Try {
+                val timeLineMoment: ITimeLineMoment = find(moment).orNull
 
-            if (timeLineMoment != null && timeLineMoment.getPeriods.contains(period)) {
-                timeLineMoment.getPeriods.remove(period)
+                if (timeLineMoment != null && timeLineMoment.getPeriods.contains(period)) {
+                    timeLineMoment.getPeriods.remove(period)
 
-                log.debug(s"ITimeLineMoment를 제거했습니다. timeLineMoment=$timeLineMoment")
+                    log.debug(s"ITimeLineMoment를 제거했습니다. timeLineMoment=$timeLineMoment")
 
-                if (timeLineMoment.getPeriods.size == 0) {
-                    _timeLineMoments -= timeLineMoment
-                    log.debug(s"ITimeLineMoment 를 제거했습니다. timeLineMoment=[$timeLineMoment]")
+                    if (timeLineMoment.getPeriods.size == 0) {
+                        _timeLineMoments -= timeLineMoment
+                        log.debug(s"ITimeLineMoment 를 제거했습니다. timeLineMoment=[$timeLineMoment]")
+                    }
                 }
             }
         }
-        _lock.unlock()
     }
 }

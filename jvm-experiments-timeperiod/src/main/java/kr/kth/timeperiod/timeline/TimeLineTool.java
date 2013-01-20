@@ -20,11 +20,6 @@ public final class TimeLineTool {
 
     /**
      * {@link ITimeLineMomentCollection}의 모든 기간의 합집합을 구합니다.
-     *
-     * @param periodClass
-     * @param timeLineMoments
-     * @param <T>
-     * @return
      */
     public static <T extends ITimePeriod> ITimePeriodCollection combinePeriods(Class<T> periodClass,
                                                                                ITimeLineMomentCollection timeLineMoments) {
@@ -42,8 +37,8 @@ public final class TimeLineTool {
             ITimeLineMoment periodStart = timeLineMoments.get(itemIndex);
 
             Guard.shouldBe(periodStart.getStartCount() != 0,
-                    "getStartCount() 값은 [0]이 아니여야 합니다. periodStart.getStartCount()=[%s]",
-                    periodStart.getStartCount());
+                           "getStartCount() 값은 [0]이 아니여야 합니다. periodStart.getStartCount()=[%s]",
+                           periodStart.getStartCount());
 
             // search next period getEnd
             // use balancing to handle overlapping periods
@@ -170,7 +165,7 @@ public final class TimeLineTool {
             ITimeLineMoment moment = timeLineMoments.get(itemIndex);
 
             Guard.shouldBe(moment.getStartCount() != 0,
-                    "moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[%s]", moment);
+                           "moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[%s]", moment);
 
             // search next gap getStart
             // use balancing to handle overlapping periods

@@ -7,8 +7,8 @@ package kr.kth.timeperiod
  */
 object DurationFormatKind extends Enumeration {
 
-  type DurationFormatKind = Value
+    type DurationFormatKind = Value
 
-  val Compact = Value("Compact")
-  val Detailed = Value("Detailed")
+    val Compact = Value("Compact")
+    val Detailed = Value("Detailed")
 }

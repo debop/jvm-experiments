@@ -9,15 +9,15 @@ import org.joda.time.DateTimeConstants
  */
 object DayOfWeek extends Enumeration {
 
-  type DayOfWeek = Value
+    type DayOfWeek = Value
 
-  // NOTE: withName, apply 메소드를 사용하세요
+    // NOTE: withName, apply 메소드를 사용하세요
 
-  val Monday = Value(DateTimeConstants.MONDAY, "Monday")
-  val Tuesday = Value(DateTimeConstants.TUESDAY, "Tuesday")
-  val Wednesday = Value(DateTimeConstants.WEDNESDAY, "Wednesday")
-  val Thursday = Value(DateTimeConstants.THURSDAY, "Thursday")
-  val Friday = Value(DateTimeConstants.FRIDAY, "Friday")
-  val Saturday = Value(DateTimeConstants.SATURDAY, "Saturday")
-  val Sunday = Value(DateTimeConstants.SUNDAY, "Sunday")
+    val Monday = Value(DateTimeConstants.MONDAY, "Monday")
+    val Tuesday = Value(DateTimeConstants.TUESDAY, "Tuesday")
+    val Wednesday = Value(DateTimeConstants.WEDNESDAY, "Wednesday")
+    val Thursday = Value(DateTimeConstants.THURSDAY, "Thursday")
+    val Friday = Value(DateTimeConstants.FRIDAY, "Friday")
+    val Saturday = Value(DateTimeConstants.SATURDAY, "Saturday")
+    val Sunday = Value(DateTimeConstants.SUNDAY, "Sunday")
 }

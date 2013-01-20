@@ -6,16 +6,16 @@ import kr.kth.timeperiod._
 import org.joda.time.DateTime
 
 /**
-* 월 단위로 기간을 표현합니다.
-*/
+ * 월 단위로 기간을 표현합니다.
+ */
 abstract class MonthTimeRange(moment: DateTime, monthCount: Int, calendar: ITimeCalendar)
     extends CalendarTimeRange(moment, monthCount, calendar) {
 
     private val _monthCount = monthCount
 
     val yearMonth = Times.addMonth(moment.getYear, moment.getMonthOfYear, monthCount - 1)
-    private val _endYear = yearMonth.getYear
-    private val _endMonth = yearMonth.getMonth
+    private val _endYear = yearMonth.year
+    private val _endMonth = yearMonth.month
 
     def this(moment: DateTime, minuteCount: Int) {
         this(moment, minuteCount, TimeCalendar.Default)
@@ -115,15 +115,15 @@ class MonthRange(moment: DateTime, calendar: ITimeCalendar)
     protected override def format(formatter: Option[ITimeFormatter]): String = {
         val fmt = formatter.getOrElse(TimeFormatter.instance)
         fmt.getCalendarPeriod(getMonthOfYearName,
-                              fmt.getShortDate(getStart),
-                              fmt.getShortDate(getEnd),
-                              getDuration)
+            fmt.getShortDate(getStart),
+            fmt.getShortDate(getEnd),
+            getDuration)
     }
 }
 
 /**
-* 월 단위 기간을 나타내는 MonthRange 의 컬렉션
-*/
+ * 월 단위 기간을 나타내는 MonthRange 의 컬렉션
+ */
 class MonthRangeCollection(moment: DateTime, monthCount: Int, calendar: ITimeCalendar)
     extends MonthTimeRange(moment, monthCount, calendar) {
 
@@ -147,9 +147,9 @@ class MonthRangeCollection(moment: DateTime, monthCount: Int, calendar: ITimeCal
     protected override def format(formatter: Option[ITimeFormatter]): String = {
         val fmt = formatter.getOrElse(TimeFormatter.instance)
         fmt.getCalendarPeriod(getStartMonthName,
-                              getEndMonthName,
-                              fmt.getShortDate(getStart),
-                              fmt.getShortDate(getEnd),
-                              getDuration)
+            getEndMonthName,
+            fmt.getShortDate(getStart),
+            fmt.getShortDate(getEnd),
+            getDuration)
     }
 }

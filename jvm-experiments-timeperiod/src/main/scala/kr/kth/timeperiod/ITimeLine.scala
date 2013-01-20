@@ -10,9 +10,9 @@ import scala.reflect.{ClassTag, classTag}
  * Date: 13. 1. 13.
  */
 @SerialVersionUID(-2141722270204777840L)
-class TimeLine[T <: ITimePeriod: ClassTag](periods: ITimePeriodContainer,
-                                 limits: ITimePeriod,
-                                 periodMapper: ITimePeriodMapper)
+class TimeLine[T <: ITimePeriod : ClassTag](periods: ITimePeriodContainer,
+                                            limits: ITimePeriod,
+                                            periodMapper: ITimePeriodMapper)
     extends ITimeLine with Logging {
 
     private val _periods = periods
@@ -96,7 +96,7 @@ class TimeLine[T <: ITimePeriod: ClassTag](periods: ITimePeriodContainer,
             if (intersection != null && !intersection.isMoment) {
                 if (_periodMapper != null) {
                     intersection.setup(mapPeriodStart(intersection.getStart),
-                                       mapPeriodEnd(intersection.getEnd))
+                        mapPeriodEnd(intersection.getEnd))
                 }
                 intersections.add(intersection)
             }
@@ -114,9 +114,9 @@ class TimeLine[T <: ITimePeriod: ClassTag](periods: ITimePeriodContainer,
 
 object TimeLine {
 
-    def apply[T <: ITimePeriod: ClassTag](periods: ITimePeriodContainer,
-                                alimits: ITimePeriod = null,
-                                periodMapper: ITimePeriodMapper = null): TimeLine[T] = {
+    def apply[T <: ITimePeriod : ClassTag](periods: ITimePeriodContainer,
+                                           alimits: ITimePeriod = null,
+                                           periodMapper: ITimePeriodMapper = null): TimeLine[T] = {
         new TimeLine[T](periods, alimits, periodMapper)
     }
 

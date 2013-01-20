@@ -80,7 +80,6 @@ trait ITimePeriod extends ValueObjectBase with Ordered[ITimePeriod] with Logging
 
         if (hasStart) _start = _start.plus(offset)
         if (hasEnd) _end = _end.plus(offset)
-
     }
 
     def isSamePeriod(other: ITimePeriod): Boolean = {

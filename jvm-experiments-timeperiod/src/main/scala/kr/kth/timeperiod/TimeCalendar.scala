@@ -16,24 +16,22 @@ import org.joda.time.{Duration, DateTime}
  */
 @SerialVersionUID(4848502849274L)
 class TimeCalendar(config: TimeCalendarConfig) extends ITimeCalendar {
-    {
-        // 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
-        //
+    // 기본 생성자는 클래스 내의 모든 문장을 실행시킵니다.
+    //
 
-        val cfg = if (config != null) config else TimeCalendarConfig.Default
+    val cfg = if (config != null) config else TimeCalendarConfig.Default
 
-        Guard.shouldNotBeNegativeNumber(cfg.getStartOffset.getMillis, "startOffSet")
-        Guard.shouldNotBeNegativeNumber(cfg.getEndOffset.getMillis, "endOffset")
+    Guard.shouldNotBeNegativeNumber(cfg.getStartOffset.getMillis, "startOffSet")
+    Guard.shouldNotBeNegativeNumber(cfg.getEndOffset.getMillis, "endOffset")
 
-        _locale = cfg.getLocale
-        _yearKind = cfg.getYearKind
-        _startOffset = cfg.getStartOffset
-        _endOffset = cfg.getEndOffset
-        _yearBaseMonth = cfg.getYearBaseMonth
-        _weekOfYearRule = cfg.getWeekOfYearRule
-        _calendarWeekRule = cfg.getCalendarWeekRule
-        _firstDayOfWeek = cfg.getFirstDayOfWeek
-    }
+    _locale = cfg.getLocale
+    _yearKind = cfg.getYearKind
+    _startOffset = cfg.getStartOffset
+    _endOffset = cfg.getEndOffset
+    _yearBaseMonth = cfg.getYearBaseMonth
+    _weekOfYearRule = cfg.getWeekOfYearRule
+    _calendarWeekRule = cfg.getCalendarWeekRule
+    _firstDayOfWeek = cfg.getFirstDayOfWeek
 }
 
 /**
@@ -289,7 +287,7 @@ trait ITimeCalendar extends ValueObjectBase with ITimePeriodMapper {
      * 해당 일자의 주차를 구합니다. (주차계산 규칙에 따라 달라집니다)
      */
     def getWeekOfYear(moment: DateTime): Int = {
-        Times.getWeekOfYear(moment).getWeekOfYear
+        Times.getWeekOfYear(moment).weekOfYear
     }
 
     /**

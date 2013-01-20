@@ -7,10 +7,10 @@ package kr.kth.timeperiod
  */
 object WeekOfYearRuleKind extends Enumeration {
 
-  type WeekOfYearRuleKind = Value
+    type WeekOfYearRuleKind = Value
 
-  val Calendar = Value(0, "Calendar")
+    val Calendar = Value(0, "Calendar")
 
-  val Iso8601 = Value(1, "Iso8601")
+    val Iso8601 = Value(1, "Iso8601")
 
 }

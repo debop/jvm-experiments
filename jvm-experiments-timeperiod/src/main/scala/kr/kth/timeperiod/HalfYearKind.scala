@@ -6,8 +6,8 @@ package kr.kth.timeperiod
  * Date: 13. 1. 14
  */
 object HalfYearKind extends Enumeration {
-  type HalfYearKind = Value
+    type HalfYearKind = Value
 
-  val First = Value(1, "First")
-  val Second = Value(2, "Second")
+    val First = Value(1, "First")
+    val Second = Value(2, "Second")
 }

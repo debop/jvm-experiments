@@ -7,16 +7,16 @@ package kr.kth.timeperiod
  */
 object IntervalEdge extends Enumeration {
 
-  type IntervalEdge = Value
+    type IntervalEdge = Value
 
-  // NOTE: withName 메소드를 사용하세요
+    // NOTE: withName 메소드를 사용하세요
 
-  /**
-   * 페구간
-   */
-  val Closed = Value("Closed")
-  /**
-   * 개구간
-   */
-  val Open = Value("Open")
+    /**
+     * 페구간
+     */
+    val Closed = Value("Closed")
+    /**
+     * 개구간
+     */
+    val Open = Value("Open")
 }

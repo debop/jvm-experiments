@@ -19,8 +19,8 @@ abstract class QuarterTimeRange(startYear: Int, startQuarter: QuarterKind, quart
     private val _startQuarter: QuarterKind = startQuarter
     private val _quarterCount: Int = quarterCount
     private val endYearQuarter = Times.addQuarter(startQuarter, startYear, quarterCount - 1)
-    private val _endYear = endYearQuarter.getYear
-    private val _endQuarter = endYearQuarter.getQuarter
+    private val _endYear = endYearQuarter.year
+    private val _endQuarter = endYearQuarter.quarter
 
     def this(startYear: Int, startQuarter: QuarterKind, quarterCount: Int) {
         this(startYear, startQuarter, quarterCount, TimeCalendar.Default)
@@ -49,13 +49,13 @@ abstract class QuarterTimeRange(startYear: Int, startQuarter: QuarterKind, quart
     override def getStartMonth: Int = {
         val monthCount = (getStartQuarter.id - 1) * TimeSpec.MonthsPerQuarter
         val startYearMonth = Times.addMonth(getStartYear, getYearBaseMonth, monthCount)
-        startYearMonth.getMonth
+        startYearMonth.month
     }
 
     override def getEndMonth: Int = {
         val monthCount = (getStartQuarter.id - 1 + getQuarterCount) * TimeSpec.MonthsPerQuarter
         val endYearMonth = Times.addMonth(getStartYear, getYearBaseMonth, monthCount)
-        endYearMonth.getMonth
+        endYearMonth.month
     }
 
     def isCalendarQuarter: Boolean = ((getYearBaseMonth - 1) % TimeSpec.MonthsPerQuarter) == 0
@@ -72,7 +72,7 @@ abstract class QuarterTimeRange(startYear: Int, startQuarter: QuarterKind, quart
         val endMonthCount = startMonthCount + _quarterCount * TimeSpec.MonthsPerQuarter
         val endYearAndMonth = Times.addMonth(getStartYear, getYearBaseMonth, endMonthCount)
 
-        (startYearAndMonth.getYear == endYearAndMonth.getYear)
+        (startYearAndMonth.year == endYearAndMonth.year)
     }
 
     /**
@@ -118,8 +118,8 @@ class QuarterRange(year: Int, quarter: QuarterKind, calendar: ITimeCalendar)
 
     def this(moment: DateTime, calendar: ITimeCalendar) {
         this(Times.getYearOfCalendar(calendar, moment),
-             Times.getQuarterOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
-             calendar)
+            Times.getQuarterOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
+            calendar)
     }
 
     def this(moment: DateTime) {
@@ -144,15 +144,15 @@ class QuarterRange(year: Int, quarter: QuarterKind, calendar: ITimeCalendar)
 
     def addQuarters(quarters: Int): QuarterRange = {
         val yq = Times.addQuarter(getStartQuarter, getStartYear, quarters)
-        new QuarterRange(yq.getYear, yq.getQuarter, getTimeCalendar)
+        new QuarterRange(yq.year, yq.quarter, getTimeCalendar)
     }
 
     override protected def format(formatter: Option[ITimeFormatter]): String = {
         val fmt = formatter.getOrElse(TimeFormatter.instance)
         fmt.getCalendarPeriod(getQuarterOfYearName,
-                              fmt.getShortDate(getStart),
-                              fmt.getShortDate(getEnd),
-                              getDuration)
+            fmt.getShortDate(getStart),
+            fmt.getShortDate(getEnd),
+            getDuration)
     }
 }
 
@@ -168,9 +168,9 @@ class QuarterRangeCollection(year: Int, quarter: QuarterKind, quarterCount: Int,
 
     def this(moment: DateTime, quarterCount: Int, calendar: ITimeCalendar) {
         this(Times.getYearOfCalendar(calendar, moment),
-             Times.getQuarterOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
-             quarterCount,
-             calendar)
+            Times.getQuarterOfMonth(moment.getMonthOfYear, calendar.getBaseMonthOfYear),
+            quarterCount,
+            calendar)
     }
 
     def this(moment: DateTime, quarterCount: Int) {
@@ -185,17 +185,17 @@ class QuarterRangeCollection(year: Int, quarter: QuarterKind, quarterCount: Int,
         .view
         .map(q => {
             var yq = Times.addQuarter(startQuarter, startYear, q)
-            new QuarterRange(yq.getYear, yq.getQuarter, getTimeCalendar)
+            new QuarterRange(yq.year, yq.quarter, getTimeCalendar)
         })
     }
 
     override protected def format(formatter: Option[ITimeFormatter]): String = {
         val fmt = formatter.getOrElse(TimeFormatter.instance)
         fmt.getCalendarPeriod(getStartQuarterOfYearName,
-                              getEndQuarterOfYearName,
-                              fmt.getShortDate(getStart),
-                              fmt.getShortDate(getEnd),
-                              getDuration)
+            getEndQuarterOfYearName,
+            fmt.getShortDate(getStart),
+            fmt.getShortDate(getEnd),
+            getDuration)
     }
 }
 

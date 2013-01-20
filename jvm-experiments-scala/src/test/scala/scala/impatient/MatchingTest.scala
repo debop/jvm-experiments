@@ -11,26 +11,26 @@ import org.junit.{Assert, Test}
 class MatchingTest extends Logging {
 
 
-  object Email {
-    def unapply(str: String): Option[(String, String)] = {
-      val elems = str split "@"
-      if (elems.length == 2)
-        Some(elems(0), elems(1))
-      else
-        None
-    }
-  }
-
-  @Test
-  def extractorTest() {
-    val email = "abc@gmail.com"
-    val msg = email match {
-      case Email(name, host) => name + " at " + host
-      case _ => "no mail account"
+    object Email {
+        def unapply(str: String): Option[(String, String)] = {
+            val elems = str split "@"
+            if (elems.length == 2)
+                Some(elems(0), elems(1))
+            else
+                None
+        }
     }
 
-    log.debug(email)
-    Assert.assertTrue(msg.contains("at"))
-  }
+    @Test
+    def extractorTest() {
+        val email = "abc@gmail.com"
+        val msg = email match {
+            case Email(name, host) => name + " at " + host
+            case _ => "no mail account"
+        }
+
+        log.debug(email)
+        Assert.assertTrue(msg.contains("at"))
+    }
 
 }
