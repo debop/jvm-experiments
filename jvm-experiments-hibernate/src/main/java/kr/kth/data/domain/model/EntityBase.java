@@ -65,7 +65,7 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
         try {
             Class<TId> idClass = ReflectTool.getGenericParameterType(this);
 
-            TId defaultValue = Defaults.defaultValue(idClass); //ActivatorTool.createInstance(idClass);
+            TId defaultValue = Defaults.defaultValue(idClass); //Activators.createInstance(idClass);
 
             boolean idHasValue = !java.util.Objects.equals(id, defaultValue);
             if (idHasValue) {

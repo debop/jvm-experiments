@@ -129,7 +129,7 @@ object DateTool extends Logging {
      * 현재 주의 시작 시각
      */
     def getStartOfCurrentWeek: DateTime = {
-        var currentDay = DateTime.now().withTimeAtStartOfDay()
+        val currentDay = DateTime.now().withTimeAtStartOfDay()
         currentDay.minusDays(currentDay.getDayOfWeek - 1)
     }
 

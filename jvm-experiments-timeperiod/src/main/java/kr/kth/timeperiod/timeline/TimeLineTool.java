@@ -1,7 +1,7 @@
 package kr.kth.timeperiod.timeline;
 
 import kr.kth.commons.Guard;
-import kr.kth.commons.tools.ActivatorTool;
+import kr.kth.commons.reflect.Activators;
 import kr.kth.timeperiod.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +54,7 @@ public final class TimeLineTool {
             Guard.shouldNotBeNull(periodEnd, "periodEnd");
             if (periodEnd != null && periodEnd.getStartCount() == 0) {
                 if (itemIndex < timeLineMoments.size()) {
-                    ITimePeriod period = ActivatorTool.createInstance(periodClass);
+                    ITimePeriod period = Activators.createInstance(periodClass);
                     period.setup(periodStart.getMoment(), periodEnd.getMoment());
 
                     if (log.isDebugEnabled())
@@ -106,7 +106,7 @@ public final class TimeLineTool {
             }
 
             if (moment.getEndCount() > 0 && balance <= 1 && intersectionStart >= 0) {
-                ITimePeriod period = ActivatorTool.createInstance(periodClass);
+                ITimePeriod period = Activators.createInstance(periodClass);
                 period.setup(timeLineMoments.get(intersectionStart).getMoment(), moment.getMoment());
 
                 if (log.isDebugEnabled())
@@ -149,7 +149,7 @@ public final class TimeLineTool {
         //
         ITimeLineMoment periodStart = timeLineMoments.getMin();
         if (periodStart != null && range.getStart().compareTo(periodStart.getMoment()) < 0) {
-            ITimePeriod startingGap = ActivatorTool.createInstance(periodClass);
+            ITimePeriod startingGap = Activators.createInstance(periodClass);
             startingGap.setup(range.getStart(), periodStart.getMoment());
 
             if (log.isDebugEnabled())
@@ -184,7 +184,7 @@ public final class TimeLineTool {
             if (gapStart != null && gapStart.getStartCount() == 0) {
                 // found a gap
                 if (itemIndex < timeLineMoments.size() - 1) {
-                    ITimePeriod gap = ActivatorTool.createInstance(periodClass);
+                    ITimePeriod gap = Activators.createInstance(periodClass);
                     gap.setup(gapStart.getMoment(), timeLineMoments.get(itemIndex + 1).getMoment());
 
                     if (log.isDebugEnabled())
@@ -203,7 +203,7 @@ public final class TimeLineTool {
 
         if (periodEnd != null && range.getEnd().compareTo(periodEnd.getMoment()) > 0) {
 
-            ITimePeriod endingGap = ActivatorTool.createInstance(periodClass);
+            ITimePeriod endingGap = Activators.createInstance(periodClass);
             endingGap.setup(periodEnd.getMoment(), range.getEnd());
 
             if (log.isDebugEnabled())

@@ -18,6 +18,11 @@
         <module>jvm-experiments-springmvc</module>
     </modules>
 
+    <scm>
+        <url>https://github.com/debop/jvm-experiments</url>
+        <connection>scm:git:https://github.com/debop/jvm-experiments.git</connection>
+    </scm>
+
     <properties>
         <kr.kth.version>1.0.0</kr.kth.version>
 
