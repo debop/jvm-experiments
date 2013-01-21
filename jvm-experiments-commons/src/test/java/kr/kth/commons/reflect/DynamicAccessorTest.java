@@ -1,17 +1,29 @@
 package kr.kth.commons.reflect;
 
-import kr.kth.commons.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * kr.kth.commons.reflect.DynamicAccessorTest
+ * DynamicAccessor Test
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 21.
  */
 @Slf4j
 public class DynamicAccessorTest {
+
+    @lombok.Getter
+    @lombok.Setter
+    static class User {
+        private String email;
+        private Double age;
+
+        public User() {}
+
+        public void includeAge(int delta) {
+            age += delta;
+        }
+    }
 
     @Test
     public void dynamicInstancing() {
