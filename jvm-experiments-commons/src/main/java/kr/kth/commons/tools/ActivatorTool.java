@@ -38,8 +38,12 @@ public final class ActivatorTool {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T createInstance(Class<T> clazz, Object... initArgs) {
         Guard.shouldNotBeNull(clazz, "clazz");
+        if (log.isDebugEnabled())
+            log.debug("[{}] 수형의 객체를 생성합니다. initArgs=[{}]",
+                      clazz.getName(), StringTool.listToString(initArgs));
         if (initArgs == null || initArgs.length == 0)
             return createInstance(clazz);
 
@@ -54,12 +58,12 @@ public final class ActivatorTool {
                 parameterTypes.add(argClass);
             }
             try {
-                Constructor<T> constructor = clazz.getConstructor(ArrayTool.asArray(parameterTypes, Class.class));
+                Constructor<T> constructor = clazz.getDeclaredConstructor(ArrayTool.asArray(parameterTypes, Class.class));
                 return (constructor != null)
                         ? constructor.newInstance(initArgs)
                         : null;
             } catch (Throwable ignored) {
-                Constructor<?>[] constructors = clazz.getConstructors();
+                Constructor<?>[] constructors = clazz.getDeclaredConstructors();
                 for (Constructor<?> ctor : constructors) {
                     if (ctor.getParameterTypes().length == parameterTypes.size())
                         return (T) ctor.newInstance(initArgs);
@@ -71,5 +75,16 @@ public final class ActivatorTool {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public static <T> Constructor<T> getConstructor(Class<T> clazz, Class<?>... parameterTypes) {
+        if (log.isDebugEnabled())
+            log.debug("[{}] 수형의 생성자를 구합니다. parameterTypes=[{}]",
+                      clazz.getName(), StringTool.listToString(parameterTypes));
+        try {
+            return clazz.getDeclaredConstructor(parameterTypes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

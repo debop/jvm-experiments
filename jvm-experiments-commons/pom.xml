@@ -31,11 +31,10 @@
 
     <dependencies>
 
-        <!-- ASM 을 이용한 ReflectASM 을 도입 : http://code.google.com/p/reflectasm/ -->
         <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>4.1</version>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.8</version>
         </dependency>
 
         <dependency>

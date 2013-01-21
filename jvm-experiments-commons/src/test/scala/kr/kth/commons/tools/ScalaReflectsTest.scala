@@ -18,6 +18,7 @@ class ScalaReflectsTest extends Logging {
 
         @varargs
         def create(initArgs: Any*): T = {
+            log.debug("Create [{}]", classTag[T].runtimeClass.getName)
             val parameterTypes =
                 initArgs.map(ScalaReflects.asJavaClass(_)).toArray
             val constructor = classTag[T].runtimeClass.getConstructor(parameterTypes: _*)
@@ -30,6 +31,7 @@ class ScalaReflectsTest extends Logging {
                 if (initArgsTypes != null) initArgsTypes.toArray
                 else initArgs.map(ScalaReflects.asJavaClass(_)).toArray
 
+            log.debug("Create [{}]", classTag[T].runtimeClass.getName)
             val constructor = classTag[T].runtimeClass.getConstructor(parameterTypes: _*)
             constructor.newInstance(initArgs.map(_.asInstanceOf[AnyRef]): _*).asInstanceOf[T]
         }

@@ -14,11 +14,12 @@ object thread {
      * @param f  실행할 메소드 (()=>Unit)
      * @return
      */
-    implicit def makeRunnable(f: () => Unit): Runnable = new Runnable {
-        def run() {
-            f()
+    implicit def makeRunnable(f: () => Unit): Runnable =
+        new Runnable {
+            def run() {
+                f()
+            }
         }
-    }
 
 
     /**
@@ -27,7 +28,10 @@ object thread {
      * @tparam T 스레드 완료 후 결과
      * @return 스레드 완료 결과
      */
-    implicit def makeCallable[T](f: () => T): Callable[T] = new Callable[T] {
-        def call(): T = f()
-    }
+    implicit def makeCallable[T](f: => T): Callable[T] =
+        new Callable[T] {
+            def call(): T = {
+                f
+            }
+        }
 }
