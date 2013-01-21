@@ -79,7 +79,7 @@ public final class StringTool {
             return false;
 
         return Arrays.equals(MULTI_BYTES_PREFIX,
-                Arrays.copyOf(bytes, MULTI_BYTES_PREFIX.length));
+                             Arrays.copyOf(bytes, MULTI_BYTES_PREFIX.length));
     }
 
     public static boolean isMultiByteString(final String str) {
@@ -499,8 +499,11 @@ public final class StringTool {
 
     @SafeVarargs
     public static <T> String listToString(final T... items) {
-        if (items == null)
+        if (items == null || items.length == 0)
             return "null";
+
+        if (items.length == 1)
+            return objectToString(items[0]);
 
         return join(items, ",");
     }

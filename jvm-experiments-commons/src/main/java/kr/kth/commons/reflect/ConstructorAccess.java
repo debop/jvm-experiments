@@ -31,8 +31,6 @@ public abstract class ConstructorAccess<T> {
      */
     abstract public T newInstance(Object enclosingInstance);
 
-    //static final ConcurrentMap<Class<?>, ConstructorAccess<?>> constructorAccessors = Maps.newConcurrentMap();
-
     /**
      * 지정한 수형의 생성자에 대한 접근자를 생성합니다.
      */
@@ -41,10 +39,6 @@ public abstract class ConstructorAccess<T> {
         Guard.shouldNotBeNull(type, "type");
         if (log.isDebugEnabled())
             log.debug("수형[{}]의 생성자에 대한 접근자를 조회합니다.", type.getName());
-
-//        if (constructorAccessors.containsKey(type))
-//            return (ConstructorAccess<T>) constructorAccessors.get(type);
-
 
         Class enclosingType = type.getEnclosingClass();
         boolean isNonStaticMemberClass = enclosingType != null && type.isMemberClass() && !Modifier.isStatic(type.getModifiers());
@@ -96,7 +90,6 @@ public abstract class ConstructorAccess<T> {
         try {
             ConstructorAccess<T> access = (ConstructorAccess<T>) accessClass.newInstance();
             access.nonStaticMemberClass = isNonStaticMemberClass;
-            // constructorAccessors.putIfAbsent(type, access);
             if (log.isDebugEnabled())
                 log.debug("기본 생성자에 접근 가능한 ConstructorAccess 를 반환합니다. accessClassName=[{}]", accessClassName);
             return access;

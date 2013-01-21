@@ -51,14 +51,12 @@ class AccessClassLoader extends ClassLoader {
         Guard.shouldNotBeNull(bytes, "bytes");
         try {
             Method method =
-                    ClassLoader.class
-                            .getDeclaredMethod("defineClass",
-                                               new Class[]{String.class, byte[].class, int.class, int.class});
+                    ClassLoader.class.getDeclaredMethod("defineClass",
+                                                        new Class[]{String.class, byte[].class, int.class, int.class});
             method.setAccessible(true);
-            return (Class) method.invoke(getParent(), name, bytes, 0, bytes.length);
+            return (Class) method.invoke(getParent(), name, bytes, Integer.valueOf(0), Integer.valueOf(bytes.length));
 
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return defineClass(name, bytes, 0, bytes.length);
     }
 }

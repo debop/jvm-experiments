@@ -1,9 +1,7 @@
 package kr.kth.commons.reflect;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import kr.kth.commons.Guard;
-import kr.kth.commons.tools.StringTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.objectweb.asm.*;
@@ -12,7 +10,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 import static org.objectweb.asm.Opcodes.*;
 
@@ -32,15 +29,10 @@ public abstract class MethodAccess {
     abstract public Object invoke(Object instance, int methodIndex, Object... args);
 
     public Object invoke(Object instance, String methodName, Object... args) {
-        if (log.isDebugEnabled())
-            log.debug("객체[{}]의 메소드[{}]를 호출했습니다. 인자들=[{}]",
-                      instance.getClass().getName(), methodName, StringTool.listToString(args));
         return invoke(instance, getIndex(methodName), args);
     }
 
     public int getIndex(String methodName) {
-        if (log.isDebugEnabled())
-            log.debug("get method index. methodName=[{}]", methodName);
         for (int i = 0, size = methodNames.length; i < size; i++) {
             if (methodNames[i].equals(methodName))
                 return i;
@@ -49,10 +41,6 @@ public abstract class MethodAccess {
     }
 
     public int getIndex(String methodName, Class... paramTypes) {
-        if (log.isDebugEnabled())
-            log.debug("get method index. methodName=[{}], paramTypes=[{}]",
-                      methodName, Arrays.toString(parameterTypes));
-
         for (int i = 0, size = methodNames.length; i < size; i++) {
             if (methodNames[i].equals(methodName) && Arrays.equals(paramTypes, parameterTypes[i]))
                 return i;
@@ -60,16 +48,11 @@ public abstract class MethodAccess {
         throw new IllegalArgumentException("Unable to find public method: " + methodName + " " + Arrays.toString(parameterTypes));
     }
 
-    private static final ConcurrentMap<Class, MethodAccess> methodAccessors = Maps.newConcurrentMap();
-
     /**
      * 지정한 수형의 메소드에 동적으로 접근하기 위한 MethodAccess를 빌드합니다.
      */
     static public MethodAccess get(Class type) {
         Guard.shouldNotBeNull(type, "type");
-
-        if (methodAccessors.containsKey(type))
-            return methodAccessors.get(type);
 
         List<Method> methods = Lists.newArrayList();
         Class nextClass = type;
@@ -262,7 +245,6 @@ public abstract class MethodAccess {
             MethodAccess access = (MethodAccess) accessClass.newInstance();
             access.methodNames = methodNames;
             access.parameterTypes = parameterTypes;
-            methodAccessors.putIfAbsent(type, access);
 
             return access;
         } catch (Exception ex) {

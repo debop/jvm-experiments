@@ -28,7 +28,7 @@ public class ClassLoaderTest {
     public void differentClassLoader() throws Exception {
         ClassLoader testClassLoader = new ClassLoader() {
             @Override
-            protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+            protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
                 Class c = findLoadedClass(name);
                 if (c != null) return c;
                 if (name.startsWith("java.")) return super.loadClass(name, resolve);
@@ -57,11 +57,9 @@ public class ClassLoaderTest {
                 return defineClass(name, buffer, 0, buffer.length);
             }
         };
-        if (log.isDebugEnabled())
-            log.debug("loadClass=[{}]", TestClass.class.getName());
-
         Class testClass = testClassLoader.loadClass("kr.kth.commons.reflect.ClassLoaderTest$TestClass");
         Object testObject = testClass.newInstance();
+        Assert.assertNotNull(testObject);
 
         FieldAccess access = FieldAccess.get(testObject.getClass());
         access.set(testObject, "name", "first");

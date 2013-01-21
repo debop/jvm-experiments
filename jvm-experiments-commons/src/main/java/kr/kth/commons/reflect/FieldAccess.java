@@ -30,16 +30,14 @@ public abstract class FieldAccess {
     }
 
     public void set(Object instance, String fieldName, Object value) {
-        if (log.isDebugEnabled())
-            log.debug("객체[{}]의 속성[{}]에 값[{}] 을 설정합니다.", instance.getClass().getSimpleName(), fieldName, value);
-
+//        if (log.isDebugEnabled())
+//            log.debug("객체[{}]의 속성[{}]에 값[{}] 을 설정합니다.", instance.getClass().getSimpleName(), fieldName, value);
         set(instance, getIndex(fieldName), value);
     }
 
     public Object get(Object instance, String fieldName) {
-        if (log.isDebugEnabled())
-            log.debug("객체[{}]의 속성[{}] 값을 조회합니다.", instance.getClass().getSimpleName(), fieldName);
-
+//        if (log.isDebugEnabled())
+//            log.debug("객체[{}]의 속성[{}] 값을 조회합니다.", instance.getClass().getSimpleName(), fieldName);
         return get(instance, getIndex(fieldName));
     }
 
@@ -85,14 +83,8 @@ public abstract class FieldAccess {
 
     abstract public float getFloat(Object instance, int fieldIndex);
 
-    //private static final ConcurrentMap<Class, FieldAccess> fieldAccessors = Maps.newConcurrentMap();
-
     static public FieldAccess get(Class type) {
         Guard.shouldNotBeNull(type, "type");
-
-//        if (fieldAccessors.containsKey(type))
-//            return fieldAccessors.get(type);
-
 
         List<Field> fields = Lists.newArrayList();
         Class nextClass = type;
@@ -154,7 +146,6 @@ public abstract class FieldAccess {
         try {
             FieldAccess access = (FieldAccess) accessClass.newInstance();
             access.fieldNames = fieldNames;
-//            fieldAccessors.putIfAbsent(type, access);
             return access;
         } catch (Exception ex) {
             throw new RuntimeException("Error constructing field access class: " + accessClassName, ex);
