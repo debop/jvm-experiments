@@ -20,7 +20,7 @@ import static org.objectweb.asm.Opcodes.*;
  * Date: 13. 1. 21
  */
 @Slf4j
-public abstract class FieldAccess {
+abstract public class FieldAccess {
     private String[] fieldNames;
 
     public int getIndex(String fieldName) {
@@ -30,14 +30,14 @@ public abstract class FieldAccess {
     }
 
     public void set(Object instance, String fieldName, Object value) {
-//        if (log.isDebugEnabled())
-//            log.debug("객체[{}]의 속성[{}]에 값[{}] 을 설정합니다.", instance.getClass().getSimpleName(), fieldName, value);
+        if (log.isDebugEnabled())
+            log.debug("객체[{}]의 속성[{}]에 값[{}] 을 설정합니다.", instance, fieldName, value);
         set(instance, getIndex(fieldName), value);
     }
 
     public Object get(Object instance, String fieldName) {
-//        if (log.isDebugEnabled())
-//            log.debug("객체[{}]의 속성[{}] 값을 조회합니다.", instance.getClass().getSimpleName(), fieldName);
+        if (log.isDebugEnabled())
+            log.debug("객체[{}]의 속성[{}] 값을 조회합니다.", instance, fieldName);
         return get(instance, getIndex(fieldName));
     }
 

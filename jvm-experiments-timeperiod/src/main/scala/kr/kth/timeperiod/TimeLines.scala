@@ -4,6 +4,7 @@ import kr.kth.commons.Guard
 import kr.kth.commons.slf4j.Logging
 import kr.kth.commons.tools.ScalaReflects
 import kr.kth.commons.tools.StringTool._
+import scala.collection.JavaConversions._
 import scala.reflect.ClassTag
 
 /**
@@ -28,7 +29,7 @@ object TimeLines extends Logging {
             val periodStart = timeLineMoments.get(itemIndex)
             Guard.shouldNotBeNull(periodStart, "periodStart")
             Guard.shouldBe(periodStart.getStartCount != 0,
-                s"getStartCount() 값은 [0] 이 아니여야 합니다. periodStart.getStartCount()=[${periodStart.getStartCount}]")
+                           s"getStartCount() 값은 [0] 이 아니여야 합니다. periodStart.getStartCount()=[${periodStart.getStartCount}]")
 
             var balance: Int = periodStart.getStartCount
             var periodEnd: ITimeLineMoment = null
@@ -50,7 +51,7 @@ object TimeLines extends Logging {
             }
             itemIndex += 1
         }
-        log.debug(s"기간들을 결합했습니다. periods=[${listToString(periods)}]")
+        log.debug(s"기간들을 결합했습니다. periods=[${listToString(periods.toList)}]")
         periods
     }
 
@@ -87,7 +88,7 @@ object TimeLines extends Logging {
             }
             i += 1
         }
-        log.debug("ITimeLineMomentCollection으로부터 교집합에 해당하는 기간을 구했습니다. periods=[{}]", listToString(periods))
+        log.debug("ITimeLineMomentCollection으로부터 교집합에 해당하는 기간을 구했습니다. periods=[{}]", listToString(periods.toList))
         periods
     }
 
@@ -117,7 +118,7 @@ object TimeLines extends Logging {
         while (itemIndex < timeLineMoments.size) {
             val moment: ITimeLineMoment = timeLineMoments.get(itemIndex)
             Guard.shouldBe(moment.getStartCount != 0,
-                s"moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[$moment]")
+                           s"moment.getStartCount() 값은 [0] 이 아니어야 합니다. moment=[$moment]")
 
             var balance: Int = moment.getStartCount
             var gapStart: ITimeLineMoment = null
@@ -149,7 +150,7 @@ object TimeLines extends Logging {
             log.debug("Ending Gap을 추가합니다. endingGap=[{}]", endingGap)
             gaps.add(endingGap)
         }
-        log.debug(s"기간들의 gap에 해당하는 부분을 계산했습니다!!! gaps=[${listToString(gaps)}]")
+        log.debug(s"기간들의 gap에 해당하는 부분을 계산했습니다!!! gaps=[${listToString(gaps.toList)}]")
         gaps
     }
 

@@ -1,5 +1,6 @@
 package kr.kth.commons.tools;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -12,9 +13,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.String.format;
 
@@ -296,29 +301,52 @@ public final class StringTool {
         return builder.toString();
     }
 
-    @SafeVarargs
-    public static <T> String join(final T... strs) {
-        return join(Arrays.asList(strs), ",");
+//    private static Iterable<Object> transformToString(Object[] items) {
+//        List<Object> results = Lists.newArrayList();
+//        for (Object item : items) {
+//            results.add((item != null) ? item : NULL_STR);
+//        }
+//        return results;
+//    }
+//
+//    private static List<Object> transformToString(Iterable<?> items) {
+//        List<Object> results = Lists.newArrayList();
+//        for (Object item : items) {
+//            results.add((item != null) ? item : NULL_STR);
+//        }
+//        return results;
+//    }
+
+    public static String join(Object[] items) {
+        return join(items, ",");
     }
 
-    public static <T> String join(final T[] strs, final String separator) {
-        return join(Arrays.asList(strs), separator);
+    public static String join(Object[] items, String separator) {
+        List<Object> strings =
+                Lists.transform(Lists.newArrayList(items), new Function<Object, Object>() {
+                    @Nullable
+                    @Override
+                    public Object apply(@Nullable Object input) {
+                        return (input != null) ? input : NULL_STR;
+                    }
+                });
+        return Joiner.on(separator).join(strings);
     }
 
-    public static <T> String join(Collection<T> strs) {
+    public static String join(Iterable<?> strs) {
         return join(strs, ",");
     }
 
-    public static <T> String join(Collection<T> strs, String separator) {
-        return Joiner.on(separator).join(strs);
-    }
-
-    public static <T> String join(Iterable<T> strs) {
-        return join(strs, ",");
-    }
-
-    public static <T> String join(Iterable<T> strs, String separator) {
-        return Joiner.on(separator).join(strs);
+    public static String join(Iterable<?> items, String separator) {
+        List<Object> strings =
+                Lists.transform(Lists.newArrayList(items), new Function<Object, Object>() {
+                    @Nullable
+                    @Override
+                    public Object apply(@Nullable Object input) {
+                        return (input != null) ? input : NULL_STR;
+                    }
+                });
+        return Joiner.on(separator).join(strings);
     }
 
     public static String quotedStr(final String str) {
@@ -490,20 +518,16 @@ public final class StringTool {
     /**
      * {@link Iterable} 정보를 문자열로 표현합니다.
      */
-    public static <T> String listToString(final Iterable<? extends T> items) {
+    public static <T> String listToString(Iterable<? extends T> items) {
         if (items == null)
-            return "null";
+            return NULL_STR;
 
         return join(items, ",");
     }
 
-    @SafeVarargs
-    public static <T> String listToString(final T... items) {
+    public static String listToString(Object[] items) {
         if (items == null || items.length == 0)
-            return "null";
-
-        if (items.length == 1)
-            return objectToString(items[0]);
+            return NULL_STR;
 
         return join(items, ",");
     }
@@ -513,7 +537,7 @@ public final class StringTool {
      */
     public static String mapToString(final Map map) {
         if (map == null)
-            return "null";
+            return NULL_STR;
 
         return "{" + join(mapToEntryList(map), ",") + "}";
     }

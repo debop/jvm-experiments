@@ -4,6 +4,7 @@ import com.google.common.base.Objects
 import java.util.concurrent.atomic.AtomicReference
 import kr.kth.commons.tools.{StringTool, ScalaHash}
 import org.joda.time.DateTime
+import scala.collection.JavaConversions._
 
 /**
  * 특정 기준 시각에 대한 필터링을 수행합니다.
@@ -50,7 +51,7 @@ class TimeLineMoment(moment: DateTime) extends ITimeLineMoment {
     override def toString: String = {
         Objects.toStringHelper(this)
         .add("_moment", moment)
-        .add("_periods", StringTool.listToString(getPeriods))
+        .add("_periods", StringTool.listToString(getPeriods.toList))
         .toString
     }
 }

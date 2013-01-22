@@ -1,5 +1,6 @@
 package kr.kth.timeperiod.timeline;
 
+import com.google.common.collect.Lists;
 import kr.kth.commons.Guard;
 import kr.kth.commons.reflect.Activators;
 import kr.kth.timeperiod.*;
@@ -68,7 +69,7 @@ public final class TimeLineTool {
         }
 
         if (log.isDebugEnabled())
-            log.debug("기간들을 결합했습니다. periods=[{}]", listToString(periods));
+            log.debug("기간들을 결합했습니다. periods=[{}]", listToString(Lists.newArrayList(periods)));
 
         return periods;
     }
@@ -118,7 +119,8 @@ public final class TimeLineTool {
         }
 
         if (log.isDebugEnabled())
-            log.debug("ITimeLineMomentCollection으로부터 교집합에 해당하는 기간을 구했습니다. periods=[{}]", listToString(periods));
+            log.debug("ITimeLineMomentCollection으로부터 교집합에 해당하는 기간을 구했습니다. periods=[{}]",
+                      listToString(Lists.newArrayList(periods)));
 
         return periods;
     }
@@ -213,7 +215,7 @@ public final class TimeLineTool {
         }
 
         if (log.isDebugEnabled())
-            log.debug("기간들의 gap에 해당하는 부분을 계산했습니다!!! gaps=[{}]", listToString(gaps));
+            log.debug("기간들의 gap에 해당하는 부분을 계산했습니다!!! gaps=[{}]", listToString(Lists.newArrayList(gaps)));
 
         return gaps;
     }

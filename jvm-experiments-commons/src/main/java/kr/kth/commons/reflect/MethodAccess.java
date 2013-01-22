@@ -2,6 +2,7 @@ package kr.kth.commons.reflect;
 
 import com.google.common.collect.Lists;
 import kr.kth.commons.Guard;
+import kr.kth.commons.tools.StringTool;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.objectweb.asm.*;
@@ -19,7 +20,7 @@ import static org.objectweb.asm.Opcodes.*;
  * Date: 13. 1. 21
  */
 @Slf4j
-public abstract class MethodAccess {
+abstract public class MethodAccess {
 
     @Getter
     private String[] methodNames;
@@ -29,6 +30,8 @@ public abstract class MethodAccess {
     abstract public Object invoke(Object instance, int methodIndex, Object... args);
 
     public Object invoke(Object instance, String methodName, Object... args) {
+        if (log.isDebugEnabled())
+            log.debug("객체[{}]의 메소드[{}]를 실행합니다. args=[{}]", instance, methodName, StringTool.listToString(args));
         return invoke(instance, getIndex(methodName), args);
     }
 
