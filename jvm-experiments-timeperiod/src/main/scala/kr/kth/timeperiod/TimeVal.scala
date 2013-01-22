@@ -1,5 +1,6 @@
-package kr.kth.commons
+package kr.kth.timeperiod
 
+import kr.kth.commons.ValueObjectBase
 import kr.kth.commons.tools.ScalaHash
 import org.joda.time.{Duration, DateTime}
 
@@ -24,7 +25,7 @@ class TimeVal(val time: DateTime) extends ValueObjectBase with Ordered[TimeVal] 
 
     def millis: Long = time.getMillis
 
-    def getDateTime(moment: DateTime): DateTime = moment.withTimeAtStartOfDay() + millis
+    def getDateTime(moment: DateTime): DateTime = moment.withTimeAtStartOfDay().plus(time.getMillis)
 
     def getDateTime(date: DateVal): DateTime = date.getDateTime(this)
 

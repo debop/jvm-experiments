@@ -2,6 +2,7 @@ package kr.kth.commons.reflect;
 
 import com.google.common.collect.Lists;
 import kr.kth.commons.Guard;
+import kr.kth.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class DynamicAccessor<T> {
     public DynamicAccessor(Class<T> targetType) {
         Guard.shouldNotBeNull(targetType, "targetType");
         if (log.isDebugEnabled())
-            log.debug("");
+            log.debug("수형 [{}]에 대한 DynamicAccessor 를 생성합니다...", targetType);
 
         this.targetType = targetType;
         this.ctorAccessor = ConstructorAccess.get(this.targetType);
@@ -34,6 +35,9 @@ public class DynamicAccessor<T> {
 
         this.fieldNames = Lists.newArrayList(fieldAccessor.getFieldNames());
         this.methodNames = Lists.newArrayList(methodAccessor.getMethodNames());
+
+        if (log.isInfoEnabled())
+            log.info("수형 [{}]애 대한 DynamicAccessor를 생성했습니다.", targetType);
     }
 
     @SuppressWarnings("unchecked")
@@ -111,7 +115,41 @@ public class DynamicAccessor<T> {
         return methodAccessor.invoke(instance, methodName, args);
     }
 
-    private static final String getPropertyName(String filedName) {
-        return filedName.substring(0, 1).toUpperCase() + filedName.substring(1);
+    @SuppressWarnings("unchecked")
+    public <T> T tryGetField(Object instance, String fieldName, T defaultValue) {
+        try {
+            return (T) getField(instance, fieldName);
+        } catch (Exception ignored) {
+            log.warn("필드값 조회에 실패했습니다. 기본값을 반환합니다. filedNamee=[{}], defaultValue=[{}]", fieldName, defaultValue);
+            return defaultValue;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T tryGetProperty(Object instance, String fieldName, T defaultValue) {
+        try {
+            return (T) getProperty(instance, fieldName);
+        } catch (Exception ignored) {
+            log.warn("속성값 조회에 실패했습니다. 기본값을 반환합니다. filedNamee=[{}], defaultValue=[{}]", fieldName, defaultValue);
+            return defaultValue;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public T tryInvoke(Object instance, String methodName, T defaultValue, Object... args) {
+        try {
+            return (T) invoke(instance, methodName, args);
+        } catch (Exception ignored) {
+            if (log.isWarnEnabled())
+                log.warn("메소드 실행에 실패했습니다. 기본값을 반환합니다. methodName=[{}], defaultValue=[{}], args=[{}]",
+                         methodName, defaultValue, StringTool.listToString(args));
+            return defaultValue;
+        }
+    }
+
+    private static String getPropertyName(String fieldName) {
+        if (StringTool.isEmpty(fieldName))
+            return "";
+        return fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
     }
 }

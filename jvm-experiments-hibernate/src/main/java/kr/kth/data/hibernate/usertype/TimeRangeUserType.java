@@ -1,8 +1,7 @@
 package kr.kth.data.hibernate.usertype;
 
 import kr.kth.commons.Guard;
-import kr.kth.timeperiod.TimeRange;
-import kr.kth.timeperiod.TimeSpec;
+import kr.kth.data.domain.model.DateTimeRange;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -26,12 +25,12 @@ import java.util.Objects;
 @Slf4j
 public class TimeRangeUserType implements CompositeUserType {
 
-    public static TimeRange asTimeRange(Object value) {
+    public static DateTimeRange asDateTimeRange(Object value) {
         if (value == null)
             return null;
 
-        if (value instanceof TimeRange)
-            return (TimeRange) value;
+        if (value instanceof DateTimeRange)
+            return (DateTimeRange) value;
         return null;
     }
 
@@ -50,13 +49,13 @@ public class TimeRangeUserType implements CompositeUserType {
         if (component == null)
             return null;
 
-        TimeRange timeRange = asTimeRange(component);
+        DateTimeRange dateTimeRange = asDateTimeRange(component);
 
         switch (property) {
             case 0:
-                return timeRange.getStart();
+                return dateTimeRange.getStart();
             case 1:
-                return timeRange.getEnd();
+                return dateTimeRange.getEnd();
             default:
                 throw new IllegalArgumentException("복합 수형의 인덱스 범위가 벗어났습니다. 0, 1만 가능합니다. property=" + property);
         }
@@ -66,14 +65,14 @@ public class TimeRangeUserType implements CompositeUserType {
     public void setPropertyValue(Object component, int property, Object value) throws HibernateException {
         Guard.shouldNotBeNull(component, "component");
 
-        TimeRange timeRange = asTimeRange(component);
+        DateTimeRange timeRange = asDateTimeRange(component);
 
         switch (property) {
             case 0:
-                timeRange.setStart((value != null) ? new DateTime(value) : TimeSpec.MinPeriodTime());
+                timeRange.setStart((value != null) ? new DateTime(value) : DateTimeRange.MinPeriodTime);
                 break;
             case 1:
-                timeRange.setEnd((value != null) ? new DateTime(value) : TimeSpec.MaxPeriodTime());
+                timeRange.setEnd((value != null) ? new DateTime(value) : DateTimeRange.MaxPeriodTime);
                 break;
             default:
                 throw new IllegalArgumentException("복합 수형의 인덱스 범위가 벗어났습니다. 0, 1만 가능합니다. property=" + property);
@@ -82,7 +81,7 @@ public class TimeRangeUserType implements CompositeUserType {
 
     @Override
     public Class returnedClass() {
-        return TimeRange.class;
+        return DateTimeRange.class;
     }
 
     @Override
@@ -102,7 +101,7 @@ public class TimeRangeUserType implements CompositeUserType {
         Date start = (Date) DateType.INSTANCE.nullSafeGet(rs, names[0], session, owner);
         Date end = (Date) DateType.INSTANCE.nullSafeGet(rs, names[1], session, owner);
 
-        return new TimeRange(new DateTime(start), new DateTime(end));
+        return new DateTimeRange(new DateTime(start), new DateTime(end));
     }
 
     @Override
@@ -113,7 +112,7 @@ public class TimeRangeUserType implements CompositeUserType {
             DateType.INSTANCE.nullSafeSet(st, null, index, session);
             DateType.INSTANCE.nullSafeSet(st, null, index + 1, session);
         } else {
-            TimeRange range = asTimeRange(value);
+            DateTimeRange range = asDateTimeRange(value);
             DateType.INSTANCE.nullSafeSet(st, range.getStart(), index, session);
             DateType.INSTANCE.nullSafeSet(st, range.getEnd(), index + 1, session);
         }
@@ -124,8 +123,8 @@ public class TimeRangeUserType implements CompositeUserType {
         if (value == null)
             return null;
 
-        TimeRange range = asTimeRange(value);
-        return new TimeRange(range);
+        DateTimeRange range = asDateTimeRange(value);
+        return new DateTimeRange(range);
     }
 
     @Override

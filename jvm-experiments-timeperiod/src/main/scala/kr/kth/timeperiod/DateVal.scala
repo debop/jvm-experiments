@@ -1,5 +1,6 @@
-package kr.kth.commons
+package kr.kth.timeperiod
 
+import kr.kth.commons.ValueObjectBase
 import kr.kth.commons.tools.ScalaHash
 import org.joda.time.DateTime
 

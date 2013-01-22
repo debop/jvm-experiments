@@ -1,5 +1,6 @@
 package kr.kth.commons.caching.repository;
 
+import com.google.common.base.Charsets;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -11,7 +12,6 @@ import org.apache.http.impl.nio.client.DefaultHttpAsyncClient;
 import org.apache.http.nio.client.HttpAsyncClient;
 import org.apache.http.util.EntityUtils;
 
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -85,11 +85,11 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
                             Future<HttpResponse> future = httpClient.execute(request, null);
 
                             HttpResponse response = future.get();
-                            responseStr = EntityUtils.toString(response.getEntity(), Charset.forName("UTF-8"));
+                            responseStr = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
 
                             if (log.isDebugEnabled())
                                 log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
-                                        key, StringTool.ellipsisChar(responseStr, 255));
+                                          key, StringTool.ellipsisChar(responseStr, 255));
                         } finally {
                             httpClient.shutdown();
                         }

@@ -3,10 +3,10 @@ package org.hibernate.example.domain.model.join;
 import com.google.common.base.Objects;
 import kr.kth.data.domain.model.EntityBase;
 import kr.kth.data.domain.model.IUpdateTimestampedEntity;
-import kr.kth.timeperiod.Times;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -57,6 +57,6 @@ public class Join_Customer extends EntityBase<Long> implements IUpdateTimestampe
 
     @Override
     public void updateUpdateTimestamp() {
-        this.updateTimestamp = new Timestamp(Times.getNowTime());
+        this.updateTimestamp = new Timestamp(DateTime.now().getMillis());
     }
 }

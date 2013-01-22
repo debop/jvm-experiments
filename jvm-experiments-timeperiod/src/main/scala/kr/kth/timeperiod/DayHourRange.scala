@@ -1,8 +1,8 @@
 package kr.kth.timeperiod
 
 import DayOfWeek._
+import kr.kth.commons.Guard
 import kr.kth.commons.tools.ScalaHash
-import kr.kth.commons.{Guard, TimeVal}
 
 /**
  * 특정요일의 한시간단위의 기간을 표현한다. (예: 금요일 1시~ 5시)

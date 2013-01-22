@@ -2,13 +2,13 @@ package scala.impatient
 
 import annotation.meta.beanGetter
 import collection.mutable.ArrayBuffer
+import com.google.common.base.Charsets
 import io.Source
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 import kr.kth.commons.ValueObjectBase
 import kr.kth.commons.slf4j.Logging
-import org.junit.{Assert, Test}
 
 /**
  * scala.impatient.AdvancedTypeTest
@@ -109,7 +109,7 @@ class AdvancedTypeTest extends Logging {
     class StringReader extends Reader {
         type Contents = String
 
-        def read(filename: String) = Source.fromFile(filename, "UTF-8").mkString
+        def read(filename: String) = Source.fromFile(filename, Charsets.UTF_8.toString).mkString
     }
 
     class ImageReader extends Reader {
@@ -123,7 +123,7 @@ class AdvancedTypeTest extends Logging {
     }
 
     class GenericStringReader extends GenericReader[String] {
-        def read(filename: String): String = Source.fromFile(filename, "UTF-8").mkString
+        def read(filename: String): String = Source.fromFile(filename, Charsets.UTF_8.toString).mkString
     }
 
     class GenericImageReader extends GenericReader[BufferedImage] {

@@ -3,16 +3,11 @@ package kr.kth.commons.tools;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import kr.kth.commons.YearWeek;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 13. 1. 7
- * Time: 오후 4:07
- * To change this template use File | Settings | File Templates.
- */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 @Slf4j
 public class HashToolTest {
 
@@ -21,19 +16,19 @@ public class HashToolTest {
      */
     @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
-    public void scalaVarargsTest() {
-        int a = ScalaHash.compute(1, 2);
-        int b = ScalaHash.compute(2, 1);
+    public void computeHashTest() {
+        int a = HashTool.compute(1, 2);
+        int b = HashTool.compute(2, 1);
 
-        Assert.assertNotEquals(a, b);
-        Assert.assertEquals(a, ScalaHash.compute(1, 2));
+        assertNotEquals(a, b);
+        assertEquals(a, HashTool.compute(1, 2));
 
-        int withNull1 = ScalaHash.compute(new YearWeek(2013, 1), null);
-        int withNull2 = ScalaHash.compute(null, new YearWeek(2013, 1));
-        int withNull3 = ScalaHash.compute(new YearWeek(2013, 1), null);
+        int withNull1 = HashTool.compute(new YearWeek(2013, 1), null);
+        int withNull2 = HashTool.compute(null, new YearWeek(2013, 1));
+        int withNull3 = HashTool.compute(new YearWeek(2013, 1), null);
 
-        Assert.assertNotEquals(withNull1, withNull2);
-        Assert.assertNotEquals(withNull2, withNull3);
-        Assert.assertEquals(withNull1, withNull3);
+        assertNotEquals(withNull1, withNull2);
+        assertNotEquals(withNull2, withNull3);
+        assertEquals(withNull1, withNull3);
     }
 }

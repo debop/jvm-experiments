@@ -1,9 +1,6 @@
 package kr.kth.commons.tools;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
+import com.google.common.base.*;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import kr.kth.commons.BinaryStringFormat;
@@ -40,7 +37,7 @@ public final class StringTool {
     public static final String NULL_STR = "NULL";
     public static final String EMPTY_STR = "";
 
-    public static final Charset UTF8 = Charset.forName("UTF-8");
+    public static final Charset UTF8 = Charsets.UTF_8;
 
     private StringTool() {
     }

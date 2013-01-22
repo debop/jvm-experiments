@@ -29,6 +29,5 @@ public class IterablesTest {
                 log.debug(Iterables.toString(parts));
             }
         }
-
     }
 }

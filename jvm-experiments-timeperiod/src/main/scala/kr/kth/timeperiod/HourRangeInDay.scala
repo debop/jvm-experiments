@@ -1,7 +1,7 @@
 package kr.kth.timeperiod
 
+import kr.kth.commons.ValueObjectBase
 import kr.kth.commons.tools.ScalaHash
-import kr.kth.commons.{ValueObjectBase, TimeVal}
 
 /**
  * 1일 (Day) 안의 한시간 단위를 나타내는 HourRange 를 표현합니다. ( 9시 ~ 6시)
