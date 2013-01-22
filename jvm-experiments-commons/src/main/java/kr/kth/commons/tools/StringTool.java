@@ -301,25 +301,13 @@ public final class StringTool {
         return builder.toString();
     }
 
-//    private static Iterable<Object> transformToString(Object[] items) {
-//        List<Object> results = Lists.newArrayList();
-//        for (Object item : items) {
-//            results.add((item != null) ? item : NULL_STR);
-//        }
-//        return results;
-//    }
-//
-//    private static List<Object> transformToString(Iterable<?> items) {
-//        List<Object> results = Lists.newArrayList();
-//        for (Object item : items) {
-//            results.add((item != null) ? item : NULL_STR);
-//        }
-//        return results;
-//    }
-
-    public static String join(Object[] items) {
+    public static String join(Object... items) {
         return join(items, ",");
     }
+
+//    public static String join(Object[] items) {
+//        return join(items, ",");
+//    }
 
     public static String join(Object[] items, String separator) {
         List<Object> strings =
