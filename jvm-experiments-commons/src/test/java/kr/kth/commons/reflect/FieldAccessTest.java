@@ -1,5 +1,7 @@
 package kr.kth.commons.reflect;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import kr.kth.commons.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -12,8 +14,9 @@ import static org.junit.Assert.fail;
  * Date: 13. 1. 21
  */
 @Slf4j
-public class FieldAccessTest {
+public class FieldAccessTest extends AbstractTest {
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void nameSetAndGet() {
         FieldAccess access = FieldAccess.get(SomeClass.class);
@@ -30,6 +33,7 @@ public class FieldAccessTest {
         assertEquals(1234, access.get(test, "intValue"));
     }
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void indexSetAndGet() {
         FieldAccess access = FieldAccess.get(SomeClass.class);
@@ -81,6 +85,7 @@ public class FieldAccessTest {
         assertEquals(123.456, access.getDouble(test, access.getIndex("doubleField")), 1.0e-10d);
     }
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void emptyClass() {
         FieldAccess access = FieldAccess.get(EmptyClass.class);

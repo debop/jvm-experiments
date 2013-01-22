@@ -1,5 +1,7 @@
 package kr.kth.commons.reflect;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import kr.kth.commons.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,7 +12,7 @@ import org.junit.Test;
  * Date: 13. 1. 21.
  */
 @Slf4j
-public class DynamicAccessorTest {
+public class DynamicAccessorTest extends AbstractTest {
 
     @lombok.Getter
     @lombok.Setter
@@ -25,6 +27,7 @@ public class DynamicAccessorTest {
         }
     }
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void dynamicInstancing() {
         DynamicAccessor<User> userAccessor = DynamicAccessorFactory.create(User.class);

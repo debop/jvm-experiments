@@ -1,5 +1,6 @@
 package kr.kth.commons.tools;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import kr.kth.commons.YearWeek;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -18,6 +19,7 @@ public class HashToolTest {
     /**
      * 테스트에 성공합니다. 아마 Scala IDE나 컴파일러의 문제로 인해, 에러로 뜨는 것 같습니다.
      */
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void scalaVarargsTest() {
         int a = ScalaHash.compute(1, 2);

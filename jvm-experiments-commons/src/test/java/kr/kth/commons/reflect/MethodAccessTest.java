@@ -1,5 +1,7 @@
 package kr.kth.commons.reflect;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import kr.kth.commons.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -12,8 +14,9 @@ import static org.junit.Assert.fail;
  * Date: 13. 1. 21
  */
 @Slf4j
-public class MethodAccessTest {
+public class MethodAccessTest extends AbstractTest {
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void invokeMethods() {
         MethodAccess access = MethodAccess.get(SomeClass.class);
@@ -46,6 +49,7 @@ public class MethodAccessTest {
         assertEquals(access.getIndex("methodWithManyArguments"), index);
     }
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void invokeWithEmptyClass() {
         MethodAccess access = MethodAccess.get(EmptyClass.class);

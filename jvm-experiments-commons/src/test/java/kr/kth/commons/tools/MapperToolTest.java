@@ -1,6 +1,8 @@
 package kr.kth.commons.tools;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.google.common.collect.Lists;
+import kr.kth.commons.AbstractTest;
 import kr.kth.commons.ValueObjectBase;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +16,9 @@ import java.util.List;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 6.
  */
-public class MapperToolTest {
+public class MapperToolTest extends AbstractTest {
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void mapTest() {
         Parent parent = getParentSample();

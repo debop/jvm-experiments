@@ -1,5 +1,7 @@
 package kr.kth.commons.reflect;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import kr.kth.commons.AbstractTest;
 import kr.kth.commons.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -11,8 +13,9 @@ import org.junit.Test;
  * Date: 13. 1. 21
  */
 @Slf4j
-public class ConstructorAccessTest {
+public class ConstructorAccessTest extends AbstractTest {
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void instanceClass() {
         ConstructorAccess<User> access = ConstructorAccess.get(User.class);
@@ -22,6 +25,7 @@ public class ConstructorAccessTest {
         Assert.assertEquals(User.class, access.newInstance().getClass());
     }
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void instanceStaticInnerClass() {
         ConstructorAccess<SomeClass> access = ConstructorAccess.get(SomeClass.class);

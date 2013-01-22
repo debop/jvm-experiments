@@ -1,5 +1,7 @@
 package kr.kth.commons.unitTesting;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import kr.kth.commons.AbstractTest;
 import kr.kth.commons.AutoStopwatch;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +15,12 @@ import java.util.concurrent.Callable;
  * Date: 12. 12. 3.
  */
 @Slf4j
-public class TestToolTest {
+public class TestToolTest extends AbstractTest {
 
     private static final int LowerBound = 0;
     private static final int UpperBound = 99999;
 
-
+    @BenchmarkOptions(benchmarkRounds = 10, warmupRounds = 1)
     @Test
     public void runTasksWithAction() {
 
@@ -29,8 +31,6 @@ public class TestToolTest {
                         for (int i = LowerBound; i < UpperBound; i++) {
                             Hero.findRoot(i);
                         }
-                        if (log.isDebugEnabled())
-                            log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
                     }
                 };
 
@@ -45,6 +45,7 @@ public class TestToolTest {
         });
     }
 
+    @BenchmarkOptions(benchmarkRounds = 10, warmupRounds = 1)
     @Test
     public void runTasksWithCallables() {
 
@@ -54,8 +55,6 @@ public class TestToolTest {
                 for (int i = LowerBound; i < UpperBound; i++) {
                     Hero.findRoot(i);
                 }
-                if (log.isDebugEnabled())
-                    log.debug("FindRoot({}) returns [{}]", UpperBound, Hero.findRoot(UpperBound));
                 return Hero.findRoot(UpperBound);
             }
         };

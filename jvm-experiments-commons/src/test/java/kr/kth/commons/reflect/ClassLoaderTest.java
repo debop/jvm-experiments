@@ -1,5 +1,7 @@
 package kr.kth.commons.reflect;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import kr.kth.commons.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +16,7 @@ import java.io.InputStream;
  * Date: 13. 1. 21
  */
 @Slf4j
-public class ClassLoaderTest {
+public class ClassLoaderTest extends AbstractTest {
 
     static public class TestClass {
         public String name;
@@ -24,6 +26,7 @@ public class ClassLoaderTest {
         }
     }
 
+    @BenchmarkOptions(benchmarkRounds = 100, warmupRounds = 1)
     @Test
     public void differentClassLoader() throws Exception {
         ClassLoader testClassLoader = new ClassLoader() {
