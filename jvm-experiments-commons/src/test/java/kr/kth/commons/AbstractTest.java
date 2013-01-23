@@ -1,11 +1,8 @@
 package kr.kth.commons;
 
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.MethodRule;
 
 /**
  * 단위 테스트 클래스의 최상위 추상 클래스
@@ -15,8 +12,8 @@ import org.junit.rules.MethodRule;
 @Slf4j
 public abstract class AbstractTest {
 
-    @Rule
-    public MethodRule benchmarkRun = new BenchmarkRule();
+//    @Rule
+//    public MethodRule benchmarkRun = new BenchmarkRule();
 
     @Before
     public void before() {

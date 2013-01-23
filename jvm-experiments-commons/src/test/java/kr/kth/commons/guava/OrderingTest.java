@@ -2,6 +2,7 @@ package kr.kth.commons.guava;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Ordering;
+import kr.kth.commons.AbstractTest;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -18,7 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * Date: 13. 1. 22.
  */
 @Slf4j
-public class OrderingTest {
+public class OrderingTest extends AbstractTest {
 
     private static final Comparator<Employee> yearsComparator =
             new Comparator<Employee>() {

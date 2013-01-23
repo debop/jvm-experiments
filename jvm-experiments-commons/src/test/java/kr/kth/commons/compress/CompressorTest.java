@@ -33,7 +33,7 @@ public class CompressorTest extends AbstractTest {
 
         if (Spring.isNotInitialized())
             Spring.initByAnnotatedClasses(CompressorConfiguration.class,
-                    SerializerConfiguration.class);
+                                          SerializerConfiguration.class);
 
         Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class);
         compressors = compressorMap.values();

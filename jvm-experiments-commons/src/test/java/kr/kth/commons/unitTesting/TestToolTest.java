@@ -1,9 +1,6 @@
 package kr.kth.commons.unitTesting;
 
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import kr.kth.commons.AbstractTest;
-import kr.kth.commons.AutoStopwatch;
-import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -20,7 +17,6 @@ public class TestToolTest extends AbstractTest {
     private static final int LowerBound = 0;
     private static final int UpperBound = 99999;
 
-    @BenchmarkOptions(benchmarkRounds = 10, warmupRounds = 1)
     @Test
     public void runTasksWithAction() {
 
@@ -34,8 +30,6 @@ public class TestToolTest extends AbstractTest {
                     }
                 };
 
-        @Cleanup
-        AutoStopwatch stopwatch = new AutoStopwatch();
         TestTool.runTasks(100, new Runnable() {
             @Override
             public void run() {
@@ -45,7 +39,6 @@ public class TestToolTest extends AbstractTest {
         });
     }
 
-    @BenchmarkOptions(benchmarkRounds = 10, warmupRounds = 1)
     @Test
     public void runTasksWithCallables() {
 
@@ -59,8 +52,6 @@ public class TestToolTest extends AbstractTest {
             }
         };
 
-        @Cleanup
-        AutoStopwatch stopwatch = new AutoStopwatch();
         TestTool.runTasks(100, new Callable<Double>() {
             @Override
             public Double call() throws Exception {
@@ -71,7 +62,7 @@ public class TestToolTest extends AbstractTest {
 
     public static class Hero {
 
-        private static final double Tolerance = 1.0e-10;
+        private static final double Tolerance = 1.0e-8;
 
         public static double findRoot(double number) {
             double guess = 1.0;

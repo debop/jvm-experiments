@@ -1,6 +1,7 @@
 package kr.kth.commons.guava;
 
 import com.google.common.collect.Iterables;
+import kr.kth.commons.AbstractTest;
 import kr.kth.commons.collection.Range;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import java.util.List;
  * Date: 13. 1. 11.
  */
 @Slf4j
-public class IterablesTest {
+public class IterablesTest extends AbstractTest {
 
     @Test
     public void testIterablesPartition() {
