@@ -121,9 +121,10 @@ trait ITimePeriod extends ValueObjectBase with Ordered[ITimePeriod] with Logging
 
     protected override def buildStringHelper(): ToStringHelper =
         super.buildStringHelper()
-        .add("_start", getStart)
-        .add("_end", getEnd)
-        .add("_readonly", isReadonly)
+        .add("start", getStart)
+        .add("end", getEnd)
+        .add("readonly", isReadonly)
+        .add("duration", getDuration)
 
     def compare(that: ITimePeriod): Int = getStart compareTo that.getStart
 }
