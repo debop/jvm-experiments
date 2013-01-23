@@ -19,6 +19,9 @@ public class DynamicAccessorFactory {
     private static final LoadingCache<Class<?>, DynamicAccessor> cache;
 
     static {
+        if (log.isInfoEnabled())
+            log.debug("DynamicAccessor 캐시를 생성합니다.");
+
         loader = new CacheLoader<Class<?>, DynamicAccessor>() {
             @Override
             @SuppressWarnings("unchecked")
@@ -27,7 +30,10 @@ public class DynamicAccessorFactory {
             }
         };
 
-        cache = CacheBuilder.newBuilder().build(loader);
+        cache = CacheBuilder.newBuilder().weakValues().maximumSize(2000).build(loader);
+
+        if (log.isInfoEnabled())
+            log.debug("DynamicAccessor 캐시를 생성했습니다.");
     }
 
     @SuppressWarnings("unchecked")

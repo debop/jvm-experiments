@@ -25,9 +25,7 @@ public abstract class AbstractTest {
         onAfter();
     }
 
-    protected void onBefore() {
-    }
+    protected void onBefore() { }
 
-    protected void onAfter() {
-    }
+    protected void onAfter() { }
 }
