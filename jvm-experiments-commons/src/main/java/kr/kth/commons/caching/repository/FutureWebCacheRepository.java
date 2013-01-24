@@ -30,7 +30,7 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
         if (log.isDebugEnabled())
             log.debug("FutureWebCacheRepository 인스턴스를 생성합니다.");
 
-        cache = CacheBuilder.newBuilder().build(getCacheLoader());
+        cache = CacheBuilder.newBuilder().weakValues().build(getCacheLoader());
     }
 
     @Override
@@ -68,33 +68,32 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
         cache.cleanUp();
     }
 
-    private static CacheLoader<String, String> getCacheLoader() {
-        return
-                new CacheLoader<String, String>() {
-                    @Override
-                    public String load(String key) throws Exception {
+    private static synchronized CacheLoader<String, String> getCacheLoader() {
+        return new CacheLoader<String, String>() {
+            @Override
+            public String load(String key) throws Exception {
 
-                        if (log.isDebugEnabled())
-                            log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", key);
+                if (log.isDebugEnabled())
+                    log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", key);
 
-                        String responseStr = "";
-                        HttpAsyncClient httpClient = new DefaultHttpAsyncClient();
-                        try {
-                            httpClient.start();
-                            HttpGet request = new HttpGet(key);
-                            Future<HttpResponse> future = httpClient.execute(request, null);
+                String responseStr = "";
+                HttpAsyncClient httpClient = new DefaultHttpAsyncClient();
+                try {
+                    httpClient.start();
+                    HttpGet request = new HttpGet(key);
+                    Future<HttpResponse> future = httpClient.execute(request, null);
 
-                            HttpResponse response = future.get();
-                            responseStr = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
+                    HttpResponse response = future.get();
+                    responseStr = EntityUtils.toString(response.getEntity(), Charsets.UTF_8.toString());
 
-                            if (log.isDebugEnabled())
-                                log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
-                                          key, StringTool.ellipsisChar(responseStr, 255));
-                        } finally {
-                            httpClient.shutdown();
-                        }
-                        return responseStr;
-                    }
-                };
+                    if (log.isDebugEnabled())
+                        log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
+                                  key, StringTool.ellipsisChar(responseStr, 255));
+                } finally {
+                    httpClient.shutdown();
+                }
+                return responseStr;
+            }
+        };
     }
 }

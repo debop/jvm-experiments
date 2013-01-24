@@ -408,6 +408,11 @@
             <name>BoneCP Repository</name>
             <url>http://jolbox.com/bonecp/downloads/maven</url>
         </repository>
+        <repository>
+            <id>couchbase</id>
+            <name>CouchBase Repository</name>
+            <url>http://files.couchbase.com/maven2</url>
+        </repository>
     </repositories>
 
     <build>
