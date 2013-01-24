@@ -1,8 +1,8 @@
 package org.hibernate.example.domain.model.collection;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.ValueObjectBase;
-import kr.kth.commons.tools.HashTool;
+import kr.nsoft.commons.ValueObjectBase;
+import kr.nsoft.commons.tools.HashTool;
 import lombok.Getter;
 import lombok.Setter;
 

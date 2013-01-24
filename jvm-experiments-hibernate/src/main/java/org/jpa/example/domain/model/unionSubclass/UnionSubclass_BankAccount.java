@@ -1,7 +1,7 @@
 package org.jpa.example.domain.model.unionSubclass;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
+import kr.nsoft.commons.tools.HashTool;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;

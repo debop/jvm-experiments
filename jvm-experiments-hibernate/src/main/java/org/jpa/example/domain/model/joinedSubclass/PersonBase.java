@@ -1,8 +1,8 @@
 package org.jpa.example.domain.model.joinedSubclass;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.domain.model.AnnotatedEntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.domain.model.AnnotatedEntityBase;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 

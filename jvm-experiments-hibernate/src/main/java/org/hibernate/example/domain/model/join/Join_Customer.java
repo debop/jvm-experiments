@@ -1,8 +1,8 @@
 package org.hibernate.example.domain.model.join;
 
 import com.google.common.base.Objects;
-import kr.kth.data.domain.model.EntityBase;
-import kr.kth.data.domain.model.IUpdateTimestampedEntity;
+import kr.nsoft.data.domain.model.EntityBase;
+import kr.nsoft.data.domain.model.IUpdateTimestampedEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

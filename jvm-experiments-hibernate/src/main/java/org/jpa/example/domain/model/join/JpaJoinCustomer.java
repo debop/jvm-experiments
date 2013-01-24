@@ -1,8 +1,8 @@
 package org.jpa.example.domain.model.join;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.domain.model.AnnotatedEntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.domain.model.AnnotatedEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Generated;
@@ -41,11 +41,11 @@ public class JpaJoinCustomer extends AnnotatedEntityBase {
     @AttributeOverrides(
             {
                     @AttributeOverride(name = "street",
-                            column = @Column(name = "STREET", table = "JPA_JOIN_CUSTOMER_ADDR")),
+                                       column = @Column(name = "STREET", table = "JPA_JOIN_CUSTOMER_ADDR")),
                     @AttributeOverride(name = "zipcode",
-                            column = @Column(name = "ZIPCODE", table = "JPA_JOIN_CUSTOMER_ADDR")),
+                                       column = @Column(name = "ZIPCODE", table = "JPA_JOIN_CUSTOMER_ADDR")),
                     @AttributeOverride(name = "city",
-                            column = @Column(name = "CITY", table = "JPA_JOIN_CUSTOMER_ADDR")),
+                                       column = @Column(name = "CITY", table = "JPA_JOIN_CUSTOMER_ADDR")),
             }
     )
     private JpaJoinAddress joinAddress = new JpaJoinAddress();

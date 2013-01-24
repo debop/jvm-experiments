@@ -1,8 +1,8 @@
 package org.jpa.example.domain.model.usertypes;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.ValueObjectBase;
-import kr.kth.commons.tools.HashTool;
+import kr.nsoft.commons.ValueObjectBase;
+import kr.nsoft.commons.tools.HashTool;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ public class MonetaryAmount extends ValueObjectBase {
 
     public MonetaryAmount convertTo(Currency targetCurrency) {
         BigDecimal targetAmount = new BigDecimal(amount.toBigInteger(),
-                targetCurrency.getDefaultFractionDigits());
+                                                 targetCurrency.getDefaultFractionDigits());
         return new MonetaryAmount(targetAmount, targetCurrency);
     }
 

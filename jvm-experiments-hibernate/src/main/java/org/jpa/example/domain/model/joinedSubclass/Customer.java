@@ -1,7 +1,7 @@
 package org.jpa.example.domain.model.joinedSubclass;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
+import kr.nsoft.commons.tools.HashTool;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

@@ -5,9 +5,9 @@
 
     <jdbc:embedded-database id="dataSource" type="HSQL"/>
 
-    <bean id="updateTimestampedInterceptor" class="kr.kth.data.hibernate.interceptor.UpdateTimestampedInterceptor"/>
+    <bean id="updateTimestampedInterceptor" class="kr.nsoft.data.hibernate.interceptor.UpdateTimestampedInterceptor"/>
 
-    <bean id="updateTimestampedListener" class="kr.kth.data.hibernate.listener.UpdateTimestampedEventListener"/>
+    <bean id="updateTimestampedListener" class="kr.nsoft.data.hibernate.listener.UpdateTimestampedEventListener"/>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -33,11 +33,11 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="unitOfWorkFactory" class="kr.kth.data.hibernate.unitofwork.HibernateUnitOfWorkFactory">
+    <bean id="unitOfWorkFactory" class="kr.nsoft.data.hibernate.unitofwork.HibernateUnitOfWorkFactory">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="hibernateDaoFactory" class="kr.kth.data.hibernate.repository.HibernateDaoFactory">
+    <bean id="hibernateDaoFactory" class="kr.nsoft.data.hibernate.repository.HibernateDaoFactory">
     </bean>
 
     <!-- TODO: 다중 SessionFactory 에 대한 처리를 구현해야 합니다^^ -->

@@ -1,7 +1,7 @@
 package org.jpa.example.domain.model.collection;
 
 import com.google.common.collect.Maps;
-import kr.kth.data.domain.model.AnnotatedEntityBase;
+import kr.nsoft.data.domain.model.AnnotatedEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;

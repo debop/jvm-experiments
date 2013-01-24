@@ -1,6 +1,6 @@
 package org.jpa.example.domain.model.collection;
 
-import kr.kth.commons.spring3.Spring;
+import kr.nsoft.commons.spring3.Spring;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.*;

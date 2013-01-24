@@ -1,6 +1,6 @@
 package org.jpa.example.domain.model.usertypes;
 
-import kr.kth.data.jpa.domain.JpaEntityBase;
+import kr.nsoft.data.jpa.domain.JpaEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Columns;
@@ -38,10 +38,10 @@ public class Budget extends JpaEntityBase {
 
     @Type(type = "org.jpa.example.domain.model.usertypes.MonetaryAmountCompositeUserType")
     @Columns(columns =
-            {
-                    @Column(name = "COMPOSITE_AMOUNT"),
-                    @Column(name = "COMPOSITE_CURRENCY", length = 8)
-            })
+                     {
+                             @Column(name = "COMPOSITE_AMOUNT"),
+                             @Column(name = "COMPOSITE_CURRENCY", length = 8)
+                     })
     private MonetaryAmount compositePrice;
 
     @Enumerated(EnumType.STRING)

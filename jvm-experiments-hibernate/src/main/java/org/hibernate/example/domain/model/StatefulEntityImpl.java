@@ -1,8 +1,8 @@
 package org.hibernate.example.domain.model;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.jpa.domain.JpaEntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.jpa.domain.JpaEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

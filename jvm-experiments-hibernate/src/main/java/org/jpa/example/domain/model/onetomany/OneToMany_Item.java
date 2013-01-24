@@ -2,8 +2,8 @@ package org.jpa.example.domain.model.onetomany;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.jpa.domain.JpaEntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.jpa.domain.JpaEntityBase;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 

@@ -1,8 +1,8 @@
 package org.hibernate.example.domain.model.joinedSubclass;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.domain.model.EntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.domain.model.EntityBase;
 import lombok.Getter;
 import lombok.Setter;
 

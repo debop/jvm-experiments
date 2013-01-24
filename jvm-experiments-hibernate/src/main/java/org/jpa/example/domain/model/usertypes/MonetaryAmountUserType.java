@@ -1,6 +1,6 @@
 package org.jpa.example.domain.model.usertypes;
 
-import kr.kth.commons.tools.HashTool;
+import kr.nsoft.commons.tools.HashTool;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;

@@ -1,6 +1,6 @@
 package springbook.user.dao;
 
-import kr.kth.commons.spring3.Spring;
+import kr.nsoft.commons.spring3.Spring;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

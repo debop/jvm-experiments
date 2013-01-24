@@ -1,8 +1,8 @@
 package org.jpa.example.domain.model.onetomany;
 
 import com.google.common.base.Objects;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.jpa.domain.JpaEntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.jpa.domain.JpaEntityBase;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.example.domain.model.collection.Item;

@@ -2,8 +2,8 @@ package org.jpa.example.domain.model.joinedSubclass;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
-import kr.kth.commons.tools.HashTool;
-import kr.kth.data.domain.model.AnnotatedEntityBase;
+import kr.nsoft.commons.tools.HashTool;
+import kr.nsoft.data.domain.model.AnnotatedEntityBase;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 

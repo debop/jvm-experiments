@@ -11,9 +11,7 @@
 
     <modules>
         <module>jvm-experiments-commons</module>
-        <module>jvm-experiments-timeperiod</module>
         <module>jvm-experiments-hibernate</module>
-        <module>jvm-experiments-scala</module>
         <module>jvm-experiments-spring</module>
         <module>jvm-experiments-springmvc</module>
     </modules>
@@ -26,15 +24,12 @@
     <properties>
         <kr.kth.version>1.0.0</kr.kth.version>
 
-        <scala.version>2.10.0</scala.version>
-
         <springframework.version>3.2.0.RELEASE</springframework.version>
         <spring.integration.version>2.2.0.RELEASE</spring.integration.version>
         <guice.version>3.0</guice.version>
 
         <lambdaj.version>2.3.3</lambdaj.version>
         <bonecp.version>0.8.0-rc1</bonecp.version>
-
 
         <slf4j.version>1.7.2</slf4j.version>
         <logback.version>1.0.9</logback.version>
