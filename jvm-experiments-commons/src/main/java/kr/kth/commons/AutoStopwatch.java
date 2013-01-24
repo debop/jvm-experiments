@@ -13,7 +13,11 @@ public class AutoStopwatch implements AutoCloseable {
     private final Stopwatch stopwatch;
 
     public AutoStopwatch() {
-        stopwatch = new Stopwatch();
+        this("");
+    }
+
+    public AutoStopwatch(String msg) {
+        stopwatch = new Stopwatch(msg);
         stopwatch.start();
     }
 

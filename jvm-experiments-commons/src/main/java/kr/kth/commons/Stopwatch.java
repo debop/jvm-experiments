@@ -15,16 +15,28 @@ public class Stopwatch {
 
     private long startTime;
     private long endTime;
+
     @Getter
     private long elapsedTime;
 
-    private boolean runGC = false;
+    private final boolean runGC;
+    private final String message;
 
     public Stopwatch() {
-        this(false);
+        this("", false);
+    }
+
+    public Stopwatch(String msg) {
+        this(msg, false);
     }
 
     public Stopwatch(boolean runGC) {
+        this("", runGC);
+    }
+
+
+    public Stopwatch(String msg, boolean runGC) {
+        this.message = msg;
         this.runGC = runGC;
     }
 
@@ -55,8 +67,8 @@ public class Stopwatch {
         endTime = System.nanoTime();
         elapsedTime = endTime - startTime;
 
-        if (Stopwatch.log.isInfoEnabled())
-            Stopwatch.log.info("Elapsed timePart = [{}] msecs", nanoToMillis(elapsedTime));
+        if (log.isInfoEnabled())
+            log.info("{} elapsed time=[{}] msecs", message, nanoToMillis(elapsedTime));
 
         if (this.runGC)
             cleanUp();
@@ -66,7 +78,7 @@ public class Stopwatch {
 
     @Override
     public String toString() {
-        return "Elapsed timePart = " + nanoToMillis(elapsedTime) + " msecs";
+        return message + " elapsed time=[" + nanoToMillis(elapsedTime) + "] msecs";
     }
 
     private static double nanoToMillis(double nano) {
