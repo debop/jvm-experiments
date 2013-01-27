@@ -22,27 +22,27 @@ public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValu
 
     @Override
     public IMetaValue getMetaValue(String key) {
-        return getMetaMap().get(key);
+        return metaMap.get(key);
         //return Functions.forMap(metaMap);
     }
 
     @Override
     public Set<String> getMetaKeys() {
-        return getMetaMap().keySet();
+        return metaMap.keySet();
     }
 
     @Override
     public void addMetaValue(String metaKey, IMetaValue metaValue) {
-        getMetaMap().put(metaKey, metaValue);
+        metaMap.put(metaKey, metaValue);
     }
 
     @Override
     public void addMetaValue(String metaKey, Object value) {
-        getMetaMap().put(metaKey, new SimpleMetaValue(value));
+        metaMap.put(metaKey, new SimpleMetaValue(value));
     }
 
     @Override
     public void removeMetaValue(String metaKey) {
-        getMetaMap().remove(metaKey);
+        metaMap.remove(metaKey);
     }
 }

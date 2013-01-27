@@ -1,5 +1,6 @@
 package kr.nsoft.commons.compress;
 
+import kr.nsoft.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -64,6 +65,30 @@ public abstract class CompressorBase implements ICompressor {
                 log.error("압축해제 시 예외가 발생했습니다.", e);
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 문자열을 압축하여, base64 문자열로 만듭니다.
+     */
+    @Override
+    public String compressString(String plainText) {
+        if (StringTool.isWhiteSpace(plainText))
+            return StringTool.EMPTY_STR;
+
+        byte[] bytes = compress(StringTool.getUtf8Bytes(plainText));
+        return StringTool.encodeBase64String(bytes);
+    }
+
+    /**
+     * 압축된 base64 문자열을 복원하여 일반 문자열로 만듭니다.
+     */
+    @Override
+    public String decompressString(String compressedBase64) {
+        if (StringTool.isWhiteSpace(compressedBase64))
+            return StringTool.EMPTY_STR;
+
+        byte[] bytes = StringTool.decodeBase64(compressedBase64);
+        return StringTool.getUtf8String(decompress(bytes));
     }
 
     public String toString() {

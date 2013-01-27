@@ -42,7 +42,7 @@ public interface IUnitOfWorkFactory {
     void setCurrentSession(Session session);
 
     /**
-     * 현 UnitOfWorkFactory를 초기화합니다. Spring 에서 init-method 를 이용하여 호출해도 됩니다.
+     * 현 UnitOfWorkFactory를 초기화합니다. SpringTool 에서 init-method 를 이용하여 호출해도 됩니다.
      */
     void Init();
 

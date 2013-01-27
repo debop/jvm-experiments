@@ -29,8 +29,7 @@ public class MultiInterceptor extends EmptyInterceptor {
     @Setter
     private List<Interceptor> interceptors;
 
-    public MultiInterceptor() {
-    }
+    public MultiInterceptor() { }
 
     public MultiInterceptor(List<Interceptor> interceptors) {
         this.interceptors = interceptors;

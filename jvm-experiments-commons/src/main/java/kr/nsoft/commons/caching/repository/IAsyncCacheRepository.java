@@ -18,7 +18,9 @@ public interface IAsyncCacheRepository {
 
     Future<Void> removeAsync(final String key);
 
-    Future<Void> removesAsync(String... keys);
+    Future<Void> removeAllAsync(String... keys);
+
+    Future<Void> removeAllAsync(Iterable<String>... keys);
 
     Future<Void> clearAsync();
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static kr.nsoft.commons.spring3.Spring.getOrRegisterBean;
+import static kr.nsoft.commons.spring3.SpringTool.getOrRegisterBean;
 import static org.junit.Assert.*;
 
 /**
@@ -34,73 +34,73 @@ public class SpringTest extends AbstractTest {
 
     @Override
     protected void onBefore() {
-        if (Spring.isNotInitialized())
-            Spring.init(new GenericApplicationContext());
+        if (SpringTool.isNotInitialized())
+            SpringTool.init(new GenericApplicationContext());
     }
 
     @Override
     protected void onAfter() {
-        Spring.reset();
+        SpringTool.reset();
     }
 
     @Test
     public void localContainerOverrideGlobalOne() {
         synchronized (syncLock) {
 
-            Spring.reset();
+            SpringTool.reset();
 
             GenericApplicationContext context = new GenericApplicationContext();
 
-            Spring.init(context);
+            SpringTool.init(context);
 
-            assertSame(context, Spring.getContext());
+            assertSame(context, SpringTool.getContext());
 
             GenericApplicationContext localContext = new GenericApplicationContext();
 
-            try (AutoCloseableAction action = Spring.useLocalContext(localContext)) {
-                assertSame(localContext, Spring.getContext());
+            try (AutoCloseableAction action = SpringTool.useLocalContext(localContext)) {
+                assertSame(localContext, SpringTool.getContext());
             } catch (Exception ex) {
                 fail(ex.getMessage());
             }
 
-            assertSame(context, Spring.getContext());
+            assertSame(context, SpringTool.getContext());
         }
-        Spring.reset();
+        SpringTool.reset();
     }
 
     @Test
     public void getBeanIfNoRegisteredBean() {
 
         try {
-            Integer bean = Spring.getBean(Integer.class);
+            Integer bean = SpringTool.getBean(Integer.class);
             assertNull(bean);
         } catch (Exception e) {
         }
 
-        Long longBean = Spring.tryGetBean(Long.class);
+        Long longBean = SpringTool.tryGetBean(Long.class);
         assertNull(longBean);
     }
 
     @Test
     public void getOrRegisterBean_NotRegisteredBean() {
 
-        ArrayList arrayList = Spring.getOrRegisterBean(ArrayList.class);
+        ArrayList arrayList = SpringTool.getOrRegisterBean(ArrayList.class);
         assertNotNull(arrayList);
     }
 
     @Test
     public void getOrRegisterBean_NotRegisteredBean_WithScope() {
 
-        Object compressor = Spring.getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
+        Object compressor = SpringTool.getOrRegisterBean(GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
         assertNotNull(compressor);
         assertTrue(compressor instanceof GZipCompressor);
 
-        Spring.removeBean(GZipCompressor.class);
+        SpringTool.removeBean(GZipCompressor.class);
 
-        compressor = Spring.tryGetBean(GZipCompressor.class);
+        compressor = SpringTool.tryGetBean(GZipCompressor.class);
         assertNull(compressor);
 
-        ICompressor deflator = Spring.getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+        ICompressor deflator = SpringTool.getOrRegisterBean(DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
         assertNotNull(deflator);
         assertTrue(deflator instanceof DeflateCompressor);
     }
@@ -108,16 +108,16 @@ public class SpringTest extends AbstractTest {
     @Test
     public void getOrRegisterBean_WithSubClass_WithScope() {
 
-        Object compressor = Spring.getOrRegisterBean(ICompressor.class, GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
+        Object compressor = SpringTool.getOrRegisterBean(ICompressor.class, GZipCompressor.class, BeanDefinition.SCOPE_PROTOTYPE);
         assertNotNull(compressor);
         assertTrue(compressor instanceof GZipCompressor);
 
-        Spring.removeBean(GZipCompressor.class);
+        SpringTool.removeBean(GZipCompressor.class);
 
-        compressor = Spring.tryGetBean(GZipCompressor.class);
+        compressor = SpringTool.tryGetBean(GZipCompressor.class);
         assertNull(compressor);
 
-        ICompressor deflator = Spring.getOrRegisterBean(ICompressor.class, DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
+        ICompressor deflator = SpringTool.getOrRegisterBean(ICompressor.class, DeflateCompressor.class, BeanDefinition.SCOPE_SINGLETON);
         assertNotNull(deflator);
         assertTrue(deflator instanceof DeflateCompressor);
     }
@@ -132,11 +132,11 @@ public class SpringTest extends AbstractTest {
             assertNotNull(bean);
         }
 
-        Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class, true, true);
+        Map<String, ICompressor> compressorMap = SpringTool.getBeansOfType(ICompressor.class, true, true);
         assertTrue(compressorMap.size() > 0);
         assertEquals(compressorClasses.length, compressorMap.size());
 
-        ICompressor gzip = Spring.getBean(GZipCompressor.class);
+        ICompressor gzip = SpringTool.getBean(GZipCompressor.class);
         assertNotNull(gzip);
         assertTrue(gzip instanceof GZipCompressor);
     }
@@ -150,7 +150,7 @@ public class SpringTest extends AbstractTest {
             assertNotNull(bean);
         }
 
-        List<ICompressor> compressors = Spring.getBeansByType(ICompressor.class);
+        List<ICompressor> compressors = SpringTool.getBeansByType(ICompressor.class);
         assertTrue(compressors.size() > 0);
         for (ICompressor compressor : compressors)
             assertNotNull(compressor);

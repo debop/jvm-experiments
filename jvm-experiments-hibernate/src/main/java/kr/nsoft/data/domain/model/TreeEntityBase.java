@@ -18,13 +18,22 @@ public abstract class TreeEntityBase<T extends ITreeEntity<T>, TId extends Seria
 
     private static final long serialVersionUID = 5383928955741762564L;
 
+    /**
+     * {@inheritDoc}
+     */
     @Getter
     @Setter
     private T parent;
 
+    /**
+     * {@inheritDoc}
+     */
     @Getter
     private Set<T> children = Sets.newLinkedHashSet();
 
+    /**
+     * {@inheritDoc}
+     */
     @Getter
     @Setter
     private TreeNodePosition nodePosition = new TreeNodePosition();

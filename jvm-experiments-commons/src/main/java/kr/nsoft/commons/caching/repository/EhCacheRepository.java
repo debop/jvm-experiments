@@ -1,5 +1,6 @@
 package kr.nsoft.commons.caching.repository;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Ehcache;
@@ -56,8 +57,13 @@ public class EhCacheRepository extends CacheRepositoryBase {
     }
 
     @Override
-    public void removes(String... keys) {
+    public void removeAll(String... keys) {
         ehcache.removeAll(Arrays.asList(keys));
+    }
+
+    @Override
+    public void removeAll(Iterable<String> keys) {
+        ehcache.removeAll(Lists.newArrayList(keys));
     }
 
     @Override

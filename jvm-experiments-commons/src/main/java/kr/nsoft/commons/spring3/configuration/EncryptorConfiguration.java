@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Encriptor 를 구현한 클래스들을 Spring Bean 으로 제공하는 Anntated Configuration 입니다.
+ * Encriptor 를 구현한 클래스들을 SpringTool Bean 으로 제공하는 Anntated Configuration 입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 17
  */

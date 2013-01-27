@@ -29,4 +29,14 @@ public interface ICompressor {
      * @return 압축 해제한 바이트 배열
      */
     byte[] decompress(byte[] compressed);
+
+    /**
+     * 문자열을 압축하여, base64 문자열로 만듭니다.
+     */
+    String compressString(String plainText);
+
+    /**
+     * 압축된 base64 문자열을 복원하여 일반 문자열로 만듭니다.
+     */
+    String decompressString(String compressedBase64);
 }

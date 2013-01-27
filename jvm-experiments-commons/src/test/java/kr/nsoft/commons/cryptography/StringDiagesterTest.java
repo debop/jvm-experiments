@@ -1,7 +1,7 @@
 package kr.nsoft.commons.cryptography;
 
 import kr.nsoft.commons.cryptography.disgest.IStringDigester;
-import kr.nsoft.commons.spring3.Spring;
+import kr.nsoft.commons.spring3.SpringTool;
 import kr.nsoft.commons.spring3.configuration.EncryptorConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -22,13 +22,13 @@ public class StringDiagesterTest {
 
     @BeforeClass
     public static void beforeClass() {
-        if (Spring.isNotInitialized())
-            Spring.initByAnnotatedClasses(EncryptorConfiguration.class);
+        if (SpringTool.isNotInitialized())
+            SpringTool.initByAnnotatedClasses(EncryptorConfiguration.class);
     }
 
     @Test
     public void stringDigesterTest() {
-        List<IStringDigester> diagesters = Spring.getBeansByType(IStringDigester.class);
+        List<IStringDigester> diagesters = SpringTool.getBeansByType(IStringDigester.class);
 
         for (IStringDigester digester : diagesters) {
             if (log.isDebugEnabled())

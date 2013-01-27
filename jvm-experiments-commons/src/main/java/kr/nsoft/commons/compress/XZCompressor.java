@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * pudding.pudding.commons.core.compress.XZCompressor
+ * XZ 알고리즘을 이용한 압축/복원을 수행합니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12.
  */

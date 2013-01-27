@@ -39,7 +39,7 @@ public abstract class CacheRepositoryBase implements ICacheRepository {
      * @param key 캐시 키
      * @return 캐시 항목, 없으면 null 반환
      */
-    abstract public Object get(String key);
+    abstract public Object get(final String key);
 
     /**
      * 캐시에 항목을 저장합니다.
@@ -62,7 +62,22 @@ public abstract class CacheRepositoryBase implements ICacheRepository {
      *
      * @param keys 캐시 키 시퀀스
      */
-    abstract public void removes(String... keys);
+    public void removeAll(String... keys) {
+        for (final String key : keys) {
+            remove(key);
+        }
+    }
+
+    /**
+     * 여러개의 키를 모두 삭제합니다.
+     *
+     * @param keys 캐시 키 시퀀스
+     */
+    public void removeAll(Iterable<String> keys) {
+        for (final String key : keys) {
+            remove(key);
+        }
+    }
 
     /**
      * 해당 키의 캐시 항목의 존재 여부를 알아봅니다.

@@ -41,7 +41,7 @@ public class ApplicationContextTest {
     @Test
     public void setPropertyBean() {
         BeanDefinition helloDef = new RootBeanDefinition(Hello.class);
-        helloDef.getPropertyValues().addPropertyValue("name", "Spring");
+        helloDef.getPropertyValues().addPropertyValue("name", "SpringTool");
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.registerSingleton("hello1", Hello.class);
@@ -50,7 +50,7 @@ public class ApplicationContextTest {
         Hello hello1 = context.getBean("hello1", Hello.class);
         Hello hello2 = context.getBean("hello2", Hello.class);
         assertNotNull(hello2);
-        assertEquals("Hello Spring", hello2.sayHello());
+        assertEquals("Hello SpringTool", hello2.sayHello());
 
         // hello1 과 hello2 는 다른 bean에서 생성하는 것이므로 다르다.
         assertNotEquals(hello1, hello2);
@@ -64,14 +64,14 @@ public class ApplicationContextTest {
         context.registerBeanDefinition("printer", new RootBeanDefinition(StringPrinter.class));
 
         BeanDefinition helloDef = new RootBeanDefinition(Hello.class);
-        helloDef.getPropertyValues().addPropertyValue("name", "Spring");
+        helloDef.getPropertyValues().addPropertyValue("name", "SpringTool");
         helloDef.getPropertyValues().addPropertyValue("printer", new RuntimeBeanReference("printer"));
         context.registerBeanDefinition("hello", helloDef);
 
         Hello hello = context.getBean("hello", Hello.class);
         hello.print();
 
-        assertEquals("Hello Spring", context.getBean("printer").toString());
+        assertEquals("Hello SpringTool", context.getBean("printer").toString());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ApplicationContextTest {
         Hello hello = context.getBean("hello", Hello.class);
         hello.print();
 
-        assertEquals("Hello Spring", context.getBean("printer").toString());
+        assertEquals("Hello SpringTool", context.getBean("printer").toString());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class ApplicationContextTest {
     public void dataSourceConfigration() {
         ApplicationContext ctx =
                 new AnnotationConfigApplicationContext(HelloConfig.class,
-                        ServiceConfig.class);
+                                                       ServiceConfig.class);
         DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
         assertNotNull(dataSource);
     }

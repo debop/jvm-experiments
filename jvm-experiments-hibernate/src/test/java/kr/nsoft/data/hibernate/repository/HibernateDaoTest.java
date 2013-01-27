@@ -1,6 +1,6 @@
 package kr.nsoft.data.hibernate.repository;
 
-import kr.nsoft.commons.spring3.Spring;
+import kr.nsoft.commons.spring3.SpringTool;
 import kr.nsoft.data.hibernate.unitofwork.IUnitOfWork;
 import kr.nsoft.data.hibernate.unitofwork.UnitOfWorks;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +30,14 @@ public class HibernateDaoTest {
 
     @BeforeClass
     public static void beforeClass() {
-        if (Spring.isNotInitialized())
-            Spring.init("applicationContext.xml");
+        if (SpringTool.isNotInitialized())
+            SpringTool.init("applicationContext.xml");
     }
 
     @Before
     public void before() {
-        hibernateDaofactory = Spring.getBean(HibernateDaoFactory.class);
-        transactionManager = Spring.getBean(HibernateTransactionManager.class);
+        hibernateDaofactory = SpringTool.getBean(HibernateDaoFactory.class);
+        transactionManager = SpringTool.getBean(HibernateTransactionManager.class);
 
         unitOfWork = UnitOfWorks.start();
     }
@@ -50,8 +50,8 @@ public class HibernateDaoTest {
 
     @AfterClass
     public static void afterClass() {
-        if (Spring.isInitialized())
-            Spring.reset();
+        if (SpringTool.isInitialized())
+            SpringTool.reset();
     }
 
     @Test
@@ -84,7 +84,7 @@ public class HibernateDaoTest {
     @Test
     @SuppressWarnings("unchecked")
     public void loadSessionFactory() {
-        SessionFactory sessionFactory = Spring.getBean(SessionFactory.class);
+        SessionFactory sessionFactory = SpringTool.getBean(SessionFactory.class);
         Assert.assertNotNull(sessionFactory);
 
         Session session = sessionFactory.openSession();

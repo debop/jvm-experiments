@@ -1,5 +1,6 @@
 package kr.nsoft.commons.caching.repository;
 
+import com.google.common.collect.Iterables;
 import kr.nsoft.commons.Guard;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -104,9 +105,21 @@ public class RedisCacheRepository extends CacheRepositoryBase {
      *
      * @param keys 캐시 키 시퀀스
      */
-    public void removes(String... keys) {
+    @Override
+    public void removeAll(String... keys) {
         if (keys != null)
             getJedis().del(keys);
+    }
+
+    /**
+     * 여러개의 키를 모두 삭제합니다.
+     *
+     * @param keys 캐시 키 시퀀스
+     */
+    @Override
+    public void removeAll(Iterable<String> keys) {
+        if (keys != null)
+            getJedis().del(Iterables.toArray(keys, String.class));
     }
 
     /**
@@ -126,7 +139,7 @@ public class RedisCacheRepository extends CacheRepositoryBase {
     @Override
     public void clear() {
         if (log.isDebugEnabled())
-            log.debug("모든 캐시 항목을 삭제합니다.");
-        jedis.flushAll();
+            log.debug("모든 캐시 항목을 삭제합니다...");
+        getJedis().flushAll();
     }
 }

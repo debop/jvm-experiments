@@ -1,7 +1,7 @@
 package kr.nsoft.commons.compress;
 
 import kr.nsoft.commons.AbstractTest;
-import kr.nsoft.commons.spring3.Spring;
+import kr.nsoft.commons.spring3.SpringTool;
 import kr.nsoft.commons.spring3.configuration.CompressorConfiguration;
 import kr.nsoft.commons.spring3.configuration.SerializerConfiguration;
 import kr.nsoft.commons.tools.StringTool;
@@ -31,11 +31,11 @@ public class CompressorTest extends AbstractTest {
     @BeforeClass
     public static void BeforeClass() {
 
-        if (Spring.isNotInitialized())
-            Spring.initByAnnotatedClasses(CompressorConfiguration.class,
-                                          SerializerConfiguration.class);
+        if (SpringTool.isNotInitialized())
+            SpringTool.initByAnnotatedClasses(CompressorConfiguration.class,
+                                              SerializerConfiguration.class);
 
-        Map<String, ICompressor> compressorMap = Spring.getBeansOfType(ICompressor.class);
+        Map<String, ICompressor> compressorMap = SpringTool.getBeansOfType(ICompressor.class);
         compressors = compressorMap.values();
 
 
@@ -60,6 +60,7 @@ public class CompressorTest extends AbstractTest {
         for (ICompressor compressor : compressors) {
             try {
                 compressAndDecompress(compressor);
+                compressAndDecompressString(compressor);
             } catch (Exception e) {
                 log.error("compressor=" + compressor, e);
             }
@@ -80,6 +81,26 @@ public class CompressorTest extends AbstractTest {
             Assert.assertNotNull(plainBytes);
 
             String decompressedText = StringTool.getUtf8String(decompressedBytes);
+            Assert.assertNotNull(decompressedText);
+
+            Assert.assertEquals(plainText, decompressedText);
+
+        } catch (Exception e) {
+            if (log.isErrorEnabled())
+                log.error("압축/복원 테스트 실패 compressor=" + compressor, e);
+        }
+    }
+
+    private static void compressAndDecompressString(ICompressor compressor) {
+
+        if (log.isDebugEnabled())
+            log.debug("압축/복원 테스트를 시작합니다... compressor=[{}]", compressor);
+
+        try {
+            String compressedBase64 = compressor.compressString(plainText);
+            Assert.assertNotNull(compressedBase64);
+
+            String decompressedText = compressor.decompressString(compressedBase64);
             Assert.assertNotNull(decompressedText);
 
             Assert.assertEquals(plainText, decompressedText);

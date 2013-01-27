@@ -54,8 +54,13 @@ public class FutureWebCacheRepository extends CacheRepositoryBase {
     }
 
     @Override
-    public void removes(String... keys) {
+    public void removeAll(String... keys) {
         cache.invalidateAll(Arrays.asList(keys));
+    }
+
+    @Override
+    public void removeAll(Iterable<String> keys) {
+        cache.invalidateAll(keys);
     }
 
     @Override

@@ -22,7 +22,6 @@ public class CryptoToolTest extends AbstractTest {
         byte[] bytes2 = CryptoTool.getRandomBytes(100);
 
         Assert.assertEquals(bytes.length, bytes2.length);
-        Assert.assertTrue(!Arrays.equals(bytes, bytes2));
+        Assert.assertFalse(Arrays.equals(bytes, bytes2));
     }
-
 }

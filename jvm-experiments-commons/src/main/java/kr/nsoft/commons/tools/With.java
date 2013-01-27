@@ -18,8 +18,7 @@ import java.util.concurrent.Future;
 @Slf4j
 public final class With {
 
-    private With() {
-    }
+    private With() { }
 
     public static void tryAction(Action action) {
         tryAction(action, null, null);
@@ -71,7 +70,7 @@ public final class With {
                 exceptionAction.perform(e);
             } else {
                 if (log.isWarnEnabled())
-                    log.warn("예외가 발생했지만, 무시합니다.", e);
+                    log.warn("예외가 발생했지만, 무시합니다^^", e);
             }
         } finally {
             if (finallyAction != null)
@@ -99,7 +98,7 @@ public final class With {
                 exceptionAction.perform(e);
             } else {
                 if (log.isWarnEnabled())
-                    log.warn("작업 중에 예외가 발생했습니다만 무시합니다.", e);
+                    log.warn("작업 중에 예외가 발생했지만, 무시합니다^^", e);
             }
         } finally {
             if (finallyAction != null)
@@ -130,7 +129,7 @@ public final class With {
                 exceptionAction.perform(e);
             } else {
                 if (log.isWarnEnabled())
-                    log.warn("작업 중에 예외가 발생했습니다만 무시합니다.", e);
+                    log.warn("작업 중에 예외가 발생했지만 무시합니다^^", e);
             }
         } finally {
             if (finallyAction != null)

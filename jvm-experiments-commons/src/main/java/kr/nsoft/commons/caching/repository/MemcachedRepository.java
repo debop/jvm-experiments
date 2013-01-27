@@ -76,16 +76,6 @@ public class MemcachedRepository extends CacheRepositoryBase {
         client.delete(key);
     }
 
-    /**
-     * 여러개의 키를 모두 삭제합니다.
-     *
-     * @param keys 캐시 키 시퀀스
-     */
-    @Override
-    public void removes(String... keys) {
-        for (final String key : keys)
-            client.delete(key);
-    }
 
     /**
      * 해당 키의 캐시 항목의 존재 여부를 알아봅니다.
@@ -104,6 +94,8 @@ public class MemcachedRepository extends CacheRepositoryBase {
      */
     @Override
     public void clear() {
+        if (log.isDebugEnabled())
+            log.debug("모든 캐시 항목을 제거합니다.");
         client.flush();
     }
 }

@@ -2,6 +2,7 @@ package kr.nsoft.commons.caching.repository;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import kr.nsoft.commons.Guard;
 import kr.nsoft.commons.parallelism.AsyncTool;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +24,6 @@ import static kr.nsoft.commons.Guard.shouldNotBeWhiteSpace;
 public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
 
     private final Cache<String, Object> cache;
-
 
     public ConcurrentHashMapCacheRepository(long validFor) {
         if (log.isDebugEnabled())
@@ -57,18 +57,17 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
      */
     @Override
     public Object get(final String key) {
-        shouldNotBeWhiteSpace(key, "key");
+        Guard.shouldNotBeWhiteSpace(key, "key");
         return cache.getIfPresent(key);
     }
 
     public Future<Object> getAsync(final String key) {
-        return
-                AsyncTool.startNew(new Callable<Object>() {
-                    @Override
-                    public Object call() throws Exception {
-                        return cache.getIfPresent(key);
-                    }
-                });
+        return AsyncTool.startNew(new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                return cache.getIfPresent(key);
+            }
+        });
     }
 
     /**
@@ -80,7 +79,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
      */
     @Override
     public void set(final String key, final Object value, final long validFor) {
-        shouldNotBeWhiteSpace(key, "key");
+        Guard.shouldNotBeWhiteSpace(key, "key");
         cache.put(key, value);
     }
 
@@ -101,8 +100,13 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
      * @param keys 캐시 키 시퀀스
      */
     @Override
-    public void removes(String... keys) {
+    public void removeAll(String... keys) {
         cache.invalidateAll(Arrays.asList(keys));
+    }
+
+    @Override
+    public void removeAll(Iterable<String> keys) {
+        cache.invalidateAll(keys);
     }
 
     /**
@@ -113,7 +117,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
      */
     @Override
     public boolean exists(final String key) {
-        shouldNotBeWhiteSpace(key, "key");
+        Guard.shouldNotBeWhiteSpace(key, "key");
         return cache.getIfPresent(key) != null;
     }
 
@@ -121,7 +125,7 @@ public class ConcurrentHashMapCacheRepository extends CacheRepositoryBase {
      * 캐시의 모든 항목을 삭제합니다.
      */
     @Override
-    public void clear() {
+    public synchronized void clear() {
         cache.cleanUp();
     }
 }

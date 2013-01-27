@@ -28,7 +28,7 @@ public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue ex
     private TLocaleValue defaultLocaleValue = null;
 
     /**
-     * 기본 LOcale 정보를 생성하여 제공합니다.
+     * 기본 Locale 정보를 생성하여 제공합니다.
      */
     public final TLocaleValue getDefaultLocale() {
         if (defaultLocaleValue == null) {
@@ -53,8 +53,8 @@ public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue ex
             //
             return MapperTool.map(this, localeValueClass);
 
-        } catch (Exception ex) {
-            throw new IllegalStateException("기본 Locale 정보를 생성하는데 실패했습니다.", ex);
+        } catch (Throwable t) {
+            throw new IllegalStateException("기본 Locale 정보를 생성하는데 실패했습니다.", t);
         }
     }
 
@@ -80,11 +80,11 @@ public abstract class LocaleEntityBase<TId extends Serializable, TLocaleValue ex
 
     @Override
     public TLocaleValue getLocaleValueOrDefault(Locale locale) {
-        if (localeMap == null || getLocaleMap().size() == 0 || locale == null || locale.getDisplayName() == null)
+        if (localeMap == null || localeMap.size() == 0 || locale == null || locale.getDisplayName() == null)
             return getDefaultLocale();
 
-        if (getLocaleMap().containsKey(locale))
-            return getLocaleMap().get(locale);
+        if (localeMap.containsKey(locale))
+            return localeMap.get(locale);
 
         return getDefaultLocale();
     }

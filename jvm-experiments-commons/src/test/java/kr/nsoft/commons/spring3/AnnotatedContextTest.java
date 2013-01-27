@@ -17,30 +17,30 @@ public class AnnotatedContextTest extends AbstractTest {
 
     @Override
     protected void onAfter() {
-        if (Spring.isInitialized())
-            Spring.reset();
+        if (SpringTool.isInitialized())
+            SpringTool.reset();
     }
 
     @Test
     public void initByAnnotatedClasses() {
-        Spring.initByAnnotatedClasses(AnnotatedBeanConfig.class);
-        assertTrue(Spring.isInitialized());
+        SpringTool.initByAnnotatedClasses(AnnotatedBeanConfig.class);
+        assertTrue(SpringTool.isInitialized());
 
-        ICompressor compressor = (ICompressor) Spring.getBean("defaultCompressor");
+        ICompressor compressor = (ICompressor) SpringTool.getBean("defaultCompressor");
         assertNotNull(compressor);
         assertTrue(compressor instanceof GZipCompressor);
     }
 
     @Test
     public void initByPackages() {
-        Spring.initByPackages(AnnotatedBeanConfig.class.getPackage().getName());
-        assertTrue(Spring.isInitialized());
+        SpringTool.initByPackages(AnnotatedBeanConfig.class.getPackage().getName());
+        assertTrue(SpringTool.isInitialized());
 
-        String[] beanNames = Spring.getBeanNamesForType(ICompressor.class, true, true);
+        String[] beanNames = SpringTool.getBeanNamesForType(ICompressor.class, true, true);
 
         assertTrue(beanNames.length > 0);
 
-        ICompressor compressor = (ICompressor) Spring.getBean("defaultCompressor");
+        ICompressor compressor = (ICompressor) SpringTool.getBean("defaultCompressor");
         assertNotNull(compressor);
         assertTrue(compressor instanceof GZipCompressor);
     }

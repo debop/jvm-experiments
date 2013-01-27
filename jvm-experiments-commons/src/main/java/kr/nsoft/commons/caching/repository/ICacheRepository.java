@@ -48,9 +48,16 @@ public interface ICacheRepository {
     /**
      * 여러개의 키를 모두 삭제합니다.
      *
-     * @param keys 캐시 키 시퀀스
+     * @param keys 삭제할 키들
      */
-    void removes(String... keys);
+    void removeAll(String... keys);
+
+    /**
+     * 여러 개의 키를 한번에 삭제합니다.
+     *
+     * @param keys 삭제할 키들
+     */
+    void removeAll(Iterable<String> keys);
 
     /**
      * 해당 키의 캐시 항목의 존재 여부를 알아봅니다.

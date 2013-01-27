@@ -19,7 +19,7 @@ public enum DatabaseEngine {
 
     Oracle("oracle");
 
-    private String engineName;
+    private final String engineName;
 
     DatabaseEngine(String engineName) {
         this.engineName = engineName.toLowerCase();

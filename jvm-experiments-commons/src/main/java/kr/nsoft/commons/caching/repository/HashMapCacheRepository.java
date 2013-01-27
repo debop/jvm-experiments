@@ -94,11 +94,12 @@ public class HashMapCacheRepository extends CacheRepositoryBase {
      * {@inheritDoc}
      */
     @Override
-    public void removes(String... keys) {
+    public void removeAll(String... keys) {
         cache.invalidateAll(Arrays.asList(keys));
     }
 
-    public void removes(Iterable<?> keys) {
+    @Override
+    public void removeAll(Iterable<String> keys) {
         cache.invalidateAll(keys);
     }
 

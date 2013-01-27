@@ -1,6 +1,6 @@
 package org.jpa.example.domain.model.collection;
 
-import kr.nsoft.commons.spring3.Spring;
+import kr.nsoft.commons.spring3.SpringTool;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.*;
@@ -18,10 +18,10 @@ public class CarTest {
 
     @BeforeClass
     public static void beforeClass() {
-        if (Spring.isNotInitialized())
-            Spring.init("applicationContext.xml");
+        if (SpringTool.isNotInitialized())
+            SpringTool.init("applicationContext.xml");
 
-        sessionFactory = Spring.getBean(SessionFactory.class);
+        sessionFactory = SpringTool.getBean(SessionFactory.class);
     }
 
     @Before

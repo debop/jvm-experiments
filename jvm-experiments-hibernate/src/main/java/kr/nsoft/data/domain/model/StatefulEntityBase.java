@@ -4,8 +4,8 @@ import com.google.common.base.Objects;
 import kr.nsoft.commons.ValueObjectBase;
 
 /**
- * JPA 기본 도메인 엔티티의 추상화 클래스입니다.
- * JpaUser: sunghyouk.bae@gmail.com
+ * Hibernate 저장 상태를 표현하는 추상화 클래스입니다.
+ * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 19
  */
 public abstract class StatefulEntityBase extends ValueObjectBase implements IStatefulEntity {

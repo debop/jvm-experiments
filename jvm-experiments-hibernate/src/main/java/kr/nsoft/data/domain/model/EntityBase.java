@@ -18,7 +18,9 @@ public abstract class EntityBase<TId extends Serializable> extends StatefulEntit
     private static final long serialVersionUID = 4766509654284022534L;
     protected TId id;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public <TId> TId getId() {

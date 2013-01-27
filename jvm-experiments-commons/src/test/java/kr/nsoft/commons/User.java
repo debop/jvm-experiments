@@ -1,7 +1,9 @@
 package kr.nsoft.commons;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import kr.nsoft.commons.tools.ArrayTool;
 import kr.nsoft.commons.tools.HashTool;
 import lombok.Getter;
@@ -11,13 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * kr.nsoft.commons.User
+ * 테스트용 엔티티입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 5.
  */
 @Getter
 @Setter
-public class User extends ValueObjectBase {
+public class User extends ValueObjectBase implements Comparable<User> {
 
     private static final long serialVersionUID = 4195391816802258792L;
 
@@ -57,9 +59,20 @@ public class User extends ValueObjectBase {
                 .add("password", password);
     }
 
+    @Override
+    public int compareTo(User that) {
+        // 여러항목에 걸쳐 정렬을 수행할 때 Guava의 ComparisonChain 을 이용하면 좋다.
+        return ComparisonChain.start()
+                .compare(this.firstName, that.firstName)
+                .compare(this.lastName, that.lastName)
+                .compare(this.zipcode, that.zipcode)
+                .compare(this.age, that.age, Ordering.natural().nullsLast())
+                .result();
+    }
+
     @Getter
     @Setter
-    public static class Address extends ValueObjectBase {
+    public static class Address extends ValueObjectBase implements Comparable<Address> {
 
         private static final long serialVersionUID = 5004748205792679032L;
 
@@ -71,6 +84,14 @@ public class User extends ValueObjectBase {
         @Override
         public int hashCode() {
             return HashTool.compute(street, phone);
+        }
+
+        @Override
+        public int compareTo(Address that) {
+            return ComparisonChain.start()
+                    .compare(this.street, that.street, Ordering.natural().nullsFirst())
+                    .compare(this.phone, that.phone, Ordering.natural().nullsFirst())
+                    .result();
         }
     }
 
