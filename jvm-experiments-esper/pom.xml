@@ -11,6 +11,10 @@
 
     <artifactId>jvm-experiments-esper</artifactId>
 
+    <properties>
+        <twitter4j.version>3.0.3</twitter4j.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -35,5 +39,33 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>${twitter4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-stream</artifactId>
+            <version>${twitter4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-async</artifactId>
+            <version>${twitter4j.version}</version>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>twitter4j.org</id>
+            <name>twitter4j.org Repository</name>
+            <url>http://twitter4j.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
