@@ -1,8 +1,8 @@
 package kr.nsoft.commons.cryptography;
 
 import kr.nsoft.commons.cryptography.symmetric.ISymmetricByteEncryptor;
-import kr.nsoft.commons.spring3.SpringTool;
-import kr.nsoft.commons.spring3.configuration.EncryptorConfiguration;
+import kr.nsoft.commons.spring.Springs;
+import kr.nsoft.commons.spring.configuration.EncryptorConfiguration;
 import kr.nsoft.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -23,13 +23,13 @@ public class EncryptorTest {
 
     @BeforeClass
     public static void beforeClass() {
-        if (SpringTool.isNotInitialized())
-            SpringTool.initByAnnotatedClasses(EncryptorConfiguration.class);
+        if (Springs.isNotInitialized())
+            Springs.initByAnnotatedClasses(EncryptorConfiguration.class);
     }
 
     @Test
     public void byteEncryptorTest() {
-        List<ISymmetricByteEncryptor> byteEncryptors = SpringTool.getBeansByType(ISymmetricByteEncryptor.class);
+        List<ISymmetricByteEncryptor> byteEncryptors = Springs.getBeansByType(ISymmetricByteEncryptor.class);
 
         for (ISymmetricByteEncryptor encryptor : byteEncryptors) {
             if (log.isDebugEnabled())

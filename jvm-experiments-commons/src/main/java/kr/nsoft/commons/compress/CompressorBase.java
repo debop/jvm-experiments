@@ -1,7 +1,6 @@
 package kr.nsoft.commons.compress;
 
 import kr.nsoft.commons.tools.StringTool;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -10,8 +9,9 @@ import java.io.IOException;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */
-@Slf4j
 public abstract class CompressorBase implements ICompressor {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CompressorBase.class);
 
     abstract public String getAlgorithm();
 

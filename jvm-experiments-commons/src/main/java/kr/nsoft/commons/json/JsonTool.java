@@ -1,7 +1,7 @@
 package kr.nsoft.commons.json;
 
 import kr.nsoft.commons.Guard;
-import kr.nsoft.commons.spring3.SpringTool;
+import kr.nsoft.commons.spring.Springs;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,7 +17,7 @@ public class JsonTool {
     synchronized static IJsonSerializer getDefaultSerializer() {
         if (serializer == null) {
             // IJsonSerializer 를 검색하고, 없다면 GsonSerializer 를 등록하고 반환한다.
-            serializer = SpringTool.getOrRegisterBean(IJsonSerializer.class, GsonSerializer.class);
+            serializer = Springs.getOrRegisterBean(IJsonSerializer.class, GsonSerializer.class);
         }
         return serializer;
     }

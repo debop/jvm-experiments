@@ -1,6 +1,6 @@
 package kr.nsoft.commons.compress;
 
-import kr.nsoft.commons.spring3.SpringTool;
+import kr.nsoft.commons.spring.Springs;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -18,13 +18,13 @@ public class CompressableSerializerTest {
 
     @BeforeClass
     public static void beforeClass() {
-        if (SpringTool.isNotInitialized())
-            SpringTool.initByPackages("kr.nsoft.commons.spring3.configuration");
+        if (Springs.isNotInitialized())
+            Springs.initByPackages("kr.nsoft.commons.spring.configuration");
     }
 
     @Test
     public void shouldBeExistsCompressors() {
-        Map<String, ICompressor> compressorMap = SpringTool.getBeansOfType(ICompressor.class);
+        Map<String, ICompressor> compressorMap = Springs.getBeansOfType(ICompressor.class);
         Assert.assertNotNull(compressorMap);
         Assert.assertTrue(compressorMap.size() > 0);
     }

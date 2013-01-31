@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import kr.nsoft.commons.Action1;
 import kr.nsoft.commons.Function1;
-import kr.nsoft.commons.collection.Range;
+import kr.nsoft.commons.collection.NumberRange;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.util.NamedThreadFactory;
@@ -64,10 +64,10 @@ public class Parallels {
             log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", getProcessCount());
 
         try {
-            List<Range.IntRange> partitions = Range.partition(fromInclude, toExclude, step, getProcessCount());
+            List<NumberRange.IntRange> partitions = NumberRange.partition(fromInclude, toExclude, step, getProcessCount());
             List<Callable<Void>> tasks = Lists.newLinkedList();
 
-            for (final Range.IntRange partition : partitions) {
+            for (final NumberRange.IntRange partition : partitions) {
                 Callable<Void> task =
                         new Callable<Void>() {
                             @Override
@@ -110,12 +110,12 @@ public class Parallels {
             log.debug("작업을 병렬로 수행합니다. 작업 스레드 수=[{}]", getProcessCount());
 
         try {
-            List<Range.IntRange> partitions = Range.partition(fromInclude, toExclude, step, getProcessCount());
+            List<NumberRange.IntRange> partitions = NumberRange.partition(fromInclude, toExclude, step, getProcessCount());
             final Map<Integer, List<V>> localResults = Maps.newLinkedHashMap();
             List<Callable<List<V>>> tasks = Lists.newLinkedList(); // False Sharing을 방지하기 위해
 
             for (int p = 0; p < partitions.size(); p++) {
-                final Range.IntRange partition = partitions.get(p);
+                final NumberRange.IntRange partition = partitions.get(p);
                 final List<V> localResult = Lists.newArrayListWithCapacity(partition.size());
                 localResults.put(p, localResult);
 

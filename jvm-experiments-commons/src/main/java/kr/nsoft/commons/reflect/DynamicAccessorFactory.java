@@ -3,7 +3,6 @@ package kr.nsoft.commons.reflect;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutionException;
 
@@ -12,8 +11,10 @@ import java.util.concurrent.ExecutionException;
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 21
  */
-@Slf4j
 public class DynamicAccessorFactory {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DynamicAccessorFactory.class);
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
 
     private static final CacheLoader<Class<?>, DynamicAccessor> loader;
     private static final LoadingCache<Class<?>, DynamicAccessor> cache;

@@ -2,7 +2,7 @@ package kr.nsoft.commons.guava;
 
 import com.google.common.collect.Iterables;
 import kr.nsoft.commons.AbstractTest;
-import kr.nsoft.commons.collection.Range;
+import kr.nsoft.commons.collection.NumberRange;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class IterablesTest extends AbstractTest {
         for (int limit : limits) {
             for (int partition : partitions) {
                 int partitionSize = limit / partition + ((limit % partition) > 0 ? 1 : 0);
-                Iterable<List<Integer>> parts = Iterables.partition(Range.range(0, limit), partitionSize);
+                Iterable<List<Integer>> parts = Iterables.partition(NumberRange.range(0, limit), partitionSize);
 
                 log.debug(Iterables.toString(parts));
             }

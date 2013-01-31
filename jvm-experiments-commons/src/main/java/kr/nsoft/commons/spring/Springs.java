@@ -1,10 +1,10 @@
-package kr.nsoft.commons.spring3;
+package kr.nsoft.commons.spring;
 
 import kr.nsoft.commons.AutoCloseableAction;
 import kr.nsoft.commons.Guard;
 import kr.nsoft.commons.Local;
 import kr.nsoft.commons.tools.ArrayTool;
-import lombok.extern.slf4j.Slf4j;
+import kr.nsoft.commons.tools.StringTool;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -20,22 +20,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import static kr.nsoft.commons.Guard.*;
-import static kr.nsoft.commons.tools.StringTool.listToString;
-
 /**
- * SpringTool Framework 의 Dependency Injection을 담당하는 클래스입니다.
+ * Springs Framework 의 Dependency Injection을 담당하는 클래스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 23.
  */
-@Slf4j
 @ThreadSafe
-public final class SpringTool {
+public final class Springs {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Springs.class);
+
+    private Springs() {}
 
     public static final String DEFAULT_APPLICATION_CONTEXT_XML = "applicationContext.xml";
-    private static final String LOCAL_SPRING_CONTEXT = "kr.nsoft.commons.spring3.SpringTool.globalContext";
+    private static final String LOCAL_SPRING_CONTEXT = "kr.nsoft.commons.spring.Springs.globalContext";
     private static final String NOT_INITIALIZED_MSG =
-            "SpringTool의 ApplicationContext가 초기화되지 않았습니다. 사용하기 전에  SpringTool.init() 을 호출해주기시 바랍니다.";
+            "SpringTool의 ApplicationContext가 초기화되지 않았습니다. 사용하기 전에  Springs.init() 을 호출해주기시 바랍니다.";
 
     private static volatile GenericApplicationContext globalContext;
     private static ThreadLocal<Stack<GenericApplicationContext>> localContextStack = new ThreadLocal<>();
@@ -50,13 +50,13 @@ public final class SpringTool {
     }
 
     private static synchronized void assertInitialized() {
-        shouldBe(isInitialized(), NOT_INITIALIZED_MSG);
+        Guard.shouldBe(isInitialized(), NOT_INITIALIZED_MSG);
     }
 
     public static synchronized GenericApplicationContext getContext() {
         GenericApplicationContext context = getLocalContext();
         if (context == null) context = globalContext;
-        shouldBe(context != null, NOT_INITIALIZED_MSG);
+        Guard.shouldBe(context != null, NOT_INITIALIZED_MSG);
         return context;
     }
 
@@ -79,25 +79,25 @@ public final class SpringTool {
 
     public static synchronized void init(String... resourceLocations) {
         if (log.isDebugEnabled())
-            log.debug("SpringTool Context 를 초기화합니다. resourceLocations=[{}]", listToString(resourceLocations));
+            log.debug("Springs Context 를 초기화합니다. resourceLocations=[{}]", StringTool.listToString(resourceLocations));
         init(new GenericXmlApplicationContext(resourceLocations));
     }
 
     public static synchronized void init(GenericApplicationContext applicationContext) {
-        shouldNotBeNull(applicationContext, "applicationContext");
+        Guard.shouldNotBeNull(applicationContext, "applicationContext");
 
         if (globalContext != null) {
             if (log.isWarnEnabled())
-                log.warn("SpringTool ApplicationContext가 이미 초기화 되었으므로, 무시합니다. reset 후 init 을 호출하세요.");
+                log.warn("Springs ApplicationContext가 이미 초기화 되었으므로, 무시합니다. reset 후 init 을 호출하세요.");
         }
 
         if (log.isInfoEnabled())
-            log.info("SpringTool ApplicationContext 를 초기화 작업을 시작합니다...");
+            log.info("Springs ApplicationContext 를 초기화 작업을 시작합니다...");
 
         globalContext = applicationContext;
 
         if (log.isInfoEnabled())
-            log.info("SpringTool ApplicationContext를 초기화 작업을 완료했습니다.");
+            log.info("Springs ApplicationContext를 초기화 작업을 완료했습니다.");
     }
 
     public static synchronized void initByAnnotatedClasses(Class<?>... annotatedClasses) {
@@ -110,7 +110,7 @@ public final class SpringTool {
 
 
     public static synchronized AutoCloseableAction useLocalContext(final GenericApplicationContext localContext) {
-        shouldNotBeNull(localContext, "localContext");
+        Guard.shouldNotBeNull(localContext, "localContext");
 
         if (log.isDebugEnabled())
             log.debug("로컬 컨텍스트를 사용하려고 합니다... localContext=[{}]", localContext);
@@ -134,7 +134,7 @@ public final class SpringTool {
         if (contextToReset == null) {
             globalContext = null;
             if (log.isInfoEnabled())
-                log.info("Global SpringTool Context 를 Reset 했습니다!!!");
+                log.info("Global Springs Context 를 Reset 했습니다!!!");
             return;
         }
 
@@ -162,7 +162,7 @@ public final class SpringTool {
     }
 
     /**
-     * SpringTool ApplicationContext를 초기화합니다.
+     * Springs ApplicationContext를 초기화합니다.
      */
     public static synchronized void reset() {
         if (getLocalContext() != null)
@@ -173,7 +173,7 @@ public final class SpringTool {
 
 
     public static synchronized Object getBean(String name) {
-        shouldNotBeEmpty(name, "name");
+        Guard.shouldNotBeEmpty(name, "name");
         if (log.isDebugEnabled())
             log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanName=[{}]", name);
 
@@ -181,16 +181,16 @@ public final class SpringTool {
     }
 
     public static synchronized Object getBean(String name, Object... args) {
-        shouldNotBeEmpty(name, "name");
+        Guard.shouldNotBeEmpty(name, "name");
 
         if (log.isDebugEnabled())
-            log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanName=[{}], args=[{}]", name, listToString(args));
+            log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanName=[{}], args=[{}]", name, StringTool.listToString(args));
 
         return getContext().getBean(name, args);
     }
 
     public static synchronized <T> T getBean(Class<T> beanClass) {
-        shouldNotBeNull(beanClass, "beanClass");
+        Guard.shouldNotBeNull(beanClass, "beanClass");
         if (log.isDebugEnabled())
             log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanClass=[{}]", beanClass.getName());
 
@@ -198,7 +198,7 @@ public final class SpringTool {
     }
 
     public static synchronized <T> T getBean(String name, Class<T> beanClass) {
-        shouldNotBeEmpty(name, "name");
+        Guard.shouldNotBeEmpty(name, "name");
         Guard.shouldNotBeNull(beanClass, "beanClass");
         if (log.isDebugEnabled())
             log.debug("ApplicationContext로부터 Bean을 가져옵니다. beanName=[{}], beanClass=[{}]", name, beanClass);
@@ -207,7 +207,7 @@ public final class SpringTool {
     }
 
     public static synchronized <T> String[] getBeanNamesForType(Class<T> beanClass) {
-        shouldNotBeNull(beanClass, "beanClass");
+        Guard.shouldNotBeNull(beanClass, "beanClass");
         return getBeanNamesForType(beanClass, true, true);
 
     }
@@ -215,7 +215,7 @@ public final class SpringTool {
     public static synchronized <T> String[] getBeanNamesForType(Class<T> beanClass,
                                                                 boolean includeNonSingletons,
                                                                 boolean allowEagerInit) {
-        shouldNotBeNull(beanClass, "beanClass");
+        Guard.shouldNotBeNull(beanClass, "beanClass");
         if (log.isDebugEnabled())
             log.debug("해당 수형의 모든 Bean의 이름을 조회합니다. beanClass=[{}], includeNonSingletons=[{}], allowEagerInit=[{}]",
                       beanClass.getName(), includeNonSingletons, allowEagerInit);
@@ -260,7 +260,7 @@ public final class SpringTool {
     public static synchronized <T> Map<String, T> getBeansOfType(Class<T> beanClass,
                                                                  boolean includeNonSingletons,
                                                                  boolean allowEagerInit) {
-        shouldNotBeNull(beanClass, "beanClass");
+        Guard.shouldNotBeNull(beanClass, "beanClass");
         if (log.isDebugEnabled())
             log.debug("해당 수형의 모든 Bean을 조회합니다. beanClass=[{}], includeNonSingletons=[{}], allowEagerInit=[{}]",
                       beanClass.getName(), includeNonSingletons, allowEagerInit);
@@ -349,8 +349,8 @@ public final class SpringTool {
     }
 
     public static synchronized boolean registerBean(String beanName, BeanDefinition beanDefinition) {
-        shouldNotBeEmpty(beanName, "beanName");
-        shouldNotBeNull(beanDefinition, "beanDefinition");
+        Guard.shouldNotBeEmpty(beanName, "beanName");
+        Guard.shouldNotBeNull(beanDefinition, "beanDefinition");
 
         if (isBeanNameInUse(beanName))
             throw new BeanDefinitionValidationException("이미 등록된 Bean입니다. beanName=" + beanName);
@@ -386,7 +386,7 @@ public final class SpringTool {
     }
 
     public static synchronized void removeBean(String beanName) {
-        shouldNotBeEmpty(beanName, "beanName");
+        Guard.shouldNotBeEmpty(beanName, "beanName");
 
         if (isBeanNameInUse(beanName)) {
             if (log.isDebugEnabled())
@@ -405,7 +405,7 @@ public final class SpringTool {
     }
 
     public static synchronized Object tryGetBean(String beanName) {
-        shouldNotBeEmpty(beanName, "beanName");
+        Guard.shouldNotBeEmpty(beanName, "beanName");
         try {
             return getBean(beanName);
         } catch (Exception e) {
@@ -416,7 +416,7 @@ public final class SpringTool {
     }
 
     public static synchronized Object tryGetBean(String beanName, Object... args) {
-        shouldNotBeEmpty(beanName, "beanName");
+        Guard.shouldNotBeEmpty(beanName, "beanName");
         try {
             return getBean(beanName, args);
         } catch (Exception e) {
@@ -427,7 +427,7 @@ public final class SpringTool {
     }
 
     public static synchronized <T> T tryGetBean(Class<T> beanClass) {
-        shouldNotBeNull(beanClass, "beanClass");
+        Guard.shouldNotBeNull(beanClass, "beanClass");
         try {
             return getBean(beanClass);
         } catch (Exception e) {
@@ -438,7 +438,7 @@ public final class SpringTool {
     }
 
     public static synchronized <T> T tryGetBean(String beanName, Class<T> beanClass) {
-        shouldNotBeNull(beanClass, "beanClass");
+        Guard.shouldNotBeNull(beanClass, "beanClass");
         try {
             return getBean(beanName, beanClass);
         } catch (Exception e) {

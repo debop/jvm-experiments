@@ -3,10 +3,10 @@ package kr.nsoft.commons.io;
 import kr.nsoft.commons.ISerializer;
 import kr.nsoft.commons.compress.ICompressor;
 import kr.nsoft.commons.cryptography.symmetric.ISymmetricByteEncryptor;
-import kr.nsoft.commons.spring3.SpringTool;
-import kr.nsoft.commons.spring3.configuration.CompressorConfiguration;
-import kr.nsoft.commons.spring3.configuration.EncryptorConfiguration;
-import kr.nsoft.commons.spring3.configuration.SerializerConfiguration;
+import kr.nsoft.commons.spring.Springs;
+import kr.nsoft.commons.spring.configuration.CompressorConfiguration;
+import kr.nsoft.commons.spring.configuration.EncryptorConfiguration;
+import kr.nsoft.commons.spring.configuration.SerializerConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -28,14 +28,14 @@ public class SerializerTest {
 
     @BeforeClass
     public static void beforeClass() {
-        if (SpringTool.isNotInitialized())
-            SpringTool.initByAnnotatedClasses(CompressorConfiguration.class,
-                                              EncryptorConfiguration.class,
-                                              SerializerConfiguration.class);
+        if (Springs.isNotInitialized())
+            Springs.initByAnnotatedClasses(CompressorConfiguration.class,
+                                           EncryptorConfiguration.class,
+                                           SerializerConfiguration.class);
 
-        compressors = SpringTool.getBeansByType(ICompressor.class);
-        serializers = SpringTool.getBeansByType(ISerializer.class);
-        encryptors = SpringTool.getBeansByType(ISymmetricByteEncryptor.class);
+        compressors = Springs.getBeansByType(ICompressor.class);
+        serializers = Springs.getBeansByType(ISerializer.class);
+        encryptors = Springs.getBeansByType(ISymmetricByteEncryptor.class);
     }
 
     private static final Company company;

@@ -1,6 +1,5 @@
 package kr.nsoft.commons.cryptography.symmetric;
 
-import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.pbe.StandardPBEByteEncryptor;
 
 /**
@@ -8,8 +7,9 @@ import org.jasypt.encryption.pbe.StandardPBEByteEncryptor;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 18
  */
-@Slf4j
 public abstract class SymmetricByteEncryptorBase implements ISymmetricByteEncryptor {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SymmetricByteEncryptorBase.class);
 
     private final StandardPBEByteEncryptor byteEncryptor;
 

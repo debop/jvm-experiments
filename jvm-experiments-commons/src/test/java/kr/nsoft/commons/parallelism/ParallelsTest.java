@@ -3,7 +3,7 @@ package kr.nsoft.commons.parallelism;
 import kr.nsoft.commons.Action1;
 import kr.nsoft.commons.AutoStopwatch;
 import kr.nsoft.commons.Function1;
-import kr.nsoft.commons.collection.Range;
+import kr.nsoft.commons.collection.NumberRange;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -56,7 +56,7 @@ public class ParallelsTest {
 
         @Cleanup
         AutoStopwatch stopwatch = new AutoStopwatch();
-        Parallels.runEach(Range.range(0, 100), action1);
+        Parallels.runEach(NumberRange.range(0, 100), action1);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class ParallelsTest {
 
         @Cleanup
         AutoStopwatch stopwatch = new AutoStopwatch();
-        List<Double> results = Parallels.runEach(Range.range(0, 100), function1);
+        List<Double> results = Parallels.runEach(NumberRange.range(0, 100), function1);
         Assert.assertNotNull(results);
         Assert.assertEquals(100, results.size());
     }

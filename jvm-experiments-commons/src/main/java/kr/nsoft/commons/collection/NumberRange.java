@@ -14,9 +14,9 @@ import java.util.List;
  * Date: 13. 1. 11
  */
 @Slf4j
-public abstract class Range<T extends Number> implements Iterable<T> {
+public abstract class NumberRange<T extends Number> implements Iterable<T> {
 
-    private Range() {}
+    private NumberRange() {}
 
     public static IntRange range(int fromInclude, int toExclude, int step) {
         return new IntRange(fromInclude, toExclude, step);
@@ -64,8 +64,8 @@ public abstract class Range<T extends Number> implements Iterable<T> {
 
             IntRange partition = range(fromInclude, toExclude, step);
             partitions.add(partition);
-            if (log.isDebugEnabled())
-                log.debug("Partition 추가 = [{}]", partition);
+            if (NumberRange.log.isDebugEnabled())
+                NumberRange.log.debug("Partition 추가 = [{}]", partition);
             fromInclude = toExclude;
         }
         return partitions;
@@ -103,8 +103,8 @@ public abstract class Range<T extends Number> implements Iterable<T> {
 
             LongRange partition = range(fromInclude, toExclude, step);
             partitions.add(partition);
-            if (log.isDebugEnabled())
-                log.debug("Partition 추가 = [{}]", partition);
+            if (NumberRange.log.isDebugEnabled())
+                NumberRange.log.debug("Partition 추가 = [{}]", partition);
             fromInclude = toExclude;
         }
         return partitions;
@@ -122,7 +122,7 @@ public abstract class Range<T extends Number> implements Iterable<T> {
         return partition(range(count), partitionCount);
     }
 
-    public static class IntRange extends Range<Integer> implements Iterator<Integer> {
+    public static class IntRange extends NumberRange<Integer> implements Iterator<Integer> {
 
         @Getter
         int fromInclude, toExclude, step;
@@ -181,7 +181,7 @@ public abstract class Range<T extends Number> implements Iterable<T> {
         }
     }
 
-    public static class LongRange extends Range<Long> implements Iterator<Long> {
+    public static class LongRange extends NumberRange<Long> implements Iterator<Long> {
 
         @Getter
         long fromInclude, toExclude, step;

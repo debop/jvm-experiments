@@ -12,6 +12,7 @@
     <modules>
         <module>jvm-experiments-commons</module>
         <module>jvm-experiments-hibernate</module>
+        <module>jvm-experiments-esper</module>
         <module>jvm-experiments-spring</module>
         <module>jvm-experiments-springmvc</module>
     </modules>
@@ -22,8 +23,6 @@
     </scm>
 
     <properties>
-        <kr.kth.version>1.0.0</kr.kth.version>
-
         <springframework.version>3.2.1.RELEASE</springframework.version>
         <spring.integration.version>2.2.0.RELEASE</spring.integration.version>
         <guice.version>3.0</guice.version>

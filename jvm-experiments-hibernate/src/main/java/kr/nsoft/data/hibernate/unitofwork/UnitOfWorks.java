@@ -3,7 +3,7 @@ package kr.nsoft.data.hibernate.unitofwork;
 import kr.nsoft.commons.AutoCloseableAction;
 import kr.nsoft.commons.Guard;
 import kr.nsoft.commons.Local;
-import kr.nsoft.commons.spring3.SpringTool;
+import kr.nsoft.commons.spring.Springs;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -64,7 +64,7 @@ public final class UnitOfWorks {
 
     public static synchronized IUnitOfWorkFactory getUnitOfWorkFactory() {
         if (unitOfWorkFactory == null) {
-            unitOfWorkFactory = SpringTool.getBeansByType(IUnitOfWorkFactory.class).get(0);
+            unitOfWorkFactory = Springs.getBeansByType(IUnitOfWorkFactory.class).get(0);
 
             if (log.isInfoEnabled())
                 log.info("IUnitOfWorkFactory Bean을 가져옵니다. unitOfWorkFactory=[{}]", unitOfWorkFactory);

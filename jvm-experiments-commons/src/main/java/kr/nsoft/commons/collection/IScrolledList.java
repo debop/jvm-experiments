@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 설명을 추가하세요.
+ * 스크롤되는 목록을 표현하는 인터페이스입니다.
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 12
  */

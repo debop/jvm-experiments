@@ -1,4 +1,4 @@
-package kr.nsoft.commons.spring3;
+package kr.nsoft.commons.spring;
 
 import kr.nsoft.commons.compress.DeflateCompressor;
 import kr.nsoft.commons.compress.GZipCompressor;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * kr.nsoft.commons.spring3.SpringTestConfig
+ * kr.nsoft.commons.spring.SpringTestConfig
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 2.
  */

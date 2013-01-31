@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import kr.nsoft.commons.Guard;
 import kr.nsoft.commons.tools.StringTool;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.objectweb.asm.*;
 
 import java.lang.reflect.Method;
@@ -19,8 +18,10 @@ import static org.objectweb.asm.Opcodes.*;
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 21
  */
-@Slf4j
 abstract public class MethodAccess {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MethodAccess.class);
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
 
     @Getter
     private String[] methodNames;

@@ -4,7 +4,6 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import kr.nsoft.commons.parallelism.AsyncTool;
 import kr.nsoft.commons.tools.StringTool;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,12 +28,12 @@ import static kr.nsoft.commons.tools.StringTool.listToString;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 11
  */
-@Slf4j
 public class FileTool {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FileTool.class);
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
+
     public static final int DEFAULT_BUFFER_SIZE = 4096;
-    @lombok.Getter(lazy = true)
-    private static final boolean debugEnabled = log.isDebugEnabled();
 
     private FileTool() { }
 
@@ -56,7 +55,7 @@ public class FileTool {
     }
 
     public static Path createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("디렉토리를 생성합니다. dir=[{}]", dir);
         return Files.createDirectory(dir, attrs);
     }
@@ -66,7 +65,7 @@ public class FileTool {
     }
 
     public static Path createFile(Path path, FileAttribute<?>... attrs) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("파일 생성. path=[{}], attrs=[{}]", path, listToString(attrs));
         return Files.createFile(path, attrs);
     }
@@ -115,7 +114,7 @@ public class FileTool {
 
 
     public static void delete(Path path) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("디렉토리/파일 삭제. path=[{}]", path);
         Files.delete(path);
     }
@@ -126,7 +125,7 @@ public class FileTool {
     }
 
     public static void deleteDirectory(Path directory, boolean deep) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("directory=[{}] 를 삭제합니다. deep=[{}]", directory, deep);
 
         if (!deep) {
@@ -164,7 +163,7 @@ public class FileTool {
     }
 
     public static byte[] readAllBytes(Path path) throws IOException {
-        if (log.isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("파일로부터 모든 내용을 읽어옵니다. path=[{}]", path);
         return Files.readAllBytes(path);
     }
@@ -173,7 +172,7 @@ public class FileTool {
         shouldNotBeNull(path, "path");
         shouldBe(FileTool.exists(path), "File not found. file=[%s]", path);
 
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("비동기 방식으로 파일 정보를 읽어 byte array로 반환합니다. file=[{}], openOptions=[{}]",
                       path, listToString(openOptions));
 
@@ -213,7 +212,7 @@ public class FileTool {
     }
 
     public static List<String> readAllLines(Path path, Charset cs) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("파일 내용을 문자열로 읽어드립니다. path=[{}], charset=[{}]", path, cs);
         return Files.readAllLines(path, cs);
     }
@@ -239,7 +238,7 @@ public class FileTool {
     }
 
     public static void write(Path target, byte[] bytes, OpenOption... openOptions) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("파일에 binary 형태의 정보를 씁니다. target=[{}], openOptions=[{}]",
                       target, listToString(openOptions));
 
@@ -250,7 +249,7 @@ public class FileTool {
                              Iterable<String> lines,
                              Charset cs,
                              OpenOption... openOptions) throws IOException {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("파일에 텍스트 정보를 씁니다. target=[{}], lines=[{}], charset=[{}], openOptions=[{}]",
                       target, listToString(lines), cs, listToString(openOptions));
         Files.write(target, lines, cs, openOptions);
@@ -260,7 +259,7 @@ public class FileTool {
     public static Future<Void> writeAsync(final Path target,
                                           final byte[] bytes,
                                           final OpenOption... openOptions) {
-        if (isDebugEnabled())
+        if (isDebugEnabled)
             log.debug("비동기 방식으로 데이터를 파일에 씁니다. target=[{}], openOptions=[{}]",
                       target, listToString(openOptions));
 

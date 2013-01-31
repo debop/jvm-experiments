@@ -3,26 +3,27 @@ package kr.nsoft.commons.collection;
 import com.google.common.collect.Lists;
 import kr.nsoft.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
- * kr.nsoft.commons.collection.RangeTest
+ * kr.nsoft.commons.collection.NumberRangeTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 12.
  */
 @Slf4j
-public class RangeTest {
+public class NumberRangeTest {
 
     @Test
     public void createIntRange() {
-        Range.IntRange intRange = Range.range(10);
-        Assert.assertEquals(0, intRange.getFromInclude());
-        Assert.assertEquals(10, intRange.getToExclude());
-        Assert.assertEquals(1, intRange.getStep());
-        Assert.assertEquals(10, intRange.size());
+        NumberRange.IntRange intRange = NumberRange.range(10);
+        assertEquals(0, intRange.getFromInclude());
+        assertEquals(10, intRange.getToExclude());
+        assertEquals(1, intRange.getStep());
+        assertEquals(10, intRange.size());
 
         log.debug(StringTool.join(intRange, ","));
         intRange.reset();
@@ -37,17 +38,17 @@ public class RangeTest {
         int partitionCount = 4;
         int partitionSize = (to - from) / partitionCount + ((to - from) % partitionCount > 0 ? 1 : 0);
 
-        List<Range.IntRange> ranges = Range.partition(from, to, partitionCount);
+        List<NumberRange.IntRange> ranges = NumberRange.partition(from, to, partitionCount);
 
-        Assert.assertEquals(4, ranges.size());
+        assertEquals(4, ranges.size());
 
         for (int i = 0; i < partitionCount; i++) {
-            Range.IntRange intRange = ranges.get(i);
+            NumberRange.IntRange intRange = ranges.get(i);
 
-            Assert.assertEquals(from + i * partitionSize, intRange.getFromInclude());
-            Assert.assertEquals(from + (i + 1) * partitionSize, intRange.getToExclude());
-            Assert.assertEquals(1, intRange.getStep());
-            Assert.assertEquals(partitionSize, intRange.size());
+            assertEquals(from + i * partitionSize, intRange.getFromInclude());
+            assertEquals(from + (i + 1) * partitionSize, intRange.getToExclude());
+            assertEquals(1, intRange.getStep());
+            assertEquals(partitionSize, intRange.size());
         }
     }
 
@@ -58,8 +59,8 @@ public class RangeTest {
         int partitionCount = 4;
         int partitionSize = (to - from) / partitionCount;
 
-        List<Range.IntRange> ranges = Range.partition(from, to, partitionCount);
-        Assert.assertEquals(4, ranges.size());
+        List<NumberRange.IntRange> ranges = NumberRange.partition(from, to, partitionCount);
+        assertEquals(4, ranges.size());
 
         List<int[]> expectedList =
                 Lists.newArrayList(
@@ -69,15 +70,15 @@ public class RangeTest {
                         new int[]{77, 102, 1, 25});
 
         for (int i = 0; i < partitionCount; i++) {
-            Range.IntRange intRange = ranges.get(i);
+            NumberRange.IntRange intRange = ranges.get(i);
             int[] expected = expectedList.get(i);
-            if (log.isDebugEnabled())
-                log.debug("Range({})=[{}]", i, intRange);
+            if (NumberRangeTest.log.isDebugEnabled())
+                NumberRangeTest.log.debug("NumberRange({})=[{}]", i, intRange);
 
-            Assert.assertEquals(expected[0], intRange.getFromInclude());
-            Assert.assertEquals(expected[1], intRange.getToExclude());
-            Assert.assertEquals(expected[2], intRange.getStep());
-            Assert.assertEquals(expected[3], intRange.size());
+            assertEquals(expected[0], intRange.getFromInclude());
+            assertEquals(expected[1], intRange.getToExclude());
+            assertEquals(expected[2], intRange.getStep());
+            assertEquals(expected[3], intRange.size());
         }
     }
 
@@ -88,8 +89,8 @@ public class RangeTest {
         int partitionCount = 4;
         int partitionSize = (to - from) / partitionCount;
 
-        List<Range.IntRange> ranges = Range.partition(from, to, partitionCount);
-        Assert.assertEquals(4, ranges.size());
+        List<NumberRange.IntRange> ranges = NumberRange.partition(from, to, partitionCount);
+        assertEquals(4, ranges.size());
 
         List<int[]> expectedList =
                 Lists.newArrayList(
@@ -99,15 +100,15 @@ public class RangeTest {
                         new int[]{25, 0, -1, 25});
 
         for (int i = 0; i < partitionCount; i++) {
-            Range.IntRange intRange = ranges.get(i);
+            NumberRange.IntRange intRange = ranges.get(i);
             int[] expected = expectedList.get(i);
             if (log.isDebugEnabled())
-                log.debug("Range({})=[{}]", i, intRange);
+                log.debug("NumberRange({})=[{}]", i, intRange);
 
-            Assert.assertEquals(expected[0], intRange.getFromInclude());
-            Assert.assertEquals(expected[1], intRange.getToExclude());
-            Assert.assertEquals(expected[2], intRange.getStep());
-            Assert.assertEquals(expected[3], intRange.size());
+            assertEquals(expected[0], intRange.getFromInclude());
+            assertEquals(expected[1], intRange.getToExclude());
+            assertEquals(expected[2], intRange.getStep());
+            assertEquals(expected[3], intRange.size());
         }
     }
 }

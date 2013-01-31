@@ -1,6 +1,5 @@
 package kr.nsoft.commons.cryptography.disgest;
 
-import lombok.extern.slf4j.Slf4j;
 import org.jasypt.digest.StandardStringDigester;
 
 /**
@@ -8,8 +7,9 @@ import org.jasypt.digest.StandardStringDigester;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 18
  */
-@Slf4j
 public abstract class StringDigesterBase implements IStringDigester {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(StringDigesterBase.class);
 
     private final StandardStringDigester standardStringDigester;
 

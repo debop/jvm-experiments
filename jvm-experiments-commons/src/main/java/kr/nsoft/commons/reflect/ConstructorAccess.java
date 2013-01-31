@@ -2,7 +2,6 @@ package kr.nsoft.commons.reflect;
 
 import kr.nsoft.commons.Guard;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
@@ -15,8 +14,10 @@ import static org.objectweb.asm.Opcodes.*;
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 21
  */
-@Slf4j
 public abstract class ConstructorAccess<T> {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ConstructorAccess.class);
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
 
     @Getter
     boolean nonStaticMemberClass;

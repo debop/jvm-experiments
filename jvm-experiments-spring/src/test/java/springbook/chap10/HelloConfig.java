@@ -19,7 +19,7 @@ public class HelloConfig {
             log.debug("spawn hello instance...");
 
         Hello hello = new Hello();
-        hello.setName("SpringTool");
+        hello.setName("Springs");
         hello.setPrinter(printer());
         return hello;
     }

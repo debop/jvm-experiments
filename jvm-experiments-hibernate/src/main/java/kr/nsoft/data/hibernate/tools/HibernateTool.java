@@ -2,7 +2,7 @@ package kr.nsoft.data.hibernate.tools;
 
 import com.google.common.collect.Maps;
 import kr.nsoft.commons.Guard;
-import kr.nsoft.commons.spring3.SpringTool;
+import kr.nsoft.commons.spring.Springs;
 import kr.nsoft.commons.tools.SerializeTool;
 import kr.nsoft.data.domain.model.IStatefulEntity;
 import kr.nsoft.data.hibernate.HibernateParameter;
@@ -42,7 +42,7 @@ public class HibernateTool {
     private static final boolean isDebugEnabled = log.isDebugEnabled();
 
     public static HibernateDaoFactory getHibernateDaoFactory() {
-        return SpringTool.getBean(HibernateDaoFactory.class);
+        return Springs.getBean(HibernateDaoFactory.class);
     }
 
     public static <E extends IStatefulEntity> IHibernateDao getHibernateDao(Class<E> entityClass) {

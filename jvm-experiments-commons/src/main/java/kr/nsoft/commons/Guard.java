@@ -59,7 +59,6 @@ public final class Guard {
     public static <T> T shouldNotBeNull(T arg, final String argName) {
         if (arg == null)
             throw new IllegalArgumentException(format(SR.ShouldNotBeNull, argName));
-
         return arg;
     }
 

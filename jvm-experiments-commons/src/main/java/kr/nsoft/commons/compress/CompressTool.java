@@ -5,7 +5,6 @@ import kr.nsoft.commons.Guard;
 import kr.nsoft.commons.parallelism.AsyncTool;
 import kr.nsoft.commons.tools.StreamTool;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,8 +21,11 @@ import static kr.nsoft.commons.tools.StringTool.*;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 9. 13
  */
-@Slf4j
-public class CompressTool {
+public abstract class CompressTool {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CompressTool.class);
+
+    private CompressTool() {}
 
     @Getter
     private static final byte[] buffer = new byte[ICompressor.BUFFER_SIZE];

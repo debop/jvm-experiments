@@ -1,9 +1,9 @@
 package kr.nsoft.commons.compress;
 
 import kr.nsoft.commons.AbstractTest;
-import kr.nsoft.commons.spring3.SpringTool;
-import kr.nsoft.commons.spring3.configuration.CompressorConfiguration;
-import kr.nsoft.commons.spring3.configuration.SerializerConfiguration;
+import kr.nsoft.commons.spring.Springs;
+import kr.nsoft.commons.spring.configuration.CompressorConfiguration;
+import kr.nsoft.commons.spring.configuration.SerializerConfiguration;
 import kr.nsoft.commons.tools.StringTool;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -31,11 +31,11 @@ public class CompressorTest extends AbstractTest {
     @BeforeClass
     public static void BeforeClass() {
 
-        if (SpringTool.isNotInitialized())
-            SpringTool.initByAnnotatedClasses(CompressorConfiguration.class,
-                                              SerializerConfiguration.class);
+        if (Springs.isNotInitialized())
+            Springs.initByAnnotatedClasses(CompressorConfiguration.class,
+                                           SerializerConfiguration.class);
 
-        Map<String, ICompressor> compressorMap = SpringTool.getBeansOfType(ICompressor.class);
+        Map<String, ICompressor> compressorMap = Springs.getBeansOfType(ICompressor.class);
         compressors = compressorMap.values();
 
 

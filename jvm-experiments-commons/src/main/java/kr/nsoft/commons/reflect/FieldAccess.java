@@ -2,7 +2,6 @@ package kr.nsoft.commons.reflect;
 
 import com.google.common.collect.Lists;
 import kr.nsoft.commons.Guard;
-import lombok.extern.slf4j.Slf4j;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -19,8 +18,11 @@ import static org.objectweb.asm.Opcodes.*;
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 21
  */
-@Slf4j
 abstract public class FieldAccess {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FieldAccess.class);
+    private static final boolean isDebugEnabled = log.isDebugEnabled();
+
     private String[] fieldNames;
 
     public int getIndex(String fieldName) {

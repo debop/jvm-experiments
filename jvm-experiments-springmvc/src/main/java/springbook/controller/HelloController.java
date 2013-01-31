@@ -18,7 +18,7 @@ public class HelloController {
 
     @RequestMapping(value = {"/hello.do", "/view/hello"})
     public ModelAndView hello(String name) {
-        String message = String.format("안녕하세요? %s! SpringTool 3.1<br/><br/>멀티 라인을 제대로 표현해야지요^^", name);
+        String message = String.format("안녕하세요? %s! Springs 3.1<br/><br/>멀티 라인을 제대로 표현해야지요^^", name);
         return new ModelAndView("hello", "message", message);
     }
 

@@ -39,8 +39,7 @@ public final class StringTool {
 
     public static final Charset UTF8 = Charsets.UTF_8;
 
-    private StringTool() {
-    }
+    private StringTool() { }
 
     //region << isNull / isEmpty / isWhiteSpace / isMultiByteString >>
 

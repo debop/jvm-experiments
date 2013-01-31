@@ -2,7 +2,6 @@ package kr.nsoft.commons.unitTesting;
 
 import com.google.common.collect.Lists;
 import kr.nsoft.commons.Action1;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -12,11 +11,11 @@ import java.util.concurrent.*;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 12. 3.
  */
-@Slf4j
 public class TestTool {
 
-    private TestTool() {
-    }
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TestTool.class);
+
+    private TestTool() { }
 
     private static ExecutorService newExecutorService() {
         return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
