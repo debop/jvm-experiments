@@ -3,6 +3,6 @@
 <body>
 <h2>Hello World! 안녕하세요</h2>
 <br/>
-<a href="/hello.do">Say Hello</a>
+<a href="hello.do">Say Hello</a>
 </body>
 </html>
