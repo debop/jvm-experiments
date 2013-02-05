@@ -29,6 +29,12 @@
         <!-- spawn | spawn-drop | update | validate -->
         <property name="hbm2ddl.auto">create</property>
 
+
+        <!-- 검색 : hibernate-search 를 이용 : listener 도 추가해야 한다.-->
+        <property name="hibernate.search.default.directory_provider">filesystem</property>
+        <property name="hibernate.search.default.indexBase">"c:\temp\lucene\indexes"</property>
+
+
         <!-- one-to-many bidirectional association -->
         <mapping resource="org/hibernate/example/domain/model/Category.hbm.xml"/>
         <mapping resource="org/hibernate/example/domain/model/Event.hbm.xml"/>
@@ -46,5 +52,14 @@
         <mapping resource="org/hibernate/example/domain/model/joinedSubclass/Company.hbm.xml"/>
         <mapping resource="org/hibernate/example/domain/model/joinedSubclass/Person.hbm.xml"/>
 
+        <event type="post-update">
+            <listener class="org.hibernate.search.event.impl.FullTextIndexEventListener"/>
+        </event>
+        <event type="post-insert">
+            <listener class="org.hibernate.search.event.impl.FullTextIndexEventListener"/>
+        </event>
+        <event type="post-delete">
+            <listener class="org.hibernate.search.event.impl.FullTextIndexEventListener"/>
+        </event>
     </session-factory>
 </hibernate-configuration>
