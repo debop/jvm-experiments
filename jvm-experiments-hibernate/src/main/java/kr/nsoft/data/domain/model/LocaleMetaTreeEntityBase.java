@@ -1,5 +1,6 @@
 package kr.nsoft.data.domain.model;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,4 +30,11 @@ public abstract class LocaleMetaTreeEntityBase<T extends IEntity<TId> & ITreeEnt
     @Getter
     @Setter
     private TreeNodePosition nodePosition = new TreeNodePosition();
+
+    @Override
+    protected Objects.ToStringHelper buildStringHelper() {
+        return super.buildStringHelper()
+                .add("parent", parent)
+                .add("nodePosition", nodePosition);
+    }
 }

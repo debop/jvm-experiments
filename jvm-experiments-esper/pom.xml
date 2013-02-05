@@ -12,6 +12,7 @@
     <artifactId>jvm-experiments-esper</artifactId>
 
     <properties>
+        <esper.version>4.8.0</esper.version>
         <twitter4j.version>3.0.3</twitter4j.version>
     </properties>
 
@@ -27,7 +28,7 @@
         <dependency>
             <groupId>com.espertech</groupId>
             <artifactId>esper</artifactId>
-            <version>4.8.0</version>
+            <version>${esper.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>

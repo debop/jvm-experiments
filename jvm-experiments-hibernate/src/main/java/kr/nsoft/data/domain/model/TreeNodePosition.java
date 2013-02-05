@@ -22,8 +22,7 @@ public class TreeNodePosition extends ValueObjectBase {
     private Integer order;
 
     public TreeNodePosition() {
-        level = 0;
-        order = 0;
+        this(0, 0);
     }
 
     public TreeNodePosition(Integer level, Integer order) {

@@ -23,7 +23,6 @@ public abstract class LocaleMetaEntityBase<TId extends Serializable, TLocaleValu
     @Override
     public IMetaValue getMetaValue(String key) {
         return metaMap.get(key);
-        //return Functions.forMap(metaMap);
     }
 
     @Override
