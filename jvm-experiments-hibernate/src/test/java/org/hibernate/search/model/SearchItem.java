@@ -13,31 +13,37 @@ import javax.persistence.*;
  * Date: 13. 2. 5.
  */
 @Entity
+@Table(name = "SEARCH_ITEM")
 @Indexed
-@Table(name="SEARCH_ITEM")
 public class SearchItem extends AnnotatedEntityBase {
 
-    @Id @GeneratedValue
-    @Column(name="SEARCH_ITEM_ID")
+    @Getter
+    @Id
+    @GeneratedValue
+    @Column(name = "SEARCH_ITEM_ID")
     @DocumentId
     private Long id;
 
-    @Getter @Setter
-    @Column(name="SEARCH_ITEM_TITLE")
+    @Getter
+    @Setter
+    @Column(name = "SEARCH_ITEM_TITLE")
     @Field                                              // indexing with tokenization
     private String title;
 
-    @Getter @Setter
-    @Column(name="SEARCH_ITEM_DESC")
+    @Getter
+    @Setter
+    @Column(name = "SEARCH_ITEM_DESC")
     @Field                                              // indexing with tokenization
     private String description;
 
-    @Getter @Setter
-    @Column(name="SEARCH_ITEM_EAN")
-    @Field(index = Index.NO, store= Store.YES)          // indexing without tokenization
+    @Getter
+    @Setter
+    @Column(name = "SEARCH_ITEM_EAN")
+    @Field(index = Index.NO, store = Store.YES)          // indexing without tokenization
     private String ean;
 
-    @Getter @Setter
-    @Column(name="SEARCH_ITEM_IMG")
+    @Getter
+    @Setter
+    @Column(name = "SEARCH_ITEM_IMG")
     private String imageURL;                            // not indexing (default)
 }
