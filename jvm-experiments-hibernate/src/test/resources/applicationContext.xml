@@ -25,6 +25,8 @@
                 <value>org.jpa.example.domain.model.subclass</value>
                 <value>org.jpa.example.domain.model.unionSubclass</value>
                 <value>org.jpa.example.domain.model.usertypes</value>
+
+                <value>org.hibernate.search.model</value>
             </list>
         </property>
     </bean>
