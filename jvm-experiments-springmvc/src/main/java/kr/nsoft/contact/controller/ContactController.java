@@ -34,8 +34,6 @@ public class ContactController {
             map.put("contactList", contactService.listContact());
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
-        } finally {
-            UnitOfWorks.getCurrent().flushSession();
         }
         return "contact";
     }
