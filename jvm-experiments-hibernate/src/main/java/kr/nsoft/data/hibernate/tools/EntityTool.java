@@ -312,8 +312,8 @@ public class EntityTool {
         DetachedCriteria criteria = HibernateTool.createDetachedCriteria(entity.getClass());
         criteria.add(Restrictions.eq("parent", entity));
 
-//		HibernateRepository<T> repository = (HibernateRepository<T>) HbRepositoryFactory.get(entity.getClass());
-//		return repository.countByCriteria(criteria);
+//		HibernateRepository<T> dao = (HibernateRepository<T>) HbRepositoryFactory.get(entity.getClass());
+//		return dao.countByCriteria(criteria);
         // TODO: 구현 중
         return null;
     }
@@ -325,8 +325,8 @@ public class EntityTool {
         DetachedCriteria criteria = HibernateTool.createDetachedCriteria(entity.getClass());
         criteria.add(Restrictions.eq("parent", entity));
 
-//		HibernateRepository<T> repository = (HibernateRepository<T>) HbRepositoryFactory.get(entity.getClass());
-//		return repository.existsByCriteria(criteria);
+//		HibernateRepository<T> dao = (HibernateRepository<T>) HbRepositoryFactory.get(entity.getClass());
+//		return dao.existsByCriteria(criteria);
         // TODO: 구현 중
         return null;
     }

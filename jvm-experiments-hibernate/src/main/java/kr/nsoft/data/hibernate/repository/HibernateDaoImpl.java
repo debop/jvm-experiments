@@ -47,7 +47,7 @@ public class HibernateDaoImpl<E extends IStatefulEntity> implements IHibernateDa
         this.entityName = this.entityClass.getName();
     }
 
-    private Session getSession() {
+    protected Session getSession() {
         return UnitOfWorks.getCurrentSession();
     }
 
@@ -90,10 +90,7 @@ public class HibernateDaoImpl<E extends IStatefulEntity> implements IHibernateDa
     @Override
 
     public List<E> getAll() {
-        return
-                getSession()
-                        .createQuery("from " + entityName)
-                        .list();
+        return getSession().createQuery("from " + entityName).list();
     }
 
     protected final List<E> find(Criteria criteria) {

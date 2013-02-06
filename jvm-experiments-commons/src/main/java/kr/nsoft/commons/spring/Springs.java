@@ -5,11 +5,14 @@ import kr.nsoft.commons.Guard;
 import kr.nsoft.commons.Local;
 import kr.nsoft.commons.tools.ArrayTool;
 import kr.nsoft.commons.tools.StringTool;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.PropertyValue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -25,19 +28,20 @@ import java.util.Stack;
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 23.
  */
+@Slf4j
 @ThreadSafe
 public final class Springs {
-
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Springs.class);
 
     private Springs() {}
 
     public static final String DEFAULT_APPLICATION_CONTEXT_XML = "applicationContext.xml";
     private static final String LOCAL_SPRING_CONTEXT = "kr.nsoft.commons.spring.Springs.globalContext";
     private static final String NOT_INITIALIZED_MSG =
-            "SpringTool의 ApplicationContext가 초기화되지 않았습니다. 사용하기 전에  Springs.init() 을 호출해주기시 바랍니다.";
+            "Springs의 ApplicationContext가 초기화되지 않았습니다. 사용하기 전에  Springs.init()을 호출해주기시 바랍니다.";
 
-    private static volatile GenericApplicationContext globalContext;
+    @Autowired(required = false)
+    private static volatile ApplicationContext globalContext;
+
     private static ThreadLocal<Stack<GenericApplicationContext>> localContextStack = new ThreadLocal<>();
 
 
@@ -54,10 +58,10 @@ public final class Springs {
     }
 
     public static synchronized GenericApplicationContext getContext() {
-        GenericApplicationContext context = getLocalContext();
+        ApplicationContext context = getLocalContext();
         if (context == null) context = globalContext;
         Guard.shouldBe(context != null, NOT_INITIALIZED_MSG);
-        return context;
+        return (GenericApplicationContext) context;
     }
 
     private static synchronized GenericApplicationContext getLocalContext() {
@@ -83,7 +87,7 @@ public final class Springs {
         init(new GenericXmlApplicationContext(resourceLocations));
     }
 
-    public static synchronized void init(GenericApplicationContext applicationContext) {
+    public static synchronized void init(ApplicationContext applicationContext) {
         Guard.shouldNotBeNull(applicationContext, "applicationContext");
 
         if (globalContext != null) {
@@ -129,7 +133,7 @@ public final class Springs {
      *
      * @param contextToReset 초기화 시킬 ApplicationContext
      */
-    public static synchronized void reset(@Nullable final GenericApplicationContext contextToReset) {
+    public static synchronized void reset(@Nullable final ApplicationContext contextToReset) {
 
         if (contextToReset == null) {
             globalContext = null;

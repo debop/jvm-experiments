@@ -17,7 +17,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import java.util.List;
 
 /**
- * kr.nsoft.data.hibernate.repository.HibernateDaoTest
+ * kr.nsoft.data.hibernate.dao.HibernateDaoTest
  * User: sunghyouk.bae@gmail.com
  * Date: 12. 11. 26.
  */

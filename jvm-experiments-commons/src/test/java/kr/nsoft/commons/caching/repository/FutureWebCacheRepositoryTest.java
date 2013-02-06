@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.rules.MethodRule;
 
 /**
- * kr.nsoft.commons.caching.repository.FutureWebCacheRepositoryTest
+ * kr.nsoft.commons.caching.dao.FutureWebCacheRepositoryTest
  * User: sunghyouk.bae@gmail.com
  * Date: 13. 1. 24
  */

@@ -20,8 +20,7 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public final class UnitOfWorks {
 
-    private UnitOfWorks() {
-    }
+    private UnitOfWorks() { }
 
     static {
         if (log.isInfoEnabled())
@@ -29,7 +28,7 @@ public final class UnitOfWorks {
     }
 
     private static final String CURRENT_UNIT_OF_WORK_KEY = "kr.nsoft.data.hibernate.unitofwork.UnitOfWorks";
-    private static final String UNIT_OF_WORK_NOT_STARTED = "UnitOfWorks가 시작되지 않았습니다. 사용 전에 UnitOfWorks.getStart()를 호출하세요.";
+    private static final String UNIT_OF_WORK_NOT_STARTED = "UnitOfWorks가 시작되지 않았습니다. 사용 전에 UnitOfWorks.start()를 호출하세요.";
 
     private static IUnitOfWork globalNonThreadSafeUnitOfWork;
     private static IUnitOfWorkFactory unitOfWorkFactory;
@@ -42,7 +41,7 @@ public final class UnitOfWorks {
     }
 
     /**
-     * 현재 시작된 {@link IUnitOfWork}의 인스턴스 ({@link UnitOfWorkAdapter}를 반환합니다.
+     * 현재 시작된 {@link kr.nsoft.data.hibernate.unitofwork.IUnitOfWork}의 인스턴스 ({@link kr.nsoft.data.hibernate.unitofwork.UnitOfWorkAdapter}를 반환합니다.
      */
     public static synchronized IUnitOfWork getCurrent() {
         if (!isStarted())

@@ -28,8 +28,6 @@
         <guice.version>3.0</guice.version>
 
         <lambdaj.version>2.3.3</lambdaj.version>
-        <bonecp.version>0.8.0-rc1</bonecp.version>
-
         <slf4j.version>1.7.2</slf4j.version>
         <logback.version>1.0.9</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -103,12 +101,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.directory.studio</groupId>
-            <artifactId>org.apache.commons.pool</artifactId>
-            <version>1.5.6</version>
         </dependency>
 
         <dependency>
@@ -309,30 +301,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>${bonecp.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp-spring</artifactId>
-            <version>${bonecp.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
