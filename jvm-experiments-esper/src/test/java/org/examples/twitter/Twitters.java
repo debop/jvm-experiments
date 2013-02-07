@@ -5,6 +5,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
+import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -15,12 +16,15 @@ import twitter4j.conf.ConfigurationBuilder;
 @Slf4j
 public abstract class Twitters {
 
+    private Twitters() {}
+
     protected static final String CONSUMER_KEY = "TM6B5JuM29SgAZJVKDCw";
     protected static final String CONSUMER_SECRET = "5bYa9RbRKAEeB57seIdOvbQSKayixrVjenaRm6H5Kk";
     protected static final String ACCESS_TOKEN = "94962170-tukzJswgnZke3DC19S2zJ0P0T6caLQyYDcpwmCL7X";
     protected static final String ACCESS_TOKEN_SECRET = "JWxsZv7Oa2Kbj8BzUw2R6kJlr3rqjd6pnDHBK9NtQ";
 
     private static ConfigurationBuilder cfgBuilder = null;
+    private static Configuration twitterCfg = null;
     private static volatile Twitter twitter = null;
     private static volatile TwitterStream twitterStream = null;
 
@@ -33,22 +37,24 @@ public abstract class Twitters {
                 .setOAuthConsumerSecret(CONSUMER_SECRET)
                 .setOAuthAccessToken(ACCESS_TOKEN)
                 .setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+
+        twitterCfg = cfgBuilder.build();
     }
 
-    public static ConfigurationBuilder getConfigurationBuilder() {
-        return cfgBuilder;
+    public static Configuration getConfiguration() {
+        return twitterCfg;
     }
 
-    public static Twitter getTwitter() {
+    public synchronized static Twitter getTwitter() {
         if (twitter == null) {
-            twitter = new TwitterFactory(cfgBuilder.build()).getInstance();
+            twitter = new TwitterFactory(getConfiguration()).getInstance();
         }
         return twitter;
     }
 
-    public static TwitterStream getTwitterStream() {
+    public synchronized static TwitterStream getTwitterStream() {
         if (twitterStream == null)
-            twitterStream = new TwitterStreamFactory(cfgBuilder.build()).getInstance();
+            twitterStream = new TwitterStreamFactory(getConfiguration()).getInstance();
 
         return twitterStream;
     }
