@@ -23,6 +23,7 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <!-- Apache DBCP 사용 -->
     <!--
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver"/>
@@ -31,6 +32,7 @@
         <property name="password" value="root"/>
     </bean>
     -->
+    <!-- BoneCP 사용 -->
     <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
         <property name="driverClass" value="org.postgresql.Driver"/>
         <property name="jdbcUrl" value="jdbc:postgresql://localhost/hibernate"/>

@@ -5,6 +5,7 @@ import kr.nsoft.commons.tools.HashTool;
 import kr.nsoft.data.domain.model.AnnotatedEntityBase;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "MVC_CONTACTS")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
 public class Contact extends AnnotatedEntityBase {
 
