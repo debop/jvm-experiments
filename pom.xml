@@ -384,6 +384,10 @@
             <name>CouchBase Repository</name>
             <url>http://files.couchbase.com/maven2</url>
         </repository>
+        <repository>
+            <id>jboss-maven2-release-repository</id>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
     </repositories>
 
     <build>

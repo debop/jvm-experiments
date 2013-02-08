@@ -89,6 +89,7 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.9" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.9" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.1.2.GA" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:4.1.9.Final" level="project" />
     <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.1_spec:1.0.0.Final" level="project" />
@@ -98,11 +99,15 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:4.1.9.Final" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.17.1-GA" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-ehcache:4.1.9.Final" level="project" />
-    <orderEntry type="library" name="Maven: com.gemstone.gemfire:gemfire:6.6" level="project" />
+    <orderEntry type="library" name="Maven: com.gemstone.gemfire:gemfire:7.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-gemfire:1.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons-core:1.4.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.1.2.GA" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.cache:jbosscache-core:3.2.5.GA" level="project" />
+    <orderEntry type="library" name="Maven: jgroups:jgroups:2.6.13.GA" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.javaee:jboss-transaction-api:1.0.1.GA" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss:jboss-common-core:2.2.14.GA" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging-spi:2.0.5.GA" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time-hibernate:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-search:4.2.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-search-orm:4.2.0.Final" level="project" />
