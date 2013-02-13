@@ -1,0 +1,10 @@
+body { font-family: verdana; font-size: 70%; margin: 10px;  }
+div#dragMe { border: 2px solid #bbbbbb; width: 150px; height: 100px; float:left; text-align:center; margin-right:5px;}
+div#dropHere { border: 2px solid #9999ff; width: 150px; height: 100px; float:left; text-align:center;}
+h1.tt { margin: 10px; }
+#today, #tmrw { padding-left: 20px; margin: 20px; width: 100px; list-style-type: disc;}
+
+h1 { margin: 0px; }
+#people {  float:left; background: #EBF3FD; margin: 20px; border: 1px solid #ddd; }
+div.person { padding: 3px; border: 1px solid black; margin: 10px; width: 100px; height: 80px; background: white; text-align: center; }
+#detail { float:left; margin-top:220px; margin-left:100px;}

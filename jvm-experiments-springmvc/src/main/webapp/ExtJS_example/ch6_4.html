@@ -1,0 +1,183 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="lib/extjs/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="ch6.css" />
+<script src="lib/extjs/adapter/ext/ext-base.js"></script>
+<script src="lib/extjs/ext-all-debug.js"></script>
+<script src="lib/extjs/locale/ext-lang-ko.js"></script>
+
+<script type="text/javascript">
+Ext.QuickTips.init();
+Ext.onReady(function(){
+	var Movie = Ext.data.Record.create([
+	   'id',
+	   'coverthumb',
+	   'title',
+	   'director',
+	   'runtime',
+	   {name: 'released', type: 'date', dateFormat: 'Y-m-d'},
+	   'genre',
+	   'tagline',
+	   {name: 'price', type: 'float'},
+	   {name: 'available', type: 'bool'}
+	]);
+	var store = new Ext.data.Store({
+		url: 'data/movie.php',
+		reader: new Ext.data.JsonReader({
+			root:'rows',
+			totalProperty: 'results',
+			idProperty:'id'
+		}, Movie),
+		autoLoad:true
+	});
+
+	var genres = new Ext.data.SimpleStore({
+		fields: ['id', 'genre'],
+		data : [['0', '새로운 장르'],['1','코미디'],['2','드라마'],['3','액션']]
+	});
+
+	function genre_name(val){
+		return genres.queryBy(function(rec){
+			return rec.data.id == val;
+		}).itemAt(0).data.genre;
+	}
+	Ext.apply(Ext.form.VTypes, {
+		nameVal: /^[A-Z][A-Za-z]+\s[A-Z][A-Za-z]+$/,
+		nameMask: /[A-Za-z ]/,
+		nameText: '감독 이름이 정확하지 않습니다.',
+		name: function(v) {
+			return this.nameVal.test(v);
+		}
+	});
+	var title_edit = new Ext.form.TextField();
+	var director_edit = new Ext.form.TextField({vtype: 'name'});
+	var tagline_edit = new Ext.form.TextField({
+		maxLength: 45
+	});
+	var release_edit = new Ext.form.DateField({
+	   format: 'm/d/Y'
+	});
+	var genre_edit = new Ext.form.ComboBox({
+	   typeAhead: true,
+	   triggerAction: 'all',
+	   mode: 'local',
+	   store: genres,
+	   displayField: 'genre',
+	   valueField: 'id'
+	});
+
+	var grid = new Ext.grid.EditorGridPanel({
+		renderTo: document.body,
+		frame:true,
+		title: '영화 데이터베이스',
+		height:220,
+		width:530,
+		clickstoEdit: 1,
+		store: store,
+		columns: [
+			{header: "제목", dataIndex: 'title', editor: title_edit},
+			{header: "감독", dataIndex: 'director', editor: director_edit},
+			{header: "개봉일", dataIndex: 'released', renderer: Ext.util.Format.dateRenderer('m/d/Y'), editor:release_edit},
+			{header: "장르", dataIndex: 'genre', renderer: genre_name, editor:genre_edit},
+			{header: "슬로건", dataIndex: 'tagline', editor: tagline_edit}
+		],
+		selModel: new Ext.grid.RowSelectionModel({
+			singleSelect: true,
+/*			listeners: {
+				rowselect: function(sm, index, record) {
+					Ext.Msg.alert('선택하신 영화',record.get('title'));
+				}
+			}
+*/		}),
+		tbar: [{
+			text: '영화 추가',
+			icon: 'images/table_add.png',
+			cls: 'x-btn-text-icon',
+			handler: function() {
+				Ext.Ajax.request({
+					url: 'data/movie-update.php',
+					params: {
+						action: 'create',
+						title: '새로운 영화'
+					},
+					success: function(resp,opt) {
+						var insert_id = Ext.util.JSON.decode(
+							resp.responseText
+						).insert_id;
+						grid.getStore().insert(0,
+							new Movie({
+								id: insert_id,
+								title: '새로운 영화',
+								director: '',
+								genre: 0,
+								tagline: ''
+							}, insert_id)
+						);
+						grid.startEditing(0,0);
+					},
+					failure: function(resp,opt) {
+						Ext.Msg.alert('에러','영화를 추가할 수 없습니다.'+resp.responseText);
+					}
+				});
+			}		
+		},{
+			text: '영화 삭제',
+			icon: 'images/table_delete.png',
+			cls: 'x-btn-text-icon',
+			handler: function() {
+				var sm = grid.getSelectionModel(),
+				sel = sm.getSelected();
+				if (sm.hasSelection()){
+					Ext.Msg.show({
+						title: '영화 삭제',
+						buttons: Ext.MessageBox.YESNOCANCEL,
+						msg:  '영화 '+ sel.data.title+'('+sel.data.id + ')을(를) 삭제하시겠습니까?',
+						fn: function(btn){
+							if (btn == 'yes'){
+								Ext.Ajax.request({
+									url: 'data/movie-update.php',
+									params: {
+										action: 'delete',
+										id: sel.data.id  // e.record.id? sel.data.id?
+									},
+									success: function(resp,opt) {
+										grid.getStore().remove(sel);
+									},
+									failure: function(resp,opt) {
+										Ext.Msg.alert('에러', '해당 영화를 삭제할 수 없습니다.');
+									}
+								});
+							}
+						}
+					});
+				};
+			}
+		}],
+		listeners: {
+			afteredit: function(e){
+				Ext.Ajax.request({
+					url: 'data/movie-update.php',
+					params: {
+						action: 'update',
+						id: e.record.id,
+						field: e.field,
+						value: e.value
+					},
+					success: function(resp,opt) {
+						e.record.commit();
+					},
+					failure: function(resp,opt) {
+						e.record.reject();
+					}
+				});
+			}
+		}
+	});
+});
+</script>
+</head>
+<body>
+</body>
+</html>

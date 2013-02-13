@@ -1,0 +1,145 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="lib/extjs/resources/css/ext-all.css" />
+<script src="lib/extjs/adapter/ext/ext-base.js"></script>
+<script src="lib/extjs/ext-all-debug.js"></script>
+<script src="lib/extjs/locale/ext-lang-ko.js"></script>
+
+<script type="text/javascript">
+Ext.QuickTips.init();
+Ext.onReady(function(){
+	var genres = new Ext.data.SimpleStore({
+		fields: ['id', 'genre'],
+		data : [['1','코미디'],['2','드라마'],['3','액션']]
+	});
+
+	function genre_name(val){
+		return genres.queryBy(function(rec){
+			return rec.data.id == val;
+		}).itemAt(0).data.genre;
+	}
+	var Movie = Ext.data.Record.create([
+	   'id',
+	   'coverthumb',
+	   'title',
+	   'director',
+	   'runtime',
+	   {name: 'released', type: 'date', dateFormat: 'Y-m-d'},
+	   'genre',
+	   'tagline',
+	   {name: 'price', type: 'float'},
+	   {name: 'available', type: 'bool'}
+	]);
+	var store = new Ext.data.GroupingStore({
+		url: 'data/movies.json',
+		sortInfo: {
+			field: 'genre',
+			direction: "ASC"
+		},
+		groupField: 'genre',
+		reader: new Ext.data.JsonReader({
+			root:'rows',
+			idProperty:'id'
+		}, Movie),
+		autoLoad: true
+	});
+
+	var viewport = new Ext.Viewport({
+		layout: "border",
+		defaults: {
+			bodyStyle: 'padding:5px;'
+		},
+		items: [{
+			region: "north",
+			html: 'North',
+			margins: '5 5 5 5'
+		},{
+			region: 'west',
+			split: true,
+			collapsible: true,
+			collapseMode: 'mini',
+			title: '정보',
+			width: 200,
+			minSize: 200,
+			html: 'West',
+			margins: '0 0 0 5'
+		},{
+			region: 'center',
+			xtype: 'tabpanel',
+			bodyStyle: '',
+			autoScroll: true,
+			activeTab: 0,
+			items: [{
+				title: '영화 그리드',
+				xtype: 'grid',
+				store: store,
+				autoExpandColumn: 'title',
+				colModel: new Ext.grid.ColumnModel({
+					defaultSortable: false,
+					columns: [{
+						header: "제목",
+						dataIndex: 'title',
+						id: 'title', 
+						xtype: 'templatecolumn', 
+						tpl: '<img src="images/{coverthumb}" height="68" align="left">'+
+									'<b style="font-size:13px;">{title}</b><br>'+
+									'Director:<i> {director}</i><br>{tagline}'
+						},
+						{header: "감독", dataIndex: 'director', hidden:true},
+						{header: "개봉", dataIndex: 'released', xtype: 'datecolumn', format: 'm/d/Y', width: 80},
+						{header: "장르", dataIndex: 'genre', renderer:genre_name, width:80},
+						{header: "가격", dataIndex: 'price', width:60},
+						{header: "슬로건", dataIndex: 'tagline', hidden:true}
+					]
+				}),
+				view: new Ext.grid.GroupingView(),
+				sm: new Ext.grid.RowSelectionModel({
+					singleSelect: true
+				})
+			},{
+				xtype: 'container',
+				title: '영화 소개',
+				width:80,
+				layout: 'accordion',
+				defaults: {
+					border: false
+				},
+				items: [{
+					title: 'Office Space',
+					autoLoad: 'html/1.txt'
+				},{
+					title: 'Super Troopers',
+					autoLoad: 'html/2.txt'
+				},{
+					title: 'American Beauty',
+					autoLoad: 'html/3.txt'
+				},{
+					title: 'The Big Lebowski',
+					autoLoad: 'html/4.txt'
+				},{
+					title: 'Fight Club',
+					autoLoad: 'html/4.txt'
+				}]
+			}],
+			margins: '0 0 0 0'
+		},{
+			region: 'east',
+			split: true,
+			width: 200,
+			html: 'East',
+			margins: '0 5 0 0'
+		},{
+			region: 'south',
+			html: 'South',
+			margins: '5 5 5 5'
+		}]
+
+	});
+});
+</script>
+</head>
+<body>
+</body>
+</html>

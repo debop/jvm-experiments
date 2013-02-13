@@ -1,0 +1,23 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title id="page-title">Ext.Msg.alert 예제</title>
+    <link rel="stylesheet" type="text/css" href="../extjs/resources/css/ext-all.css"/>
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../js/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="../extjs/ext-all-debug.js"></script>
+    <script src="../extjs/locale/ext-lang-ko.js"></script>
+    <script type="text/javascript">
+        if (Ext.BLANK_IMAGE_URL.substr(0, 5) != 'data: ') {
+            Ext.BLANK_IMAGE_URL = '../extjs/resources/themes/images/default/tree/s.gif';
+        }
+        var mainFunction = function() {
+            Ext.Msg.alert('Hi', 'Hello world 예제입니다');
+        };
+        Ext.onReady(mainFunction);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

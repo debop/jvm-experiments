@@ -1,0 +1,5 @@
+.flag-blue{background: url(images/flag-blue.png) no-repeat;}
+.flag-green{background: url(images/flag-green.png) no-repeat;}
+.flag-orange{background: url(images/flag-orange.png) no-repeat;}
+.bomb {background-image: url( images/bomb.png ) !important;}
+.x-toolbar .xtb-spacer {width:6px;}

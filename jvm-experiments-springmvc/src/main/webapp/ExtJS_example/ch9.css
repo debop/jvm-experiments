@@ -1,0 +1,7 @@
+h1 { font-size: 20px;}
+h2 { font-size: 16px;}
+body { font-family: verdana; font-size: 62.5%; margin: 10px;  }
+#mySessions { width: 300px; border: 3px double #ccc; float: left; padding: 5px;}
+#agents { width: 300px; border: 3px double #ccc; float: left; padding: 5px;}
+#mySessions div, #agents div { padding: 5px; background: #f3f3f3; margin: 4px 0;}
+.content { display: none; }

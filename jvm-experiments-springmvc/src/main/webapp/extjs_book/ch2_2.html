@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title id="page-title">Ext.Msg.alert 예제</title>
+    <link rel="stylesheet" type="text/css" href="../extjs/resources/css/ext-all.css">
+    <style>
+        .xtrusia-icon { background: url(../images/xtrusia-head-icon.png) no-repeat; }
+    </style>
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../js/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="../extjs/ext-all-debug.js"></script>
+    <script src="../extjs/locale/ext-lang-ko.js"></script>
+    <script type="text/javascript">
+        if (Ext.BLANK_IMAGE_URL.substr(0, 5) != 'data: ') {
+            Ext.BLANK_IMAGE_URL = '../extjs/resources/themes/images/default/tree/s.gif';
+        }
+        var mainFunction = function () {
+            Ext.Msg.show({
+                title:'xtrusia',
+                msg:'스테플러 보셨습니까?',
+                buttons: Ext.Msg.YESNOCANCEL,
+                icon: 'xtrusia-icon',
+                fn: function(btn) {
+                    Ext.Msg.alert('클릭해주세요', btn);
+                }
+            });
+        };
+        Ext.onReady(mainFunction);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
