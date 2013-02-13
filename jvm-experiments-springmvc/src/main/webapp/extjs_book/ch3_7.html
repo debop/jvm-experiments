@@ -15,7 +15,7 @@
         var genres = Ext.create('Ext.data.ArrayStore', {
             model:'Genre',
             proxy:{
-                type: 'ajax',
+                type: 'jsonp', // web에서는 ajax로
                 url:'genres.json',
                 reader:{
                     type:'json'

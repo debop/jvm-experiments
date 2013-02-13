@@ -1,0 +1,54 @@
+[
+    {
+        "text": "United Kindom",
+        "children": [
+            {
+                "text": "Glasgow",
+                "leaf": true
+            },
+            {
+                "text": "Edinburgh",
+                "leaf": true
+            },
+            {
+                "text": "London",
+                "leaf": true
+            }
+        ],
+        "leaf": false
+    },
+    {
+        "text": "United States of America",
+        "children": [
+            {
+                "text": "New York",
+                "leaf": true
+            },
+            {
+                "text": "San Francisco",
+                "leaf": true
+            },
+            {
+                "text": "Washington DC",
+                "leaf": true
+            }
+        ],
+        "leaf": false
+    },
+    {
+        "text": "France",
+        "leaf": true
+    },
+    {
+        "text": "Germany",
+        "leaf": true
+    },
+    {
+        "text": "Spain",
+        "leaf": true
+    },
+    {
+        "text": "Italy",
+        "leaf": true
+    }
+]
