@@ -1,3 +1,3 @@
 <%
-    response.sendRedirect("/index");
+    response.sendRedirect("/springmvc/index");
 %>
