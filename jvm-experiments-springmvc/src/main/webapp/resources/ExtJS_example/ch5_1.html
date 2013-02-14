@@ -1,0 +1,74 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="lib/extjs/resources/css/ext-all.css"/>
+    <script src="lib/extjs/adapter/ext/ext-base.js"></script>
+    <script src="lib/extjs/ext-all-debug.js"></script>
+    <script src="lib/extjs/locale/ext-lang-ko.js"></script>
+
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var Movie = Ext.data.Record.create([
+                'id',
+                'coverthumb',
+                'title',
+                'director',
+                'runtime',
+                {name: 'released', type: 'date', dateFormat: 'Y-m-d'},
+                'genre',
+                'tagline',
+                {name: 'price', type: 'float'},
+                {name: 'available', type: 'bool'}
+            ]);
+
+            var movieData = [
+                [1, "Office Space", "Mike Judge", 89, "1999-02-19", 1, "Work Sucks", "19.95", true],
+                [2, "Super Troopers", "Jay Chandrasekhar", 100, "2002-02-15", 1, "Altered State Police", "14.95", true],
+                [3, "American Beauty", "Sam Mendes", 122, "1999-10-01", 2, "... Look Closer", 19.95, true],
+                [4, "The Big Lebowski", "Joel Coen", 117, "1998-03-06", 1, "The \"Dude\"", 21.9, true],
+                [5, "Fight Club", "David Fincher", 139, "1999-10-15", 3, "How much can you know about yourself...", 19.95, true]
+                //...more rows of data removed for readability...//
+            ];
+
+            var store = new Ext.data.Store({
+                data: movieData,
+                reader: new Ext.data.ArrayReader({id: 'id'},
+                        [
+                            'id',
+                            'title',
+                            'director',
+                            'runtime',
+                            {name: 'released', type: 'date', dateFormat: 'Y-m-d'},
+                            'genre',
+                            'tagline',
+                            {name: 'price', type: 'float'},
+                            'available',
+                            {name: 'coverthumb', convert: function (v, rawData) {
+                                return 'images/' + rawData[0] + 'm.jpg';
+                            }}
+                        ])
+            });
+
+            var grid = new Ext.grid.GridPanel({
+                renderTo: Ext.getBody(),
+                frame: true,
+                title: '영화 데이터베이스',
+                height: 200,
+                width: 600,
+                store: store,
+                colModel: new Ext.grid.ColumnModel({
+                    defaultSortable: false,
+                    columns: [
+                        {header: "개봉", dataIndex: 'released'},
+                        {header: "가격", dataIndex: 'price'},
+                        {header: "상영중", dataIndex: 'available'}
+                    ]
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

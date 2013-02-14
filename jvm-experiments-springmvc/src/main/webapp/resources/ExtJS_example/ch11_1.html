@@ -1,0 +1,191 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="lib/extjs/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="ch11.css"/>
+    <script src="lib/extjs/adapter/ext/ext-base.js"></script>
+    <script src="lib/extjs/ext-all-debug.js"></script>
+    <script src="lib/extjs/locale/ext-lang-ko.js"></script>
+
+    <script type="text/javascript">
+        var foo = {
+            fadeout: function () {
+                Ext.get('block').fadeOut();
+                Ext.get('inline').fadeOut();
+            },
+
+            fadein: function () {
+                Ext.get('block').fadeIn();
+                Ext.get('inline').fadeIn();
+            },
+
+            frame: function () {
+                Ext.get('block').frame("ff0000", 3);
+                Ext.get('inline').frame("ff0000", 3);
+            },
+
+            ghost: function () {
+                Ext.get('block').ghost();
+                Ext.get('inline').ghost('tr');
+            },
+
+            highlight: function () {
+                Ext.get('block').highlight();
+                Ext.get('inline').highlight();
+            },
+
+            puff: function () {
+                Ext.get('block').puff();
+                Ext.get('inline').puff();
+            },
+
+            scale: function () {
+                Ext.get('block').scale(50, 150);
+                Ext.get('inline').scale(300, 20);
+            },
+
+            slideout: function () {
+                Ext.get('block').slideOut();
+                Ext.get('inline').slideOut('tl');
+            },
+
+            slidein: function () {
+                Ext.get('block').slideIn();
+                Ext.get('inline').slideIn('tl');
+            },
+
+            switch1: function () {
+                Ext.get('block').switchOff();
+                Ext.get('inline').switchOff();
+            },
+
+            shift: function () {
+                Ext.get('block').shift({x: 20, y: 80, width: 300, height: 200});
+                Ext.get('inline').shift({x: 560, y: 60, width: 150, height: 20});
+            },
+
+            switchoffextendedduration: function () {
+                Ext.get('block').switchOff({
+                    duration: 10
+                });
+            }
+        };
+
+        var foo2 = {
+            fade: function () {
+                Ext.get('block').fadeOut({endOpacity: 0.25});
+                window.setTimeout(function () {
+                    Ext.get('block').fadeIn({endOpacity: 0.75});
+                }, 3000);
+            },
+            frame: function () {
+                Ext.get('block').frame('ff0000', 3);
+            },
+            ghost: function () {
+                Ext.get('block').ghost('tr');
+            },
+            highlight: function () {
+                Ext.get('block').highlight('ffffff', {
+                    attr: 'color',
+                    endColor: '00ff00'
+                });
+            },
+            slide: function () {
+                Ext.get('block').slideOut();
+                window.setTimeout(function () {
+                    Ext.get('block').slideIn();
+                }, 3000);
+            },
+            shift: function () {
+                Ext.get('block').shift({
+                    x: 5,
+                    y: 300,
+                    width: 300,
+                    height: 200,
+                    block: true
+                });
+            },
+            switchoff: function () {
+                Ext.get('block').switchOff({
+                    duration: 10
+                });
+            },
+            scale: function () {
+                Ext.get('block').scale(50, 150, {easing: 'easeBoth'});
+            }
+        };
+        var MultipleEffects = {
+            chaining: function () {
+                Ext.get('block').slideIn().highlight();
+            },
+            queuing: function () {
+                Ext.get('block').slideIn();
+                Ext.get('block').highlight();
+            },
+            concurrency: function () {
+                Ext.get('block').scale(300, 200, {
+                    concurrent: true
+                }).highlight();
+            },
+            fxutility: function () {
+                Ext.get('block').stopFx().slideOut();
+            },
+            move: function () {
+                Ext.get('block').moveTo(300, 500, true);
+            },
+            mask: function () {
+                var target = Ext.get('block');
+                var mask = new Ext.LoadMask(target);
+                mask.show();
+            }
+        };
+    </script>
+</head>
+<body>
+<p>
+    <a href="javascript:foo.fadeout();">Fade Out</a>|
+    <a href="javascript:foo.fadein();">Fade In</a>|
+    <a href="javascript:foo.frame();">Frame</a>|
+    <a href="javascript:foo.ghost();">Ghost</a>|
+    <a href="javascript:foo.highlight();">highlight</a>|
+    <a href="javascript:foo.puff();">Puff</a>|
+    <a href="javascript:foo.scale();">Scale</a>|
+    <a href="javascript:foo.slidein();">slidein</a>|
+    <a href="javascript:foo.slideout();">slideout</a>|
+    <a href="javascript:foo.switch1();">switch</a>|
+    <a href="javascript:foo.shift();">shift</a>
+</p>
+
+<div id="outer">
+    <p class="adorn">11장 예제</p>
+
+    <div id="block">
+        <p>큰 네모</p>
+    </div>
+    <p class="adorn">테스트 중</p>
+    <input type="text" id="inline" ext:qtitle="Information" ext:qtip="This field can contain text!" ext:qwidth="200">
+
+    <p class="adorn">입니다.</p>
+</div>
+<p>
+    <a class="inbook" href="javascript:foo2.fade();">fade예제</a>|
+    <a class="inbook" href="javascript:foo2.frame();">frame예제</a>|
+    <a class="inbook" href="javascript:foo2.ghost();">ghost예제</a>|
+    <a class="inbook" href="javascript:foo2.highlight();">highlight예제</a>|
+    <a class="inbook" href="javascript:foo2.slide();">slide예제</a>|
+    <a class="inbook" href="javascript:foo2.shift();">shift예제</a>|
+    <a class="inbook" href="javascript:foo2.switchoff();">switch예제</a>|
+    <a class="inbook" href="javascript:foo2.scale();">scale예제</a>
+</p>
+</br>
+<p>
+    <a class="inbook" href="javascript:MultipleEffects.chaining();">Chaining</a>|
+    <a class="inbook" href="javascript:MultipleEffects.queuing();">Queuing</a>|
+    <a class="inbook" href="javascript:MultipleEffects.concurrency();">Concurrency</a>|
+    <a class="inbook" href="javascript:MultipleEffects.fxutility();">Ext.Fx utility</a>|
+    <a class="inbook" href="javascript:MultipleEffects.move();">moveTo</a>|
+    <a class="inbook" href="javascript:MultipleEffects.mask();">Mask</a>|
+</p>
+</body>
+</html>

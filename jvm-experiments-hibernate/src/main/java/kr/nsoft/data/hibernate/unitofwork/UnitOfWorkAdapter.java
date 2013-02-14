@@ -23,7 +23,7 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
     private final Session session;
     @Getter
     private final UnitOfWorkAdapter previous;
-    private AtomicInteger usageCount = new AtomicInteger(-1);
+    private AtomicInteger usageCount = new AtomicInteger(1);
     protected boolean closed = false;
 
     public UnitOfWorkAdapter(IUnitOfWorkFactory factory, Session session) {
@@ -41,6 +41,11 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
         this.factory = factory;
         this.session = session;
         this.previous = previous;
+    }
+
+    @Override
+    public int getUsage() {
+        return usageCount.get();
     }
 
     @Override
@@ -89,7 +94,7 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (closed)
             return;
 
@@ -100,7 +105,7 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
             int usage = usageCount.decrementAndGet();
 
             if (log.isDebugEnabled())
-                log.debug("Usage countByCriteria of IUnitOfWork = [{}]", usage);
+                log.debug("Usage of IUnitOfWork = [{}]", usage);
 
             if (usage != 0) {
                 if (log.isDebugEnabled())
@@ -109,16 +114,10 @@ public class UnitOfWorkAdapter extends UnitOfWorkAdapterBase {
             }
 
             if (factory != null) {
-                try {
-                    factory.closeUnitOfWork(this);
-                } catch (Exception ignored) {
-                }
+                try { factory.closeUnitOfWork(this);} catch (Exception ignored) {}
             }
             if (session != null) {
-                try {
-                    session.close();
-                } catch (Exception ignored) {
-                }
+                try {session.close();} catch (Exception ignored) {}
             }
 
             if (log.isDebugEnabled())

@@ -29,8 +29,6 @@ public class ContactDaoImpl extends HibernateDaoImpl<Contact> implements Contact
     @Override
     public List<Contact> listContact() {
         return getAll();
-//        Session session = getSession();
-//        return (List<Contact>)session.createQuery("from Contact").list();
     }
 
     @Override
@@ -38,17 +36,9 @@ public class ContactDaoImpl extends HibernateDaoImpl<Contact> implements Contact
         if (log.isDebugEnabled())
             log.debug("Contact[{}] 을 삭제합니다...", id);
 
-        // Session session = getSession();
+        deleteById(id);
 
-        // Contact contact = (Contact)session.get(Contact.class, id);
-        Contact contact = get(id);
-        if (contact != null) {
-            //session.delete(contact);
-            //session.flush();
-            delete(contact);
-
-            if (log.isDebugEnabled())
-                log.debug("Contact 정보를 삭제했습니다. Contact=" + contact);
-        }
+        if (log.isDebugEnabled())
+            log.debug("Contact 정보를 삭제했습니다. Contact Id=[{}]", id);
     }
 }

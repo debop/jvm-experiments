@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>form 예제</title>
+    <link rel="stylesheet" type="text/css" href="../extjs/resources/css/ext-all.css">
+    <script type="text/javascript" src="../extjs/ext-all-debug.js"></script>
+    <script src="../extjs/locale/ext-lang-ko.js"></script>
+
+    <script type="text/javascript">
+        var genres = Ext.create('Ext.data.ArrayStore', {
+            fields: ['id', 'genre_name'],
+            data: [
+                ['1', '코미디'],
+                ['2', '드라마'],
+                ['3', '액션']
+            ]
+        });
+        Ext.apply(Ext.form.field.VTypes, {
+            name: function (v) {
+                return this.nameVal.test(v);
+            },
+            nameText: '감독 이름이 정확하지 않습니다.',
+            // vtype validation function
+            nameVal: /^[A-Z][A-Za-z]+\s[A-Z][A-Za-z]+$/,
+            nameMask: /[A-Za-z ]/
+        });
+
+        Ext.onReady(function () {
+            var movie_form = Ext.create('Ext.form.Panel', {
+                title: '영화 정보 폼',
+                bodyPadding: 4,
+                width: 550,
+
+                // The form will submit an AJAX request to this URL when submitted
+                url: 'save-form.php',
+
+                // Fields will be arranged vertically, stretched to full width
+                layout: 'anchor',
+                defaults: {
+                    anchor: '100%'
+                },
+
+                // The fields
+                defaultType: 'textfield',
+                items: [
+                    {
+                        fieldLabel: 'First Name',
+                        name: 'first',
+                        allowBlank: false
+                    },
+                    {
+                        fieldLabel: 'Last Name',
+                        name: 'last',
+                        allowBlank: false,
+                        vtype: 'name'
+                    },
+                    {
+                        xtype: 'datefield',
+                        fieldLabel: '개봉',
+                        name: 'released',
+                        disabledDays: [1, 2, 3, 4, 5] // 주중은 제외
+                    },
+                    {
+                        xtype: 'radiogroup',
+                        columns: 1,
+                        fieldLabel: '필름 정보',
+                        names: 'filmed_n',
+                        items: [
+                            {
+                                name: 'filmed_in',
+                                boxLabel: '컬러',
+                                inputValue: 'color',
+                                checked: true
+                            },
+                            {
+                                name: 'filmed_in',
+                                boxLabel: '흑백',
+                                inputValue: 'B&W'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'checkbox',
+                        fieldLabel: '나쁜 영화',
+                        name: 'bad_name'
+                    },
+                    {
+                        xtype: 'combo',
+                        hiddenName: 'genre',
+                        fieldLabel: '장르',
+                        mode: 'local',
+                        store: genres,
+                        displayField: 'genre_name',
+                        valueField: 'id',
+                        width: '120'
+                    },
+                    {
+                        xtype: 'htmleditor',
+                        name: 'description',
+                        hideLabel: true,
+                        height: 250,
+                        anchor: '100%'
+                    }
+                ],
+
+                // Reset and Submit buttons
+                buttons: [
+                    {
+                        text: 'Reset',
+                        handler: function () {
+                            this.up('form').getForm().reset();
+                        }
+                    },
+                    {
+                        text: 'Submit',
+                        formBind: true, //only enabled once the form is valid
+                        disabled: true,
+                        handler: function () {
+                            var form = this.up('form').getForm();
+                            if (form.isValid()) {
+                                form.submit({
+                                    success: function (form, action) {
+                                        Ext.Msg.alert('Success', action.result.msg);
+                                    },
+                                    failure: function (form, action) {
+                                        Ext.Msg.alert('Failed', action.result.msg);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                ],
+                renderTo: Ext.getBody()
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

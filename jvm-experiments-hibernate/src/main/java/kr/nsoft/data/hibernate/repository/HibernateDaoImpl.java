@@ -12,12 +12,10 @@ import kr.nsoft.data.hibernate.tools.HibernateTool;
 import kr.nsoft.data.hibernate.unitofwork.UnitOfWorks;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Criteria;
-import org.hibernate.LockOptions;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.*;
 import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -41,6 +39,9 @@ public class HibernateDaoImpl<E extends IStatefulEntity> implements IHibernateDa
     private Class<E> entityClass;
 
     String entityName;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     public HibernateDaoImpl(Class<E> entityClass) {
         this.entityClass = entityClass;

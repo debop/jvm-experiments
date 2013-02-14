@@ -32,6 +32,7 @@ public class ContactController {
         try (IUnitOfWork unitOfWork = UnitOfWorks.start()) {
             map.put("contact", new Contact());
             map.put("contactList", contactService.listContact());
+            unitOfWork.flushSession();
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
         }
@@ -42,23 +43,20 @@ public class ContactController {
     public String addContact(@ModelAttribute("contact") Contact contact, BindingResult result) {
         try (IUnitOfWork unitOfWork = UnitOfWorks.start()) {
             contactService.addContact(contact);
+            unitOfWork.flushSession();
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
-        } finally {
-            UnitOfWorks.getCurrent().transactionalFlush();
         }
         return "redirect:/index";
     }
 
     @RequestMapping("/delete/{contactId}")
     public String deleteContact(@PathVariable("contactId") Long contactId) {
-
         try (IUnitOfWork unitOfWork = UnitOfWorks.start()) {
             contactService.removeContact(contactId);
+            unitOfWork.flushSession();
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
-        } finally {
-            UnitOfWorks.getCurrent().transactionalFlush();
         }
         return "redirect:/index";
     }

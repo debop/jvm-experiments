@@ -10,6 +10,11 @@ import org.hibernate.Session;
 public interface IUnitOfWorkImplementor extends IUnitOfWork {
 
     /**
+     * 인스턴스의 사용 횟수를 구한다.
+     */
+    int getUsage();
+
+    /**
      * 현 인스턴스의 사용 Count를 증가 시킨다.
      */
     int increseUsage();

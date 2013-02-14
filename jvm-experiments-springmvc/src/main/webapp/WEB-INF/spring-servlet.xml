@@ -29,7 +29,7 @@
     </bean>
 
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="lang" />
+        <property name="paramName" value="lang"/>
     </bean>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
@@ -38,7 +38,7 @@
 
     <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="interceptors">
-            <ref bean="localeChangeInterceptor" />
+            <ref bean="localeChangeInterceptor"/>
         </property>
     </bean>
 
@@ -47,7 +47,7 @@
     <!--
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost/hibernate" />
+        <property name="url" value="jdbc:postgresql://localhost/hibernate?charSet=UTF8" />
         <property name="username" value="root"/>
         <property name="password" value="root"/>
     </bean>
@@ -55,7 +55,7 @@
     <!-- BoneCP 사용 -->
     <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
         <property name="driverClass" value="org.postgresql.Driver"/>
-        <property name="jdbcUrl" value="jdbc:postgresql://localhost/hibernate"/>
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost/hibernate?charSet=UTF8"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
         <property name="partitionCount" value="2"/>

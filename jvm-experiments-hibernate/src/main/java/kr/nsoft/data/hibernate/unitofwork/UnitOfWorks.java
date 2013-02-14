@@ -30,8 +30,8 @@ public final class UnitOfWorks {
     private static final String CURRENT_UNIT_OF_WORK_KEY = "kr.nsoft.data.hibernate.unitofwork.UnitOfWorks";
     private static final String UNIT_OF_WORK_NOT_STARTED = "UnitOfWorks가 시작되지 않았습니다. 사용 전에 UnitOfWorks.start()를 호출하세요.";
 
-    private static IUnitOfWork globalNonThreadSafeUnitOfWork;
-    private static IUnitOfWorkFactory unitOfWorkFactory;
+    private static volatile IUnitOfWork globalNonThreadSafeUnitOfWork;
+    private static volatile IUnitOfWorkFactory unitOfWorkFactory;
 
     /**
      * UnitOfWork 가 이미 시작되었는지 확인한다.
@@ -90,13 +90,12 @@ public final class UnitOfWorks {
 
         globalNonThreadSafeUnitOfWork = globalUnitOfWork;
 
-        return
-                new AutoCloseableAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        globalNonThreadSafeUnitOfWork = null;
-                    }
-                });
+        return new AutoCloseableAction(new Runnable() {
+            @Override
+            public void run() {
+                globalNonThreadSafeUnitOfWork = null;
+            }
+        });
     }
 
     public static synchronized IUnitOfWork start() {
@@ -125,9 +124,9 @@ public final class UnitOfWorks {
 
         if (useExisting) {
             if (log.isDebugEnabled())
-                log.debug("기존 IUnitOfWork 가 존재하므로, 사용횟수만 증가시키고, 기존 IUnitOfWork 인스턴스를 반환합니다. 사용횟수=[{}]",
-                          existing.increseUsage());
+                log.debug("기존 IUnitOfWork 가 존재하므로, 사용횟수만 증가시키고, 기존 IUnitOfWork 인스턴스를 반환합니다. 사용횟수=[{}]", existing.getUsage());
 
+            existing.increseUsage();
             return existing;
         }
 
@@ -148,11 +147,11 @@ public final class UnitOfWorks {
         return getCurrent();
     }
 
-    public static synchronized void closeUnitOfWork(IUnitOfWorkImplementor unitOfWork) {
+    public static synchronized void closeUnitOfWork(IUnitOfWork unitOfWork) {
         if (log.isDebugEnabled())
             log.debug("UnitOfWork를 종료합니다. 종료되는 IUnitOfWork 의 Previous 를 Current UnitOfWork로 교체합니다.");
 
-        setCurrent((unitOfWork != null) ? unitOfWork.getPrevious() : null);
+        setCurrent((unitOfWork != null) ? ((IUnitOfWorkImplementor) unitOfWork).getPrevious() : null);
     }
 
     public static synchronized void closeUnitOfWorkFactory() {

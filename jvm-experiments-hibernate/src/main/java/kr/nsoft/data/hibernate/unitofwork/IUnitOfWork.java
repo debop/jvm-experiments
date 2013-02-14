@@ -44,4 +44,7 @@ public interface IUnitOfWork extends AutoCloseable {
      * 현 {@link Session} 의 변경 내용을 {@link TransactionDefinition} 설정을 가지는 Transaction을 이용하여 flush 를 수행합니다.
      */
     void transactionalFlush(TransactionDefinition transactionDefinition);
+
+    @Override
+    void close();
 }

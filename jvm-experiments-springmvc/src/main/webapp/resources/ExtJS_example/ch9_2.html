@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="lib/extjs/resources/css/ext-all.css"/>
+    <script src="lib/extjs/adapter/ext/ext-base.js"></script>
+    <script src="lib/extjs/ext-all-debug.js"></script>
+    <script src="lib/extjs/locale/ext-lang-ko.js"></script>
+
+    <script type="text/javascript">
+        Ext.QuickTips.init();
+        Ext.onReady(function () {
+            var data = prompt('이것은 자바스크립트의 프롬프트 입니다.');
+            Ext.Msg.prompt('9장 예제', '이것은 Ext.Msg.prompt 입니다.', function (btn, text) {
+                if (btn == 'ok') {
+                    var data = text;
+                }
+            }, this, false, '');
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

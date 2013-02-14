@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="lib/extjs/resources/css/ext-all.css"/>
+    <script src="lib/extjs/adapter/ext/ext-base.js"></script>
+    <script src="lib/extjs/ext-all-debug.js"></script>
+    <script src="lib/extjs/locale/ext-lang-ko.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 40px;
+            font-size: 70%;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var tips = {
+            quicktips: function () {
+                Ext.QuickTips.init();
+                new Ext.ToolTip({
+                    target: 'quickTips',
+                    html: 'Ext.ToolTip 입니다!'
+                });
+            }
+        };
+    </script>
+</head>
+<body onload="javascript:tips.quicktips();">
+<div id="quickTips">
+    Hover over: <input type="text" ext:qtitle="정보" ext:qtip="Ext.QuickTips.init()을 이용했습니다." ext:qwidth="200"/>
+</div>
+</body>
+</html>
