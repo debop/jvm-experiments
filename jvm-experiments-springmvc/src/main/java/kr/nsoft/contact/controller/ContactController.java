@@ -2,7 +2,6 @@ package kr.nsoft.contact.controller;
 
 import kr.nsoft.contact.model.Contact;
 import kr.nsoft.contact.service.ContactService;
-import kr.nsoft.data.hibernate.unitofwork.IUnitOfWork;
 import kr.nsoft.data.hibernate.unitofwork.UnitOfWorks;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,10 @@ public class ContactController {
 
     @RequestMapping("/index")
     public String listContact(Map<String, Object> map) {
-        try (IUnitOfWork unitOfWork = UnitOfWorks.start()) {
+        try {
             map.put("contact", new Contact());
             map.put("contactList", contactService.listContact());
-            unitOfWork.flushSession();
+            UnitOfWorks.getCurrent().flushSession();
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
         }
@@ -41,9 +40,9 @@ public class ContactController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addContact(@ModelAttribute("contact") Contact contact, BindingResult result) {
-        try (IUnitOfWork unitOfWork = UnitOfWorks.start()) {
+        try {
             contactService.addContact(contact);
-            unitOfWork.flushSession();
+            UnitOfWorks.getCurrent().flushSession();
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
         }
@@ -52,9 +51,9 @@ public class ContactController {
 
     @RequestMapping("/delete/{contactId}")
     public String deleteContact(@PathVariable("contactId") Long contactId) {
-        try (IUnitOfWork unitOfWork = UnitOfWorks.start()) {
+        try {
             contactService.removeContact(contactId);
-            unitOfWork.flushSession();
+            UnitOfWorks.getCurrent().flushSession();
         } catch (Exception e) {
             log.error("예외가 발생했습니다.", e);
         }

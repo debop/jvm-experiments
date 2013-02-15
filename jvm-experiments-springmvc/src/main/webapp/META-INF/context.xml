@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/">
+<Context path="/"
+         cacheMaxSize="20480"
+         cacheTTL="60000">
 </Context>
