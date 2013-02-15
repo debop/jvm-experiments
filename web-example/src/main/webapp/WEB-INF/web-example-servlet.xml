@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="kr.nsoft.contact"/>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:messages</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="lang"/>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="ko"/>
+    </bean>
+
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <ref bean="localeChangeInterceptor"/>
+        </property>
+    </bean>
+
+
+    <!-- Apache DBCP 사용 -->
+    <!--
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost/hibernate?charSet=UTF8" />
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+    -->
+    <!-- BoneCP 사용 -->
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+        <property name="driverClass" value="org.postgresql.Driver"/>
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost/hibernate?charSet=UTF8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="partitionCount" value="2"/>
+    </bean>
+
+
+    <!-- 여러개의 Interceptor를 등록할 수 없어서 내부적으로 Interceptor를 가지는 MultiInterceptor를 사용합니다. -->
+    <bean id="multiEntityInterceptor" class="kr.nsoft.data.hibernate.interceptor.MultiInterceptor">
+        <property name="interceptors">
+            <list>
+                <ref bean="statefulEntityInterceptor"/>
+                <ref bean="updateTimestampedInterceptor"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="statefulEntityInterceptor" class="kr.nsoft.data.hibernate.interceptor.StatefulEntityInterceptor"/>
+    <bean id="updateTimestampedInterceptor" class="kr.nsoft.data.hibernate.interceptor.UpdateTimestampedInterceptor"/>
+    <bean id="updateTimestampedListener" class="kr.nsoft.data.hibernate.listener.UpdateTimestampedEventListener"/>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="entityInterceptor" ref="multiEntityInterceptor"/>
+
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
+            </props>
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>kr.nsoft.contact.model</value>
+            </list>
+        </property>
+    </bean>
+
+    <tx:annotation-driven/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="unitOfWorkFactory" class="kr.nsoft.data.hibernate.unitofwork.HibernateUnitOfWorkFactory">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- UnitOfWorkFactory 인스턴스를 UnitOfWorks Singleton의 static field에 설정합니다. -->
+    <bean name="unitOfWorkInitializer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="kr.nsoft.data.hibernate.unitofwork.UnitOfWorks.setUnitOfWorkFactory"/>
+        <property name="arguments">
+            <list>
+                <ref bean="unitOfWorkFactory"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

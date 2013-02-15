@@ -16,6 +16,7 @@
         <module>jvm-experiments-spring</module>
         <module>jvm-experiments-springmvc</module>
         <module>kendo-jsp-demo</module>
+        <module>web-example</module>
     </modules>
 
     <scm>
