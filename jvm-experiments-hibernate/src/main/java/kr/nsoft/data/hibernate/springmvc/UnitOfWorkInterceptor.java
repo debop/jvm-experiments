@@ -17,15 +17,20 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class UnitOfWorkInterceptor implements HandlerInterceptor {
 
+    /**
+     * Controller 가 수행되기 전에 호출됩니다.
+     */
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {
-
         UnitOfWorks.start();
         return true;
     }
 
+    /**
+     * Controller의 메소드가 수행이 완료되고, View 를 호출하기 전에 호출됩니다.
+     */
     @Override
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response,
@@ -34,13 +39,19 @@ public class UnitOfWorkInterceptor implements HandlerInterceptor {
         // Nothing to do
     }
 
+    /**
+     * View 작업까지 완료된 후 Client에 응답하기 바로 전에 호출됩니다.
+     */
     @Override
     public void afterCompletion(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object handler,
                                 Exception ex) throws Exception {
         IUnitOfWork unitOfWork = UnitOfWorks.getCurrent();
-        if (unitOfWork != null)
-            UnitOfWorks.closeUnitOfWork(unitOfWork);
+        if (unitOfWork != null) {
+            unitOfWork.close();
+            if (log.isDebugEnabled())
+                log.debug("Client 요청 처리를 완료하였으므로, UnitOfWork를 종료했습니다.");
+        }
     }
 }

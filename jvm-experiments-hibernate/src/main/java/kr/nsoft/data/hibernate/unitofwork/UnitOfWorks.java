@@ -119,8 +119,8 @@ public final class UnitOfWorks {
 
         IUnitOfWorkImplementor existing = (IUnitOfWorkImplementor) Local.get(CURRENT_UNIT_OF_WORK_KEY);
 
-        boolean useExisting = existing != null &&
-                nestingOptions == UnitOfWorkNestingOptions.ReturnExistingOrCreateUnitOfWork;
+        boolean useExisting =
+                existing != null && nestingOptions == UnitOfWorkNestingOptions.ReturnExistingOrCreateUnitOfWork;
 
         if (useExisting) {
             if (log.isDebugEnabled())
