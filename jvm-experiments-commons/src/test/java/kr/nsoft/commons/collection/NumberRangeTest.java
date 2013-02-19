@@ -72,8 +72,8 @@ public class NumberRangeTest {
         for (int i = 0; i < partitionCount; i++) {
             NumberRange.IntRange intRange = ranges.get(i);
             int[] expected = expectedList.get(i);
-            if (NumberRangeTest.log.isDebugEnabled())
-                NumberRangeTest.log.debug("NumberRange({})=[{}]", i, intRange);
+            if (log.isDebugEnabled())
+                log.debug("NumberRange({})=[{}]", i, intRange);
 
             assertEquals(expected[0], intRange.getFromInclude());
             assertEquals(expected[1], intRange.getToExclude());
