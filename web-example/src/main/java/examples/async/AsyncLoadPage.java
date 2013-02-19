@@ -48,7 +48,7 @@ public class AsyncLoadPage extends HttpServlet {
         @Override
         public void run() {
             //To change body of implemented methods use File | Settings | File Templates.if (log.isDebugEnabled())
-            AsyncLoadPage.log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", url);
+            log.debug("URI=[{}] 의 웹 컨텐츠를 비동기 방식으로 다운로드 받아 캐시합니다.", url);
 
             try {
 
@@ -62,9 +62,9 @@ public class AsyncLoadPage extends HttpServlet {
                 responseStr = EntityUtils.toString(response.getEntity(), Charsets.UTF_8.toString());
                 httpClient.shutdown();
 
-                if (AsyncLoadPage.log.isDebugEnabled())
-                    AsyncLoadPage.log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
-                                            url, StringTool.ellipsisChar(responseStr, 255));
+                if (log.isDebugEnabled())
+                    log.debug("URI=[{}]로부터 웹 컨텐츠를 다운로드 받았습니다. responseStr=[{}]",
+                              url, StringTool.ellipsisChar(responseStr, 255));
 
                 ctx.getResponse().setCharacterEncoding("UTF-8");
                 PrintWriter writer = ctx.getResponse().getWriter();
