@@ -28,6 +28,7 @@ public class ContactController {
 
     @RequestMapping("/index")
     public String listContact(Map<String, Object> map) {
+
         try {
             map.put("contact", new Contact());
             map.put("contactList", contactService.listContact());
