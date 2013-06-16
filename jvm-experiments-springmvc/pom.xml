@@ -20,18 +20,22 @@
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-commons</artifactId>
-            <version>1.0.0</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>jvm-experiments</groupId>
             <artifactId>jvm-experiments-hibernate</artifactId>
-            <version>1.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- Spring MVC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>jvm-experiments</groupId>-->
